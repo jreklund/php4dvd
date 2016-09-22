@@ -71,24 +71,28 @@ movies/covers/*
 Configuration
 =======
     
-* PHP
+###PHP
+
 You will find all configurable options inside config/config.default.php,
 all of which can be set in your config/config.php file. 
 By default, guest users can't view your movie collection. If you want guest
 users to view your collection, set the 'guestview' variable to true in
 config/config.php after installation or upgrade.
 
-* GD2
-In order to to be able to upload and resize covers, you need the GD2 library.
+###GD2
 
-* Access
+In order to be able to upload and resize covers, you need the GD2 library.
+
+###Access
+
 Try to run the website, but if the site failes opening with a 'Internal 
 Server Error', adjust the .htaccess file in the root of the site.
 Try to remove the Options line by placing a # at the beginning of the line.
 Otherwise remove the <Files> section. These settings might fail because of
 the permissions of your webserver.
 
-* Pretty/clean/friendly URLs
+###Pretty/clean/friendly URLs
+
 Activate inside config/config.default.php or config/config.php and read
 the instructions inside .htaccess.
     
@@ -96,13 +100,13 @@ Templates
 =======
 
 This site can be customized by adding your own template. Take a look at the
-tpl/adminlte/ directory and copy this directory to your own tpl directory.
+tpl/default/ directory and copy this directory to your own tpl directory.
 Now you can adjust the config/config.php to your template. Check all 
 template files and try to adjust them to your own whishes.
 If you just want to change the color, please check config/config.defaults.php
 for available skins.
     
-THANKS TO
+Thanks to
 =======
 
 Thanks to cyberolf. He originally created php4dvd.
