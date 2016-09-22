@@ -1,0 +1,20 @@
+<h4>{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}</h4>
+
+<p>{if $new_installation}{$smarty.const.DATABASE_NEW_TEXT|htmlentities:3:'UTF-8'}{else}{$smarty.const.DATABASE_UPGRADE_TEXT|htmlentities:3:'UTF-8'}{/if}</p>
+
+<form id="form" method="POST">
+	<div class="form-group has-feedback">
+		<div class="checkbox">
+			<label for="accepted"><input type="checkbox" name="accepted" id="accepted" value="1" class="required"> {$smarty.const.ACCEPT|htmlentities:3:'UTF-8'}</label>
+		</div>
+	</div>
+	
+	<p><input type="submit" name="submit" value="{$smarty.const.NEXT|htmlentities:3:'UTF-8'}"></p> 
+</form>
+
+<script>
+	$(document).ready(function() {
+		$.validator.messages["required"] = "{$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
+		$("#form").validate();
+	});
+</script>

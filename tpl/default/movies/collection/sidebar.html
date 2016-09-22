@@ -1,0 +1,56 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+
+	  <!-- search form (Optional) -->
+	  <div class="sidebar-form">
+		<div class="input-group">
+		  <input id="p" type="hidden">
+		  <input type="text" id="q" name="q" class="form-control" autocomplete="off" placeholder="{$smarty.const.SEARCH_DEFAULT_TEXT|htmlentities:3:'UTF-8'}">
+		  <span class="input-group-btn">
+			<button onclick="search();" id="search-btn" class="btn btn-flat"><i class="fa fa-search" aria-hidden="true"></i></button>
+		  </span>
+		</div>
+	  </div>
+	  <!-- /.search form -->
+
+	  <!-- Sidebar Menu -->
+	  <ul class="sidebar-menu">
+		<li class="header">{$smarty.const.CATEGORIES|htmlentities:3:'UTF-8'}</li>
+		<li>
+			<div class="nav-select-wrapper">
+				<select id="category" onchange="search();">
+					<option value="">{$smarty.const.ALL_CATEGORIES|htmlentities:3:'UTF-8'}</option>
+					{section name=c loop=$categories}
+					<option value="{$categories[c]}">{translate($categories[c])|htmlentities:3:'UTF-8'}</option>
+					{/section}
+				</select>
+			</div>
+		</li>
+		<li class="header">{$smarty.const.SORT_BY|htmlentities:3:'UTF-8'}</li>
+		<li>
+			<div class="nav-select-wrapper">
+			<select id="sort" onchange="search();">
+				{section name=s loop=$sortoptions}
+				<option value="{$sortoptions[s]}">{myUcfirst(translate($sortoptions[s]))|htmlentities:3:'UTF-8'}</option>
+				{/section}
+			</select>
+			</div>
+		</li>
+		<li class="header">{myUcfirst($smarty.const.RESULTS_PER_PAGE)|htmlentities:3:'UTF-8'}</li>
+		<li>
+			<div class="nav-select-wrapper">
+				<select id="n" onchange="search();">
+					<option value="0">{$smarty.const.ALL|htmlentities:3:'UTF-8'} {$smarty.const.RESULTS_PER_PAGE|htmlentities:3:'UTF-8'}</option>
+					{section name=n loop=$resultsperpage}
+					<option value="{$resultsperpage[n]}">{$resultsperpage[n]|htmlentities:3:'UTF-8'} {$smarty.const.RESULTS_PER_PAGE|htmlentities:3:'UTF-8'}</option>
+					{/section}
+				</select>
+			</div>
+		</li>
+	  </ul><!-- /.sidebar-menu -->
+	</section>
+	<!-- /.sidebar -->
+</aside>

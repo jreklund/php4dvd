@@ -1,0 +1,35 @@
+{include file="header.html"}
+
+<div id="container">
+	<div class="box">
+		<div class="box-header with-border">
+			<h1 class="box-title">{$smarty.const.INSTALLATION|htmlentities:3:'UTF-8'}</h1>
+			<div class="box-tools pull-right">
+				{if count($languages) > 1}
+				<select id="languages">
+				{foreach from=$languages key=name item=code}
+					<option{if $language == $code} selected{/if} value="./?lang={$code|urlencode}">{$name|htmlentities:3:'UTF-8'}</option>
+				{/foreach}
+				</select>
+				{/if}
+			</div>
+		</div>
+		<div class="box-body">
+			{if isset($main)}{include file="$main"}{/if}
+		</div>
+		
+		<footer>
+			<a href="http://php4dvd.sourceforge.net/" target="_blank">php4dvd v{$newversion|number_format:1}</a>
+		</footer>
+	</div>
+</div>
+
+{if isset($message)}
+<div class="message">
+	<div class="text">
+		{$message|htmlentities:3:'UTF-8'}
+	</div>
+</div>
+{/if}
+
+{include file="footer.html"}

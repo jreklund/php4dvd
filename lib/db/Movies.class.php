@@ -1,0 +1,171 @@
+<?php
+defined('DIRECTACCESS') OR exit('No direct script access allowed');
+
+require_once($loc . "lib/Database.class.php");
+require_once($loc . "lib/db/Movie.class.php");
+
+class Movies extends Database {
+	/**
+	* Save this movie.
+	* @param Movie $movie
+	*/
+	public function save($movie) {
+		$m = null;
+		if(isset($movie->id))
+			$m = R::load("movies", $movie->id);
+		if(!$m)
+			$m = R::dispense("movies");
+		$this->fillObject($m, $movie);
+		return R::store($m);
+	}
+	
+	/**
+	 * Remove a movie.
+	 * @param Movie $movie
+	 * @param string $photopath
+	 * @param string $coverpath
+	 */
+	public function remove($movie, $photopath = false, $coverpath = false) {
+		if(!$photopath) {
+			global $photopath;
+		}
+		if(!$coverpath) {
+			global $coverpath;
+		}
+		$m = R::load("movies", $movie->id);
+		if($m) {
+			R::trash($m);
+			
+			// Remove its photo and cover
+			$movie->removePhoto($photopath);
+			$movie->removeCover($coverpath);
+		}
+	}
+	
+	/**
+	 * Create a class from the database item.
+	 * @param $dbItem
+	 */
+	private function create($dbItem) {
+		return $this->fillObject(new Movie(), $dbItem);
+	}
+	
+	/**
+	 * Get a movie by its id.
+	 * @param int $id
+	 * @return the movie or false when the movie was not found
+	 */
+	public function get($id) {
+		return $this->create(R::getRow('SELECT * FROM `movies` WHERE `id` = ?', array($id)));
+	}
+	
+	/**
+	 * Search for movies.
+	 * @param string $search
+	 * @param string $sort
+	 * @param string $category
+	 * @param int $page
+	 * @param int $amount
+	 * @param boolean $array
+	 * @return the movies that match the search criteria
+	 */
+	function search($search, $sort = "name", $category = "", $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
+		// Words
+		$words = preg_split("/\s+/", $search);
+		
+		// Columns to return
+		if(!$searchColumns)
+			$searchColumns = array('`id`','`imdbid`','`name`','`format`','`own`','`seen`');
+		
+		// Query
+		$query  = "SELECT SQL_CALC_FOUND_ROWS ".implode(',',$searchColumns)." FROM `movies` WHERE 1 = 1";
+		$bindings = array();
+		$wordsTotal = count($words);
+		if($wordsTotal > 0 && $words[0] != "") {
+			$query .= " AND ";$i = 0;
+			for($i; $i < $wordsTotal; ++$i) {
+				$word = $words[$i];
+				
+				$query .= "(";
+				$query .= "`name` LIKE ? OR ";		$bindings[] = '%'.$word.'%';
+				$query .= "`aka` LIKE ? OR ";		$bindings[] = '%'.$word.'%';
+				$query .= "`year` LIKE ? OR ";		$bindings[] = '%'.$word.'%';
+				$query .= "`plotoutline` LIKE ?";	$bindings[] = '%'.$word.'%';
+				$query .= ")";
+
+				// Next word
+				if($i + 1 < $wordsTotal)
+					$query .= " AND ";
+			}
+		}
+		if($category != "") {
+			$query .= " AND `genres` LIKE ?"; $bindings[] = '%'.$category.'%';
+		}
+		if($sort != "") {
+			$query .= " ORDER BY ".$sort.", `name`";
+		}
+		if($amount > 0) {
+			$query .= " LIMIT ?,?"; $bindings[] = $page; $bindings[] = $amount;
+		}
+		
+		// Get all movies
+		$movies = array();
+		if($array) {
+			$movies = R::getAll($query,$bindings);
+		} else {
+			foreach(R::getAll($query,$bindings) as $movie) {
+				$movies[] = $this->create($movie);
+			}
+		}
+		return $movies;
+	}
+	
+	/**
+	 * Get the amount of rows when doing the search limited.
+	 * @return the number of rows in total
+	 */
+	public function getFoundRows() {
+		return R::getCell("SELECT FOUND_ROWS()");
+	}
+	
+	/**
+	 * Get a movie by its Imdb id.
+	 * @param string $imdbid
+	 * @return the movie ID with this IMDb number
+	 */
+	function getByImdb($imdbid) {
+		return R::getRow('SELECT `id` FROM `movies` WHERE `imdbid` = ?', array($imdbid));
+	}
+	
+	/**
+	 * Get all distinct categories.
+	 * @return the list of category names
+	 */
+	public function getCategories() {
+		$categories = array();
+		foreach(R::getCol("SELECT `genres` FROM `movies`") as $category) {
+			// Split by , or newlines
+			foreach(preg_split("/,|\n/", $category) as $category) {
+				$category = trim($category);
+				if(strlen($category) > 0)
+					$categories[$category] = $category;
+			}
+		}
+		$categories = array_keys($categories);
+		sort($categories);
+		return $categories;
+	}
+	
+	/**
+	 * Retrieve all distinct movie formats from the database.
+	 * @return all movie formats
+	 */
+	function getFormats() {
+		$formats = array();
+		foreach(R::getCol("SELECT DISTINCT `format` FROM `movies`") as $format) {
+			if(strlen($format) > 0)
+				$formats[] = $format;
+		}
+		return $formats;
+	}
+}

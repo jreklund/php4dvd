@@ -1,0 +1,37 @@
+<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+{if !isset($imdbsearch) || strlen($imdbsearch) == 0}
+	<ul class="nav navbar-nav">
+		{if !isset($imdbresults)}
+		<li><a href="javascript:void(0);" onclick="$('#submit').click(); return true;"><i class="fa fa-floppy-o fa-fw" aria-hidden="true" title="{$smarty.const.SAVE|htmlentities:3:'UTF-8'}"></i> <span class="hidden-sm">{$smarty.const.SAVE|htmlentities:3:'UTF-8'}</span></a></li>
+		{/if}
+		
+		{if !isset($imdbresults) && isset($imdbmovie)}
+		<li>
+			<a href="javascript:void(0);" onclick="$('#addnew').click(); return true;">
+				<i class="fa fa-floppy-o fa-fw" aria-hidden="true" title="{$smarty.const.SAVE_AND_ADD_MOVIE|htmlentities:3:'UTF-8'}"></i>
+				<i class="fa fa-plus-circle fa-fw" title="{$smarty.const.SAVE_AND_ADD_MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+				<span class="hidden-sm">{$smarty.const.SAVE_AND_ADD_MOVIE|htmlentities:3:'UTF-8'}</span>
+			</a>
+		</li>
+		{/if}
+		
+		{if isset($movie) && !isset($imdbmovie) && isset($movie->imdbid) && $movie->imdbid > 0}
+		<li><a href="{prettyUrl(['go'=>'edit','id'=>$movie->id,'imdbid'=>$movie->imdbid])}"><i class="fa fa-film fa-fw" title="{$smarty.const.UPDATE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> <span class="hidden-sm">{$smarty.const.UPDATE|htmlentities:3:'UTF-8'}</span></a></li>
+		{/if}
+		
+		{if !isset($imdbmovie) && isset($movie) && $movie->hasCover()}
+		<li>
+			<a href="javascript:void(0);" onclick="if(confirm('{$smarty.const.CONFIRM_REMOVE_COVER}')) location.href='{prettyUrl(['go'=>'deletecover','id'=>$movie->id])}';">
+				<i class="fa fa-picture-o fa-fw " title="{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+				<i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+				<span class="hidden-sm">{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}</span>
+			</a>
+		</li>
+		{/if}
+		
+		{if isset($movie) && !isset($imdbmovie)}
+		<li><a href="javascript:void(0);" onclick="if(confirm('{$smarty.const.CONFIRM_REMOVE}')) location.href='{prettyUrl(['go'=>'delete','id'=>$movie->id])}';"><i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> <span class="hidden-sm">{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}</span></a></li>
+		{/if}
+	</ul>
+{/if}
+</div>

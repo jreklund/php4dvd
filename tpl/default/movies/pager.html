@@ -1,0 +1,26 @@
+{if $pages > 1}
+<ul class="pagination">
+	{if $startAt > 1}
+		<li class="paginate_button">
+			<a href="javascript:void(0);" onclick="setPage(0);">1</a>
+		</li>
+		
+		{if $startAt-1 >= 2}<li class="paginate_button disabled"><a href="#">...</a></li>{/if}
+	{/if}
+	{section name=pages start=$startAt loop=$stopAt+1}
+		{if $smarty.section.pages.index == $page}
+			<li class="paginate_button active"><a>{$smarty.section.pages.index}</a></li>
+		{else}
+			<li class="paginate_button">
+				<a href="javascript:void(0);" onclick="setPage({$smarty.section.pages.index-1});">{$smarty.section.pages.index}</a>
+			</li>
+		{/if}
+	{/section}
+	{if $stopAt+1 <= $pages} 
+		{if $stopAt+1 < $pages}<li class="paginate_button disabled"><a>...</a></li>{/if}
+		<li class="paginate_button">
+			<a href="javascript:void(0);" onclick="setPage({$pages-1});">{$pages}</a>
+		</li>
+	{/if}
+</ul>
+{/if}

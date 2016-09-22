@@ -1,0 +1,15 @@
+<div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+  <ul class="nav navbar-nav">
+	{if $loggedin && $User->isEditor()}
+	<li><a href="{prettyUrl(['go' => 'add'])}"><i class="fa fa-plus-circle fa-fw" title="{$smarty.const.ADD_MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> <span class="hidden-sm">{$smarty.const.ADD_MOVIE|htmlentities:3:'UTF-8'}</span></a></li>
+	{/if}
+	
+	{if $loggedin && $User->isEditor()}
+	<li><a href="{prettyUrl(['go' => 'imdbupdate'])}"><i class="fa fa-refresh fa-fw" title="{$smarty.const.UPDATE_ALL_MOVIE_INFORMATION|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> <span class="hidden-sm">{$smarty.const.UPDATE_ALL_MOVIE_INFORMATION|htmlentities:3:'UTF-8'}</span></a></li>
+	{/if}
+	
+	{if $loggedin}
+	<li><a href="{prettyUrl(['go' => 'export'])}"><i class="fa fa-table fa-fw" title="{$smarty.const.EXPORT_TO_CSV|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> <span class="hidden-sm">{$smarty.const.EXPORT_TO_CSV|htmlentities:3:'UTF-8'}</span></a></li>
+	{/if}
+  </ul>
+</div>

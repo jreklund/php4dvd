@@ -1,0 +1,79 @@
+<div class="boxed">
+	<section class="content-header">
+		<h1>
+			{$smarty.const.MY_PROFILE|htmlentities:3:'UTF-8'}
+			<small>{$user->username|htmlentities:3:'UTF-8'}</small>
+		</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="box box-primary">
+					<form id="form" method="POST">
+						<div class="box-header with-border">
+							<h3 class="box-title">{$smarty.const.EDIT|htmlentities:3:'UTF-8'}</h3>
+						</div>	
+						<div class="box-body">
+							<label for="username">{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}:</label>
+							<div class="form-group has-feedback">
+								<div class="input-group">
+									<span class="input-group-addon">@</span>
+									<input type="text" id="username" name="username" class="form-control required" placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}" value="{if isset($user)}{$user->username|htmlentities:3:'UTF-8'}{/if}" disabled>
+								</div>
+							</div>
+							<label for="email">{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}:</label>
+							<div class="form-group has-feedback">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+									<input type="email" id="email" name="email" class="form-control required email" autofocus placeholder="{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}" value="{if isset($user)}{$user->email|htmlentities:3:'UTF-8'}{/if}">
+								</div>
+							</div>
+							<label for="password">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}:</label>
+							<div class="form-group has-feedback">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+									<input type="password" id="password" name="password" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
+								</div>
+							</div>
+							<label for="password">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'}):</label>
+							<div class="form-group has-feedback">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+									<input type="password" id="password2" name="password2" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'})">
+								</div>
+							</div>
+							<label for="permission">{$smarty.const.ROLE|htmlentities:3:'UTF-8'}:</label>
+							<div class="form-group">
+								<select name="permission" class="form-control"{if !$User->isAdmin() || $User->id == $user->id} disabled{/if}>
+									<option value="0"{if isset($user) && $user->permission == 0} selected{/if}>{$smarty.const.GUEST|htmlentities:3:'UTF-8'}</option>
+									<option value="1"{if isset($user) && $user->permission == 1} selected{/if}>{$smarty.const.EDITOR|htmlentities:3:'UTF-8'}</option>
+									<option value="2"{if isset($user) && $user->permission == 2} selected{/if}>{$smarty.const.ADMIN|htmlentities:3:'UTF-8'}</option>
+								</select>
+							</div>
+							{if isset($username_error)}
+							<div class="callout callout-danger">{$username_error|htmlentities:3:'UTF-8'}</div>
+							{/if}
+						</div><!-- /.box-body -->
+						<div class="box-footer">
+							<button type="submit" name="submit" class="btn btn-primary">{$smarty.const.SAVE|htmlentities:3:'UTF-8'}</button>
+						</div>
+					</form>
+				</div><!-- /.box -->
+			</div><!-- /.col-ms-4 -->
+			<script>
+				$(document).ready(function() {
+					$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
+					$.validator.messages["email"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EMAIL|htmlentities:3:'UTF-8'}";
+					$.validator.messages["equalTo"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EQUAL_TO}";
+					$("#form").validate({
+						rules: {
+							password2: {
+								equalTo: "#password"
+							}
+						}
+					});
+				});
+			</script>
+		</div><!-- /.row -->
+	</section><!-- /.content -->
+</div> <!-- /.boxed -->

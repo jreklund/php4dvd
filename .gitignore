@@ -1,0 +1,32 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# Remove
+cache/*
+compiled/*
+config/config.php
+config/version.inc.php
+movies/covers/*
+movies/*
+
+# Keep index.php (folder)
+!cache/index.php
+!compiled/index.php
+!movies/covers/index.php
+!movies/index.php

@@ -1,0 +1,14 @@
+	<script src="{$tpl_include}javascripts/jquery.validate.min.js"></script>
+	<script>
+	$(function(){				
+		$('#languages').on('change', function () {
+			var url = $(this).val();
+			if(url) {
+				window.location = url;
+			}
+			return false;
+		});
+	});
+	</script>
+</body>
+</html>

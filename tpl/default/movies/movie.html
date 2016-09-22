@@ -1,0 +1,207 @@
+<div class="boxed movie">
+	<section class="content-header">
+		<h1>
+			{$movie->name|htmlentities:3:'UTF-8'} 
+			<small>({$movie->year|htmlentities:3:'UTF-8'})</small>
+		</h1>
+	</section>
+	<section class="content">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="photo">
+					{assign var=photo value=0}
+					{if isset($imdbmovie) && $imdbmovie->photo()}
+					<img src="{$imdbmovie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
+					{assign var=photo value=1}
+					{elseif isset($movie) && $movie->hasPhoto()}
+					<img src="{$movie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
+					{assign var=photo value=1}
+					{elseif isset($movie) && $movie->hasCover()}
+					<img src="{$movie->cover()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
+					{assign var=photo value=1}
+					{/if}
+					<div class="taglines">
+						{if $movie->taglines && strlen($movie->taglines) > 0}
+						{assign var=taglines value=$movie->getList('taglines')}
+						{section name=t loop=$taglines max=1}
+							<div>{$taglines[t]|htmlentities:3:'UTF-8'}</div>
+						{/section}
+						{/if}
+					</div>
+				</div>
+				<div class="maininfo{if !$photo}_full{/if}">
+					<div class="box box-primary">
+						{if $movie->genres && strlen($movie->genres) > 0}
+						<div class="box-header with-border">
+							<div class="btn-group">
+								{assign var=genres value=$movie->getList('genres')}
+								{section name=g loop=$genres}
+									<a class="btn btn-default" href="{$webroot}./#!/category/{$genres[g]|htmlentities:3:'UTF-8'|urlencode}/page/0/scroll/top">{$genres[g]|htmlentities:3:'UTF-8'}</a>
+								{/section}
+							</div>
+						</div>
+						{/if}
+						<div class="box-body">
+							<div class="duration">
+								{$movie->format|htmlentities:3:'UTF-8'}{if $movie->duration && $movie->duration != 0}, {durationConvertion($movie->duration|htmlentities:3:'UTF-8')}{/if}
+							</div>
+							
+							<div class="rating">
+								{if $movie->rating && $movie->rating != 0}
+								<span class="header">{$smarty.const.RATING|htmlentities:3:'UTF-8'}:</span> 
+								{$movie->rating|htmlentities:3:'UTF-8'}
+								{/if}
+							</div>
+							
+							{if $movie->languages && strlen($movie->languages) > 0}
+							<div class="languages">								
+								<span class="header">{$smarty.const.LANGUAGES|htmlentities:3:'UTF-8'}:</span>
+								{assign var=languages value=$movie->getList('languages')}
+								{section name=l loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->subtitles && strlen($movie->subtitles) > 0}
+							<div class="subtitles">
+								<span class="header">{$smarty.const.SUBTITLES|htmlentities:3:'UTF-8'}:</span>
+								{assign var=subtitles value=$movie->getList('subtitles')}
+								{section name=s loop=$subtitles}{if !$smarty.section.s.first}, {/if}{$subtitles[s]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->country && strlen($movie->country) > 0}
+							<div class="country">
+								<span class="header">{$smarty.const.COUNTRY|htmlentities:3:'UTF-8'}:</span>
+								{assign var=country value=$movie->getList('country')}
+								{section name=c loop=$country}{if !$smarty.section.c.first}, {/if}{$country[c]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->director && strlen($movie->director) > 0}
+							<div class="director">
+								<span class="header">{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}:</span>
+								{assign var=director value=$movie->getList('director')}
+								{section name=d loop=$director}{if !$smarty.section.d.first}, {/if}{$director[d]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->writer && strlen($movie->writer) > 0}
+							<div class="writer">
+								<span class="header">{$smarty.const.WRITER|htmlentities:3:'UTF-8'}:</span>
+								{assign var=writer value=$movie->getList('writer')}
+								{section name=w loop=$writer}{if !$smarty.section.w.first}, {/if}{$writer[w]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->producer && strlen($movie->producer) > 0}
+							<div class="producer">
+								<span class="header">{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}:</span>
+								{assign var=producer value=$movie->getList('producer')}
+								{section name=p loop=$producer}{if !$smarty.section.p.first}, {/if}{$producer[p]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->music && strlen($movie->music) > 0}
+							<div class="music">
+								<span class="header">{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}:</span>
+								{assign var=music value=$movie->getList('music')}
+								{section name=m loop=$music}{if !$smarty.section.m.first}, {/if}{$music[m]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->video && strlen($movie->video) > 0}
+							<div class="video">
+								<span class="header">{$smarty.const.VIDEO|htmlentities:3:'UTF-8'}:</span>
+								{assign var=video value=$movie->getList('video')}
+								{section name=v loop=$video}{if !$smarty.section.v.first}, {/if}{$video[v]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->audio && strlen($movie->audio) > 0}
+							<div class="audio">
+								<span class="header">{$smarty.const.AUDIO|htmlentities:3:'UTF-8'}:</span>
+								{assign var=audio value=$movie->getList('audio')}
+								{section name=a loop=$audio}{if !$smarty.section.a.first}, {/if}{$audio[a]|htmlentities:3:'UTF-8'}{/section}
+							</div>
+							{/if}
+							
+							{if $movie->notes && strlen($movie->notes) > 0}
+							<div class="notes">
+								<h3>{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}</h3>
+								{$movie->notes|htmlentities:3:'UTF-8'|nl2br}
+							</div>
+							{/if}
+							
+							{if $movie->loaned}
+							<div class="loaned">
+								{$smarty.const.LOANED_OUT|htmlentities:3:'UTF-8'}{if $movie->loanname != ""} {$smarty.const.TO|htmlentities:3:'UTF-8'} {$movie->loanname|htmlentities:3:'UTF-8'}{/if}{if $movie->loandate != "0000-00-00"} {$smarty.const.ON|htmlentities:3:'UTF-8'} {$movie->loandate|htmlentities:3:'UTF-8'}{/if}
+							</div>
+							{/if}
+						</div>
+					</div>
+					{if $movie->plotoutline && strlen($movie->plotoutline) > 0}
+					<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">{$smarty.const.PLOT_OUTLINE|htmlentities:3:'UTF-8'}</h3>
+						</div>
+						<div class="box-body plotoutline">
+							{assign var=plotoutline value=$movie->getList('plotoutline')}
+							{section name=p loop=$plotoutline}
+								<div>{$plotoutline[p]|htmlentities:3:'UTF-8'}</div>
+							{/section}
+						</div>
+					</div>
+					{/if}
+					{if $movie->cast && strlen($movie->cast) > 0}
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">{$smarty.const.CAST|htmlentities:3:'UTF-8'}</h3>
+						</div>
+						<div class="box-body cast">
+							<div class="castlist">
+								<ul>
+								{assign var=cast value=$movie->getList('cast')}
+								{section name=c loop=$cast}
+									<li>{$cast[c]|htmlentities:3:'UTF-8'}</li>
+								{/section}
+								</ul>
+							</div>
+						</div>
+					</div>
+					{/if}
+					{if $movie->plots && strlen($movie->plots) > 0}
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">{$smarty.const.PLOTS|htmlentities:3:'UTF-8'}</h3>
+						</div>
+						<div class="box-body plots">
+							<ol>
+								{assign var=plots value=$movie->getList('plots')}
+								{section name=p loop=$plots}
+									<li>{$plots[p]|htmlentities:3:'UTF-8'}</li>
+								{/section}
+							</ol>
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
+					{/if}
+				</div><!-- /.maininfo -->
+			</div><!-- /.col-xs-12 -->
+		</div><!-- /.row -->
+	</section><!-- /.content -->
+</div><!-- /.boxed -->
+
+{literal}
+<script>
+$(document).ready(function() {
+	$('.popup-trailer').magnificPopup({
+	  disableOn: 700,
+	  type: 'iframe',
+	  mainClass: 'mfp-fade',
+	  removalDelay: 160,
+	  preloader: false,
+
+	  fixedContentPos: false
+	});
+});
+</script>
+{/literal}

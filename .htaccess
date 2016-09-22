@@ -1,0 +1,26 @@
+# no indexing
+Options -Indexes +FollowSymLinks -MultiViews
+
+# hidden files
+<Files ~ "common.inc.php">
+	Order Deny,Allow
+	Deny from all
+</Files>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # !IMPORTANT! Set your RewriteBase here and don't forget trailing and leading
+  #  slashes.
+  # If your page resides at
+  #  http://www.example.com/app/php4dvd
+  # then use
+  # RewriteBase /app/php4dvd/
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+  ErrorDocument 404 /index.php
+</IfModule>
