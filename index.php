@@ -56,6 +56,9 @@ require_once($loc . "includes/login.inc.php");
 // Template
 $template = "index.html";
 
+// Fallback for 404-pages
+$Website->assign("main", "404.html");
+
 // Switch to the correct page
 $go = isset($_GET['go']) ? $_GET['go'] : '';
 switch ($go) {
