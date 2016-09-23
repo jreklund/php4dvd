@@ -9,7 +9,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Swedish" => "sv_SE");
  * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "sv_SE";
  * 
- * When you want your translation to be included in the next php4dvd release, please send me a message on http://sourceforge.net/projects/php4dvd/
+ * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 
 /**
@@ -182,6 +182,7 @@ define("INSTALLATION",								"Installation");
 define("WELCOME",									"Välkommen");
 define("WELCOME_TEXT",								"Välkommen till installationsguiden. Gå igenom nästa steg för att installera php4dvd.");
 define("NEXT",										"Nästa");
+define("PREVIOUS",									"Föregående");
 define("PERMISSIONS",								"Behörigheter");
 define("PERMISSIONS_TEXT",							"Följande mappar och filer måste skapas och ha skrivrättigheter:");
 define("OK",										"ok");

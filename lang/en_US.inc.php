@@ -9,7 +9,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Nederlands" => "nl_NL");
  * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "nl_NL";
  * 
- * When you want your translation to be included in the next php4dvd release, please send me a message on http://sourceforge.net/projects/php4dvd/
+ * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 
 /**
@@ -182,6 +182,7 @@ define("INSTALLATION",								"Installation");
 define("WELCOME",									"Welcome");
 define("WELCOME_TEXT",								"Welcome to the installation wizard. Follow the next step to install php4dvd.");
 define("NEXT",										"Next");
+define("PREVIOUS",									"Previous");
 define("PERMISSIONS",								"Permissions");
 define("PERMISSIONS_TEXT",							"The following directories and files must be created and require write permissions:");
 define("OK",										"ok");

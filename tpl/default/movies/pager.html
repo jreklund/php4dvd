@@ -1,5 +1,5 @@
 {if $pages > 1}
-<ul class="pagination">
+<ul class="pagination hidden-xs">
 	{if $startAt > 1}
 		<li class="paginate_button">
 			<a href="javascript:void(0);" onclick="setPage(0);">1</a>
@@ -20,6 +20,29 @@
 		{if $stopAt+1 < $pages}<li class="paginate_button disabled"><a>...</a></li>{/if}
 		<li class="paginate_button">
 			<a href="javascript:void(0);" onclick="setPage({$pages-1});">{$pages}</a>
+		</li>
+	{/if}
+</ul>
+<ul class="pagination hidden-sm hidden-md hidden-lg">
+	{if $page > 1}
+		<li class="paginate_button">
+			<a href="javascript:void(0);" onclick="setPage({$page-2});">{$smarty.const.PREVIOUS|htmlentities:3:'UTF-8'}</a>
+		</li>
+	{/if}
+	<li class="paginate_button">
+		<select onchange="setPage(this.value);">
+	{section name=pages start=1 loop=$pages+1}
+		{if $smarty.section.pages.index == $page}
+			<option value="{$smarty.section.pages.index-1}" selected>{$smarty.section.pages.index}</option>
+		{else}
+			<option value="{$smarty.section.pages.index-1}">{$smarty.section.pages.index}</option>
+		{/if}
+	{/section}
+		</select>
+	</li>
+	{if $page < $pages} 
+		<li class="paginate_button">
+			<a href="javascript:void(0);" onclick="setPage({$page});">{$smarty.const.NEXT|htmlentities:3:'UTF-8'}</a>
 		</li>
 	{/if}
 </ul>

@@ -18,6 +18,37 @@
 	margin: 16px 0 0 auto;
 }
 
+.pagination>li>select {
+    position: relative;
+    float: left;
+    padding: 6px 8px 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #666;
+    text-decoration: none;
+    background: #fafafa;
+    border: 1px solid #ddd;
+	min-width: 70px;
+}
+.pagination>li>select:focus {
+	outline: none;
+}
+
+.pagination>li:first-child>select {
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.pagination>li:last-child>select {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.error-page>.error-content>h3 {
+	padding-top: 42px;
+}
+
 @media (max-width: 1065px) and (min-width: 768px) {
 	.hidden-sm {
 		display: none!important;

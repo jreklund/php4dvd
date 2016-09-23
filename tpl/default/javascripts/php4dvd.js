@@ -92,6 +92,7 @@ function search() {
 
 function setPage(p) {
 	$("#p").val(p);
+	$(window).scrollTop( 0 );
 	search();
 }
 

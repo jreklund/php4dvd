@@ -6,8 +6,10 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * change the configuration settings where you add the new language and update the default language:
  * 
  * config.php:
- * $settings["languages"] = array("en_US"); -> $settings["languages"] = array("en_US", "nl_NL");
+ * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Nederlands" => "nl_NL");
  * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "nl_NL";
+ *
+ * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 
 /**
@@ -20,6 +22,8 @@ define("_TITLE",									"Mijn film verzameling");
  */
 define("MY_COLLECTION",								"Mijn verzameling");
 define("HOME",										"Home");
+define("BACK",										"Terug");
+define("SETTINGS",									"Instellingen");
 define("MY_PROFILE",								"Mijn profiel");
 define("USER_MANAGEMENT",							"Gebruikers");
 define("LOG_IN", 									"Log in");
@@ -42,6 +46,7 @@ define("UPDATE_ALL_MOVIE_INFORMATION",				"Alles bijwerken");
 define("EXPORT_TO_CSV",								"Exporteren");
 // Search
 define("SEARCH_DEFAULT_TEXT",						"Zoek naar films...");
+define("CATEGORIES",								"Categorieën");
 define("ALL_CATEGORIES",							"Alle categorieën");
 define("SORT_BY",									"Sorteer op");
 define("name asc",									"naam (A-Z)");
@@ -65,6 +70,8 @@ define("RESULTS_PER_PAGE",							"resultaten per pagina");
 // Results
 define("NO_RESULTS_FOUND",							"Er zijn geen films gevonden.");
 define("NO_COVER",									"Geen afbeelding");
+define("MOVIES_TOTAL",								"Totaal films");
+define("STATISTICS",								"Statistieken");
 
 /**
  * Movie
@@ -90,6 +97,7 @@ define("MINUTES",									"minuten");
 */
 // Menu
 define("SAVE",										"Opslaan");
+define("SAVE_AND_ADD_MOVIE",						"Opslaan en voeg film");
 define("UPDATE",									"Bijwerken");
 define("REMOVE_COVER",								"Verwijder hoes");
 // IMDb search
@@ -114,6 +122,8 @@ define("YES",										"Ja");
 define("NO",										"Nee");
 define("COVER",										"Hoes");
 define("SEARCH_FOR_COVER",							"Zoek naar hoes");
+define("PHOTO",										"Poster");
+define("SEARCH_FOR_PHOTO",							"Zoeken naar filmposter");
 define("TRAILER_URL",								"Trailer URL");
 define("SEARCH_FOR_TRAILER",						"Zoek naar trailer");
 define("PERSONAL_NOTES",							"Persoonlijke opmerkingen");
@@ -166,12 +176,13 @@ define("VALIDATOR_ACCEPT_JPG",						"Voer een juist plaatje in (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Beide waarden moeten gelijk zijn");
 
 /**
-* Installer
-*/
+ * Installer
+ */
 define("INSTALLATION",								"Installatie");
 define("WELCOME",									"Welkom");
 define("WELCOME_TEXT",								"Dit is de installatie van php4dvd. Volg de stappen om de installatie te voltooien.");
 define("NEXT",										"Volgende");
+define("PREVIOUS",									"Voorgaand");
 define("PERMISSIONS",								"Rechten");
 define("PERMISSIONS_TEXT",							"De volgende mappen en bestanden moeten bestaan en schrijfrechten hebben:");
 define("OK",										"ok");
