@@ -25,7 +25,7 @@ foreach($sortoptions as $so) {
 $Website->assign("sortoptions", $allsortoptions);
 
 // Number of results
-$resultsperpage = array(20, 30, 40, 50, 60);
+$resultsperpage = is_array($numOfResults) && !empty($numOfResults)?$numOfResults:array(20, 30, 40, 50, 60);
 $Website->assign("resultsperpage", $resultsperpage);
 
 // If the user logged in or when a guest user is allowed to view movies, show them

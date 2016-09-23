@@ -133,6 +133,13 @@ $settings["smarty"]["development"]		= $settings["development"];
 $settings["pretty_url"] = false;
 
 /**
+ * Change number of results
+ * array(20, 30, 40, 50, 60);
+ */
+ 
+$settings["number_of_results"] = array();
+
+/**
  * Default amount of movies per page.
  * Display all movies with -1
  * 0 = 100

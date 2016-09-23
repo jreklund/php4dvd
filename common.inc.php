@@ -86,6 +86,9 @@ if($pretty_url && !isset($_GET['go']) && !isset($installer)) {
 	parsePrettyUrl();
 }
 
+// Number of results
+$numOfResults = $settings["number_of_results"];
+
 // Default results per page amount 
 $resultsPerPageDefault = $settings["results_per_page"];
 
