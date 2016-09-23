@@ -1,4 +1,4 @@
-php4dvd
+php4dvd 3.X
 =======
 
 php4dvd is a small yet powerful, php/mysql powered movie database.
@@ -6,15 +6,109 @@ php4dvd is a small yet powerful, php/mysql powered movie database.
 Features
 =======
 
-* Search IMDb.com for movie information
-* and store this detailed information (like directors, actors, poster, language...)
-* More information per movie like personal notes, if you own or have seen the movie, loaned it out, etc...
-* Add covers to your movies
-* Powerful and quick search function
-* User login
-* Multiple languages
-* Very configurable, easy to use
-* Layout is based on a template which you can easily adjust
+- Add movie information from IMDb.com
+  - (directors, actors, poster, language...)
+- Keeps track on what movies you watched, bought or loaned out to a friend
+- Add covers/posters to your movies
+- What do you think about a movie? Write it down in personal notes
+- Search function (title, year, plot)
+  - Filter by: categories
+  - Sort it by: name, year, rating, format, seen, own, added, loaned out
+  - Results: limit amount of movies shown
+- Multi-user (admin, editor, guest)
+- Multiple languages
+- Very configurable, easy to use
+- Editable templates using Smarty (no PHP knowledge is required)
+- SEO Friendly URL
+
+Requirements
+=======
+
+- Apache 2+
+- PHP 5.3.7+
+- GD2 library to be able to upload (and resize) covers
+- PDO library
+  - PDO driver for MySQL/MariaDB
+
+Installation
+=======
+1. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package package if you haven't already.
+2. Create a database for php4dvd on your web server, as well as a MySQL (or MariaDB) user who has all privileges for accessing and modifying it.
+3. Upload the php4dvd files to the desired location on your web server:
+   - (e.g. http://www.yoursite.com/php4dvd).
+4. Run the php4dvd installation script by accessing the URL in a web browser. 
+5. Manually remove the install/ directory.
+6. Log into php4dvd using the username: admin, password: admin.
+	
+Upgrade
+=======
+1. Delete all files and folders except:
+```
+config/config.php
+config/version.inc.php
+movies/*
+movies/covers/*
+```
+2. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package package if you haven't already.
+3. Upload the php4dvd files to the desired location on your web server:
+   - (e.g. http://www.yoursite.com/php4dvd).
+4. Run the php4dvd installation script by accessing the URL in a web browser.
+5. Manually remove the install/ directory.
+6. Log into php4dvd using your username/password.
+
+Screenshots
+=======
+
+<img src="docs/screenshots/login.jpeg" alt="Login" width="45%">
+<img src="docs/screenshots/collection.jpeg" alt="Movie collection" width="45%"> 
+<img src="docs/screenshots/search.jpeg" alt="Search" width="45%"> 
+<img src="docs/screenshots/movie.jpeg" alt="Movie" width="45%"> 
+<img src="docs/screenshots/trailer.jpeg" alt="Movie trailer" width="45%"> 
+<img src="docs/screenshots/addmovie.jpeg" alt="Add movies" width="45%">
+<img src="docs/screenshots/imdb.jpeg" alt="Search from IMDb" width="45%">
+<img src="docs/screenshots/users.jpeg" alt="Users" width="45%">
+
+Configuration / FAQ
+=======
+
+You will find all configurable options inside config/config.default.php,
+all of which can be set in your config/config.php file. 
+By default, guest users can't view your movie collection. If you want guest
+users to view your collection, set the 'guestview' variable to true in
+config/config.php after installation or upgrade.
+
+###SEO Friendly URL (pretty_url)
+
+Activate inside config/config.default.php or config/config.php and read
+the instructions inside .htaccess.
+
+###Internal Server Error
+
+Try to run the website, but if the site failes opening with a 'Internal 
+Server Error', adjust the .htaccess file in the root of the site.
+Try to remove the Options line by placing a # at the beginning of the line.
+Otherwise remove the `<Files>` section. These settings might fail because of
+the permissions of your webserver.
+    
+Templates
+=======
+
+You can customized your site by adding your own template. Take a look at the
+tpl/default/ directory and copy this directory to your own tpl directory.
+Now you can adjust the config/config.php to your new template. Check all 
+template files and try to adjust them to your own whishes. If you just want
+to change the color, please check config/config.defaults.php for available skins.
+    
+Thanks to
+=======
+
+Thanks to cyberolf. He originally created [php4dvd](https://sourceforge.net/projects/php4dvd/).
+
+Thanks to morphias0. He wrote the first automatic installer/upgrade script 
+and came up with some extra features.
+ 
+Thanks to Izzy from [IzzySoft](http://projects.izzysoft.de/trac/imdbphp). He wrote the imdbphp class to be able to 
+search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothman/imdbphp) for continuing his work.
 
 License
 =======
@@ -33,88 +127,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with php4dvd. If not, see <http://www.gnu.org/licenses/>.
-
-Requirements
-=======
-
-- Apache 2
-- PHP 5.3.7+
-- GD2 library to be able to upload (and resize) covers
-- PDO library
-- PDO driver for MySQL/MariaDB
-
-Installation
-=======
-1. Upload all the files to your website
-   (ex. http://www.yoursite.com/php4dvd).
-2. Open the website and the installer will show up.
-3. Follow installer steps.
-4. Manually remove the install/ directory.
-5. Log into php4dvd using the username: admin, password: admin.
-	
-Upgrade
-=======
-1. Delete all files and folders except:
-```
-config/config.php
-config/version.inc.php
-movies/*
-movies/covers/*
-```
-2. Upload all the files to your website
-   (ex. http://www.yoursite.com/php4dvd).
-3. Open the website and the installer will show up.
-4. Follow installer steps.
-5. Manually remove the install/ directory.
-6. Log into php4dvd using the username: <your-username>, password: <your-password>.
-
-Configuration
-=======
-    
-###PHP
-
-You will find all configurable options inside config/config.default.php,
-all of which can be set in your config/config.php file. 
-By default, guest users can't view your movie collection. If you want guest
-users to view your collection, set the 'guestview' variable to true in
-config/config.php after installation or upgrade.
-
-###GD2
-
-In order to be able to upload and resize covers, you need the GD2 library.
-
-###Access
-
-Try to run the website, but if the site failes opening with a 'Internal 
-Server Error', adjust the .htaccess file in the root of the site.
-Try to remove the Options line by placing a # at the beginning of the line.
-Otherwise remove the <Files> section. These settings might fail because of
-the permissions of your webserver.
-
-###Pretty/clean/friendly URLs
-
-Activate inside config/config.default.php or config/config.php and read
-the instructions inside .htaccess.
-    
-Templates
-=======
-
-This site can be customized by adding your own template. Take a look at the
-tpl/default/ directory and copy this directory to your own tpl directory.
-Now you can adjust the config/config.php to your template. Check all 
-template files and try to adjust them to your own whishes.
-If you just want to change the color, please check config/config.defaults.php
-for available skins.
-    
-Thanks to
-=======
-
-Thanks to cyberolf. He originally created php4dvd.
-https://sourceforge.net/projects/php4dvd/
-
-Thanks to morphias0. He wrote the first automatic installer/upgrade script 
-and came up with some extra features.
- 
-Thanks to Izzy from IzzySoft. He wrote the imdb php class to be able to 
-search for movies at IMDb.com. Big shoutout to Tom for continuing his work:
-https://github.com/tboothman/imdbphp
