@@ -32,7 +32,7 @@ Requirements
 
 Installation
 =======
-1. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package package if you haven't already.
+1. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package if you haven't already.
 2. Create a database for php4dvd on your web server, as well as a MySQL (or MariaDB) user who has all privileges for accessing and modifying it.
 3. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
@@ -49,7 +49,7 @@ config/version.inc.php
 movies/*
 movies/covers/*
 ```
-2. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package package if you haven't already.
+2. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package if you haven't already.
 3. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
 4. Run the php4dvd installation script by accessing the URL in a web browser.
@@ -93,11 +93,12 @@ the permissions of your webserver.
 Templates
 =======
 
-You can customized your site by adding your own template. Take a look at the
+You can customize your site by adding your own template. Take a look at the
 tpl/default/ directory and copy this directory to your own tpl directory.
 Now you can adjust the config/config.php to your new template. Check all 
-template files and try to adjust them to your own whishes. If you just want
-to change the color, please check config/config.defaults.php for available skins.
+template files and try to adjust them to your own whishes.
+
+If you just want to change the color, please check config/config.defaults.php for available skins.
     
 Thanks to
 =======
