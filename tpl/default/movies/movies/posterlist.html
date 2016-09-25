@@ -1,0 +1,27 @@
+<div class="movies-list poster-list">
+	{section name=m loop=$movies}
+		<a class="list-movie-link" href="{prettyUrl(['go' => 'movie','id' => $movies[m]->id, 'name' => $movies[m]->name])}" title="{$movies[m]->name|htmlentities:3:'UTF-8'}">
+			<div id="movie_{$movies[m]->id}">
+				<div class="movie-cover">
+					{if $movies[m]->hasPhoto()}<img class="lazy" data-original="{$movies[m]->photo()}" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}" />
+					{elseif $movies[m]->hasCover()}<img class="lazy" data-original="{$movies[m]->cover()}" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}" />
+					{else}<div class="movie-nocover" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}">{$smarty.const.NO_COVER|htmlentities:3:'UTF-8'}</div>{/if}
+				</div>
+				<div class="list-movie-title">{$movies[m]->name|htmlentities:3:'UTF-8'} <small>({$movies[m]->year|htmlentities:3:'UTF-8'})</small></div>
+				<div class="list-movie-plot">{$movies[m]->plotoutline|htmlentities:3:'UTF-8'}</div>
+				<div class="list-movie-info">
+					{durationConvertion($movies[m]->duration)|htmlentities:3:'UTF-8'}
+					| <strong>{$movies[m]->rating|htmlentities:3:'UTF-8'}</strong>/10
+					{assign var=languages value=$movies[m]->getList('languages')}
+					| {section name=l loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|htmlentities:3:'UTF-8'}{/section}
+				</div>
+			</div>
+		</a>
+	{sectionelse}
+	<p class="text-center">{$smarty.const.NO_RESULTS_FOUND|htmlentities:3:'UTF-8'}</p>
+	{/section}
+</div>
+
+{include file="movies/pager.html"}
+
+<div style="clear: both;"></div>

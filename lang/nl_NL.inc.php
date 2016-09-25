@@ -49,6 +49,7 @@ define("SEARCH_DEFAULT_TEXT",						"Zoek naar films...");
 define("CATEGORIES",								"Categorieën");
 define("ALL_CATEGORIES",							"Alle categorieën");
 define("SORT_BY",									"Sorteer op");
+define("LAYOUT",									"Paginaopmaak");
 define("name asc",									"naam (A-Z)");
 define("name desc",									"naam (Z-A)");
 define("year asc",									"jaar (0-9)");

@@ -9,6 +9,9 @@ $(document).ready(function() {
 	if(Cookies.get("sort")) {
 		$("#sort").val(Cookies.get("sort"));
 	}
+	if(Cookies.get("layout")) {
+		$("#l").val(Cookies.get("layout"));
+	}
 	if(Cookies.get("page")) {
 		$("#p").val(Cookies.get("page"));
 	}
@@ -55,5 +58,7 @@ $(document).ready(function() {
 		$(window).on("scroll", function() {
 			Cookies.set("scroll", $(window).scrollTop() );
 		});
+		
+		$("img.lazy").lazyload();
 	});
 });

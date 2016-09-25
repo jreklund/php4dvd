@@ -105,6 +105,7 @@ $Website->assign("tpl_include", $tpl_include);
 $tpl_name = $settings["smarty"]["template"];
 $tpl_skin = 'skin-'.$settings["template_skin"];
 $tpl_skin_light = $settings["template_skin_light"];
+$tpl_movie_collection = $settings["template_movie_collection"];
 if($tpl_skin_light) {
 	$tpl_skin .= '-light';
 	$tpl_name .= '-light';

@@ -106,10 +106,12 @@ $settings["user"]["defaultAdmin"] = "admin";
 /**
  * Default template
  * Default theme skins: black, blue, green, purple, red, yellow
+ * Movie collection: poster, postertitle, posterlist, list, listplot
  */
 $settings["template"] = 'default';
 $settings["template_skin"] = 'blue';
 $settings["template_skin_light"] = false;
+$settings["template_movie_collection"] = 'postertitle';
 
 /**
  * Smarty settings. 

@@ -85,7 +85,10 @@ switch ($go) {
 						// Viewing movies is only possible when logged in or when guests can view movie information
 						if($loggedin || $guestview) {
 							// Template
-							$template = "movies/movies.html";
+							$templateName = isset($_GET['l']) ? $_GET['l'] : '';
+							if(!in_array($templateName,array('poster','postertitle','posterlist','list','listplot')))
+								$templateName = ($tpl_movie_collection)?$tpl_movie_collection:'postertitle';
+							$template = "movies/movies/".$templateName.".html";
 							
 							// Only count movies ones
 							$refreshMovieList = true;

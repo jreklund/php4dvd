@@ -50,13 +50,22 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	if(!in_array($category,$moviecategories))
 		$category = "";
 	
+	// Change what columns to get from the database (movie collection)
+	$columns = array();
+	if($templateName == 'poster')
+		$columns = array('`id`','`name`','`year`');
+	if($templateName == 'posterlist' || $templateName == 'listplot')
+		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`plotoutline`');
+	if($templateName == 'list')
+		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`');
+	
 	// Search the database for one more movie
-	$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount);
+	$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount, false, $columns);
 	
 	// If there are no movies found, reload
 	while($page > 0 && count($movies) == 0) {
 		$page--;
-		$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount);
+		$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount, false, $columns);
 	}
 	$Website->assign("movies", $movies);
 	

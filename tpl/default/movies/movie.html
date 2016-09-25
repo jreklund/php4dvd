@@ -81,7 +81,10 @@
 							<div class="director">
 								<span class="header">{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}:</span>
 								{assign var=director value=$movie->getList('director')}
-								{section name=d loop=$director}{if !$smarty.section.d.first}, {/if}{$director[d]|htmlentities:3:'UTF-8'}{/section}
+								{section name=d loop=$director}
+									{if !$smarty.section.d.first}, {/if}
+									<a class="people-link" href="{$webroot}./#!/search/{$director[d]|htmlentities:3:'UTF-8'}/page/0/scroll/top">{$director[d]|htmlentities:3:'UTF-8'}</a>
+								{/section}
 							</div>
 							{/if}
 							
@@ -89,7 +92,10 @@
 							<div class="writer">
 								<span class="header">{$smarty.const.WRITER|htmlentities:3:'UTF-8'}:</span>
 								{assign var=writer value=$movie->getList('writer')}
-								{section name=w loop=$writer}{if !$smarty.section.w.first}, {/if}{$writer[w]|htmlentities:3:'UTF-8'}{/section}
+								{section name=w loop=$writer}
+									{if !$smarty.section.w.first}, {/if}
+									<a class="people-link" href="{$webroot}./#!/search/{$writer[w]|htmlentities:3:'UTF-8'}/page/0/scroll/top">{$writer[w]|htmlentities:3:'UTF-8'}</a>
+								{/section}
 							</div>
 							{/if}
 							
@@ -97,7 +103,10 @@
 							<div class="producer">
 								<span class="header">{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}:</span>
 								{assign var=producer value=$movie->getList('producer')}
-								{section name=p loop=$producer}{if !$smarty.section.p.first}, {/if}{$producer[p]|htmlentities:3:'UTF-8'}{/section}
+								{section name=p loop=$producer}
+									{if !$smarty.section.p.first}, {/if}
+									<a class="people-link" href="{$webroot}./#!/search/{$producer[p]|htmlentities:3:'UTF-8'}/page/0/scroll/top">{$producer[p]|htmlentities:3:'UTF-8'}</a>
+								{/section}
 							</div>
 							{/if}
 							
@@ -105,7 +114,10 @@
 							<div class="music">
 								<span class="header">{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}:</span>
 								{assign var=music value=$movie->getList('music')}
-								{section name=m loop=$music}{if !$smarty.section.m.first}, {/if}{$music[m]|htmlentities:3:'UTF-8'}{/section}
+								{section name=m loop=$music}
+									{if !$smarty.section.m.first}, {/if}
+									<a class="people-link" href="{$webroot}./#!/search/{$music[m]|htmlentities:3:'UTF-8'}/page/0/scroll/top">{$music[m]|htmlentities:3:'UTF-8'}</a>
+								{/section}
 							</div>
 							{/if}
 							
@@ -162,7 +174,7 @@
 								<ul>
 								{assign var=cast value=$movie->getList('cast')}
 								{section name=c loop=$cast}
-									<li>{$cast[c]|htmlentities:3:'UTF-8'}</li>
+									<li><a class="people-link" href="{$webroot}./#!/search/{$cast[c]|htmlentities:3:'UTF-8'}/page/0/scroll/top">{$cast[c]|htmlentities:3:'UTF-8'}</a></li>
 								{/section}
 								</ul>
 							</div>

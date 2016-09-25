@@ -49,6 +49,7 @@ define("SEARCH_DEFAULT_TEXT",						"Szukaj filmu...");
 define("CATEGORIES",								"Kategorie");
 define("ALL_CATEGORIES",							"Wszystkie kategorie");
 define("SORT_BY",									"Sortuj po");
+define("LAYOUT",									"Layout");
 define("name asc",									"Nazwie (A-Z)");
 define("name desc",									"Nazwie (Z-A)");
 define("year asc",									"Roku (0-9)");

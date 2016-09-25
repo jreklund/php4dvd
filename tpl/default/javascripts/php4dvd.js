@@ -47,6 +47,15 @@ function search() {
 			Cookies.remove("sort");
 		}
 		
+		// Layout
+		var l = $("#l").val();
+		if(l) {
+			url += "&l=" + encodeURIComponent(l);
+			Cookies.set("layout", l, { expires: 14 });
+		} else {
+			Cookies.set("layout", 0);
+		}
+		
 		// Page
 		var p = $("#p").val();
 		if(p && p > 0) {
@@ -93,6 +102,11 @@ function search() {
 function setPage(p) {
 	$("#p").val(p);
 	$(window).scrollTop( 0 );
+	search();
+}
+
+function setLayout(l) {
+	document.getElementById("l").value = l;
 	search();
 }
 

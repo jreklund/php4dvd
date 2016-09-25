@@ -49,6 +49,7 @@ define("SEARCH_DEFAULT_TEXT",						"Sök...");
 define("CATEGORIES",								"Kategorier");
 define("ALL_CATEGORIES",							"Alla kategorier");
 define("SORT_BY",									"Sortera efter");
+define("LAYOUT",									"Layout");
 define("name asc",									"namn (A-Z)");
 define("name desc",									"namn (Z-A)");
 define("year asc",									"år (0-9)");

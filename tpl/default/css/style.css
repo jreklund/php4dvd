@@ -104,6 +104,20 @@
     background: #f7f7f7;
 }
 
+.sidebar-menu li.layout {
+	padding: 11px 30px 11px 11px;
+	color: #b8c7ce;
+}
+
+.sidebar-menu li.layout i {
+	cursor: pointer;
+}
+
+.sidebar-menu li.layout i.fa-bars {
+	position: relative;
+	top: -1px;
+}
+
 /*
  * Menu AND override default values
  */
@@ -271,6 +285,12 @@ width:100%;
 		.movie-box	.movie-cover {
 			overflow: hidden;
 		}
+		
+			.movie-cover .movie-nocover {
+				overflow: hidden;
+				border: 1px solid white;
+				background-color: #e2e2e2;
+			}
 
 			.movie-box	.movie-cover img {
 				width: 157px;
@@ -287,6 +307,86 @@ width:100%;
 			background-color: #FFF;
 			border-top: 3px solid #3c8dbc;
 		}
+.movies .movie-cover .movie-nocover {
+	width: 157px;
+	height: 233px;
+}
+.movies-list {
+	text-align: left;
+	
+}
+.movies-list .movie-cover {
+	float: left;
+	border-right: 1px solid #ccc;
+}
+	.movies-list .movie-cover img {
+		width: 100px;
+		height: 148px;
+	}
+.movies-list .movie-cover .movie-nocover {
+	width: 100px;
+	height: 148px;
+}
+.list-movie-link {
+	background-color: #FFF;
+	position: relative;
+}
+.list-movie-link {
+	display: inline-block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	margin-bottom: 5px;
+	margin-right: 2px;
+	color: #222;
+	width: 33%;
+	border: 1px solid #ccc;
+}
+@media (max-width: 1430px) {
+	.list-movie-link {
+		width: 49%;
+	}
+}
+@media (max-width: 950px) {
+	.list-movie-link {
+		width: 100%;
+	}
+}
+.list-movie-link:hover .list-movie-info, .list-movie-link:hover .list-movie-plot {
+	color: #222;
+}
+.list-movie-title, .list-movie-info, .list-movie-plot {
+	padding: 4px 5px;
+	display: block; /* Fallback for non-webkit */
+	display: -webkit-box;
+	margin: 0 auto;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.list-movie-title, .list-movie-info {
+	height: 28px; /* Fallback for non-webkit */
+	-webkit-line-clamp: 1;
+}
+.list-movie-plot {
+	height: 84px;
+	-webkit-line-clamp: 4;
+	padding-top: 0px;
+}
+.list-movie-title {
+	font-weight: bold;
+}
+.poster-list .list-movie-info {
+	position: absolute;
+	left: 101px;
+	bottom: 0;
+	right: 0;
+}
+.list-movie-info {
+	border-top: 3px solid #3c8dbc;
+	font-size: 12px;
+	background-color: #f4f4f4;
+}
 /**
  * IMDb search for movies
  */
@@ -337,6 +437,14 @@ width:100%;
 
 .movie .maininfo {
 	margin-left: 215px;
+}
+
+.movie .people-link {
+	color: inherit;
+}
+
+.movie .people-link:hover {
+	color: #72afd2;
 }
 
 .movie .loaned {
