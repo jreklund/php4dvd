@@ -62,7 +62,7 @@
 					</ul>
 				</li>
 				{elseif $guestview}
-				<li{if $currentUrl|strpos:$webroot+'?go=login'===0 || $currentUrl|strpos:$webroot+'login'===0} class="selected"{/if}><a href="{prettyUrl(['go' => 'login'],['ref' => $currentUrl|urlencode])}" title="{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
+				<li{if $currentUrl|strpos:$webroot+'?go=login'===0 || $currentUrl|strpos:$webroot+'login'===0} class="selected"{/if}><a href="{prettyUrl(['go' => 'login'],['ref' => $currentUrl|rawurlencode])}" title="{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
 				{/if}
 				{if count($languages) > 1}
 				<li class="dropdown">
@@ -71,7 +71,7 @@
 					</a>
 					<ul class="dropdown-menu no-collapse">
 					{foreach from=$languages key=name item=code}
-						<li{if $language == $code} class="selected"{/if}><a href="{prettyUrl(['lang' => $code|urlencode])}">{$name|htmlentities:3:'UTF-8'}</a></li>
+						<li{if $language == $code} class="selected"{/if}><a href="{prettyUrl(['lang' => $code|rawurlencode])}">{$name|htmlentities:3:'UTF-8'}</a></li>
 					{/foreach}
 					</ul>
 				</li>

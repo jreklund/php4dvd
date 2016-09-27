@@ -8,7 +8,7 @@
 				{if count($languages) > 1}
 				<select id="languages">
 				{foreach from=$languages key=name item=code}
-					<option{if $language == $code} selected{/if} value="./?lang={$code|urlencode}">{$name|htmlentities:3:'UTF-8'}</option>
+					<option{if $language == $code} selected{/if} value="./?lang={$code|rawurlencode}">{$name|htmlentities:3:'UTF-8'}</option>
 				{/foreach}
 				</select>
 				{/if}
