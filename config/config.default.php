@@ -61,7 +61,7 @@ $settings["db"]["debug"] = $settings["development"];
  * Activate if you get SQL ERROR 1292 (0000-00-00) when saving movies.
  * If you get an error when activating this feature. Contact your webhost.
  */
-$settings["db"]["NO_ZERO_IN_DATE"] = false;
+$settings["db"]["NO_ZERO_IN_DATE"] = true;
 
 /**
  * The location of the images (movie image and cover)

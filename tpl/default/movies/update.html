@@ -12,6 +12,7 @@
 						<form id="imdbsearchform">
 							<div class="form-group has-feedback">
 								<div class="input-group col-sm-8">
+									<input type="hidden" name="go" value="add">
 									<input type="text" id="imdbsearch" name="imdbsearch" class="form-control required" value="{if isset($imdbsearch)}{$imdbsearch|htmlentities:3:'UTF-8'}{/if}">
 									<span class="input-group-btn">
 										<button class="btn btn-info btn-flat" type="submit">{$smarty.const.SEARCH|htmlentities:3:'UTF-8'}</button>

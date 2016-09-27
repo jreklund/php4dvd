@@ -28,5 +28,6 @@ movies/*
 # Keep index.php (folder)
 !cache/index.php
 !compiled/index.php
+!movies/covers/
 !movies/covers/index.php
 !movies/index.php

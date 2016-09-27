@@ -20,7 +20,7 @@ class Database {
 					
 			
 			if(isset($settings["NO_ZERO_IN_DATE"]) && $settings["NO_ZERO_IN_DATE"]) {
-				R::exec("SET @@global.sql_mode= '';");
+				R::exec('SET SQL_MODE = ""');
 			}
 			// Debug
 			if(isset($settings["debug"]) && $settings["debug"]) {

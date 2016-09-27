@@ -5,7 +5,7 @@
 				<div class="movie-cover">
 					{if $movies[m]->hasPhoto()}<img class="lazy" data-original="{$movies[m]->photo()}" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}" />
 					{elseif $movies[m]->hasCover()}<img class="lazy" data-original="{$movies[m]->cover()}" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}" />
-					{else}<div class="movie-nocover" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}">{$smarty.const.NO_COVER|htmlentities:3:'UTF-8'}</div>{/if}
+					{else}<div class="movie-nocover"></div>{/if}
 				</div>
 				<div class="list-movie-title">{$movies[m]->name|htmlentities:3:'UTF-8'} <small>({$movies[m]->year|htmlentities:3:'UTF-8'})</small></div>
 				<div class="list-movie-plot">{$movies[m]->plotoutline|htmlentities:3:'UTF-8'}</div>

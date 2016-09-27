@@ -92,7 +92,7 @@ switch ($currentstep) {
 						$Website->assign("dbpass", $settings["db"]["pass"]);
 						
 						// Website base url
-						$Website->assign("url", $settings["url"]["base"]);
+						$Website->assign("url", rtrim($settings["url"]["base"],'/'));
 						
 						// Default language
 						$Website->assign("languages", $settings["languages"]);
