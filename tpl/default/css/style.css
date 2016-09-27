@@ -83,7 +83,7 @@
 	cursor: pointer;
 }
 
-.adminlte-light .nav-select-wrapper select {
+.default-light .nav-select-wrapper select {
     color: #000;
     background: #f4f4f5;
 	border-left: none;
@@ -99,21 +99,34 @@
 	border-left-color: #3c8dbc;
 }
 
-.adminlte-light .nav-select-wrapper select:hover {
+.default-light .nav-select-wrapper select:hover {
     color: #444;
     background: #f7f7f7;
 }
 
-.sidebar-menu li.layout {
-	padding: 11px 30px 11px 11px;
+.sidebar-menu li#layout {
+	padding: 13px 30px 9px 11px;
 	color: #b8c7ce;
 }
 
-.sidebar-menu li.layout i {
+.default-light .sidebar-menu li#layout {
+	color: #848484;
+	background: #f4f4f5;
+}
+
+.sidebar-menu li#layout .active {
+	color: #FFF;
+}
+
+.default-light .sidebar-menu li#layout .active {
+	color: #000;
+}
+
+.sidebar-menu li#layout i {
 	cursor: pointer;
 }
 
-.sidebar-menu li.layout i.fa-bars {
+.sidebar-menu li#layout i.fa-bars {
 	position: relative;
 	top: -1px;
 }
@@ -123,12 +136,12 @@
  */
 
 @media (max-width: 767px) {
-	.adminlte .main-header .navbar .no-collapse .dropdown-menu  li a,
-	.adminlte-light .main-header .navbar .no-collapse .dropdown-menu  li a {
+	.default .main-header .navbar .no-collapse .dropdown-menu  li a,
+	.default-light .main-header .navbar .no-collapse .dropdown-menu  li a {
 		color: #777;
 	}
-	.adminlte .main-header .navbar .no-collapse .dropdown-menu  li a:hover,
-	.adminlte-light .main-header .navbar .no-collapse .dropdown-menu  li a:hover {
+	.default .main-header .navbar .no-collapse .dropdown-menu  li a:hover,
+	.default-light .main-header .navbar .no-collapse .dropdown-menu  li a:hover {
 		background-color: #e1e3e9;
 	}
 	.movie .maininfo {
@@ -198,7 +211,7 @@ html {
 
 	.message .text {
 		margin: 0 auto;
-		margin-top: 300px;
+		margin-top: 200px;
 		text-align: center;
 		width: 400px;
 	}

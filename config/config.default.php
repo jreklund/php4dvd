@@ -153,3 +153,20 @@ $settings["results_per_page"] = 0;
  * Number of pages before and after current.
  */
 $settings["pagination"] = 0;
+
+/**
+ * YouTube API for automatic fetching trailers
+ *
+ * https://cloud.google.com/console
+ * 1. Use Google APIs
+ * 2. Enable API
+ * 3. YouTube Data API
+ * 4. Enable
+ * 5. Credentials
+ * 6. Create credentials
+ * 7. API key
+ * 8. Key restriction
+ * 9. HTTP referrers (web sites)
+ * 10. Enter your domain: domain.com/*
+ */
+$settings['youtube_key'] = '';

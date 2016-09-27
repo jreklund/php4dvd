@@ -95,6 +95,10 @@ $resultsPerPageDefault = $settings["results_per_page"];
 // Number of pages before and after current
 $pagination = $settings["pagination"];
 
+// YouTube API
+$youtubeKey = $settings["youtube_key"];
+$Website->assign("youtubeKey", $youtubeKey?true:false);
+
 // Template directory
 $tpl = $settings["smarty"]["template"] . '/';
 $tpl_dir = $settings["smarty"]["template_dir"];
@@ -112,6 +116,12 @@ if($tpl_skin_light) {
 }
 $Website->assign("template", $tpl_name);
 $Website->assign("template_skin", $tpl_skin);
+
+// Template for movie collection
+$templateName = isset($_GET['l']) ? $_GET['l'] : '';
+if(!in_array($templateName,array('poster','postertitle','posterlist','list','listplot')))
+	$templateName = ($tpl_movie_collection)?$tpl_movie_collection:'postertitle';
+$Website->assign("templateName", $templateName);
 
 // Version
 require_once($loc . "config/version.default.inc.php");

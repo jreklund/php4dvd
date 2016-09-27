@@ -52,12 +52,12 @@
 			</div>
 		</li>
 		<li class="header">{$smarty.const.LAYOUT|htmlentities:3:'UTF-8'}</li>
-		<li class="layout">
-			<i class="fa fa-2x fa-fw fa-th-large" aria-hidden="true" onclick="setLayout('poster');"></i>
-			<i class="fa fa-2x fa-fw fa-th" aria-hidden="true" onclick="setLayout('postertitle');"></i>
-			<i class="fa fa-2x fa-fw fa-th-list" aria-hidden="true" onclick="setLayout('posterlist');"></i>
-			<i class="fa fa-2x fa-fw fa-align-justify" aria-hidden="true" onclick="setLayout('list');"></i>
-			<i class="fa fa-2x fa-fw fa-bars" aria-hidden="true" onclick="setLayout('listplot');"></i>
+		<li id="layout">
+			<i class="{if $templateName == 'poster'}active {/if}fa fa-2x fa-fw fa-th-large" aria-hidden="true" data-value="poster"></i>
+			<i class="{if $templateName == 'postertitle'}active {/if}fa fa-2x fa-fw fa-th" aria-hidden="true" data-value="postertitle"></i>
+			<i class="{if $templateName == 'posterlist'}active {/if}fa fa-2x fa-fw fa-th-list" aria-hidden="true" data-value="posterlist"></i>
+			<i class="{if $templateName == 'list'}active {/if}fa fa-2x fa-fw fa-align-justify" aria-hidden="true" data-value="list"></i>
+			<i class="{if $templateName == 'listplot'}active {/if}fa fa-2x fa-fw fa-bars" aria-hidden="true" data-value="listplot"></i>
 		</li>
 	  </ul><!-- /.sidebar-menu -->
 	</section>

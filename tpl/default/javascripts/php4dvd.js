@@ -105,10 +105,15 @@ function setPage(p) {
 	search();
 }
 
-function setLayout(l) {
-	document.getElementById("l").value = l;
-	search();
-}
+$(document).ready(function() {
+	$('i','#layout').on('click', function() {
+		var $this = $(this);
+		$this.addClass('active').siblings().removeClass('active');
+		document.getElementById("l").value = $this.data('value');
+		search();
+	});
+});
+
 
 /**
  * Get the parameters from the query string that follow the '#!/' part of the url.

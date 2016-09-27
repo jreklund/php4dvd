@@ -15,6 +15,12 @@
 		<i class="fa fa-youtube-play fa-fw" title="{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
 		<span class="hidden-sm">{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}</span></a>
 	</li>
+	{elseif $youtubeKey}
+	<li>
+		<a href="{prettyUrl(['go' => 'trailer','movie' => $movie->name|rawurlencode,'year' => $movie->year])}" class="popup-trailer" target="_blank" title="{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'})">
+		<i class="fa fa-youtube-play fa-fw" title="{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+		<span class="hidden-sm">{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}</span></a>
+	</li>
 	{/if}
 	
 	{if $movie->hasCover()}

@@ -85,9 +85,6 @@ switch ($go) {
 						// Viewing movies is only possible when logged in or when guests can view movie information
 						if($loggedin || $guestview) {
 							// Template
-							$templateName = isset($_GET['l']) ? $_GET['l'] : '';
-							if(!in_array($templateName,array('poster','postertitle','posterlist','list','listplot')))
-								$templateName = ($tpl_movie_collection)?$tpl_movie_collection:'postertitle';
 							$template = "movies/movies/".$templateName.".html";
 							
 							// Only count movies ones
@@ -110,6 +107,19 @@ switch ($go) {
 							require_once($loc . "includes/movie.inc.php");
 						}
 						break;
+						
+	case "trailer":		/**
+						 * Show movie trailer
+						 */
+						// Viewing trailers is only possible when logged in or when guests can view movie information
+						if($loggedin || $guestview) {
+							// Template
+							$Website->assign("main", "movies/trailer.html");
+							
+							// Trailer
+							require_once($loc . "includes/movie.trailer.inc.php");
+						}
+						break;		
 						
 	case "add":			
 	case "edit":	 	/**

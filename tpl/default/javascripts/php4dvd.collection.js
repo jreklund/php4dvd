@@ -38,8 +38,12 @@ $(document).ready(function() {
 	}
 	
 	// Search handling
-	$("#q").keypress(function(event) {
+	$("#q").keyup(function(event) {
 		if ( event.which == 13 ) {
+			search();
+		}
+		if ( event.which == 46 ) {
+			this.value = '';
 			search();
 		}
 	});

@@ -8,7 +8,7 @@ if(isset($movie)) {
 		case "export":
 			break;
 		case "cover":
-			if($movie->hasCover() && file_exists($coverpath.$movie->id.".jpg")) {
+			if($movie->hasCover()) {
 				$body = implode('', file($coverpath.$movie->id.".jpg"));
 				
 				// Creat the correct header
