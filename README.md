@@ -15,11 +15,13 @@ Features
   - Filter by: categories
   - Sort it by: name, year, rating, format, seen, own, added, loaned out
   - Results: limit amount of movies shown
+  - Layouts: choose between five different display layouts
 - Multi-user (admin, editor, guest)
 - Multiple languages
 - Very configurable, easy to use
 - Editable templates using Smarty (no PHP knowledge is required)
 - SEO Friendly URL
+- Automatic YouTube trailers
 
 Requirements
 =======
@@ -29,6 +31,8 @@ Requirements
 - GD2 library to be able to upload (and resize) covers
 - PDO library
   - PDO driver for MySQL/MariaDB
+- cURL
+- YouTube Data API key
 
 Installation
 =======
@@ -42,7 +46,7 @@ Installation
 	
 Upgrade
 =======
-1. Delete all files and folders except:
+Delete all files and folders except:
 ```
 config/config.php
 config/version.inc.php

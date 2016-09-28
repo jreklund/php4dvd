@@ -28,6 +28,8 @@ if (isset($_GET['movie']) && isset($_GET['year'])) {
 	if(!isset($trailers['error']['message'])) {
 		$trailers['error']['message'] = 'An unknown error has occurred.';
 	}
+} else {
+	$trailers['error']['message'] = 'Select a movie.';
 }
 
 $Website->assign("message", $trailers['error']['message']);

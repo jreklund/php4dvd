@@ -208,7 +208,7 @@
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="trailer" class="{$colWidthSmall} control-label">{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'} {if isset($movie)}<a href="http://www.youtube.com/results?search_query={$movie->name|urlencode}+trailer" target="_blank"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_TRAILER|htmlentities:3:'UTF-8'} - YouTube" aria-hidden="true"></i></a>{/if}</label>
+									<label for="trailer" class="{$colWidthSmall} control-label">{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'} {if isset($movie)}<a href="http://www.youtube.com/results?search_query={$movie->name|htmlentities:3:'UTF-8'|urlencode}+{$movie->year|htmlentities:3:'UTF-8'}+trailer" target="_blank"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_TRAILER|htmlentities:3:'UTF-8'} - YouTube" aria-hidden="true"></i></a>{/if}</label>
 									<div class="{$colWidthLarge}">
 										<input type="text" name="trailer" class="form-control" value="{if isset($movie)}{$movie->trailer|htmlentities:3:'UTF-8'}{/if}" class="url" placeholder="{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'}">
 									</div>

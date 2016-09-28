@@ -34,6 +34,18 @@ require_once($loc . "lib/Database.class.php");
  */
 $steps = array('welcome', 'permissions', 'configuration', 'database', 'finished');
 
+// User configuration already exists?
+if(file_exists($loc . "config/config.php")) {
+	unset($steps[2]);
+}
+// Upgrade database?
+if(NEW_DB_VERSION <= DB_VERSION) {
+	unset($steps[3]);
+}
+
+// Rearrange steps
+$steps = array_values($steps);
+
 // Template
 $template = "index.html";
 
@@ -221,7 +233,7 @@ switch ($currentstep) {
 						// Update database
 						if(isset($_POST["accepted"])) {
 							// Iterate sql files since last version and execute these files
-							$v = VERSION;
+							$v = DB_VERSION;
 							
 							// Run first script when this is a new installation
 							if($new_installation) {
@@ -233,7 +245,7 @@ switch ($currentstep) {
 							}
 							
 							// Run all upgrade scripts
-							for(; $v <= NEW_VERSION; $v = number_format($v + 0.1, 1)) {
+							for(; $v <= NEW_DB_VERSION; $v = number_format($v + 0.1, 1)) {
 								$sql = readFileContent($loc . "install/sql/update-".$v.".sql");
 								if($sql) {
 									try {
@@ -262,6 +274,7 @@ switch ($currentstep) {
 	
 							// Version
 							$version .= 'define(\'VERSION\', ' . number_format(NEW_VERSION, 1) . ');' . $nl;
+							$version .= 'define(\'DB_VERSION\', ' . number_format(NEW_DB_VERSION, 1) . ');' . $nl;
 							
 							// Close
 							$version .= "?>";

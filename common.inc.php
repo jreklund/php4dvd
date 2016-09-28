@@ -129,7 +129,11 @@ $Website->assign("newversion", NEW_VERSION);
 if(file_exists($loc . "config/version.inc.php")) {
 	require_once($loc . "config/version.inc.php");
 	$Website->assign("version", VERSION);
+	if(!defined('DB_VERSION')) {
+		define('DB_VERSION', VERSION);
+	}
 } else {
 	define('VERSION', 0);
+	define('DB_VERSION', 0);
 }
 ?>

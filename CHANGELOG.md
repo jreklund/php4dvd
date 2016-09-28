@@ -1,3 +1,30 @@
+## 3.1 (2016-09-28)
+###Added
+  - Fetch trailers automatic from YouTube
+  - Can delete search query with "delete"-button
+  - Added four more layouts.
+    - Posters
+    - Posters with title (default)
+    - Posters with movie information
+    - List
+    - List with movie information
+  - All posters are now loaded with lazyloading
+  - Search movies for director/writer/producer/cast (click on name, and all his/her movies will show)
+  - Added the ability to change "results per page"-dropdown
+  - Mobile friendly pagination
+  - 404-page (not translated)
+
+### Changed
+  - Installer now ignores configuration if config/config.php exits
+  - Installer now ignores database upgrade if already latest version
+
+### Fixed
+  - Light skin had wrong CSS applied to menu
+  - Installer and adding movies broke on NO_ZERO_IN_DATE
+  - Missing /movie/covers folder
+  - Searching for movies on IMDb only worked if SEO Friendly URL where activated
+  - Searching for director... changed into htmlspecialchars to support foreign characters
+
 ## 3.0 (2016-09-22)
 ### Added
   - New mobile first theme with multiple colors.
