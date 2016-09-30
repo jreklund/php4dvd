@@ -118,7 +118,7 @@ $Website->assign("template", $tpl_name);
 $Website->assign("template_skin", $tpl_skin);
 
 // Template for movie collection
-$templateName = isset($_GET['l']) ? $_GET['l'] : '';
+$templateName = isset($_COOKIE['layout']) ? $_COOKIE['layout'] : '';
 if(!in_array($templateName,array('poster','postertitle','posterlist','list','listplot')))
 	$templateName = ($tpl_movie_collection)?$tpl_movie_collection:'postertitle';
 $Website->assign("templateName", $templateName);

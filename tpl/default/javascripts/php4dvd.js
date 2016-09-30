@@ -77,16 +77,16 @@ function search() {
 		}
 		
 		// Start loading
-		loadingTimer = setTimeout(function() { $("#results").hide(); $("#loading").show(); }, 500);
+		$("#results").hide();
+		$("#loading").delay(600).show(0);
 		
 		// Make request
 		$.ajax({
 			url: url,
+			dataType: "html",
 			success: function(data) {
-				$("#results").html(data);
-				$("#results").show();
-				clearTimeout(loadingTimer);
-				$("#loading").hide();
+				$("#results").html(data).fadeIn(600);
+				$("#loading").hide(0);
 			},
 			complete: function() {
 				// Save search parameters to url
@@ -101,7 +101,6 @@ function search() {
 
 function setPage(p) {
 	$("#p").val(p);
-	$(window).scrollTop( 0 );
 	search();
 }
 

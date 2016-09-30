@@ -63,6 +63,6 @@ $(document).ready(function() {
 			Cookies.set("scroll", $(window).scrollTop() );
 		});
 		
-		$("img.lazy").lazyload();
+		$("img.lazy").lazyload({effect : "fadeIn", threshold : 200});
 	});
 });

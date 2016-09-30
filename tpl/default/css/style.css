@@ -185,6 +185,10 @@ html {
   overflow-y: scroll;
 }
 
+.content-wrapper {
+	position: relative;
+}
+
 .content-wrapper .boxed {
 	max-width: 1250px;
 	margin: 0 auto;
@@ -278,6 +282,18 @@ width:100%;
  * Movies
  */
 
+#loading {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -40px 0 0 -40px;
+    background-image: url(../images/loader.gif);
+    background-repeat: no-repeat;
+    width: 80px;
+    height: 80px;
+}
+ 
 .movie-wrapper {
 	text-align: center;
 }
