@@ -15,82 +15,82 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * Title
  */
-define("_TITLE",									"Moja kolekcja filmowa");
+define("_TITLE",									"Moja kolekcja");
  
 /**
  * Menu
  */
 define("MY_COLLECTION",								"Moja kolekcja");
-define("HOME",										"Glówna");
-define("BACK",										"Wróc");
+define("HOME",										"Strona główna");
+define("BACK",										"Wróć");
 define("SETTINGS",									"Ustawienia");
 define("MY_PROFILE",								"Mój profil");
-define("USER_MANAGEMENT",							"Uzytkownicy");
+define("USER_MANAGEMENT",							"Użytkownicy");
 define("LOG_IN",									"Zaloguj");
 define("LOG_OUT",									"Wyloguj");
-define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Chcesz sie wylogowac?");
+define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Chcesz się wylogować?");
  
 /**
  * Log in page
  */
-define("USER_NAME",									"Uzytkownik");
-define("PASSWORD",									"Haslo");
-define("INCORRECT_USERNAME_OR_PASSWORD",			"Nieprawidlowa nazwa uzytkownika lub haslo");
+define("USER_NAME",									"Użytkownik");
+define("PASSWORD",									"Hasło");
+define("INCORRECT_USERNAME_OR_PASSWORD",			"Nieprawidłowa nazwa użytkownika lub hasło");
  
 /**
  * Home
  */
 // Menu
-define("ADD_MOVIE",									"Dodaj film");
-define("UPDATE_ALL_MOVIE_INFORMATION",				"Aktualizuj filmy");
-define("EXPORT_TO_CSV",								"Eksportuj");
+define("ADD_MOVIE",									"Dodaj nowy");
+define("UPDATE_ALL_MOVIE_INFORMATION",				"Aktualizuj z IMDb");
+define("EXPORT_TO_CSV",								"Eksportuj do CSV");
 // Search
-define("SEARCH_DEFAULT_TEXT",						"Szukaj filmu...");
+define("SEARCH_DEFAULT_TEXT",						"Szukaj...");
 define("CATEGORIES",								"Kategorie");
 define("ALL_CATEGORIES",							"Wszystkie kategorie");
 define("SORT_BY",									"Sortuj po");
-define("LAYOUT",									"Layout");
-define("name asc",									"Nazwie (A-Z)");
-define("name desc",									"Nazwie (Z-A)");
-define("year asc",									"Roku (0-9)");
-define("year desc",									"Roku (9-0)");
-define("rating asc",								"Ocenie (0-9)");
-define("rating desc",								"Ocenie (9-0)");
-define("format asc",								"format (A-Z)");
-define("format desc",								"format (Z-A)");
-define("seen asc",									"Obejrzanych rosnaco");
-define("seen desc",									"Obejrzanych malejaco");
-define("own asc",									"Posiadanych rosnaco");
-define("own desc",									"Posiadanych malejaco");
-define("added asc",									"Dodaniu (stare-nowe)");
-define("added desc",								"Dodaniu (nowe-stare)");
-define("loaned asc",								"Wypozyczonych (stare-nowe)");
-define("loaned desc",								"Wypozyczonych (nowe-stare)");
+define("LAYOUT",									"Wybierz layout");
+define("name asc",									"Nazwie (rosnąco)");
+define("name desc",									"Nazwie (malejąco)");
+define("year asc",									"Roku produkcji (od najstarszych)");
+define("year desc",									"Roku produkcji (od najnowszych)");
+define("rating asc",								"Ocenie (od najniższej)");
+define("rating desc",								"Ocenie (od najwyższej)");
+define("format asc",								"Typie nośnika (np DVD) (rosnąco)");
+define("format desc",								"Typie nośnika (np DVD) (malejąco)");
+define("seen asc",									"Najpierw niewidziane");
+define("seen desc",									"Najpierw widziane");
+define("own asc",									"Najpierw nieposiadane");
+define("own desc",									"Najpierw posiadane");
+define("added asc",									"Dacie dodania (od najstarszych)");
+define("added desc",								"Dacie dodania (od najnowszych)");
+define("loaned asc",								"Najpierw niewypożyczone");
+define("loaned desc",								"Najpierw wypożyczone");
 define("ALL",										"Wszystkim");
-define("RESULTS_PER_PAGE",							"Filmów na stronie");
+define("RESULTS_PER_PAGE",							"pozycji na stronie");
 // Results
-define("NO_RESULTS_FOUND",							"Nie znaleziono filmów.");
-define("NO_COVER",									"Brak okladki");
-define("MOVIES_TOTAL",								"Wszystkich filmów");
+define("NO_RESULTS_FOUND",							"Nie znaleziono pozycji");
+define("NO_COVER",									"Brak okładki");
+define("MOVIES_TOTAL",								"Wszystkich pozycji : ");
 define("STATISTICS",								"Statystyki");
  
 /**
  * Movie
  */
 // Menu
-define("VISIT_IMDB",								"Odwiedz IMDb");
+define("VISIT_IMDB",								"Odwiedź IMDb");
 define("VIEW_TRAILER",								"Odtwórz trailer");
-define("DOWNLOAD_COVER",							"Pobierz okladke");
-define("OWN",										"Posiadam");
-define("NOT_OWN",									"Nie posiadam");
-define("SEEN",										"Obejrzane");
-define("UNSEEN",									"Nie obejrzane");
-define("EDIT",										"Edycja");
-define("REMOVE",									"Usun");
+define("DOWNLOAD_COVER",							"Pobierz okładkę");
+define("OWN",										"Mam w kolekcji");
+define("NOT_OWN",									"Nie posiadam!");
+define("SEEN",										"Widziałem");
+define("UNSEEN",									"Nie widziałem");
+define("EDIT",										"Edytuj");
+define("REMOVE",									"Usuń");
 // Movie information
-define("LOANED_OUT",								"Wypozyczony");
+define("LOANED_OUT",								"Wypożyczony");
 define("TO",										"dla");
-define("ON",										"on");
+define("ON",										"od");
 define("MINUTES",									"minut");
  
 /**
@@ -98,113 +98,113 @@ define("MINUTES",									"minut");
 */
 // Menu
 define("SAVE",										"Zapisz");
-define("SAVE_AND_ADD_MOVIE",						"Zapisz i dodaj film");
+define("SAVE_AND_ADD_MOVIE",						"Zapisz i dodaj następny film");
 define("UPDATE",									"Aktualizuj");
-define("REMOVE_COVER",								"Usun okladke");
+define("REMOVE_COVER",								"Usuń okładkę");
 // IMDb search
-define("ADD_FROM_IMDB",								"Dodaj z IMDb");
+define("ADD_FROM_IMDB",								"Szukaj w bazie IMDb");
 define("SEARCH",									"Szukaj");
 define("RESULTS_FROM_IMDB",							"Wyniki z IMDb");
 // Movie information
 define("MOVIE_INFORMATION",							"Informacje o filmie");
 define("IMDB_NUMBER",								"Numer w bazie IMDb");
-define("TITLE",										"Tytul");
-define("AKA_TITLES",								"Znany takze jako");
-define("YEAR",										"Rok");
-define("DURATION_MINUTES",							"Dlugosc (minuty)");
+define("TITLE",										"Tytuł");
+define("AKA_TITLES",								"Inne znane tytuły");
+define("YEAR",										"Rok produkcji");
+define("DURATION_MINUTES",							"Długość (minuty)");
 define("RATING",									"Ocena");
-define("FORMAT",									"Format");
+define("FORMAT",									"Typ nośnika");
 define("DVD",										"DVD");
-define("I_HAVE_SEEN_THIS_MOVIE",					"Obejrzalem ten film");
-define("I_OWN_THIS_MOVIE",							"Posiadam ten film");
-define("LOANED_OUT_TO",								"Wypozyczony dla");
-define("LOANED_OUT_SINCE",							"Wypozyczony od");
+define("I_HAVE_SEEN_THIS_MOVIE",					"Widziałeś ten film ?");
+define("I_OWN_THIS_MOVIE",							"Posiadasz ten film ?");
+define("LOANED_OUT_TO",								"Wypożyczony dla");
+define("LOANED_OUT_SINCE",							"Wypożyczony od");
 define("YES",										"Tak");
 define("NO",										"Nie");
-define("COVER",										"Okladka");
-define("SEARCH_FOR_COVER",							"Szukaj okladki dla filmu");
+define("COVER",										"Okładka");
+define("SEARCH_FOR_COVER",							"Szukaj okładki dla filmu");
 define("PHOTO",										"Plakat");
 define("SEARCH_FOR_PHOTO",							"Szukaj plakatu dla filmu");
 define("TRAILER_URL",								"Link do trilera (URL)");
 define("SEARCH_FOR_TRAILER",						"Szukaj trailera dla filmu");
 define("PERSONAL_NOTES",							"Notatki osobiste");
-define("TAGLINES",									"Taglines");
-define("PLOT_OUTLINE",								"Plot outline");
-define("PLOTS",										"Plots");
-define("LANGUAGES",									"Jezyki");
+define("TAGLINES",									"Slogany");
+define("PLOT_OUTLINE",								"Zarys fabuły");
+define("PLOTS",										"Fabuła");
+define("LANGUAGES",									"Języki");
 define("SUBTITLES",									"Napisy");
 define("AUDIO",										"Audio");
 define("VIDEO",										"Wideo");
 define("COUNTRY",									"Kraj");
 define("GENRES",									"Gatunki");
-define("DIRECTOR",									"Rezyser");
+define("DIRECTOR",									"Reżyser");
 define("WRITER",									"Autor");
 define("PRODUCER",									"Producent");
 define("MUSIC",										"Muzyka");
 define("CAST",										"Obsada");
 // Automatic update
-define("AUTOUPDATE_INFO",							"Twoje filmy sa automatycznie aktualizowane z bazy IMDb. To moze zajac chwilke, wiec badz cierpliwy...");
-define("STOP_UPDATE",								"Zatrzymaj aktualizacje");
+define("AUTOUPDATE_INFO",							"Twoje filmy są obecnie aktualizowane informacjami z bazy IMDb. W zależności od ilości filmów, może to zajać dłuższą chwilę, Bądź cierpliwy...");
+define("STOP_UPDATE",								"Zatrzymaj aktualizację");
  
 /**
 * User management
 */
-define("NEW_USER",									"Nowy uzytkownik");
+define("NEW_USER",									"Dodaj nowego użytkownika");
 define("EMAIL",										"E-mail");
-define("AGAIN",										"ponownie");
-define("ROLE",										"Rola");
-define("GUEST",										"Gosc (tylko podglad)");
+define("AGAIN",										"podaj ponownie");
+define("ROLE",										"Typ konta");
+define("GUEST",										"Gość (tylko podgląd)");
 define("EDITOR",									"Edytor");
 define("ADMIN",										"Administrator");
-define("USERS",										"Uzytkownik");
+define("USERS",										"Użytkownik");
 define("LAST_LOGGED_IN",							"Ostatnio zalogowany");
-define("DUPLICATE_USER_NAME_OR_EMAIL",				"Istnieje juz uzytkownik o tej nazwie lub adresie e-mail!");
+define("DUPLICATE_USER_NAME_OR_EMAIL",				"Istnieje już użytkownik o takiej nazwie lub o takim adresie e-mail!");
  
 /**
  * Messages
  */
-define("REMOVE_INSTALL_DIR",						"Prosze usunac katalog \"install\" z powodu bezpieczenstwa!");
-define("CONFIRM_REMOVE",							"Jestes pewien, ze chcesz to usunac?");
-define("CONFIRM_REMOVE_COVER",						"Jestes pewien, ze chcesz usunac okladke?");
+define("REMOVE_INSTALL_DIR",						"Dla bezpieczeństwa, proszę ręcznie usunąć katalog \"install\"!");
+define("CONFIRM_REMOVE",							"Jesteś pewien, ze chcesz to usunąć?");
+define("CONFIRM_REMOVE_COVER",						"Jestes pewien, ze chcesz usunąć okładkę?");
 // Validation
-define("VALIDATOR_REQUIRED",						"To pole jest wymagane");
-define("VALIDATOR_NUMBER",							"Prosze wprowadzic prawidlowy numer");
-define("VALIDATOR_DIGITS",							"Prosze wprowadzic prawidlowa cyfre");
-define("VALIDATOR_EMAIL",							"Prosze podac prawidlowy adres e-mail");
-define("VALIDATOR_URL",								"Prosze podac prawidlowy adres url (http://...)");
-define("VALIDATOR_DATE",							"Prosze podac prawidlowa date (yyyy-mm-dd)");
-define("VALIDATOR_ACCEPT_JPG",						"Prosze uzyc prawidlowego typu pliku (jpg)");
-define("VALIDATOR_EQUAL_TO",						"Obie wartosci powinny byc identyczne");
+define("VALIDATOR_REQUIRED",						"To pole nie może być puste!");
+define("VALIDATOR_NUMBER",							"Błąd : dozwolone są tylko wartości liczbowe i zmiennoprzecinkowe np \"1\", \"7.6\" itp.");
+define("VALIDATOR_DIGITS",							"Bład : Dozwolone są tylko wartości liczbowe np \"1990\", \"0034213\" itp.");
+define("VALIDATOR_EMAIL",							"Błąd : Proszę podać prawidłowy adres e-mail");
+define("VALIDATOR_URL",								"Błąd : Proszę podać prawidłowy adres url (http://...)");
+define("VALIDATOR_DATE",							"Błąd : Proszę podać prawidłową datę (yyyy-mm-dd)");
+define("VALIDATOR_ACCEPT_JPG",						"Błąd : Proszę uzyć prawidłowego typu pliku (jpg)");
+define("VALIDATOR_EQUAL_TO",						"Błąd : Hasła różnią się od siebie");
  
 /**
  * Installer
  */
 define("INSTALLATION",								"Instalacja");
 define("WELCOME",									"Witaj");
-define("WELCOME_TEXT",								"Witaj w kreatorze instalacji. Aby zainstalowac php4dvd wykonaj nastepne kroki.");
-define("NEXT",										"Nastepny");
+define("WELCOME_TEXT",								"Witaj w kreatorze instalacji. Aby zainstalować php4dvd wykonaj następne kroki.");
+define("NEXT",										"Następny");
 define("PREVIOUS",									"Poprzedni");
 define("PERMISSIONS",								"Uprawnienia");
-define("PERMISSIONS_TEXT",							"Nastepujace katalogi i pliki musza byc utworzone i wymagaja praw zapisu:");
+define("PERMISSIONS_TEXT",							"Następujące katalogi i pliki muszć być utworzone i wymagają praw zapisu:");
 define("OK",										"ok");
-define("FAILED",									"blad");
+define("FAILED",									"błąd");
 define("FIX_PERMISSIONS",							"Ustaw uprawnienia chmod 777 dla katalogów lub plików poprzez ulubionego klienta FTP.");
-define("REFRESH",									"Odswiez");
+define("REFRESH",									"Odśwież");
 define("CONFIGURATION",								"Konfiguracja");
-define("CONFIGURATION_TEXT",						"Wypelnij ten formularz aby skonfigurowac php4dvd na twoim serwerze.");
+define("CONFIGURATION_TEXT",						"Wypełnij ten formularz aby skonfigurować php4dvd na twoim serwerze.");
 define("DATABASE",									"Baza danych");
 define("HOST",										"Adres (host)");
 define("PORT",										"Port");
 define("WEBSITE",									"Strona www");
 define("URL",										"Url");
 define("TEMPLATE",									"Szablon");
-define("LANGUAGE",									"Jezyk");
-define("GUEST_USERS_CAN_SEE_COLLECTION",			"Goscie moga ogladac moja kolekcje filmów");
-define("FAILED_TO_WRITE_FILE",						"Nie udalo sie zapisac do pliku");
-define("DATABASE_NEW_TEXT",							"Zostanie zainstalowana nowa wersja bazy danych. Jakiekolwiek starsze tabele zostana usuniete!");
-define("DATABASE_UPGRADE_TEXT",						"Twoja baza danych zostanie zaktualizowana do najnowszej wersji. Nie zostana usuniete zadne informacje (dla bezpieczenstwa i tak warto zrobic backup!).");
-define("ACCEPT",									"Akceptuje");
-define("FINISHED",									"Zakonczono");
-define("FINISHED_TEXT",								"Instalacja zostala prawie zakonczona. Kliknij przycisk \"Zakoncz\" ponizej..");
-define("FINISH",									"Zakoncz");
+define("LANGUAGE",									"Język");
+define("GUEST_USERS_CAN_SEE_COLLECTION",			"Goście mogą ogladać moją kolekcję filmów");
+define("FAILED_TO_WRITE_FILE",						"Nie udało się zapisać do pliku");
+define("DATABASE_NEW_TEXT",							"Zostanie zainstalowana nowa wersja bazy danych. Jakiekolwiek starsze tabele zostaną usunięte!");
+define("DATABASE_UPGRADE_TEXT",						"Twoja baza danych zostanie zaktualizowana do najnowszej wersji. Nie zostaną usunięte żadne informacje (dla bezpieczeństwa i tak warto zrobić backup!).");
+define("ACCEPT",									"Akceptuję");
+define("FINISHED",									"Zakończono");
+define("FINISHED_TEXT",								"Instalacja została prawie zakończona. Kliknij przycisk \"Zakończ\" poniżej..");
+define("FINISH",									"Zakończ");
 ?>
