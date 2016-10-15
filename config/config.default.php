@@ -147,7 +147,7 @@ $settings["number_of_results"] = array();
  * 0 = 100
  */
  
-$settings["results_per_page"] = 0;
+$settings["results_per_page"] = -1;
 
 /**
  * Number of pages before and after current.
