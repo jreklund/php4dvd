@@ -44,7 +44,7 @@
 		<li>
 			<div class="nav-select-wrapper">
 				<select id="n" onchange="search();">
-					<option value="0">{$smarty.const.ALL|htmlentities:3:'UTF-8'}</option>
+					<option value="0">{if $resultsPerPageDefault === -1}{$smarty.const.ALL|htmlentities:3:'UTF-8'}{elseif $resultsPerPageDefault === 0}100{else}{$resultsPerPageDefault|htmlentities:3:'UTF-8'}{/if}</option>
 					{section name=n loop=$resultsperpage}
 					<option value="{$resultsperpage[n]}">{$resultsperpage[n]|htmlentities:3:'UTF-8'}</option>
 					{/section}

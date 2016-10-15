@@ -91,6 +91,7 @@ $numOfResults = $settings["number_of_results"];
 
 // Default results per page amount 
 $resultsPerPageDefault = $settings["results_per_page"];
+$Website->assign("resultsPerPageDefault", $resultsPerPageDefault);
 
 // Number of pages before and after current
 $pagination = $settings["pagination"];
