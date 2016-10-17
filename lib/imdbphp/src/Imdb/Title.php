@@ -916,17 +916,17 @@ class Title extends MdbBase {
       return false;
     }
 
-    if(function_exists('curl_version')) {
-	  $ch = curl_init();
-	  curl_setopt($ch, CURLOPT_URL, $photo_url);
-	  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	  $image = curl_exec($ch);
-	  curl_close($ch);
+    $req = new Request($photo_url, $this->config);
+    $req->sendRequest();
+    if (strpos($req->getResponseHeader("Content-Type"), 'image/jpeg') === 0 ||
+      strpos($req->getResponseHeader("Content-Type"), 'image/gif') === 0 ||
+      strpos($req->getResponseHeader("Content-Type"), 'image/bmp') === 0) {
+      $image = $req->getResponseBody();
     } else {
-	  $image = @file_get_contents($photo_url);
-    }
-    if (!$image) {
-      $this->logger->warning("Failed to fetch image [$photo_url]");
+      $ctype = $req->getResponseHeader("Content-Type");
+      $this->debug_scalar("*photoerror* at " . __FILE__ . " line " . __LINE__ . ": " . $photo_url . ": Content Type is '$ctype'");
+      if (substr($ctype, 0, 4) == 'text')
+        $this->debug_scalar("Details: <PRE>" . $req->getResponseBody() . "</PRE>\n");
       return false;
     }
 
@@ -1251,7 +1251,7 @@ class Title extends MdbBase {
    * @method protected get_table_rows
    * @param string html
    * @param string table_start
-   * @return mixed rows (FALSE if table not found, array[0..n] of strings otherwise)
+   * @return array|false rows (FALSE if table not found, array[0..n] of strings otherwise)
    * @see used by the methods director, cast, writing, producer, composer
    */
   protected function get_table_rows( $html, $table_start ) {
@@ -1481,9 +1481,9 @@ class Title extends MdbBase {
         return array(); // no such page
       }
     }
-   $this->credits_writing = array();
    $writing_rows = $this->get_table_rows($this->page["Credits"], "Writing Credits");
-   if ($writing_rows == '') $writing_rows = $this->get_table_rows($this->page["Credits"], "Series Writing Credits");
+   if (!$writing_rows) $writing_rows = $this->get_table_rows($this->page["Credits"], "Series Writing Credits");
+   if (!$writing_rows) return array();
    for ( $i = 0; $i < count ($writing_rows); $i++){
      $wrt = array();
      if ( preg_match('!<a\s+href="/name/nm(\d{7})/[^>]*>\s*(.+)\s*</a>!ims',$writing_rows[$i],$match) ) {
@@ -1539,26 +1539,29 @@ class Title extends MdbBase {
    * @see IMDB page /fullcredits
    */
   public function composer() {
-    if (empty($this->credits_composer)) {
-      $page = $this->getPage("Credits");
-      if (empty($page)) {
-        return array(); // no such page
-      }
+    if (!empty($this->credits_composer)) {
+      return $this->credits_composer;
     }
-   $this->credits_composer = array();
-   $composer_rows = $this->get_table_rows($this->page["Credits"], "Music by");
-   for ( $i = 0; $i < count ($composer_rows); $i++){
-     if ( preg_match('!<a\s+href="/name/nm(\d{7})/[^>]*>\s*(.+)\s*</a>!ims',$composer_rows[$i],$match) ) {
-       $wrt['imdb'] = $match[1];
-       $wrt['name'] = trim($match[2]);
-     } elseif ( preg_match('!<td\s+class="name">(.+?)</td!ims',$composer_rows[$i],$match) ) {
-       $wrt['imdb'] = '';
-       $wrt['name'] = trim($match[1]);
-     } else continue;
-     if ( preg_match('!<td\s+class="credit"\s*>\s*(.+?)\s*</td>!ims',$composer_rows[$i],$match) ) {
-       $wrt['role'] = trim($match[1]);
-     } else $wrt['role'] = NULL;
-     $this->credits_composer[$i] = $wrt;
+    $composer_rows = $this->get_table_rows($this->getPage('Credits'), "Music by");
+    if (!$composer_rows) {
+      $composer_rows = $this->get_table_rows($this->getPage('Credits'), "Series Music by");
+    }
+    if (!$composer_rows) {
+      return array();
+    }
+    foreach ($composer_rows as $composer_row) {
+      $composer = array();
+      if (preg_match('!<a\s+href="/name/nm(\d{7})/[^>]*>\s*(.+)\s*</a>!ims', $composer_row, $match)) {
+        $composer['imdb'] = $match[1];
+        $composer['name'] = trim($match[2]);
+      } elseif (preg_match('!<td\s+class="name">(.+?)</td!ims', $composer_row, $match)) {
+        $composer['imdb'] = '';
+        $composer['name'] = trim($match[1]);
+      } else continue;
+      if (preg_match('!<td\s+class="credit"\s*>\s*(.+?)\s*</td>!ims', $composer_row, $match)) {
+        $composer['role'] = trim($match[1]);
+      } else $composer['role'] = NULL;
+      $this->credits_composer[] = $composer;
     }
     return $this->credits_composer;
   }
