@@ -570,7 +570,7 @@ class Title extends MdbBase {
   public function languages() {
    if (empty($this->langs)) {
     $this->getPage("Title");
-    if (preg_match_all('!href="/search/title\?.+?languages=([^&]*?).+?"[^>]*>\s*(.*?)\s*</a>(\s+\((.*?)\)|)!m',$this->page["Title"],$matches)) {
+    if (preg_match_all('!href="/search/title\?.+?primary_language=([^&]*?).+?"[^>]*>\s*(.*?)\s*</a>(\s+\((.*?)\)|)!m',$this->page["Title"],$matches)) {
       $this->langs = $matches[2];
       $mc = count($matches[2]);
       for ($i=0;$i<$mc;$i++) {
@@ -1004,7 +1004,7 @@ class Title extends MdbBase {
    if (empty($this->countries)) {
     $this->getPage("Title");
     $this->countries = array();
-    if (preg_match_all('!/search/title\?countries=.+?\s.+?>(.*?)<!m',$this->page["Title"],$matches))
+    if (preg_match_all('!/search/title\?country_of_origin=.+?\s.+?>(.*?)<!m',$this->page["Title"],$matches))
       for ($i=0;$i<count($matches[0]);++$i) $this->countries[$i] = $matches[1][$i];
    }
    return $this->countries;
