@@ -273,8 +273,8 @@ switch ($currentstep) {
 							$version = "<?php" . $nl;
 	
 							// Version
-							$version .= 'define(\'VERSION\', \'' . NEW_VERSION . '\');' . $nl;
-							$version .= 'define(\'DB_VERSION\', \'' . NEW_DB_VERSION . '\');' . $nl;
+							$version .= 'define(\'VERSION\', ' . number_format(NEW_VERSION, 1) . ');' . $nl;
+							$version .= 'define(\'DB_VERSION\', ' . number_format(NEW_DB_VERSION, 1) . ');' . $nl;
 							
 							// Close
 							$version .= "?>";

@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="Author" content="Johan Eklund, R. Schellenberger">
 	{if $main == 'movies/movie.html'}
-	<title>{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'}) - php4dvd v{$version|htmlentities:3:'UTF-8'}</title>
+	<title>{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'}) - php4dvd v{$version|number_format:1}</title>
 	{else}
-    <title>{$smarty.const._TITLE|htmlentities:3:'UTF-8'} - php4dvd v{$version|htmlentities:3:'UTF-8'}</title>
+    <title>{$smarty.const._TITLE|htmlentities:3:'UTF-8'} - php4dvd v{$version|number_format:1}</title>
 	{/if}
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
