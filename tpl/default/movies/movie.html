@@ -137,13 +137,6 @@
 							</div>
 							{/if}
 							
-							{if $movie->notes && strlen($movie->notes) > 0}
-							<div class="notes">
-								<h3>{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}</h3>
-								{$movie->notes|htmlentities:3:'UTF-8'|nl2br}
-							</div>
-							{/if}
-							
 							{if $movie->loaned}
 							<div class="loaned">
 								{$smarty.const.LOANED_OUT|htmlentities:3:'UTF-8'}{if $movie->loanname != ""} {$smarty.const.TO|htmlentities:3:'UTF-8'} {$movie->loanname|htmlentities:3:'UTF-8'}{/if}{if $movie->loandate != "0000-00-00"} {$smarty.const.ON|htmlentities:3:'UTF-8'} {$movie->loandate|htmlentities:3:'UTF-8'}{/if}
@@ -151,6 +144,7 @@
 							{/if}
 						</div>
 					</div>
+					
 					{if $movie->plotoutline && strlen($movie->plotoutline) > 0}
 					<div class="box box-primary">
 						<div class="box-header with-border">
@@ -164,6 +158,18 @@
 						</div>
 					</div>
 					{/if}
+					
+					{if $movie->notes && strlen($movie->notes) > 0}
+					<div class="box">
+						<div class="box-header with-border">
+							<h3 class="box-title">{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}</h3>
+						</div>
+						<div class="box-body notes">
+							{$movie->notes|htmlentities:3:'UTF-8'|nl2br}
+						</div>
+					</div>
+					{/if}
+					
 					{if $movie->cast && strlen($movie->cast) > 0}
 					<div class="box">
 						<div class="box-header with-border">
