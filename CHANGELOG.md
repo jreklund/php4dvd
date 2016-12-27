@@ -1,3 +1,10 @@
+## 3.1.2-beta
+### Added
+  - Added ability to change amount of cast shown
+
+### Fixed
+  - Moved "Personal notes" into it's own box
+
 ## 3.1.1 (2016-12-27)
 ### Added
   - Added ability to toggle "Plots" on Movies
@@ -11,9 +18,9 @@
   - Display all movies by default
   
 ### Fixed
-  - Layouts highlight not rememberd
+  - Layouts highlight not remembered
   - Loading icon not working
-  - Updated poliosh translation from tmseth 
+  - Updated polish translation from tmseth 
   - Results per page: Dropdown will now adapt for changes made to $settings["results_per_page"]
 
 ## 3.1 (2016-09-28)
