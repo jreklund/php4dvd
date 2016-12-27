@@ -96,6 +96,10 @@ $Website->assign("resultsPerPageDefault", $resultsPerPageDefault);
 // Number of pages before and after current
 $pagination = $settings["pagination"];
 
+// Default amount of cast shown
+$numberOfCast = $settings["number_of_cast"];
+$Website->assign("numberOfCast", $numberOfCast);
+
 // YouTube API
 $youtubeKey = $settings["youtube_key"];
 $Website->assign("youtubeKey", $youtubeKey?true:false);

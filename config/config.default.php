@@ -155,6 +155,12 @@ $settings["results_per_page"] = -1;
 $settings["pagination"] = 0;
 
 /**
+ * Default amount of cast shown.
+ * Display all cast with -1
+ */
+$settings['number_of_cast'] = -1;
+
+/**
  * YouTube API for automatic fetching trailers
  *
  * https://cloud.google.com/console

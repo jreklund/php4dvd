@@ -173,7 +173,7 @@
 							<div class="castlist">
 								<ul>
 								{assign var=cast value=$movie->getList('cast')}
-								{section name=c loop=$cast}
+								{section name=c loop=$cast max=$numberOfCast}
 									<li><a class="people-link" href="{$webroot}./#!/search/{$cast[c]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$cast[c]|htmlentities:3:'UTF-8'}</a></li>
 								{/section}
 								</ul>
