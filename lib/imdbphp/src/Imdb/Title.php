@@ -51,8 +51,8 @@ class Title extends MdbBase {
   protected $main_keywords = array();
   protected $all_keywords = array();
   protected $main_language = "";
-  protected $main_photo = "";
-  protected $main_thumb = "";
+  protected $main_poster = "";
+  protected $main_poster_thumb = "";
   protected $main_pictures = array();
   protected $main_plotoutline = "";
   protected $main_rating = -1;
@@ -137,7 +137,7 @@ class Title extends MdbBase {
       "Title" => "/",
       "Trailers" => "/trailers",
       "Trivia" => "/trivia",
-      "VideoSites" => "/videosites",
+      "VideoSites" => "/externalsites",
   );
 
   /**
@@ -568,17 +568,16 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   public function languages() {
-   if (empty($this->langs)) {
-    $this->getPage("Title");
-    if (preg_match_all('!href="/search/title\?.+?primary_language=([^&]*?).+?"[^>]*>\s*(.*?)\s*</a>(\s+\((.*?)\)|)!m',$this->page["Title"],$matches)) {
-      $this->langs = $matches[2];
-      $mc = count($matches[2]);
-      for ($i=0;$i<$mc;$i++) {
-        $this->langs_full[] = array('name'=>$matches[2][$i],'code'=>$matches[1][$i],'comment'=>$matches[4][$i]);
+    if (empty($this->langs)) {
+      if (preg_match_all('!href="/search/title\?.+?primary_language=([^&]*?).+?"[^>]*>\s*(.*?)\s*</a>(\s+\((.*?)\)|)!m', $this->getPage("Title"), $matches)) {
+        $this->langs = $matches[2];
+        $mc = count($matches[2]);
+        for ($i = 0; $i < $mc; $i++) {
+          $this->langs_full[] = array('name' => $matches[2][$i], 'code' => $matches[1][$i], 'comment' => $matches[4][$i]);
+        }
       }
     }
-   }
-   return $this->langs;
+    return $this->langs;
   }
 
   /** Get all languages this movie is available in, including details
@@ -587,7 +586,9 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   public function languages_detailed() {
-    if (empty($this->langs_full)) $foo = $this->languages();
+    if (empty($this->langs_full)) {
+      $this->languages();
+    }
     return $this->langs_full;
   }
 
@@ -870,40 +871,38 @@ class Title extends MdbBase {
 
  #--------------------------------------------------------[ Photo specific ]---
   /** Setup cover photo (thumbnail and big variant)
-   * @method protected thumbphoto
    * @return boolean success (TRUE if found, FALSE otherwise)
    * @see IMDB page / (TitlePage)
    */
-  protected function thumbphoto() {
-    $this->getPage("Title");
-    preg_match('!<img [^>]+src="([^"]+)"[^>]+itemprop="image" />!ims',$this->page["Title"],$match);
-    if (empty($match[1])) return FALSE;
-    $this->main_thumb = $match[1];
+  private function populatePoster() {
+    preg_match('!<img [^>]+src="([^"]+)"[^>]+itemprop="image" />!ims', $this->getPage("Title"), $match);
+    if (empty($match[1])) return false;
+    $this->main_poster_thumb = $match[1];
     if ( preg_match('|(.*\._V1).*|iUs',$match[1],$mo) ) {
-      $this->main_photo = $mo[1];
+      $this->main_poster = $mo[1];
       return true;
+    } else {
+      return false;
     }
-    else return FALSE;
   }
 
 
   /**
-   * Get poster/cover photo
-   * @param boolean $thumb get the thumbnail (100x140, default) or the
-   *        bigger variant (400x600 - FALSE)
-   * @return mixed photo (string url if found, FALSE otherwise)
+   * Get the poster/cover image URL
+   * @param boolean $thumb get the thumbnail (182x268) or the full sized image
+   * @return string|boolean photo (string URL if found, FALSE otherwise)
    * @see IMDB page / (TitlePage)
    */
-  public function photo($thumb=true) {
-    if (empty($this->main_photo)) $this->thumbphoto();
-    if (!$thumb && empty($this->main_photo)) return false;
-    if ($thumb && empty($this->main_thumb)) return false;
-    if ($thumb) return $this->main_thumb;
-    return $this->main_photo;
+  public function photo($thumb = true) {
+    if (empty($this->main_poster)) $this->populatePoster();
+    if (!$thumb && empty($this->main_poster)) return false;
+    if ($thumb && empty($this->main_poster_thumb)) return false;
+    if ($thumb) return $this->main_poster_thumb;
+    return $this->main_poster;
   }
 
   /**
-   * Save the poster/cover photo to disk
+   * Save the poster/cover image to disk
    * @param string $path where to store the file
    * @param boolean $thumb get the thumbnail (100x140, default) or the
    *        bigger variant (400x600 - FALSE)
@@ -939,9 +938,9 @@ class Title extends MdbBase {
     return true;
   }
 
-  /** Get the URL for the movies cover photo
+  /** Get the URL for the movies cover image
    * @method photo_localurl
-   * @param boolean $thumb get the thumbnail (100x140, default) or the
+   * @param boolean $thumb get the thumbnail (182x268, default) or the
    *        bigger variant (400x600 - FALSE)
    * @return mixed url (string URL or FALSE if none)
    * @see IMDB page / (TitlePage)
@@ -1001,13 +1000,12 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   public function country() {
-   if (empty($this->countries)) {
-    $this->getPage("Title");
-    $this->countries = array();
-    if (preg_match_all('!/search/title\?country_of_origin=.+?\s.+?>(.*?)<!m',$this->page["Title"],$matches))
-      for ($i=0;$i<count($matches[0]);++$i) $this->countries[$i] = $matches[1][$i];
-   }
-   return $this->countries;
+    if (empty($this->countries)) {
+      if (preg_match_all('!/search/title\?country_of_origin=.+?\s.+?>(.*?)<!m', $this->getPage("Title"), $matches)) {
+        $this->countries = $matches[1];
+      }
+    }
+    return $this->countries;
   }
 
 
