@@ -1,3 +1,21 @@
+## 3.1.1 (2016-12-27)
+### Added
+  - Added ability to toggle "Plots" on Movies
+
+### Changed
+  - Updated imdbphp to 5.0.1
+  - Updated fontawsome to 4.7.0
+  - Updated AdminLTE to 2.3.8
+  - Updated all JavaScript dependencies
+  - Removed "results per page" from dropdown
+  - Display all movies by default
+  
+### Fixed
+  - Layouts highlight not rememberd
+  - Loading icon not working
+  - Updated poliosh translation from tmseth 
+  - Results per page: Dropdown will now adapt for changes made to $settings["results_per_page"]
+
 ## 3.1 (2016-09-28)
 ###Added
   - Fetch trailers automatic from YouTube

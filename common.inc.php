@@ -134,7 +134,7 @@ if(file_exists($loc . "config/version.inc.php")) {
 		define('DB_VERSION', VERSION);
 	}
 } else {
-	define('VERSION', 0);
-	define('DB_VERSION', 0);
+	define('VERSION', '0');
+	define('DB_VERSION', '0');
 }
 ?>
