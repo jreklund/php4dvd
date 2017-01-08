@@ -79,6 +79,23 @@ class Movie {
 		return $tmp;
 	}
 	
+	public function formatPlots($plots) {
+		$tmp = array();
+		if($count = count($plots)) {
+			for($i = 0; $i < $count; ++$i ) {
+				$plot = $plots[$i];
+				$author = '';
+				if(isset($plots[$i+1]) && preg_match('!^\s*-!',$plots[$i+1])) {
+					if(isset($plots[$i+2]))
+						$author = $plots[$i+2];
+					$i += 2;
+				}
+				$tmp[] = array('plot' => $plot, 'author' => $author);
+			}
+		}
+		return $tmp;
+	}
+	
 	public function getYouTubeTrailerId() {
 		if(preg_match("/youtube.*?v=([^&#]+)/i", $this->trailer, $matches)) {
 			return $matches[1];

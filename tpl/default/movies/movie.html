@@ -196,12 +196,15 @@
 							</div>
 						</div>
 						<div class="box-body plots">
-							<ol>
-								{assign var=plots value=$movie->getList('plots')}
-								{section name=p loop=$plots}
-									<li>{$plots[p]|htmlentities:3:'UTF-8'}</li>
-								{/section}
-							</ol>
+							{assign var=plots value=$movie->formatPlots($movie->getList('plots'))}
+							{section name=p loop=$plots}
+								<p class="plot">
+									{$plots[p].plot|htmlentities:3:'UTF-8'}
+									{if $plots[p].author}
+										<span class="author">- {$plots[p].author|htmlentities:3:'UTF-8'}</span>
+									{/if}
+								</p>
+							{/section}
 						</div><!-- /.box-body -->
 					</div><!-- /.box -->
 					{/if}

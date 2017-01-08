@@ -507,16 +507,20 @@ width:100%;
 	overflow: hidden;
 }
 
-.movie .plots {
-	
+.movie .plot {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #f4f4f4;
 }
 
-.movie .plots ol {
-	padding-left: 20px;
+.movie .plot:last-child {
+	padding-bottom: 0px;
+	border-bottom: none;
 }
 
-.movie .plots li {
-	margin-bottom: 10px;
+.movie .plot .author {
+	display: block;
+	padding-top: 5px;
+	font-style: italic;
 }
 
 @media (max-width: 1080px) {
