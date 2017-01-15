@@ -1,9 +1,17 @@
-## 3.1.2-beta
+## 3.2
 ### Added
   - Added ability to change amount of cast shown
+  - Downloading high resolution images from IMDb (enable in settings)
+  
+### Changed
+  - Moved movie specific variables from common.inc into movie.inc
+  - Renamed language names to match ISO 639-1 codes
+	WARNING! This will break your site. You must change defaultlanguage inside your config.php file.
+  - Removed myUcfirst() and fixed translation instead
 
 ### Fixed
   - Moved "Personal notes" into it's own box
+  - Movieplots are no longer an ordered list. #2
 
 ## 3.1.1 (2016-12-27)
 ### Added
