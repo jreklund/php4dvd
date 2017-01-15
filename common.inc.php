@@ -86,20 +86,6 @@ if($pretty_url && !isset($_GET['go']) && !isset($installer)) {
 	parsePrettyUrl();
 }
 
-// Number of results
-$numOfResults = $settings["number_of_results"];
-
-// Default results per page amount 
-$resultsPerPageDefault = $settings["results_per_page"];
-$Website->assign("resultsPerPageDefault", $resultsPerPageDefault);
-
-// Number of pages before and after current
-$pagination = $settings["pagination"];
-
-// Default amount of cast shown
-$numberOfCast = $settings["number_of_cast"];
-$Website->assign("numberOfCast", $numberOfCast);
-
 // YouTube API
 $youtubeKey = $settings["youtube_key"];
 $Website->assign("youtubeKey", $youtubeKey?true:false);
