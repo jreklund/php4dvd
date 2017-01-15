@@ -61,8 +61,30 @@ if(isset($_POST["movieid"])) {
 	} elseif($getImdbImage && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0) {
 		// IMDb engine
 		require_once($loc."/lib/imdbphp/bootstrap.php");
+
+		$photo = $photopath . $movie->id.".jpg";
 		$m = new \Imdb\Title($movie->imdbid);
-		$m->savephoto($photopath . $movie->id.".jpg");
+		
+		if(isset($settings["photo"]["high_res"])) {
+			// Photo manipulation
+			require_once($loc . "/lib/bulletproof/utils/func.image-resize.php");
+			
+			$m->savephoto($photo,FALSE);
+			list($width,$height) = getImageSize($photo);
+			
+			Bulletproof\resize(
+								$photo,
+								"jpg",
+								$width,
+								$height,
+								$settings["photo"]["p_maxwidth"],
+								$settings["photo"]["p_maxheight"],
+								true,
+								false
+							);
+		} else {
+			$m->savephoto($photo);
+		}
 	}
 	
 	// Save its cover
