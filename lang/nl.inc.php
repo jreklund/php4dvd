@@ -6,8 +6,8 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * change the configuration settings where you add the new language and update the default language:
  * 
  * config.php:
- * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Nederlands" => "nl_NL");
- * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "nl_NL";
+ * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Nederlands" => "nl");
+ * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "nl";
  *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
@@ -50,24 +50,24 @@ define("CATEGORIES",								"Categorieën");
 define("ALL_CATEGORIES",							"Alle categorieën");
 define("SORT_BY",									"Sorteer op");
 define("LAYOUT",									"Paginaopmaak");
-define("name asc",									"naam (A-Z)");
-define("name desc",									"naam (Z-A)");
-define("year asc",									"jaar (0-9)");
-define("year desc",									"jaar (9-0)");
-define("rating asc",								"score (0-9)");
-define("rating desc",								"score (9-0)");
-define("format asc",								"formaat (A-Z)");
-define("format desc",								"formaat (Z-A)");
-define("seen asc",									"gezien");
-define("seen desc",									"gezien omgekeerd");
-define("own asc",									"bezit");
-define("own desc",									"bezit omgekeerd");
-define("added asc",									"toegevoegd (oud-nieuw)");
-define("added desc",								"toegevoegd (nieuw-oud)");
-define("loaned asc",								"uitgeleend (oud-nieuw)");
-define("loaned desc",								"uitgeleend (nieuw-oud)");
+define("name asc",									"Naam (A-Z)");
+define("name desc",									"Naam (Z-A)");
+define("year asc",									"Jaar (0-9)");
+define("year desc",									"Jaar (9-0)");
+define("rating asc",								"Score (0-9)");
+define("rating desc",								"Score (9-0)");
+define("format asc",								"Formaat (A-Z)");
+define("format desc",								"Formaat (Z-A)");
+define("seen asc",									"Gezien");
+define("seen desc",									"Gezien omgekeerd");
+define("own asc",									"Bezit");
+define("own desc",									"Bezit omgekeerd");
+define("added asc",									"Toegevoegd (oud-nieuw)");
+define("added desc",								"Toegevoegd (nieuw-oud)");
+define("loaned asc",								"Uitgeleend (oud-nieuw)");
+define("loaned desc",								"Uitgeleend (nieuw-oud)");
 define("ALL", 										"Alle");
-define("RESULTS_PER_PAGE",							"resultaten per pagina");
+define("RESULTS_PER_PAGE",							"Resultaten per pagina");
 // Results
 define("NO_RESULTS_FOUND",							"Er zijn geen films gevonden.");
 define("NO_COVER",									"Geen afbeelding");

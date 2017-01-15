@@ -6,8 +6,8 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * change the configuration settings where you add the new language and update the default language:
  * 
  * config.php:
- * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Nederlands" => "nl_NL");
- * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "nl_NL";
+ * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Nederlands" => "nl");
+ * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "nl";
  * 
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
@@ -50,24 +50,24 @@ define("CATEGORIES",								"Categories");
 define("ALL_CATEGORIES",							"All categories");
 define("SORT_BY",									"Sort by");
 define("LAYOUT",									"Layout");
-define("name asc",									"name (A-Z)");
-define("name desc",									"name (Z-A)");
-define("year asc",									"year (0-9)");
-define("year desc",									"year (9-0)");
-define("rating asc",								"rating (0-9)");
-define("rating desc",								"rating (9-0)");
-define("format asc",								"format (A-Z)");
-define("format desc",								"format (Z-A)");
-define("seen asc",									"seen");
-define("seen desc",									"seen inverse");
-define("own asc",									"own");
-define("own desc",									"own inverse");
-define("added asc",									"added (old-new)");
-define("added desc",								"added (new-old)");
-define("loaned asc",								"loaned out (old-new)");
-define("loaned desc",								"loaned out (new-old)");
+define("name asc",									"Name (A-Z)");
+define("name desc",									"Name (Z-A)");
+define("year asc",									"Year (0-9)");
+define("year desc",									"Year (9-0)");
+define("rating asc",								"Rating (0-9)");
+define("rating desc",								"Rating (9-0)");
+define("format asc",								"Format (A-Z)");
+define("format desc",								"Format (Z-A)");
+define("seen asc",									"Seen");
+define("seen desc",									"Seen inverse");
+define("own asc",									"Own");
+define("own desc",									"Own inverse");
+define("added asc",									"Added (old-new)");
+define("added desc",								"Added (new-old)");
+define("loaned asc",								"Loaned out (old-new)");
+define("loaned desc",								"Loaned out (new-old)");
 define("ALL", 										"All");
-define("RESULTS_PER_PAGE",							"results per page");
+define("RESULTS_PER_PAGE",							"Results per page");
 // Results
 define("NO_RESULTS_FOUND",							"No movies where found.");
 define("NO_COVER",									"No cover");

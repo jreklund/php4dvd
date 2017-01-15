@@ -6,8 +6,8 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * change the configuration settings where you add the new language and update the default language:
  * 
  * config.php:
- * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Swedish" => "sv_SE");
- * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "sv_SE";
+ * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Swedish" => "sv");
+ * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "sv";
  * 
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
@@ -50,24 +50,24 @@ define("CATEGORIES",								"Kategorier");
 define("ALL_CATEGORIES",							"Alla kategorier");
 define("SORT_BY",									"Sortera efter");
 define("LAYOUT",									"Layout");
-define("name asc",									"namn (A-Z)");
-define("name desc",									"namn (Z-A)");
-define("year asc",									"år (0-9)");
-define("year desc",									"år (9-0)");
-define("rating asc",								"betyg (0-9)");
-define("rating desc",								"betyg (9-0)");
-define("format asc",								"format (A-Z)");
-define("format desc",								"format (Z-A)");
-define("seen asc",									"sett");
-define("seen desc",									"sett fallande");
-define("own asc",									"äger");
-define("own desc",									"äger fallande");
-define("added asc",									"inlagda (gamla-nya)");
-define("added desc",								"inlagda (nya-gamla)");
-define("loaned asc",								"utlåande (gamla-nya)");
-define("loaned desc",								"utlåande (nya-gamla)");
+define("name asc",									"Namn (A-Z)");
+define("name desc",									"Namn (Z-A)");
+define("year asc",									"År (0-9)");
+define("year desc",									"År (9-0)");
+define("rating asc",								"Betyg (0-9)");
+define("rating desc",								"Betyg (9-0)");
+define("format asc",								"Format (A-Z)");
+define("format desc",								"Format (Z-A)");
+define("seen asc",									"Sett");
+define("seen desc",									"Sett fallande");
+define("own asc",									"Äger");
+define("own desc",									"Äger fallande");
+define("added asc",									"Inlagda (gamla-nya)");
+define("added desc",								"Inlagda (nya-gamla)");
+define("loaned asc",								"Utlåande (gamla-nya)");
+define("loaned desc",								"Utlåande (nya-gamla)");
 define("ALL", 										"Alla");
-define("RESULTS_PER_PAGE",							"resultat per sida");
+define("RESULTS_PER_PAGE",							"Resultat per sida");
 // Results
 define("NO_RESULTS_FOUND",							"Inga filmer hittades.");
 define("NO_COVER",									"Inget omslag");

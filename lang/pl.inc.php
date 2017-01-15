@@ -6,8 +6,8 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * change the configuration settings where you add the new language and update the default language:
  *
  * config.php:
- * $settings["languages"] = array("English" => "en_US"); -> $settings["languages"] = array("English" => "en_US", "Polish" => "pl_PL");
- * $settings["defaultlanguage"] = "en_US" -> $settings["defaultlanguage"] = "pl_PL";
+ * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Polish" => "pl");
+ * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "pl";
  *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
@@ -67,7 +67,7 @@ define("added desc",								"Dacie dodania (od najnowszych)");
 define("loaned asc",								"Najpierw niewypożyczone");
 define("loaned desc",								"Najpierw wypożyczone");
 define("ALL",										"Wszystkie");
-define("RESULTS_PER_PAGE",							"pozycji na stronie");
+define("RESULTS_PER_PAGE",							"Pozycji na stronie");
 // Results
 define("NO_RESULTS_FOUND",							"Nie znaleziono pozycji");
 define("NO_COVER",									"Brak okładki");

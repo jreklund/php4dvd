@@ -9,8 +9,8 @@ $settings = array();
 /**
  * Set the languages that are available for the user.
  */
-$settings["languages"] = array("English" => "en_US", "Nederlands" => "nl_NL", "Swedish" => "sv_SE", "Polish" => "pl_PL");
-$settings["defaultlanguage"] = "en_US";
+$settings["languages"] = array("English" => "en", "Nederlands" => "nl", "Swedish" => "sv", "Polish" => "pl");
+$settings["defaultlanguage"] = "en";
 
 /**
  * Change your language and timezone here if required.
@@ -93,6 +93,14 @@ $settings["photo"]["tn_maxheight"] = 800;
 $settings["photo"]["p_maxwidth"] = 214;
 $settings["photo"]["p_maxheight"] = 800;
 
+/**
+ * Download high resolution posters from IMDb and resize with p_maxwidth/p_maxheight.
+ * Default: 182x268
+ * High-res: 675x1000 (around)
+ */
+
+$settings["photo"]["high_res"] = false;
+ 
 /**
  * Can guest visitors view your movies? If you only want users with a login to view your movies, set this to false.
  */
