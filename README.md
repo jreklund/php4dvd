@@ -53,6 +53,13 @@ config/version.inc.php
 movies/*
 movies/covers/*
 ```
+v3.1.1 or older: You will need to change your `$settings["defaultlanguage"]` inside `config.php`
+```
+$settings["defaultlanguage"] = "en"; // English
+$settings["defaultlanguage"] = "nl"; // Nederlands
+$settings["defaultlanguage"] = "sv"; // Swedish
+$settings["defaultlanguage"] = "pl"; // Polish
+```
 2. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package if you haven't already.
 3. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
