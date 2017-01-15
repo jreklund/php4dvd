@@ -131,12 +131,12 @@ function translate($text) {
 }
 
 /**
-* Fill this object with the row information.
-* @param $obj
-* @param $row
-* @param include
-* @param exclude
-*/
+ * Fill this object with the row information.
+ * @param $obj
+ * @param $row
+ * @param include
+ * @param exclude
+ */
 function fillObject($obj, $row, $include = array(), $exclude = array()) {
 	$inc = array();
 	foreach($include as $i)
@@ -165,8 +165,8 @@ function fillObject($obj, $row, $include = array(), $exclude = array()) {
 
 /**
  * Convert 90 minutes into 1h 30min
- * @param string $duration
- * @return conveted text
+ * @param	string	$duration	Input string
+ * @return	string
  */
 function durationConvertion($duration) {
 	if(!ctype_digit($duration))
@@ -175,17 +175,6 @@ function durationConvertion($duration) {
 	$minutes = ($duration % 60);
 
 	return ($hours)?$hours. 'h '. $minutes .'min':$minutes.'min';
-}
-
-/**
-* ucfirst UTF-8 aware function
-* @param string $string
-* @return string
-* @see http://ca.php.net/ucfirst
-*/
-function myUcfirst($str) {
-    $fc = mb_strtoupper(mb_substr($str, 0, 1));
-    return $fc.mb_substr($str, 1);
 }
 
 /**
@@ -255,8 +244,11 @@ function convertAccentedCharacters($str) {
 }
 
 /**
-* Generate PrettyUrl
-*/
+ * Generate PrettyUrl
+ * @param 	array	$url
+ * @param	array	$append
+ * @return	string
+ */
 function prettyUrl($url=array(),$append=array()) {
 	global $webroot, $pretty_url;
 	$href = '';
@@ -284,8 +276,11 @@ function prettyUrl($url=array(),$append=array()) {
 }
 
 /**
-* Helper function for PrettyUrl
-*/
+ * Helper function for PrettyUrl
+ * @param	string	$href
+ * @param	array	$url
+ * @return	string
+ */
 
 function prettyUrlHelper($href='',$url=array()) {
 	foreach($url as $get => $value) {
@@ -303,8 +298,11 @@ function prettyUrlHelper($href='',$url=array()) {
 }
 
 /**
-* Cleaning up names for PrettyUrl
-*/
+ * Cleaning up names for PrettyUrl
+ * @param	string	$str
+ * @param	string	$get
+ * @return	string
+ */
 
 function prettyUrlNameHelper($str='',$get='') {
 	if($get == 'name')
@@ -313,8 +311,8 @@ function prettyUrlNameHelper($str='',$get='') {
 }
 
 /**
-* Uses URI string to set $_GET
-*/
+ * Uses URI string to set $_GET
+ */
 
 function parsePrettyUrl() {
 	global $basepath;
@@ -343,9 +341,12 @@ function parsePrettyUrl() {
 }
 
 /**
-* Helper function for parsePrettyUrl.
-* Removing unwanted characters
-*/
+ * Helper function for parsePrettyUrl.
+ * Removing unwanted characters
+ * @param	string	$str
+ * @param	string	$get
+ * @return	string
+ */
 
 function parsePrettyUrlNameHelper($str='',$get=false) {
 	if($get)
