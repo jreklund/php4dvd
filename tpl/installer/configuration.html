@@ -29,25 +29,25 @@
 	<div class="form-group has-feedback">
 		<label for="dbport" class="col-sm-2 control-label">{$smarty.const.PORT|htmlentities:3:'UTF-8'}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbport" class="form-control required digits" value="{$dbport|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.PORT|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbport" id="dbport" class="form-control required digits" value="{$dbport|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.PORT|htmlentities:3:'UTF-8'}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
 		<label for="dbname" class="col-sm-2 control-label">{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbname" class="form-control required" value="{$dbname|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbname" id="dbname" class="form-control required" value="{$dbname|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
 		<label for="dbuser" class="col-sm-2 control-label">{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbuser" class="form-control required" value="{$dbuser|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbuser" id="dbuser" class="form-control required" value="{$dbuser|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
 		<label for="dbpass" class="col-sm-2 control-label">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}</label>
 		<div class="col-sm-6">
-			<input type="password" name="dbpass" class="form-control" value="{$dbpass|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
+			<input type="password" name="dbpass" id="dbpass" class="form-control" value="{$dbpass|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
 		</div>
 	</div>
 
@@ -62,7 +62,7 @@
 	<div class="form-group has-feedback">
 		<label for="template" class="col-sm-2 control-label">{$smarty.const.TEMPLATE|htmlentities:3:'UTF-8'}</label>
 		<div class="col-sm-6">
-			<select name="template" class="form-control required">
+			<select name="template" id="template" class="form-control required">
 				{section loop=$templates name=t}
 				<option value="{$templates[t]|htmlentities:3:'UTF-8'}"{if $template == $templates[t]} selected{/if}>{$templates[t]|htmlentities:3:'UTF-8'}</option>
 				{/section}
@@ -70,9 +70,9 @@
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="template" class="col-sm-2 control-label">{$smarty.const.LANGUAGE|htmlentities:3:'UTF-8'}</label>
+		<label for="defaultlanguage" class="col-sm-2 control-label">{$smarty.const.LANGUAGE|htmlentities:3:'UTF-8'}</label>
 		<div class="col-sm-6">
-			<select name="defaultlanguage" class="form-control required">
+			<select name="defaultlanguage" id="defaultlanguage" class="form-control required">
 				{foreach from=$languages key=name item=code}
 				<option value="{$code|htmlentities:3:'UTF-8'}"{if $language == $code} selected{/if}>{$name|htmlentities:3:'UTF-8'}</option>
 				{/foreach}

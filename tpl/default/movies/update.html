@@ -39,7 +39,7 @@
 								{section name=r loop=$imdbresults}
 								<tr class="imdbresult">
 									<td class="imdb">
-										<a href="http://www.imdb.com/title/tt{$imdbresults[r]->imdbid()}/" target="_blank"><i class="fa fa-film fa-fw" title="{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a>
+										<a href="http://www.imdb.com/title/tt{$imdbresults[r]->imdbid()}/" target="_blank" rel="noreferrer noopener"><i class="fa fa-film fa-fw" title="{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a>
 									</td>
 									<td class="title{if $imdbresults[r]->known} known{/if}">
 										<a href="{prettyUrl(['go'=>'add','imdbid'=>$imdbresults[r]->imdbid()])}">{$imdbresults[r]->title()}</a>
@@ -107,58 +107,58 @@
 								<div class="form-group has-feedback">
 									<label for="imdbid" class="{$colWidthSmall} control-label">{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="imdbid" class="form-control digits" value="{if isset($movie)}{$movie->imdbid|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}">
+										<input type="text" name="imdbid" id="imdbid" class="form-control digits" value="{if isset($movie)}{$movie->imdbid|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="name" class="{$colWidthSmall} control-label">{$smarty.const.TITLE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="name" class="form-control required" value="{if isset($movie)}{$movie->name|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.TITLE|htmlentities:3:'UTF-8'}">
+										<input type="text" name="name" id="name" class="form-control required" value="{if isset($movie)}{$movie->name|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.TITLE|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="aka" class="{$colWidthSmall} control-label">{$smarty.const.AKA_TITLES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="aka" rows="5" class="form-control" placeholder="{$smarty.const.AKA_TITLES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->aka|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="aka" id="aka" rows="5" class="form-control" placeholder="{$smarty.const.AKA_TITLES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->aka|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="year" class="{$colWidthSmall} control-label">{$smarty.const.YEAR|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="year" class="form-control required digits" value="{if isset($movie)}{$movie->year|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.YEAR|htmlentities:3:'UTF-8'}">
+										<input type="text" name="year" id="year" class="form-control required digits" value="{if isset($movie)}{$movie->year|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.YEAR|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="duration" class="{$colWidthSmall} control-label">{$smarty.const.DURATION_MINUTES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="duration" class="form-control digits" value="{if isset($movie) && $movie->duration != 0}{$movie->duration|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.DURATION_MINUTES|htmlentities:3:'UTF-8'}">
+										<input type="text" name="duration" id="duration" class="form-control digits" value="{if isset($movie) && $movie->duration != 0}{$movie->duration|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.DURATION_MINUTES|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="rating" class="{$colWidthSmall} control-label">{$smarty.const.RATING|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="rating" class="form-control number" value="{if isset($movie) && $movie->rating != 0}{$movie->rating|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.RATING|htmlentities:3:'UTF-8'}">
+										<input type="text" name="rating" id="rating" class="form-control number" value="{if isset($movie) && $movie->rating != 0}{$movie->rating|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.RATING|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="format" class="{$colWidthSmall} control-label">{$smarty.const.FORMAT|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" id="formats" name="format" class="form-control required" data-provide="typeahead" autocomplete="off" value="{if isset($movie) && isset($movie->format)}{$movie->format|htmlentities:3:'UTF-8'}{else}{$smarty.const.DVD|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.FORMAT|htmlentities:3:'UTF-8'}">
+										<input type="text" id="format" name="format" class="form-control required" data-provide="typeahead" autocomplete="off" value="{if isset($movie) && isset($movie->format)}{$movie->format|htmlentities:3:'UTF-8'}{else}{$smarty.const.DVD|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.FORMAT|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="own" class="{$colWidthSmall} control-label">{$smarty.const.I_OWN_THIS_MOVIE|htmlentities:3:'UTF-8'}</label>
+									<label class="{$colWidthSmall} control-label">{$smarty.const.I_OWN_THIS_MOVIE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<label class="radio-inline" for="own_yes">
 										  <input type="radio" name="own" id="own_yes" value="1"{if !isset($movie) || $movie->own} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
 										</label>
 										<label class="radio-inline" for="own_no">
-										  <input type="radio"  name="own" id="own_no" value="0"{if isset($movie) && !$movie->own} checked{/if}> {$smarty.const.NO|htmlentities:3:'UTF-8'}
+										  <input type="radio" name="own" id="own_no" value="0"{if isset($movie) && !$movie->own} checked{/if}> {$smarty.const.NO|htmlentities:3:'UTF-8'}
 										</label>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="seen" class="{$colWidthSmall} control-label">{$smarty.const.I_HAVE_SEEN_THIS_MOVIE|htmlentities:3:'UTF-8'}</label>
+									<label class="{$colWidthSmall} control-label">{$smarty.const.I_HAVE_SEEN_THIS_MOVIE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<label class="radio-inline" for="seen_yes">
 										  <input type="radio" name="seen" id="seen_yes" value="1"{if !isset($movie) || $movie->seen} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
@@ -169,138 +169,138 @@
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="loaned" class="{$colWidthSmall} control-label">{$smarty.const.LOANED_OUT|htmlentities:3:'UTF-8'}</label>
+									<label class="{$colWidthSmall} control-label">{$smarty.const.LOANED_OUT|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<label class="radio-inline" for="loaned_yes">
-										  <input type="radio" name="loaned" id="loaned_yes" value="1" onclick="$('#loandate').show(); $('#loanname').show(); $('#loanname input').focus();"{if isset($movie) && $movie->loaned} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
+										  <input type="radio" name="loaned" id="loaned_yes" value="1" onclick="$('#loandate-container').show(); $('#loanname-container').show(); $('#loanname-container input').focus();"{if isset($movie) && $movie->loaned} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
 										</label>
 										<label class="radio-inline" for="loaned_no">
-										  <input type="radio" name="loaned" id="loaned_no" value="0" onclick="$('#loandate').hide(); $('#loanname').hide();"{if !isset($movie) || !$movie->loaned} checked{/if}> {$smarty.const.NO|htmlentities:3:'UTF-8'}
+										  <input type="radio" name="loaned" id="loaned_no" value="0" onclick="$('#loandate-container').hide(); $('#loanname-container').hide();"{if !isset($movie) || !$movie->loaned} checked{/if}> {$smarty.const.NO|htmlentities:3:'UTF-8'}
 										</label>
 									</div>
 								</div>
-								<div id="loanname" class="form-group has-feedback{if !isset($movie) || !$movie->loaned} form-hide{/if}">
+								<div id="loanname-container" class="form-group has-feedback{if !isset($movie) || !$movie->loaned} form-hide{/if}">
 									<label for="loanname" class="{$colWidthSmall} control-label">{$smarty.const.LOANED_OUT_TO|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="loanname" class="form-control" value="{if isset($movie)}{$movie->loanname|htmlentities:3:'UTF-8'}{/if}">
+										<input type="text" name="loanname" id="loanname" class="form-control" value="{if isset($movie)}{$movie->loanname|htmlentities:3:'UTF-8'}{/if}">
 									</div>
 								</div>
-								<div id="loandate" class="form-group has-feedback{if !isset($movie) || !$movie->loaned} form-hide{/if}">
+								<div id="loandate-container" class="form-group has-feedback{if !isset($movie) || !$movie->loaned} form-hide{/if}">
 									<label for="loandate" class="{$colWidthSmall} control-label">{$smarty.const.LOANED_OUT_SINCE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="loandate" value="{if isset($movie) && $movie->loandate != '0000-00-00'}{$movie->loandate|htmlentities:3:'UTF-8'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" class="form-control date">
+										<input type="text" name="loandate" id="loandate" value="{if isset($movie) && $movie->loandate != '0000-00-00'}{$movie->loandate|htmlentities:3:'UTF-8'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" class="form-control date">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="photo" class="{$colWidthSmall} control-label">
 										{$smarty.const.PHOTO|htmlentities:3:'UTF-8'} 
-										{if isset($movie)}<a href="https://www.themoviedb.org/search?query={$movie->name|replace:' ':'+'|htmlentities:3:'UTF-8'}" target="_blank"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - The Movie Database (TMDb)" aria-hidden="true"></i></a>{/if}
-										{if isset($movie->imdbid)}<a href="http://www.movieposterdb.com/Movie/{$movie->imdbid|ltrim:'0'|htmlentities:3:'UTF-8'}" target="_blank"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - MoviePosterDB" aria-hidden="true"></i></a>{/if}
+										{if isset($movie)}<a href="https://www.themoviedb.org/search?query={$movie->name|replace:' ':'+'|htmlentities:3:'UTF-8'}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - The Movie Database (TMDb)" aria-hidden="true"></i></a>{/if}
+										{if isset($movie->imdbid)}<a href="http://www.movieposterdb.com/Movie/{$movie->imdbid|ltrim:'0'|htmlentities:3:'UTF-8'}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - MoviePosterDB" aria-hidden="true"></i></a>{/if}
 									</label>
 									<div class="{$colWidthLarge}">
 										<input type="file" id="photo" name="photo">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="cover" class="{$colWidthSmall} control-label">{$smarty.const.COVER|htmlentities:3:'UTF-8'} {if isset($movie)}<a href="http://www.cdcovers.cc/search/dvd/{$movie->name|replace:' ':'-'|htmlentities:3:'UTF-8'}" target="_blank"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_COVER|htmlentities:3:'UTF-8'} - Cdcovers" aria-hidden="true"></i></a>{/if}</label>
+									<label for="cover" class="{$colWidthSmall} control-label">{$smarty.const.COVER|htmlentities:3:'UTF-8'} {if isset($movie)}<a href="http://www.cdcovers.cc/search/dvd/{$movie->name|replace:' ':'-'|htmlentities:3:'UTF-8'}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_COVER|htmlentities:3:'UTF-8'} - Cdcovers" aria-hidden="true"></i></a>{/if}</label>
 									<div class="{$colWidthLarge}">
 										<input type="file" id="cover" name="cover">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label for="trailer" class="{$colWidthSmall} control-label">{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'} {if isset($movie)}<a href="http://www.youtube.com/results?search_query={$movie->name|htmlentities:3:'UTF-8'|urlencode}+{$movie->year|htmlentities:3:'UTF-8'}+trailer" target="_blank"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_TRAILER|htmlentities:3:'UTF-8'} - YouTube" aria-hidden="true"></i></a>{/if}</label>
+									<label for="trailer" class="{$colWidthSmall} control-label">{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'} {if isset($movie)}<a href="http://www.youtube.com/results?search_query={$movie->name|htmlentities:3:'UTF-8'|urlencode}+{$movie->year|htmlentities:3:'UTF-8'}+trailer" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_TRAILER|htmlentities:3:'UTF-8'} - YouTube" aria-hidden="true"></i></a>{/if}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="trailer" class="form-control" value="{if isset($movie)}{$movie->trailer|htmlentities:3:'UTF-8'}{/if}" class="url" placeholder="{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'}">
+										<input type="text" name="trailer" id="trailer" class="form-control url" value="{if isset($movie)}{$movie->trailer|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.TRAILER_URL|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="notes" class="{$colWidthSmall} control-label">{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="notes" rows="5" class="form-control" placeholder="{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->notes|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="notes" id="notes" rows="5" class="form-control" placeholder="{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->notes|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="taglines" class="{$colWidthSmall} control-label">{$smarty.const.TAGLINES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="taglines" rows="5" class="form-control" placeholder="{$smarty.const.TAGLINES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->taglines|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="taglines" id="taglines" rows="5" class="form-control" placeholder="{$smarty.const.TAGLINES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->taglines|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="plotoutline" class="{$colWidthSmall} control-label">{$smarty.const.PLOT_OUTLINE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="plotoutline" rows="5" class="form-control" placeholder="{$smarty.const.PLOT_OUTLINE|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->plotoutline|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="plotoutline" id="plotoutline" rows="5" class="form-control" placeholder="{$smarty.const.PLOT_OUTLINE|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->plotoutline|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="plots" class="{$colWidthSmall} control-label">{$smarty.const.PLOTS|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="plots" rows="5" class="form-control" placeholder="{$smarty.const.PLOTS|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->plots|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="plots" id="plots" rows="5" class="form-control" placeholder="{$smarty.const.PLOTS|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->plots|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="languages" class="{$colWidthSmall} control-label">{$smarty.const.LANGUAGES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="languages" id="text_languages_0" rows="5" class="form-control" placeholder="{$smarty.const.LANGUAGES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->languages|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="languages" id="languages" rows="5" class="form-control" placeholder="{$smarty.const.LANGUAGES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->languages|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="subtitles" class="{$colWidthSmall} control-label">{$smarty.const.SUBTITLES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="subtitles" rows="5" class="form-control" placeholder="{$smarty.const.SUBTITLES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->subtitles|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="subtitles" id="subtitles" rows="5" class="form-control" placeholder="{$smarty.const.SUBTITLES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->subtitles|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="audio" class="{$colWidthSmall} control-label">{$smarty.const.AUDIO|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="audio" rows="5" class="form-control" placeholder="{$smarty.const.AUDIO|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->audio|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="audio" id="audio" rows="5" class="form-control" placeholder="{$smarty.const.AUDIO|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->audio|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="video" class="{$colWidthSmall} control-label">{$smarty.const.VIDEO|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="video" rows="5" class="form-control" placeholder="{$smarty.const.VIDEO|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->video|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="video" id="video" rows="5" class="form-control" placeholder="{$smarty.const.VIDEO|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->video|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="country" class="{$colWidthSmall} control-label">{$smarty.const.COUNTRY|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="country" rows="5" class="form-control" placeholder="{$smarty.const.COUNTRY|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->country|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="country" id="country" rows="5" class="form-control" placeholder="{$smarty.const.COUNTRY|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->country|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="genres" class="{$colWidthSmall} control-label">{$smarty.const.GENRES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="genres" rows="5" class="form-control" placeholder="{$smarty.const.GENRES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->genres|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="genres" id="genres" rows="5" class="form-control" placeholder="{$smarty.const.GENRES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->genres|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="director" class="{$colWidthSmall} control-label">{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="director" rows="5" class="form-control" placeholder="{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->director|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="director" id="director" rows="5" class="form-control" placeholder="{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->director|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="writer" class="{$colWidthSmall} control-label">{$smarty.const.WRITER|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="writer" rows="5" class="form-control" placeholder="{$smarty.const.WRITER|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->writer|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="writer" id="writer" rows="5" class="form-control" placeholder="{$smarty.const.WRITER|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->writer|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="producer" class="{$colWidthSmall} control-label">{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="producer" rows="5" class="form-control" placeholder="{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->producer|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="producer" id="producer" rows="5" class="form-control" placeholder="{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->producer|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="music" class="{$colWidthSmall} control-label">{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="music" rows="5" class="form-control" placeholder="{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->music|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="music" id="music" rows="5" class="form-control" placeholder="{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->music|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="cast" class="{$colWidthSmall} control-label">{$smarty.const.CAST|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<textarea name="cast" rows="5" class="form-control" placeholder="{$smarty.const.CAST|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->cast|htmlentities:3:'UTF-8'}{/if}</textarea>
+										<textarea name="cast" id="cast" rows="5" class="form-control" placeholder="{$smarty.const.CAST|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->cast|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 							</div><!-- /.box-body -->
@@ -321,7 +321,7 @@
 						{section name=f loop=$movieformats}'{$movieformats[f]|htmlentities:3:'UTF-8'}',{/section}
 					];
 
-					$('#formats').typeahead({ source: availableTags });
+					$('#format').typeahead({ source: availableTags });
 					
 					// remote, email, url, date, dateISO, digits, creditcard, equalTo, accept, maxlength, minlength, rangelength, range, max, min
 					$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
@@ -338,6 +338,7 @@
 						errorPlacement: function(e,r){ e.addClass("col-sm-9"),r.closest("div").before(e),r.parents(".has-feedback").addClass("has-error") },
 						success: function(e){ e.parents(".has-feedback").removeClass("has-error"),e.parent("div").remove()	},
 						rules: {
+							photo: { required: false, accept: "image/jpg,image/jpeg", },
 							cover: { required: false, accept: "image/jpg,image/jpeg", }
 						}
 					});

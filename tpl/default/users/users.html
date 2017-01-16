@@ -34,7 +34,7 @@
 									<input type="password" id="password" name="password" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
 								</div>
 							</div>
-							<label for="password">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'}):</label>
+							<label for="password2">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'}):</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
@@ -43,7 +43,7 @@
 							</div>
 							<label for="permission">{$smarty.const.ROLE|htmlentities:3:'UTF-8'}:</label>
 							<div class="form-group">
-								<select name="permission" class="form-control required">
+								<select name="permission" id="permission" class="form-control required">
 									<option value="0"{if isset($newuser) && $newuser->permission == 0} selected{/if}>{$smarty.const.GUEST|htmlentities:3:'UTF-8'}</option>
 									<option value="1"{if isset($newuser) && $newuser->permission == 1} selected{/if}>{$smarty.const.EDITOR|htmlentities:3:'UTF-8'}</option>
 									<option value="2"{if isset($newuser) && $newuser->permission == 2} selected{/if}>{$smarty.const.ADMIN|htmlentities:3:'UTF-8'}</option>
