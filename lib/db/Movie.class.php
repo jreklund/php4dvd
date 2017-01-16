@@ -86,9 +86,11 @@ class Movie {
 				$plot = $plots[$i];
 				$author = '';
 				if(isset($plots[$i+1]) && preg_match('!^\s*-!',$plots[$i+1])) {
-					if(isset($plots[$i+2]))
-						$author = $plots[$i+2];
-					$i += 2;
+					if(isset($plots[$i+2]) && strlen($plots[$i+2]) < 75) {
+						$author = $plots[$i+2];	$i += 2;
+					} else {
+						$i += 1;
+					}
 				}
 				$tmp[] = array('plot' => $plot, 'author' => $author);
 			}
