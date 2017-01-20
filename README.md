@@ -32,6 +32,10 @@ Requirements
 - PDO library
   - PDO driver for MySQL/MariaDB
 - cURL
+
+Recommendations
+=======
+
 - YouTube Data API key
 
 Installation
@@ -100,6 +104,25 @@ Server Error', adjust the .htaccess file in the root of the site.
 Try to remove the Options line by placing a # at the beginning of the line.
 Otherwise remove the `<Files>` section. These settings might fail because of
 the permissions of your webserver.
+
+###SSL certificate problem: unable to get local issuer certificate
+####Windows
+1. [Download cacert.pem](https://curl.haxx.se/docs/caextract.html).  
+2. Store it somewhere on your server.  
+`C:\php\extras\ssl\cacert.pem`  
+3. Open your php.ini and add the following under `[curl]`.  
+`curl.cainfo = "C:\php\extras\ssl\cacert.pem"`  
+4. Restart your web server.
+
+####Linux
+I recommend that you update your local `ca-bundle.crt` or `ca-certificates.crt` file for your whole system.  
+There are different best practices depending on OS. Google is your best bet, for finding the safest way.  
+
+You can also use a local `cacert.pem` like in Windows.  
+```
+/etc/ssl/certs/cacert.pem  
+curl.cainfo = "/etc/ssl/certs/cacert.pem"
+```
     
 Templates
 =======
