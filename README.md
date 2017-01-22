@@ -145,6 +145,28 @@ and came up with some extra features.
 Thanks to Izzy from [IzzySoft](http://projects.izzysoft.de/trac/imdbphp). He wrote the imdbphp class to be able to 
 search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothman/imdbphp) for continuing his work.
 
+###Libraries
+
+#### HTML/CSS/JavaScript
+  - [AdminLTE](https://almsaeedstudio.com/)
+    - [Bootstrap](http://getbootstrap.com/)
+	  - [jQuery](https://jquery.com/)
+	  - [HTML5 Shiv](https://github.com/aFarkas/html5shiv)
+	  - [Respond.js](https://github.com/scottjehl/Respond)
+	- [Font Awesome](http://fontawesome.io/)
+  - [Bootstrap 3 Typeahead](https://github.com/bassjobsen/Bootstrap-3-Typeahead)
+  - [JavaScript Cookie](https://github.com/js-cookie/js-cookie)
+  - [jQuery Validation Plugin](https://jqueryvalidation.org/)
+  - [Lazy Load Plugin for jQuery](https://www.appelsiini.net/projects/lazyload)
+  - [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/)
+  
+#### PHP
+  - [BulletProof](https://github.com/samayo/bulletproof)
+  - [imdbphp](https://github.com/tboothman/imdbphp)
+  - [password_compat](https://github.com/ircmaxell/password_compat)
+  - [RedBeanPHP](http://www.redbeanphp.com/)
+  - [Smarty](http://www.smarty.net/)
+
 License
 =======
 
