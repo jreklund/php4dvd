@@ -135,7 +135,7 @@ class Title extends MdbBase {
       "Synopsis" => "/synopsis",
       "Taglines" => "/taglines",
       "Title" => "/",
-      "Trailers" => "/trailers",
+      "Trailers" => "/videogallery/content_type-trailer",
       "Trivia" => "/trivia",
       "VideoSites" => "/externalsites",
   );
@@ -1566,16 +1566,17 @@ class Title extends MdbBase {
 
  #====================================================[ /crazycredits page ]===
  #----------------------------------------------------[ CrazyCredits Array ]---
-  /** Get the Crazy Credits
-   * @method crazy_credits
-   * @return array crazy_credits (array[0..n] of string)
+  /**
+   * Get the Crazy Credits
+   * @return string[]
    * @see IMDB page /crazycredits
    */
   public function crazy_credits() {
     if (empty($this->crazy_credits)) {
-      $this->getPage("CrazyCredits");
-      if ( preg_match_all('!<div id="cz.+?>(.+?)</span\s*>\s*<span class="linksoda">!ims',$this->page["CrazyCredits"],$matches) ) {
-        $this->crazy_credits = $matches[1];
+      if (preg_match_all('!<div class="sodatext">\s*(.*?)\s*</div>!ims', $this->getPage("CrazyCredits"), $matches)) {
+        foreach ($matches[1] as $credit) {
+          $this->crazy_credits[] = trim(strip_tags($credit));
+        }
       }
     }
     return $this->crazy_credits;
@@ -1686,41 +1687,37 @@ class Title extends MdbBase {
 
  #========================================================[ /trailers page ]===
  #--------------------------------------------------------[ Trailers Array ]---
-  /** Get the trailer URLs for a given movie
-   * @method trailers
+  /**
+   * Get the trailer URLs for a given movie
    * @param boolean $full Retrieve all available data (TRUE), or stay compatible with previous IMDBPHP versions (FALSE, Default)
-   * @param boolean $all  Fetch all trailers (including off-site ones)? Default: True
    * @return mixed trailers either array[0..n] of string ($full=FALSE), or array[0..n] of array[lang,title,url,restful_url,resolution] ($full=TRUE)
-   * @author george
-   * @author izzy
    * @see IMDB page /trailers
-   * @brief New code thanks to george (http://projects.izzysoft.de/trac/imdbphp/ticket/286) with some minor adjustments by izzy
    */
-  public function trailers($full=FALSE,$all=TRUE) {
-    if ( empty($this->trailers) ) {
-        $page = $this->getPage("Trailers");
-        if (empty($page)) return array(); // no such page
-        // due to site change, onsite / offsite trailers are mixed in on the same page
-        // following code does not weed out offsite trailers.
-        // Also $tag_s will be TRUE even if there are no trailers
-        // old code -- $tag_s = strpos($this->page["Trailers"], '<div id="search-results">');
-        $has_trailers = strpos($this->page["Trailers"], '<div id="search-results"><ol>');
-        if ($has_trailers !== FALSE) { // if any on-site or off-site trailers exists
-            $html_trailer = substr($this->page["Trailers"], $has_trailers, strpos($this->page["Trailers"],'</ol>',$has_trailers) - ($has_trailers+1) );
-            // echo $html_trailer;
-            // offsite trailer will have links like    href="/video/imdblink/vi.....
-            if ($all) $regex = '@<a\s*onclick=".*?"\s*href="(/video/.*?/vi\d+/)".*?><img.*?title="(.*?)"\s*viconst=".*?"\s*src="(.*?)"@s';
-            else $regex = '@<a\s*onclick=".*?"\s*href="(/video/(?!imdblink).*?/vi\d+/)".*?><img.*?title="(.*?)"\s*src="(.*?)"@s';
-            if (preg_match_all($regex, $html_trailer, $matches)) {
-                //print_r($matches);
-                for ($i=0;$i<count($matches[0]);++$i) {
-                    $trailer = "http://".$this->imdbsite.$matches[1][$i];
-                    $res = (strpos($matches[3][$i], 'HDIcon') !== FALSE )? 'HD' : 'SD';
-                    if ( $full ) $this->trailers[] = array("lang"=>'',"title"=>html_entity_decode($matches[2][$i],ENT_QUOTES, 'UTF-8'),"url"=>$trailer,"restful_url"=>'',"resolution"=>$res);
-                    else $this->trailers[] = $trailer;
-                }
-            }
+  public function trailers($full = false)
+  {
+    if (empty($this->trailers)) {
+      $page = $this->getPage("Trailers");
+      if (empty($page)) return array(); // no such page
+
+      $has_trailers = strpos($page, '<div class="search-results"><ol>');
+      if ($has_trailers !== FALSE) {
+        $html_trailer = substr($page, $has_trailers, strpos($page, '</ol>', $has_trailers) - ($has_trailers + 1));
+        $doc = new \DOMDocument();
+        @$doc->loadHTML('<?xml encoding="UTF-8">' . $html_trailer);
+        foreach ($doc->getElementsByTagName('li') as $trailerNode) {
+          $titleNode = $trailerNode->getElementsByTagName('a')->item(1);
+          $title = $titleNode->nodeValue;
+          $url = "http://" . $this->imdbsite . $titleNode->getAttribute('href');
+          $imageUrl = $trailerNode->getElementsByTagName('img')->item(0)->getAttribute('loadlate');
+          $res = (strpos($imageUrl, 'HDIcon') !== FALSE) ? 'HD' : 'SD';
+
+          if ($full) {
+            $this->trailers[] = array('title' => $title, 'url' => $url, 'resolution' => $res, 'lang' => '', 'restful_url' => '');
+          } else {
+            $this->trailers[] = $url;
+          }
         }
+      }
     }
     return $this->trailers;
   }
@@ -2039,24 +2036,21 @@ class Title extends MdbBase {
   }
 
  #=======================================================[ /locations page ]===
-  /** Obtain filming locations
-   * @method locations
-   * @return array locations array[0..n] of array[name,url] with name being the
-   *               name of the location, and url a relative URL to list other
-   *               movies sharing this location
+  /**
+   * Filming locations
+   * @return string[]
    * @see IMDB page /locations
    */
   public function locations() {
     if ( empty($this->locations) ) {
       $page = $this->getPage("Locations");
       if (empty($page)) return array(); // no such page
-      $tag_s = strpos($this->page['Locations'],'<div id="tn15adrhs">');
-      $tag_e = strpos($this->page['Locations'],'</dl>');
-      $block = substr($this->page['Locations'],$tag_s,$tag_e-$tag_s);
-      $block = substr($block,strpos($block,'<dl>'));
-      if ( preg_match_all('!<dt>(<a href="(.*?)">|)(.*?)(</a>|</dt>)!ims',$block,$matches) ) {
-        for ($i=0;$i<count($matches[0]);++$i)
-          $this->locations[] = array('name'=>$matches[3][$i], 'url'=>$matches[2][$i]);
+      $doc = new \DOMDocument();
+      @$doc->loadHTML($page);
+      $xp = new \DOMXPath($doc);
+      $cells = $xp->query("//div[@id=\"filming_locations_content\"]//dt");
+      foreach ($cells as $cell) {
+        $this->locations[] = trim($cell->nodeValue);
       }
     }
     return $this->locations;
