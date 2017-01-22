@@ -177,6 +177,15 @@
 	}
 }
 
+@media (max-width: 991px) {
+	.navbar-custom-menu {
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+}
+
 /**
  * Custom
  */
