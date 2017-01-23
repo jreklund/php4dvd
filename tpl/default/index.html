@@ -89,7 +89,7 @@
       <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right">
-			<a href="https://github.com/jreklund/php4dvd" target="_blank" rel="noreferrer noopener">php4dvd v{$version|htmlentities:3:'UTF-8'}</a>
+			<a href="https://github.com/jreklund/php4dvd" target="_blank" rel="noreferrer noopener">php4dvd{if $loggedin && $User->isAdmin()} v{$version|htmlentities:3:'UTF-8'}{/if}</a>
         </div>
         <!-- Default to the left -->
 		{if $main == 'movies/collection.html'}
