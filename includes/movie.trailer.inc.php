@@ -1,7 +1,9 @@
 <?php
 defined('DIRECTACCESS') OR exit('No direct script access allowed');
 
-if (isset($_GET['movie']) && isset($_GET['year'])) {
+if(!$youtubeKey) {
+	$trailers['error']['message'] = 'No API key.';
+} else if (isset($_GET['movie']) && isset($_GET['year'])) {
 	/*
 	* Set $DEVELOPER_KEY to the "API key" value from the "Access" tab of the
 	* {{ Google Cloud Console }} <{{ https://cloud.google.com/console }}>
