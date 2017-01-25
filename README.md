@@ -26,7 +26,7 @@ Features
 Requirements
 =======
 
-- Apache 2+
+- Apache 2.2+
 - PHP 5.3.7+
 - GD2 library to be able to upload (and resize) covers
 - PDO library
@@ -37,6 +37,8 @@ Recommendations
 =======
 
 - YouTube Data API key
+  - Apache 2.4+
+  - PHP 5.5.0+
 
 Installation
 =======

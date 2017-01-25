@@ -17,8 +17,8 @@ session_start();
 $loc = dirname(__FILE__) . "/";
 
 // Correct PHP version check
-if(phpversion() < '5.3.7') {
-	echo "<h1>Error</h1><p>php4dvd requires at least PHP 5.3.7. You are running PHP " . phpversion() . ". Please upgrade.</p>";
+if(PHP_VERSION_ID < 50307) {
+	echo "<h1>Error</h1><p>php4dvd requires at least PHP 5.3.7. You are running PHP " . PHP_VERSION . ". Please upgrade.</p>";
 	exit();
 }
 

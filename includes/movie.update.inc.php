@@ -22,7 +22,7 @@ if(isset($_GET["imdbsearch"])) {
 	
 		// Search IMDb for the movie
 		$imdb = new \Imdb\TitleSearch();
-		$imdbresults = $imdb->search($imdbsearch,[\Imdb\TitleSearch::MOVIE]);
+		$imdbresults = $imdb->search($imdbsearch,array(\Imdb\TitleSearch::MOVIE));
 	
 		// Check if any of these results are allready added to our database
 		$temp = array();

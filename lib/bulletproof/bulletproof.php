@@ -110,7 +110,7 @@ class Image implements \ArrayAccess
     /**
      * @param array $_files represents the $_FILES array passed as dependency
      */
-    public function __construct(array $_files = [])
+    public function __construct(array $_files = array())
     {
         $this->_files = $_files;
     }
