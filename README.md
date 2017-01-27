@@ -166,6 +166,7 @@ search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothma
   - [BulletProof](https://github.com/samayo/bulletproof)
   - [imdbphp](https://github.com/tboothman/imdbphp)
   - [password_compat](https://github.com/ircmaxell/password_compat)
+  - [random_compat](https://github.com/paragonie/random_compat)
   - [RedBeanPHP](http://www.redbeanphp.com/)
   - [Smarty](http://www.smarty.net/)
 
