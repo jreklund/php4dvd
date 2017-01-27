@@ -36,6 +36,7 @@ define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Är du säker att du vill logga ut
 define("USER_NAME",									"Användarnamn");
 define("PASSWORD",									"Lösenord");
 define("INCORRECT_USERNAME_OR_PASSWORD",			"Felaktigt användarnamn eller lösenord");
+define("REMEMBER_ME",								"Kom ihåg mig");
 
 /**
  * Home

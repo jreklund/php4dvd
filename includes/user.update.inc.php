@@ -29,7 +29,7 @@ if(isset($user) && isset($_POST["email"])) {
 	}
 	// Update password when a new password was entered
 	if(!in_array('password',$exclude)) {
-		$user->password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+		$user->password = $login->passwordHash($_POST['password']);
 	}
 	// Update permission 
 	if(!in_array('permission',$exclude) && isset($_POST['permission']) && in_array($_POST['permission'],array(0,1,2))) {
@@ -43,6 +43,14 @@ if(isset($user) && isset($_POST["email"])) {
 	} else {
 		// Save to the database
 		$userdm->save($user);
+		
+		// Remove all authentications when you change password
+		if(!in_array('password',$exclude)) {
+			$authdm->removeAll($user);
+			if($User->id == $user->id) {
+				$login->logOut($User);
+			}
+		}
 		
 		// Go to user overview (when the user has no permissions, the page will send him back to the home page)
 		header("Location: " . prettyUrl(array('go' => 'users')));

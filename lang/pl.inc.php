@@ -36,6 +36,7 @@ define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Chcesz się wylogować?");
 define("USER_NAME",									"Użytkownik");
 define("PASSWORD",									"Hasło");
 define("INCORRECT_USERNAME_OR_PASSWORD",			"Nieprawidłowa nazwa użytkownika lub hasło");
+define("REMEMBER_ME",								"Zapamiętaj mnie");
  
 /**
  * Home

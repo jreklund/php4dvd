@@ -17,6 +17,11 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-8">
+				<div class="checkbox">
+					<label for="rememberme">
+						<input type="checkbox" id="rememberme" name="rememberme"> {$smarty.const.REMEMBER_ME|htmlentities:3:'UTF-8'}
+					</label>
+				</div>
 			</div><!-- /.col -->
 			<div class="col-xs-4">
 				<button type="submit" class="btn btn-primary btn-block btn-flat">{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}</button>

@@ -367,3 +367,43 @@ if(!function_exists('exif_imagetype')) {
 		return false;
 	}
 }
+
+/**
+ * Compares strings in constant time.
+ *
+ * @param string $known_string
+ *   The expected string.
+ * @param string $user_string
+ *   The user supplied string to check.
+ *
+ * @return bool
+ *   Returns TRUE when the two strings are equal, FALSE otherwise.
+ */
+if(!function_exists('hash_equals')) {
+	function hash_equals($known_string, $user_string) {
+		// Backport of hash_equals() function from PHP 5.6
+		// @see https://github.com/php/php-src/blob/PHP-5.6/ext/hash/hash.c#L739
+		if (!is_string($known_string)) {
+		  trigger_error(sprintf("Expected known_string to be a string, %s given", gettype($known_string)), E_USER_WARNING);
+		  return FALSE;
+		}
+
+		if (!is_string($user_string)) {
+		  trigger_error(sprintf("Expected user_string to be a string, %s given", gettype($user_string)), E_USER_WARNING);
+		  return FALSE;
+		}
+
+		$known_len = strlen($known_string);
+		if ($known_len !== strlen($user_string)) {
+		  return FALSE;
+		}
+
+		// This is security sensitive code. Do not optimize this for speed.
+		$result = 0;
+		for ($i = 0; $i < $known_len; $i++) {
+		  $result |= (ord($known_string[$i]) ^ ord($user_string[$i]));
+		}
+
+		return $result === 0;
+	}
+}

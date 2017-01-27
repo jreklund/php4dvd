@@ -5,9 +5,13 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  * Some important variables for other users to work with in code or templates:
  * - 'users' are all users
  */
-// Datamanagers
-require_once($loc."/lib/db/Users.class.php");
+// Datamanagers and Login
+require_once($loc . "/lib/db/Users.class.php");
+require_once($loc . "/lib/db/Auth.class.php");
+require_once($loc . "/lib/Login.class.php");
 $userdm = new Users($settings["db"]);
+$authdm = new Auth($settings["db"]);
+$login  = new Login($userdm,$authdm);
 
 // Get all users if the user is allowed to
 if($loggedin || $User->isAdmin()) {
@@ -25,7 +29,7 @@ if($loggedin && $User->isAdmin() && isset($_POST["username"])) {
 	}
 	// Passwords are matching?
 	if(isset($_POST["password"]) && isset($_POST["password2"]) && $_POST["password"] === $_POST["password2"] && !empty($_POST["password"])) {
-		$newuser->password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+		$newuser->password = $login->passwordHash($_POST['password']);
 	}
 	// Valid e-mail adress
 	if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {

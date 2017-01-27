@@ -36,6 +36,7 @@ define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Weet je zeker dat je wilt uitlogge
 define("USER_NAME",									"Gebruikersnaam");
 define("PASSWORD",									"Wachtwoord");
 define("INCORRECT_USERNAME_OR_PASSWORD",			"Onjuiste gebruikersnaam of wachtwoord");
+define("REMEMBER_ME",								"Onthoud me");
 
 /**
  * Home
