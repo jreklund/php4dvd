@@ -2,8 +2,7 @@
 defined('DIRECTACCESS') OR exit('No direct script access allowed');
 
 require_once($loc . "lib/Database.class.php");
-require_once($loc . "lib/db/Users.model.php");
-require_once($loc . "lib/password_compat/password.php");
+require_once($loc . "lib/db/User.class.php");
 
 class Users extends Database {
 	/**
@@ -41,12 +40,20 @@ class Users extends Database {
 	}
 	
 	/**
+	 * Create a class from the database item.
+	 * @param $dbItem
+	 */
+	private function create($dbItem) {
+		return $this->fillObject(new User(), $dbItem);
+	}
+	
+	/**
 	 * Get a user by its id.
 	 * @param int $id
 	 * @return the user or false when the user was not found
 	 */
 	public function get($id) {
-		return R::load("users", $id);
+		return $this->create(R::load("users", $id));
 	}
 	
 	/**
@@ -55,16 +62,16 @@ class Users extends Database {
 	 * @return the user or false when the user was not found
 	 */
 	public function getByName($username) {
-		return R::findOne('users', 'username = ?', array( $username ));
+		return $this->create(R::findOne('users', 'username = ?', array( $username )));
 	}
 	
 	/**
 	 * Get a user by its email address.
 	 * @param string $email
-	 * @return the user or fals when the user was not found
+	 * @return the user or false when the user was not found
 	 */
 	public function getByEmail($email) {
-		return R::findOne('users', 'email = ?', array( $email ));
+		return $this->create(R::findOne('users', 'email = ?', array( $email )));
 	}
 	
 	/**
