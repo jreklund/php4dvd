@@ -14,9 +14,11 @@ $settings["defaultlanguage"] = "en";
 
 /**
  * Change your language and timezone here if required.
+ * ISO 639-1 alpha-2: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+ * ISO 3166-1 alpha-2: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#SE
  * Timezones: http://php.net/manual/en/timezones.php
  */
-setlocale(LC_ALL, $settings["defaultlanguage"].'.UTF8');
+setlocale(LC_ALL, 'en_US.UTF8');
 date_default_timezone_set('UTC');
 
 /**
