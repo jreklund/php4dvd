@@ -143,7 +143,7 @@
 								<div class="form-group has-feedback">
 									<label for="format" class="{$colWidthSmall} control-label">{$smarty.const.FORMAT|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" id="format" name="format" class="form-control required" data-provide="typeahead" autocomplete="off" value="{if isset($movie) && isset($movie->format)}{$movie->format|htmlentities:3:'UTF-8'}{else}{$smarty.const.DVD|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.FORMAT|htmlentities:3:'UTF-8'}">
+										<input type="text" id="format" name="format" class="form-control required" data-provide="typeahead" autocomplete="off" value="{if isset($movie) && isset($movie->format)}{$movie->format|htmlentities:3:'UTF-8'}{else}{$smarty.const.BLU_RAY|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.FORMAT|htmlentities:3:'UTF-8'}">
 									</div>
 								</div>
 								<div class="form-group has-feedback">

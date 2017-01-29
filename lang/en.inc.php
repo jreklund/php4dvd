@@ -116,6 +116,7 @@ define("DURATION_MINUTES",							"Duration (minutes)");
 define("RATING",									"Rating");
 define("FORMAT",									"Format");
 define("DVD",										"DVD");
+define("BLU_RAY",									"Blu-ray");
 define("I_HAVE_SEEN_THIS_MOVIE",					"I have seen this movie");
 define("I_OWN_THIS_MOVIE",							"I own this movie");
 define("LOANED_OUT_TO",								"Loaned out to");
