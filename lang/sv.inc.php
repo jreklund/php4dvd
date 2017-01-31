@@ -15,7 +15,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * Title
  */
-define("_TITLE",									"Min filmsamling");
+define("_TITLE",									"Min samling");
 
 /**
  * Menu
@@ -42,7 +42,7 @@ define("REMEMBER_ME",								"Kom ihåg mig");
  * Home
  */
 // Menu
-define("ADD_MOVIE",									"Lägg till film");
+define("ADD",										"Lägg till");
 define("UPDATE_ALL_MOVIE_INFORMATION",				"Uppdatera alla");
 define("EXPORT_TO_CSV",								"Exportera");
 // Search
@@ -70,9 +70,9 @@ define("loaned desc",								"Utlåande (nya-gamla)");
 define("ALL", 										"Alla");
 define("RESULTS_PER_PAGE",							"Resultat per sida");
 // Results
-define("NO_RESULTS_FOUND",							"Inga filmer hittades.");
+define("NO_RESULTS_FOUND",							"Inga titlar hittades.");
 define("NO_COVER",									"Inget omslag");
-define("MOVIES_TOTAL",								"Antal filmer");
+define("NUMBER_OF_TITLES",							"Antal titlar");
 define("STATISTICS",								"Statistik");
 
 /**
@@ -99,7 +99,7 @@ define("MINUTES",									"minuter");
 */
 // Menu
 define("SAVE",										"Spara");
-define("SAVE_AND_ADD_MOVIE",						"Spara och lägg till film");
+define("SAVE_AND_ADD_ANOTHER",						"Spara och lägg till en ny");
 define("UPDATE",									"Uppdatera");
 define("REMOVE_COVER",								"Ta bort omslag");
 // IMDb search
@@ -107,7 +107,7 @@ define("ADD_FROM_IMDB",								"Lägg till från IMDb");
 define("SEARCH",									"Sök");
 define("RESULTS_FROM_IMDB",							"Resultat från IMDb");
 // Movie information
-define("MOVIE_INFORMATION",							"Filminformation");
+define("MOVIE_INFORMATION",							"Information");
 define("IMDB_NUMBER",								"IMDb nummer");
 define("TITLE",										"Rubrik");
 define("AKA_TITLES",								"Känd som");
@@ -117,18 +117,18 @@ define("RATING",									"Betyg");
 define("FORMAT",									"Format");
 define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
-define("I_HAVE_SEEN_THIS_MOVIE",					"Jag har sett den här filmen");
-define("I_OWN_THIS_MOVIE",							"Jag äger den här filmen");
 define("LOANED_OUT_TO",								"Utlånad till");
 define("LOANED_OUT_SINCE",							"Utlånad sedan");
+define("TV_SERIES",									"TV-serie");
+define("SEASONS",									"Säsonger");
 define("YES",										"Ja");
 define("NO",										"Nej");
 define("COVER",										"Omslag");
-define("SEARCH_FOR_COVER",							"Sök efter filmomslag");
+define("SEARCH_FOR_COVER",							"Sök efter omslag");
 define("PHOTO",										"Affisch");
-define("SEARCH_FOR_PHOTO",							"Sök efter filmaffisch");
+define("SEARCH_FOR_PHOTO",							"Sök efter affisch");
 define("TRAILER_URL",								"Trailer URL");
-define("SEARCH_FOR_TRAILER",						"Sök efter filmtrailer");
+define("SEARCH_FOR_TRAILER",						"Sök efter trailer");
 define("PERSONAL_NOTES",							"Personliga anteckningar");
 define("TAGLINES",									"Slogans");
 define("PLOT_OUTLINE",								"Sammanfattning av handlingen");
@@ -201,7 +201,7 @@ define("WEBSITE",									"Hemsida");
 define("URL",										"Url");
 define("TEMPLATE",									"Mall");
 define("LANGUAGE",									"Språk");
-define("GUEST_USERS_CAN_SEE_COLLECTION",			"Gäster kan se min filmsamling");
+define("GUEST_USERS_CAN_SEE_COLLECTION",			"Gäster kan se min samling");
 define("FAILED_TO_WRITE_FILE",						"Misslyckades att skriva till filen");
 define("DATABASE_NEW_TEXT",							"En ny version av databasen kommer att installeras. Alla gamla/existerande tabeller kommer tas bort!");
 define("DATABASE_UPGRADE_TEXT",						"Din databas kommer att uppgraderas till den senaste versionen. Ingen information kommer att tas bort (säkerhetskopiera databasen först!).");

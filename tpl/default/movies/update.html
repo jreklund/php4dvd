@@ -39,7 +39,9 @@
 								{section name=r loop=$imdbresults}
 								<tr class="imdbresult">
 									<td class="imdb">
-										<a href="http://www.imdb.com/title/tt{$imdbresults[r]->imdbid()}/" target="_blank" rel="noreferrer noopener"><i class="fa fa-film fa-fw" title="{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a>
+										<a href="http://www.imdb.com/title/tt{$imdbresults[r]->imdbid()}/" target="_blank" rel="noreferrer noopener">
+											<i class="fa {if $imdbresults[r]->movietype()|in_array:$movietypes}fa-film{else}fa-television{/if} fa-fw" title="{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+										</a>
 									</td>
 									<td class="title{if $imdbresults[r]->known} known{/if}">
 										<a href="{prettyUrl(['go'=>'add','imdbid'=>$imdbresults[r]->imdbid()])}">{$imdbresults[r]->title()}</a>
@@ -147,7 +149,7 @@
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label class="{$colWidthSmall} control-label">{$smarty.const.I_OWN_THIS_MOVIE|htmlentities:3:'UTF-8'}</label>
+									<label class="{$colWidthSmall} control-label">{$smarty.const.OWN|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<label class="radio-inline" for="own_yes">
 										  <input type="radio" name="own" id="own_yes" value="1"{if !isset($movie) || $movie->own} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
@@ -158,7 +160,7 @@
 									</div>
 								</div>
 								<div class="form-group has-feedback">
-									<label class="{$colWidthSmall} control-label">{$smarty.const.I_HAVE_SEEN_THIS_MOVIE|htmlentities:3:'UTF-8'}</label>
+									<label class="{$colWidthSmall} control-label">{$smarty.const.SEEN|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<label class="radio-inline" for="seen_yes">
 										  <input type="radio" name="seen" id="seen_yes" value="1"{if !isset($movie) || $movie->seen} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
@@ -189,6 +191,23 @@
 									<label for="loandate" class="{$colWidthSmall} control-label">{$smarty.const.LOANED_OUT_SINCE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<input type="text" name="loandate" id="loandate" value="{if isset($movie) && $movie->loandate != '0000-00-00'}{$movie->loandate|htmlentities:3:'UTF-8'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" class="form-control date">
+									</div>
+								</div>
+								<div class="form-group has-feedback">
+									<label class="{$colWidthSmall} control-label">{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}</label>
+									<div class="{$colWidthLarge}">
+										<label class="radio-inline" for="tv_yes">
+										  <input type="radio" name="tv" id="tv_yes" value="1" onclick="$('#tv-container').show(); $('#tv-container input').focus();"{if isset($movie) && $movie->tv} checked{/if}> {$smarty.const.YES|htmlentities:3:'UTF-8'}
+										</label>
+										<label class="radio-inline" for="tv_no">
+										  <input type="radio" name="tv" id="tv_no" value="0" onclick="$('#tv-container').hide();"{if !isset($movie) || !$movie->tv} checked{/if}> {$smarty.const.NO|htmlentities:3:'UTF-8'}
+										</label>
+									</div>
+								</div>
+								<div id="tv-container" class="form-group has-feedback{if !isset($movie) || !$movie->tv} form-hide{/if}">
+									<label for="seasons" class="{$colWidthSmall} control-label">{$smarty.const.SEASONS|htmlentities:3:'UTF-8'}</label>
+									<div class="{$colWidthLarge}">
+										<input type="text" name="seasons" id="seasons" class="form-control digits" value="{if isset($movie)}{$movie->seasons|htmlentities:3:'UTF-8'}{/if}" maxlength="2">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
@@ -307,7 +326,7 @@
 							<div class="box-footer">
 								<button type="submit" id="submit" name="submit" class="btn btn-primary">{$smarty.const.SAVE|htmlentities:3:'UTF-8'}</button>
 								{if !isset($imdbresults) && isset($imdbmovie)}
-								<button type="submit" id="addnew" name="addnew" class="btn btn-primary">{$smarty.const.SAVE_AND_ADD_MOVIE|htmlentities:3:'UTF-8'}</button>
+								<button type="submit" id="addnew" name="addnew" class="btn btn-primary">{$smarty.const.SAVE_AND_ADD_ANOTHER|htmlentities:3:'UTF-8'}</button>
 								{/if}
 							</div>
 						</form>
@@ -317,7 +336,7 @@
 			<script>
 				$(document).ready(function() {
 					var availableTags = [
-						{if $movieformats|@count == 0}'{$smarty.const.DVD|htmlentities:3:'UTF-8'}',{/if}
+						{if $movieformats|@count == 0}'{$smarty.const.BLU_RAY|htmlentities:3:'UTF-8'}',{/if}
 						{section name=f loop=$movieformats}'{$movieformats[f]|htmlentities:3:'UTF-8'}',{/section}
 					];
 

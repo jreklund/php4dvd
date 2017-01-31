@@ -15,7 +15,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * Title
  */
-define("_TITLE",									"Mijn film verzameling");
+define("_TITLE",									"Mijn verzameling");
 
 /**
  * Menu
@@ -42,11 +42,11 @@ define("REMEMBER_ME",								"Onthoud me");
  * Home
  */
 // Menu
-define("ADD_MOVIE",									"Film toevoegen");
+define("ADD",										"Toevoegen");
 define("UPDATE_ALL_MOVIE_INFORMATION",				"Alles bijwerken");
 define("EXPORT_TO_CSV",								"Exporteren");
 // Search
-define("SEARCH_DEFAULT_TEXT",						"Zoek naar films...");
+define("SEARCH_DEFAULT_TEXT",						"Zoek...");
 define("CATEGORIES",								"Categorieën");
 define("ALL_CATEGORIES",							"Alle categorieën");
 define("SORT_BY",									"Sorteer op");
@@ -70,9 +70,9 @@ define("loaned desc",								"Uitgeleend (nieuw-oud)");
 define("ALL", 										"Alle");
 define("RESULTS_PER_PAGE",							"Resultaten per pagina");
 // Results
-define("NO_RESULTS_FOUND",							"Er zijn geen films gevonden.");
+define("NO_RESULTS_FOUND",							"Geen titels gevonden.");
 define("NO_COVER",									"Geen afbeelding");
-define("MOVIES_TOTAL",								"Totaal films");
+define("NUMBER_OF_TITLES",							"Aantal titels");
 define("STATISTICS",								"Statistieken");
 
 /**
@@ -99,7 +99,7 @@ define("MINUTES",									"minuten");
 */
 // Menu
 define("SAVE",										"Opslaan");
-define("SAVE_AND_ADD_MOVIE",						"Opslaan en voeg film");
+define("SAVE_AND_ADD_ANOTHER",						"Opslaan en voeg een ander");
 define("UPDATE",									"Bijwerken");
 define("REMOVE_COVER",								"Verwijder hoes");
 // IMDb search
@@ -107,7 +107,7 @@ define("ADD_FROM_IMDB",								"Toevoegen vanaf IMDb");
 define("SEARCH",									"Zoeken");
 define("RESULTS_FROM_IMDB",							"Resultaten van IMDb");
 // Movie information
-define("MOVIE_INFORMATION",							"Film informatie");
+define("MOVIE_INFORMATION",							"Informatie");
 define("IMDB_NUMBER",								"IMDb nummer");
 define("TITLE",										"Titel");
 define("AKA_TITLES",								"Andere titels");
@@ -117,16 +117,16 @@ define("RATING",									"Score");
 define("FORMAT",									"Formaat");
 define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
-define("I_HAVE_SEEN_THIS_MOVIE",					"Ik heb deze film gezien");
-define("I_OWN_THIS_MOVIE",							"Ik bezit deze film");
 define("LOANED_OUT_TO",								"Uitgeleend aan");
 define("LOANED_OUT_SINCE",							"Uitgeleend sinds");
+define("TV_SERIES",									"TV Serie");
+define("SEASONS",									"Seizoenen");
 define("YES",										"Ja");
 define("NO",										"Nee");
 define("COVER",										"Hoes");
 define("SEARCH_FOR_COVER",							"Zoek naar hoes");
 define("PHOTO",										"Poster");
-define("SEARCH_FOR_PHOTO",							"Zoeken naar filmposter");
+define("SEARCH_FOR_PHOTO",							"Zoeken naar poster");
 define("TRAILER_URL",								"Trailer URL");
 define("SEARCH_FOR_TRAILER",						"Zoek naar trailer");
 define("PERSONAL_NOTES",							"Persoonlijke opmerkingen");
@@ -201,7 +201,7 @@ define("WEBSITE",									"Website");
 define("URL",										"Url");
 define("TEMPLATE",									"Template");
 define("LANGUAGE",									"Taal");
-define("GUEST_USERS_CAN_SEE_COLLECTION",			"Guest users can see my movie collection");
+define("GUEST_USERS_CAN_SEE_COLLECTION",			"Guest users can see my collection");
 define("FAILED_TO_WRITE_FILE",						"Failed to write the file");
 define("DATABASE_NEW_TEXT",							"A new version of the database will be installed. Any old existing tables will be removed!");
 define("DATABASE_UPGRADE_TEXT",						"Your database will be upgraded to the latest version. No information will be removed (it is safe to make a backup first!).");

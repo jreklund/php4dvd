@@ -15,7 +15,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * Title
  */
-define("_TITLE",									"My movie collection");
+define("_TITLE",									"My collection");
 
 /**
  * Menu
@@ -42,11 +42,11 @@ define("REMEMBER_ME",								"Remember me");
  * Home
  */
 // Menu
-define("ADD_MOVIE",									"Add movie");
+define("ADD",										"Add");
 define("UPDATE_ALL_MOVIE_INFORMATION",				"Update all");
 define("EXPORT_TO_CSV",								"Export");
 // Search
-define("SEARCH_DEFAULT_TEXT",						"Search for movies...");
+define("SEARCH_DEFAULT_TEXT",						"Search...");
 define("CATEGORIES",								"Categories");
 define("ALL_CATEGORIES",							"All categories");
 define("SORT_BY",									"Sort by");
@@ -70,9 +70,9 @@ define("loaned desc",								"Loaned out (new-old)");
 define("ALL", 										"All");
 define("RESULTS_PER_PAGE",							"Results per page");
 // Results
-define("NO_RESULTS_FOUND",							"No movies where found.");
+define("NO_RESULTS_FOUND",							"No titles where found.");
 define("NO_COVER",									"No cover");
-define("MOVIES_TOTAL",								"Total movies");
+define("NUMBER_OF_TITLES",							"Number of titles");
 define("STATISTICS",								"Statistics");
 
 /**
@@ -99,7 +99,7 @@ define("MINUTES",									"minutes");
 */
 // Menu
 define("SAVE",										"Save");
-define("SAVE_AND_ADD_MOVIE",						"Save and add movie");
+define("SAVE_AND_ADD_ANOTHER",						"Save and add another");
 define("UPDATE",									"Update");
 define("REMOVE_COVER",								"Remove cover");
 // IMDb search
@@ -107,7 +107,7 @@ define("ADD_FROM_IMDB",								"Add from IMDb");
 define("SEARCH",									"Search");
 define("RESULTS_FROM_IMDB",							"Results from IMDb");
 // Movie information
-define("MOVIE_INFORMATION",							"Movie information");
+define("MOVIE_INFORMATION",							"Information");
 define("IMDB_NUMBER",								"IMDb number");
 define("TITLE",										"Title");
 define("AKA_TITLES",								"Also known as");
@@ -117,18 +117,18 @@ define("RATING",									"Rating");
 define("FORMAT",									"Format");
 define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
-define("I_HAVE_SEEN_THIS_MOVIE",					"I have seen this movie");
-define("I_OWN_THIS_MOVIE",							"I own this movie");
 define("LOANED_OUT_TO",								"Loaned out to");
 define("LOANED_OUT_SINCE",							"Loaned out since");
+define("TV_SERIES",									"TV Series");
+define("SEASONS",									"Seasons");
 define("YES",										"Yes");
 define("NO",										"No");
 define("COVER",										"Cover");
-define("SEARCH_FOR_COVER",							"Search for movie cover");
+define("SEARCH_FOR_COVER",							"Search for cover");
 define("PHOTO",										"Poster");
-define("SEARCH_FOR_PHOTO",							"Search for movie poster");
+define("SEARCH_FOR_PHOTO",							"Search for poster");
 define("TRAILER_URL",								"Trailer URL");
-define("SEARCH_FOR_TRAILER",						"Search for movie trailer");
+define("SEARCH_FOR_TRAILER",						"Search for trailer");
 define("PERSONAL_NOTES",							"Personal notes");
 define("TAGLINES",									"Taglines");
 define("PLOT_OUTLINE",								"Plot outline");
@@ -201,7 +201,7 @@ define("WEBSITE",									"Website");
 define("URL",										"Url");
 define("TEMPLATE",									"Template");
 define("LANGUAGE",									"Language");
-define("GUEST_USERS_CAN_SEE_COLLECTION",			"Guest users can see my movie collection");
+define("GUEST_USERS_CAN_SEE_COLLECTION",			"Guest users can see my collection");
 define("FAILED_TO_WRITE_FILE",						"Failed to write the file");
 define("DATABASE_NEW_TEXT",							"A new version of the database will be installed. Any old existing tables will be removed!");
 define("DATABASE_UPGRADE_TEXT",						"Your database will be upgraded to the latest version. No information will be removed (it is safe to make a backup first!).");

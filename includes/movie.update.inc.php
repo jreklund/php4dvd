@@ -22,7 +22,21 @@ if(isset($_GET["imdbsearch"])) {
 	
 		// Search IMDb for the movie
 		$imdb = new \Imdb\TitleSearch();
-		$imdbresults = $imdb->search($imdbsearch,array(\Imdb\TitleSearch::MOVIE,\Imdb\TitleSearch::VIDEO));
+		$wantedTypes = array(
+			\Imdb\TitleSearch::MOVIE,
+			\Imdb\TitleSearch::VIDEO,
+			\Imdb\TitleSearch::TV_MOVIE,
+			\Imdb\TitleSearch::TV_SERIES,
+			\Imdb\TitleSearch::TV_MINI_SERIES
+		);
+		$imdbresults = $imdb->search($imdbsearch,$wantedTypes);
+		
+		// Select Movie/TV Series based on movietypes
+		$movietypes = array(
+			\Imdb\TitleSearch::MOVIE,
+			\Imdb\TitleSearch::VIDEO,
+			\Imdb\TitleSearch::TV_MOVIE
+		);
 	
 		// Check if any of these results are allready added to our database
 		$temp = array();
@@ -34,6 +48,7 @@ if(isset($_GET["imdbsearch"])) {
 			$temp[] = $result;
 		}
 		$imdbresults = $temp;
+		$Website->assign("movietypes", $movietypes);
 		$Website->assign("imdbresults", $imdbresults);
 	}
 }

@@ -46,12 +46,19 @@
 								{$movie->format|htmlentities:3:'UTF-8'}{if $movie->duration && $movie->duration != 0}, {durationConvertion($movie->duration|htmlentities:3:'UTF-8')}{/if}
 							</div>
 							
+							{if $movie->rating && $movie->rating != 0}
 							<div class="rating">
-								{if $movie->rating && $movie->rating != 0}
 								<span class="header">{$smarty.const.RATING|htmlentities:3:'UTF-8'}:</span> 
 								{$movie->rating|htmlentities:3:'UTF-8'}
-								{/if}
 							</div>
+							{/if}
+							
+							{if $movie->seasons && $movie->seasons != 0}
+							<div class="seasons">
+								<span class="header">{$smarty.const.SEASONS|htmlentities:3:'UTF-8'}:</span> 
+								{$movie->seasons|htmlentities:3:'UTF-8'}
+							</div>
+							{/if}
 							
 							{if $movie->languages && strlen($movie->languages) > 0}
 							<div class="languages">								

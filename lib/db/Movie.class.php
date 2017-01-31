@@ -27,6 +27,8 @@ class Movie {
 		$this->loaned = isset($this->loaned) ? $this->loaned : false;
 		$this->loanname = isset($this->loanname) ? $this->loanname : "";
 		$this->loandate = isset($this->loandate) ? $this->loandate : "";
+		$this->tv = ($imdbmovie->is_serial() || $imdbmovie->seasons()) ? true : false;
+		$this->seasons = $this->htmldecode($imdbmovie->seasons());
 		$this->trailer = isset($this->trailer) ? $this->trailer : "";
 		$this->notes = isset($this->notes) ? $this->notes : "";
 		$this->taglines = $this->join("\n\n", $this->htmldecode($imdbmovie->taglines()));

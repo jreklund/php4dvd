@@ -42,7 +42,7 @@ define("REMEMBER_ME",								"Zapamiętaj mnie");
  * Home
  */
 // Menu
-define("ADD_MOVIE",									"Dodaj nowy");
+define("ADD",										"Dodaj nowy");
 define("UPDATE_ALL_MOVIE_INFORMATION",				"Aktualizuj z IMDb");
 define("EXPORT_TO_CSV",								"Eksportuj do CSV");
 // Search
@@ -72,7 +72,7 @@ define("RESULTS_PER_PAGE",							"Pozycji na stronie");
 // Results
 define("NO_RESULTS_FOUND",							"Nie znaleziono pozycji");
 define("NO_COVER",									"Brak okładki");
-define("MOVIES_TOTAL",								"Wszystkich pozycji : ");
+define("NUMBER_OF_TITLES",							"Ilość tytułów");
 define("STATISTICS",								"Statystyki");
  
 /**
@@ -99,7 +99,7 @@ define("MINUTES",									"minut");
 */
 // Menu
 define("SAVE",										"Zapisz");
-define("SAVE_AND_ADD_MOVIE",						"Zapisz i dodaj następny film");
+define("SAVE_AND_ADD_ANOTHER",						"Zapisz i dodaj następny");
 define("UPDATE",									"Aktualizuj");
 define("REMOVE_COVER",								"Usuń okładkę");
 // IMDb search
@@ -107,7 +107,7 @@ define("ADD_FROM_IMDB",								"Szukaj w bazie IMDb");
 define("SEARCH",									"Szukaj");
 define("RESULTS_FROM_IMDB",							"Wyniki z IMDb");
 // Movie information
-define("MOVIE_INFORMATION",							"Informacje o filmie");
+define("MOVIE_INFORMATION",							"Informacja");
 define("IMDB_NUMBER",								"Numer w bazie IMDb");
 define("TITLE",										"Tytuł");
 define("AKA_TITLES",								"Inne znane tytuły");
@@ -117,18 +117,18 @@ define("RATING",									"Ocena");
 define("FORMAT",									"Typ nośnika");
 define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
-define("I_HAVE_SEEN_THIS_MOVIE",					"Widziałeś ten film ?");
-define("I_OWN_THIS_MOVIE",							"Posiadasz ten film ?");
 define("LOANED_OUT_TO",								"Wypożyczony dla");
 define("LOANED_OUT_SINCE",							"Wypożyczony od");
+define("TV_SERIES",									"Serial TV");
+define("SEASONS",									"Sezony");
 define("YES",										"Tak");
 define("NO",										"Nie");
 define("COVER",										"Okładka");
-define("SEARCH_FOR_COVER",							"Szukaj okładki dla filmu");
+define("SEARCH_FOR_COVER",							"Szukaj okładki dla");
 define("PHOTO",										"Plakat");
-define("SEARCH_FOR_PHOTO",							"Szukaj plakatu dla filmu");
+define("SEARCH_FOR_PHOTO",							"Szukaj plakatu dla");
 define("TRAILER_URL",								"Link do trilera (URL)");
-define("SEARCH_FOR_TRAILER",						"Szukaj trailera dla filmu");
+define("SEARCH_FOR_TRAILER",						"Szukaj trailera dla");
 define("PERSONAL_NOTES",							"Notatki osobiste");
 define("TAGLINES",									"Slogany");
 define("PLOT_OUTLINE",								"Zarys fabuły");
@@ -201,7 +201,7 @@ define("WEBSITE",									"Strona www");
 define("URL",										"Url");
 define("TEMPLATE",									"Szablon");
 define("LANGUAGE",									"Język");
-define("GUEST_USERS_CAN_SEE_COLLECTION",			"Goście mogą ogladać moją kolekcję filmów");
+define("GUEST_USERS_CAN_SEE_COLLECTION",			"Goście mogą ogladać moją kolekcję");
 define("FAILED_TO_WRITE_FILE",						"Nie udało się zapisać do pliku");
 define("DATABASE_NEW_TEXT",							"Zostanie zainstalowana nowa wersja bazy danych. Jakiekolwiek starsze tabele zostaną usunięte!");
 define("DATABASE_UPGRADE_TEXT",						"Twoja baza danych zostanie zaktualizowana do najnowszej wersji. Nie zostaną usunięte żadne informacje (dla bezpieczeństwa i tak warto zrobić backup!).");

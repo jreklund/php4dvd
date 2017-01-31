@@ -93,7 +93,7 @@
         </div>
         <!-- Default to the left -->
 		{if $main == 'movies/collection.html'}
-		{$smarty.const.MOVIES_TOTAL|htmlentities:3:'UTF-8'} <strong>{$numberowned}</strong> |
+		{$smarty.const.NUMBER_OF_TITLES|htmlentities:3:'UTF-8'} <strong>{$numberowned}</strong> |
 		{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'} <strong>{$numberowned-$numberseen}</strong>
 		{/if}&nbsp;
       </footer>
