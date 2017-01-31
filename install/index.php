@@ -233,7 +233,7 @@ switch ($currentstep) {
 						// Update database
 						if(isset($_POST["accepted"])) {
 							// Iterate sql files since last version and execute these files
-							$v = DB_VERSION;
+							$v = number_format(DB_VERSION + 0.1, 1);
 							
 							// Run first script when this is a new installation
 							if($new_installation) {
