@@ -1,3 +1,17 @@
+## 3.2.2 (2017-01-31)
+### Added
+  - You can now add TV-Series (Seasons)
+
+### Changed
+  - Updated AdminLTE to 2.3.11
+  - Blu-ray are now the standard video format
+  - Add from IMDb now includes Direct-to-video
+  
+### Fixed
+  - setlocale uses ISO 639-1 and ISO 3166-1
+  - Wrong character encoding on table.auth
+  - Installer ran last database update too
+
 ## 3.2.1 (2017-01-27)
 ### Added
   - Validation of photos (jpeg|jpg)
