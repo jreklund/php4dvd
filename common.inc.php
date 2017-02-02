@@ -50,6 +50,15 @@ if(file_exists($loc . "config/config.php")) {
 	}
 }
 
+// Force the use of HTTPS
+if(
+	isset($settings["url"]["HTTPS"]) && $settings["url"]["HTTPS"] && 
+	(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on')
+) {
+	header('Location: https://'. $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
+	exit();
+}
+
 // Include util functions
 require_once($loc . "lib/util.inc.php");
 

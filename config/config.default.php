@@ -45,6 +45,12 @@ $baseurl = preg_replace("/install/i", "", $baseurl);
 $settings["url"]["base"] = $baseurl;
 
 /**
+ * Force the use of HTTPS.
+ * Please activate inside .htaccess if you can, php4dvd will load a little faster.
+ */
+$settings["url"]["HTTPS"] = false;
+
+/**
  * The database settings.
  * Fill in the hostname of the databse, the databse name and the username and password to connect. 
  */
@@ -140,6 +146,7 @@ $settings["smarty"]["development"]		= $settings["development"];
 /**
  * Pretty URL
  * Rewrite /.?go=movie&id=1&name=name-of-movie into /movie/id/1/name/name-of-movie/
+ * You will need to change some settings inside .htaccess
  */
  
 $settings["pretty_url"] = false;

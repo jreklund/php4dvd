@@ -9,8 +9,13 @@ Options -Indexes +FollowSymLinks -MultiViews
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  # !IMPORTANT! Set your RewriteBase here and don't forget trailing and leading
-  #  slashes.
+  # Force HTTPS.
+  # By deleting "#" on the next two rows. 
+  #RewriteCond %{HTTPS} !=on
+  #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  
+  # !IMPORTANT! 
+  # Set your RewriteBase here and don't forget trailing and leading slashes.
   # If your page resides at
   #  http://www.example.com/app/php4dvd
   # then use
