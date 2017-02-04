@@ -82,7 +82,7 @@ class Movies extends Database {
 		$bindings = array();
 		$wordsTotal = count($words);
 		if($wordsTotal > 0 && $words[0] != "") {
-			$query .= " AND (";$i = 0;
+			$query .= " AND ((";$i = 0;
 			for($i; $i < $wordsTotal; ++$i) {
 				$word = $words[$i];
 				
@@ -103,7 +103,7 @@ class Movies extends Database {
 			$query .= "`producer` LIKE ? OR ";	$bindings[] = '%'.implode(' ',$words).'%';
 			$query .= "`music` LIKE ? OR ";		$bindings[] = '%'.implode(' ',$words).'%';
 			$query .= "`cast` LIKE ? ";			$bindings[] = '%'.implode(' ',$words).'%';
-			$query .= ")";
+			$query .= "))";
 		}
 		if($category != "") {
 			$query .= " AND `genres` LIKE ?"; $bindings[] = '%'.$category.'%';
