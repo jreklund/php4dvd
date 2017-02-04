@@ -72,19 +72,19 @@ if(!isset($User) && isset($_SESSION["User"])) {
 if(!isset($User) && isset($_POST["username"]) && isset($_POST["password"])) {
 	$User = $userdm->getByName($_POST["username"]);
 	/**
-	 * Password correct? $conveted = true; OR
+	 * Password correct? $converted = true; OR
 	 * Truncated passwords at 72 characters in php4dvd <= 3.2.0 OR
 	 * MD5 Encryption: Password reset in database or php4dvd version <= 2.0.
 	 * !$converted: Encrypt password using PHP 5.5 API password_hash.
 	 */
 	if(
-		($User && $coverted = $login->passwordVerify($_POST["password"],$User->password)) OR
+		($User && $converted = $login->passwordVerify($_POST["password"],$User->password)) OR
 		($User && password_verify($_POST["password"], $User->password)) OR
 		($User && $User->password === md5($_POST["password"]))
 	) {
 		if(isset($_POST["rememberme"]))
 			$login->rememberMe($User);
-		if(!$coverted)
+		if(!$converted)
 			$User->password = $login->passwordHash($_POST['password']);
 		$login->login($User);
 		$login->goBack();
