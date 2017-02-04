@@ -52,7 +52,8 @@
 					</ul>
 				</li>
 				{elseif $guestview}
-				<li{if $currentUrl|strpos:$webroot+'?go=login'===0 || $currentUrl|strpos:$webroot+'login'===0} class="selected"{/if}><a href="{prettyUrl(['go' => 'login'],['ref' => $currentUrl|rawurlencode])}" title="{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
+				{$loginNonSeoUrl="`$webroot`?go=login"}{$loginSeoUrl="`$webroot`login"}
+				<li{if $currentUrl|strpos:$loginNonSeoUrl===0 || $currentUrl|strpos:$loginSeoUrl===0} class="selected"{/if}><a href="{prettyUrl(['go' => 'login'],['ref' => $currentUrl|rawurlencode])}" title="{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
 				{/if}
 				{if count($languages) > 1}
 				<li class="dropdown">
