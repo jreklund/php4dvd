@@ -33,18 +33,19 @@ class Login {
 	 */
 	function logOut(&$User, $Auth=null) {
 		// Remove rememberMe
-		if($Auth && $Auth->id && $User && $Auth->userid == $User->id) {
+		if($Auth && $Auth->id) {
 			$this->authdm->remove($Auth);
 		} else if(isset($_COOKIE["rememberme"])) {
 			list($selector, $token) = explode(":", $_COOKIE["rememberme"]);
 			if($selector && $token) {
 				$Auth = $this->authdm->getBySelector($selector);
-				if($Auth && $Auth->id && $User && $Auth->userid == $User->id)
+				if($Auth && $Auth->id && $User && $Auth->userid === $User->id)
 					$this->authdm->remove($Auth);
 			}
 		}
 		// Log out
-		setcookie('rememberme', '', time()-3600, '/', '', false, true);
+		setcookie('rememberme', '', 1,'/','',false,true);
+		setcookie('rememberme', false, 1,'/','',false,true);
 		unset($_COOKIE["rememberme"]);
 		unset($_SESSION["User"]);
 		$User = null;

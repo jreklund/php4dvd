@@ -9,7 +9,7 @@ if(isset($user)) {
 	if($user->username != $settings["user"]["defaultAdmin"]) {
 		$userdm->remove($user);
 		$authdm->removeAll($user);
-		if($User->id == $user->id) {
+		if($User->id === $user->id) {
 			$login->logOut($User);
 		}
 	}

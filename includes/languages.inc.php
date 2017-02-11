@@ -16,12 +16,12 @@ if(is_array($settings["languages"])) {
 $Website->assign("languages", $languages);
 
 // Does anyone try to specify a specific language
-if(isset($_GET["lang"]) && in_array($_GET['lang'],$languages)) {
+if(isset($_GET["lang"]) && in_array($_GET['lang'],$languages,true)) {
 	setcookie("lang", $_GET["lang"], time()+(365 * 24 * 60 * 60), "/", "");
 	back();
 }
 // Find whether the user has a preferred language
-else if(isset($_COOKIE["lang"]) && in_array($_COOKIE["lang"],$languages)) {
+else if(isset($_COOKIE["lang"]) && in_array($_COOKIE["lang"],$languages,true)) {
 	$language = $_COOKIE["lang"];
 }
 

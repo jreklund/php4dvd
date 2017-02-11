@@ -36,7 +36,7 @@ if($loggedin && $User->isAdmin() && isset($_POST["username"])) {
 		$newuser->email = $_POST["email"];
 	}
 	// Valid permission 
-	if(isset($_POST['permission']) && in_array($_POST['permission'],array(0,1,2))) {
+	if(isset($_POST['permission']) && in_array($_POST['permission'],array('0','1','2'),true)) {
 		$newuser->permission = intval($_POST['permission']);
 	}
 	

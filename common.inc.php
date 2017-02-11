@@ -119,7 +119,7 @@ $Website->assign("template_skin", $tpl_skin);
 
 // Template for movie collection
 $templateName = isset($_COOKIE['layout']) ? $_COOKIE['layout'] : '';
-if(!in_array($templateName,array('poster','postertitle','posterlist','list','listplot')))
+if(!in_array($templateName,array('poster','postertitle','posterlist','list','listplot'),true))
 	$templateName = ($tpl_movie_collection)?$tpl_movie_collection:'postertitle';
 $Website->assign("templateName", $templateName);
 

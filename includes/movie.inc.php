@@ -34,21 +34,19 @@ $numberOfCast = $settings["number_of_cast"];
 $Website->assign("numberOfCast", $numberOfCast);
 
 // Retrieve a movie
-if(isset($_GET["id"])) {
-	$movie = $moviedm->get($_GET["id"]);
+if($id = getValidId('id',true)) {
+	$movie = $moviedm->get($id);
 	if($movie && $movie->id > 0) {
 		// Show movie
 		$Website->assign("movie", $movie);
 	}
-	else {
+	else if (!isset($trailer)){
 		back();
 	}
 }
 
 // Retrieve a movie from imdb
-if(isset($_GET["imdbid"])) {
-	$imdbid = $_GET["imdbid"];
-		
+if($loggedin && $User->isEditor() && $imdbid = getValidId('imdbid',true)) {
 	// IMDB engine
 	require_once($loc."/lib/imdbphp/bootstrap.php");
 		

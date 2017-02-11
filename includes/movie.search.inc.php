@@ -39,31 +39,31 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	// Validate $sort against movie sort columns ($allsortoptions)
 	// NEVER DELETE THIS. You will be open to SQL Injections.
 	// Redbeanphp can't use binding for ORDER BY.
-	if(!in_array($sort,$allsortoptions))
+	if(!in_array($sort,$allsortoptions,true))
 		$sort = "";
 	
 	// Validate $amount against number of results ($resultsperpage)
-	if(!in_array($amount,$resultsperpage))
+	if(!in_array($amount,$resultsperpage,true))
 		$amount = $resultsPerPageDefault?$resultsPerPageDefault:100;
 	
 	// Validate $category against movie categories ($moviecategories)
-	if(!in_array($category,$moviecategories))
+	if(!in_array($category,$moviecategories,true))
 		$category = "";
 	
 	// Change what columns to get from the database (movie collection)
 	$columns = array();
-	if($templateName == 'poster')
+	if($templateName === 'poster')
 		$columns = array('`id`','`name`','`year`');
-	if($templateName == 'posterlist' || $templateName == 'listplot')
+	if($templateName === 'posterlist' || $templateName === 'listplot')
 		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`plotoutline`');
-	if($templateName == 'list')
+	if($templateName === 'list')
 		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`');
 	
 	// Search the database for one more movie
 	$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount, false, $columns);
 	
 	// If there are no movies found, reload
-	while($page > 0 && count($movies) == 0) {
+	while($page > 0 && count($movies) === 0) {
 		$page--;
 		$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount, false, $columns);
 	}
@@ -116,7 +116,7 @@ if(!isset($refreshMovieList)) {
 	$numberseen = 0;
 	foreach($movies as $m) {
 		for($i = 0; $i < count($numbertypes); $i++) {
-			if($numbertypes[$i][0] == $m['format'])
+			if($numbertypes[$i][0] === $m['format'])
 			$numbertypes[$i][1] += 1;
 		}
 		if($m['own'])

@@ -70,7 +70,7 @@ function setQueryString($url, $values) {
 	
 	// Get url and querystring
 	$parts = preg_split("/\?/", $url);
-	if(count($parts) == 2) {
+	if(count($parts) === 2) {
 		$url = $parts[0];
 		$querystring = $parts[1];
 	}
@@ -81,7 +81,7 @@ function setQueryString($url, $values) {
 	foreach($qsparts as $qspart) {
 		$keyvalue = preg_split("/=/", $qspart);
 		$key = $keyvalue[0];
-		$value = count($keyvalue) == 2 ? $keyvalue[1] : false;
+		$value = count($keyvalue) === 2 ? $keyvalue[1] : false;
 		$queryparts[$key] = $value;
 	}
 	
@@ -175,6 +175,25 @@ function durationConvertion($duration) {
 	$minutes = ($duration % 60);
 
 	return ($hours)?$hours. 'h '. $minutes .'min':$minutes.'min';
+}
+
+/**
+ * Check if $_GET[$id] isset, numric characters and 1 or bigger
+ * @param	string
+ * @param	bool	Go one page back
+ * @return	false|string|back()
+ */
+function getValidId($id,$back=false) {
+	if(!isset($_GET[$id])) {
+		return false;
+	}
+	if(ctype_digit($_GET[$id]) && $_GET[$id] > 0) {
+		return $_GET[$id];
+	}
+	if($back) {
+		back();
+	}
+	return false;
 }
 
 /**
@@ -305,7 +324,7 @@ function prettyUrlHelper($href='',$url=array()) {
  */
 
 function prettyUrlNameHelper($str='',$get='') {
-	if($get == 'name')
+	if($get === 'name')
 		return urlTitle(convertAccentedCharacters($str),'-',TRUE);
 	return trim(preg_replace('/[^a-z 0-9~%.:_\-]+/i','',convertAccentedCharacters($str)));
 }
@@ -323,13 +342,13 @@ function parsePrettyUrl() {
 		$parts = explode('/', $path);
 
 		if(!empty($parts)) {
-			if( in_array($parts[0],array('logout','lang')) ) {
+			if( in_array($parts[0],array('logout','lang'),true) ) {
 				$_GET[parsePrettyUrlNameHelper(array_shift($parts),true)] = parsePrettyUrlNameHelper(array_shift($parts));
 			} else {
 				$_GET['go'] = parsePrettyUrlNameHelper(array_shift($parts));
 			}
 			$length = count($parts);
-			if($length % 2 == 0) {
+			if($length % 2 === 0) {
 				for($i = 0; $i < $length; $i+=2) {
 					$_GET[parsePrettyUrlNameHelper($parts[$i],true)] = parsePrettyUrlNameHelper($parts[$i+1]);
 				}

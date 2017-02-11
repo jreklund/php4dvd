@@ -14,8 +14,8 @@ $authdm = new Auth($settings["db"]);
 $login  = new Login($userdm,$authdm);
 
 // Retrieve a user
-if(isset($_GET["id"])) {
-	$user = $userdm->get($_GET["id"]);
+if($id = getValidId('id',true)) {
+	$user = $userdm->get($id);
 	if($user && $user->id > 0) {
 		// Show user
 		unset($user->password);
@@ -25,4 +25,3 @@ if(isset($_GET["id"])) {
 		back();
 	}
 }
-?>

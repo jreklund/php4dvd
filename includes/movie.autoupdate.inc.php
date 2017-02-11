@@ -6,7 +6,7 @@ require_once($loc . "includes/movie.inc.php");
 // Only update when the user has editor permissions
 if($loggedin && $User->isEditor()) {
 	// Get the last movie updated
-	$lastMovieId = isset($_GET["lastid"]) ? intval($_GET["lastid"]) : false;
+	$lastMovieId = getValidId('lastid');
 	
 	// Get the next movie to update
 	$movies = $moviedm->search("", "id");
