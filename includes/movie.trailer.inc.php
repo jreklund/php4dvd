@@ -1,15 +1,17 @@
 <?php
 defined('DIRECTACCESS') OR exit('No direct script access allowed');
 
+require_once($loc . "includes/movie.inc.php");
+
 if(!$youtubeKey) {
 	$trailers['error']['message'] = 'No API key.';
-} else if (isset($_GET['movie']) && isset($_GET['year'])) {
+} else if ($movie && $movie->id) {
 	/*
 	* Set $DEVELOPER_KEY to the "API key" value from the "Access" tab of the
 	* {{ Google Cloud Console }} <{{ https://cloud.google.com/console }}>
 	* Please ensure that you have enabled the YouTube Data API for your project.
 	*/
-	$search = urlencode(rawurldecode($_GET['movie']) . ' ' . $_GET['year'] . ' trailer');
+	$search = urlencode($movie->name . ' ' . $movie->year . ' trailer');
 	
 	$query = "https://www.googleapis.com/youtube/v3/search";
 	$query .= "?part=id&maxResults=1&q={$search}&safeSearch=none&type=video&key={$youtubeKey}";

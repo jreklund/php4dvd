@@ -17,7 +17,7 @@
 	</li>
 	{elseif $youtubeKey}
 	<li>
-		<a href="{prettyUrl(['go' => 'trailer','movie' => $movie->name|rawurlencode,'year' => $movie->year])}" class="popup-trailer" target="_blank" rel="noreferrer noopener" title="{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'})">
+		<a href="{prettyUrl(['go' => 'trailer','id' => $movie->id])}" class="popup-trailer" target="_blank" rel="noreferrer noopener" title="{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'})">
 		<i class="fa fa-youtube-play fa-fw" title="{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
 		<span class="hidden-sm">{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}</span></a>
 	</li>

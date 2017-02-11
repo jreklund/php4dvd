@@ -117,6 +117,7 @@ switch ($go) {
 							$Website->assign("main", "movies/trailer.html");
 							
 							// Trailer
+							$trailer = true;
 							require_once($loc . "includes/movie.trailer.inc.php");
 						}
 						break;		
