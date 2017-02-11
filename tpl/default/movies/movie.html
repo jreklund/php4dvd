@@ -36,7 +36,7 @@
 							<div class="btn-group">
 								{assign var=genres value=$movie->getList('genres')}
 								{section name=g loop=$genres}
-									<a class="btn btn-default" href="{$webroot}./#!/category/{$genres[g]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$genres[g]|htmlentities:3:'UTF-8'}</a>
+									<a class="btn btn-default" href="{$webroot}#!/category/{$genres[g]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$genres[g]|htmlentities:3:'UTF-8'}</a>
 								{/section}
 							</div>
 						</div>
@@ -90,7 +90,7 @@
 								{assign var=director value=$movie->getList('director')}
 								{section name=d loop=$director}
 									{if !$smarty.section.d.first}, {/if}
-									<a class="people-link" href="{$webroot}./#!/search/{$director[d]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$director[d]|htmlentities:3:'UTF-8'}</a>
+									<a class="people-link" href="{$webroot}#!/search/{$director[d]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$director[d]|htmlentities:3:'UTF-8'}</a>
 								{/section}
 							</div>
 							{/if}
@@ -101,7 +101,7 @@
 								{assign var=writer value=$movie->getList('writer')}
 								{section name=w loop=$writer}
 									{if !$smarty.section.w.first}, {/if}
-									<a class="people-link" href="{$webroot}./#!/search/{$writer[w]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$writer[w]|htmlentities:3:'UTF-8'}</a>
+									<a class="people-link" href="{$webroot}#!/search/{$writer[w]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$writer[w]|htmlentities:3:'UTF-8'}</a>
 								{/section}
 							</div>
 							{/if}
@@ -112,7 +112,7 @@
 								{assign var=producer value=$movie->getList('producer')}
 								{section name=p loop=$producer}
 									{if !$smarty.section.p.first}, {/if}
-									<a class="people-link" href="{$webroot}./#!/search/{$producer[p]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$producer[p]|htmlentities:3:'UTF-8'}</a>
+									<a class="people-link" href="{$webroot}#!/search/{$producer[p]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$producer[p]|htmlentities:3:'UTF-8'}</a>
 								{/section}
 							</div>
 							{/if}
@@ -123,7 +123,7 @@
 								{assign var=music value=$movie->getList('music')}
 								{section name=m loop=$music}
 									{if !$smarty.section.m.first}, {/if}
-									<a class="people-link" href="{$webroot}./#!/search/{$music[m]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$music[m]|htmlentities:3:'UTF-8'}</a>
+									<a class="people-link" href="{$webroot}#!/search/{$music[m]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$music[m]|htmlentities:3:'UTF-8'}</a>
 								{/section}
 							</div>
 							{/if}
@@ -187,7 +187,7 @@
 								<ul>
 								{assign var=cast value=$movie->getList('cast')}
 								{section name=c loop=$cast max=$numberOfCast}
-									<li><a class="people-link" href="{$webroot}./#!/search/{$cast[c]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$cast[c]|htmlentities:3:'UTF-8'}</a></li>
+									<li><a class="people-link" href="{$webroot}#!/search/{$cast[c]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$cast[c]|htmlentities:3:'UTF-8'}</a></li>
 								{/section}
 								</ul>
 							</div>
