@@ -216,7 +216,7 @@ switch ($currentstep) {
 						 */
 						// Connect to the database
 						try {
-							new Database($settings["db"]);
+							$Database = new Database($settings["db"]);
 						} catch(Exception $e) {
 							echo $e->getMessage();
 							exit();
@@ -232,22 +232,48 @@ switch ($currentstep) {
 						
 						// Update database
 						if(isset($_POST["accepted"])) {
+							// Select utf8mb4 or utf8 depending on MySQL/MariaDB
+							$charset_collate = $Database->getMysqlEncoding();
+							
+							// Search after the following inside .sql 
+							$search = array(
+								'__DATABASE__',
+								'__CHARACTER__',
+								'__COLLATE__'
+							);
+							
+							// Replace matching strings with
+							$replace = array(
+								$settings["db"]["name"],
+								$charset_collate['charset'],
+								$charset_collate['collate']
+							);
+		
 							// Iterate sql files since last version and execute these files
 							$v = number_format(DB_VERSION + 0.1, 1);
 							
 							// Run first script when this is a new installation
 							if($new_installation) {
-								$php4dvd_sql = readFileContent($loc . "install/sql/php4dvd.sql");
-								R::exec($php4dvd_sql);
+								$php4dvd_sql = readFileContent($loc . "install/sql/php4dvd-3.3.sql");
+								if($php4dvd_sql) {
+									$php4dvd_sql = str_replace($search,$replace,$php4dvd_sql);
+									try {
+										R::exec($php4dvd_sql);
+									} catch(Exception $e) {
+										echo $e->getMessage();
+										exit();
+									}
+								}
 								
-								// Start upgrade at lowest supported version, which is v0.2
-								$v = 0.2;
+								// Start upgrade at lowest supported version, which is v3.4
+								$v = 3.4;
 							}
 							
 							// Run all upgrade scripts
 							for(; $v <= NEW_DB_VERSION; $v = number_format($v + 0.1, 1)) {
 								$sql = readFileContent($loc . "install/sql/update-".$v.".sql");
 								if($sql) {
+									$sql = str_replace($search,$replace,$sql);
 									try {
 										R::exec($sql);
 									} catch(Exception $e) {

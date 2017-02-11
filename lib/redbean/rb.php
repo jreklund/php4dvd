@@ -28,6 +28,7 @@ interface Logger
 	 * functions like func_num_args/func_get_args.
 	 *
 	 * @param string $message, ...
+	 *
 	 * @return void
 	 */
 	public function log();
@@ -85,7 +86,7 @@ class RDefault implements Logger
 
 		foreach ( func_get_args() as $argument ) {
 			if ( is_array( $argument ) ) {
-				$log = print_r( $argument, TRUE );
+				$log = var_export( $argument, TRUE );
 				if ( $this->mode === self::C_LOGGER_ECHO ) {
 					echo $log;
 				} else {
@@ -236,7 +237,7 @@ class Debug extends RDefault implements Logger
 			$value = substr( $value, 0, ( $this->strLen ) ).'... ';
 		}
 
-		if ( !is_numeric( $value ) && $value !== 'NULL') {
+		if ( !\RedBeanPHP\QueryWriter\AQueryWriter::canBeTreatedAsInt( $value ) && $value !== 'NULL') {
 			$value = '\''.$value.'\'';
 		}
 
@@ -248,6 +249,9 @@ class Debug extends RDefault implements Logger
 	 * this method will either log and output to STDIN or
 	 * just log.
 	 *
+	 * Depending on the value of constant PHP_SAPI this function
+	 * will format output for console or HTML.
+	 *
 	 * @param string $str string to log or output and log
 	 *
 	 * @return void
@@ -255,7 +259,27 @@ class Debug extends RDefault implements Logger
 	protected function output( $str )
 	{
 		$this->logs[] = $str;
-		if ( !$this->mode ) echo $str ,'<br />';
+		if ( !$this->mode ) {
+			$highlight = FALSE;
+			/* just a quick heuritsic to highlight schema changes */
+			if ( strpos( $str, 'CREATE' ) === 0
+			|| strpos( $str, 'ALTER' ) === 0
+			|| strpos( $str, 'DROP' ) === 0) {
+				$highlight = TRUE;
+			}
+			if (PHP_SAPI === 'cli') {
+				if ($highlight) echo "\e[91m";
+				echo $str, PHP_EOL;
+				echo "\e[39m";
+			} else {
+				if ($highlight) {
+					echo "<b style=\"color:red\">{$str}</b>";
+				} else {
+					echo $str;
+				}
+				echo '<br />';
+			}
+		}
 	}
 
 	/**
@@ -268,15 +292,19 @@ class Debug extends RDefault implements Logger
 	 */
 	protected function normalizeSlots( $sql )
 	{
-		$i = 0;
 		$newSql = $sql;
-		while($i < 20 && strpos($newSql, '?') !== FALSE ){
+		$i = 0;
+		while(strpos($newSql, '?') !== FALSE ){
 			$pos   = strpos( $newSql, '?' );
 			$slot  = ':slot'.$i;
 			$begin = substr( $newSql, 0, $pos );
 			$end   = substr( $newSql, $pos+1 );
-			$newSql = $begin . $slot . $end;
-			$i++;
+			if (PHP_SAPI === 'cli') {
+				$newSql = "{$begin}\e[32m{$slot}\e[39m{$end}";
+			} else {
+				$newSql = "{$begin}<b style=\"color:green\">$slot</b>{$end}";
+			}
+			$i ++;
 		}
 		return $newSql;
 	}
@@ -602,7 +630,12 @@ class RPDO implements Driver
 	/**
 	 * @var string
 	 */
-	protected $mysqlEncoding = '';
+	protected $mysqlCharset = '';
+	
+	/**
+	 * @var string
+	 */
+	protected $mysqlCollate = '';
 
 	/**
 	 * Binds parameters. This method binds parameters to a PDOStatement for
@@ -697,8 +730,8 @@ class RPDO implements Driver
 
 	/**
 	 * Try to fix MySQL character encoding problems.
-	 * MySQL < 5.5 does not support proper 4 byte unicode but they
-	 * seem to have added it with version 5.5 under a different label: utf8mb4.
+	 * MySQL < 5.5.3 does not support proper 4 byte unicode but they
+	 * seem to have added it with version 5.5.3 under a different label: utf8mb4.
 	 * We try to select the best possible charset based on your version data.
 	 *
 	 * @return void
@@ -706,13 +739,49 @@ class RPDO implements Driver
 	protected function setEncoding()
 	{
 		$driver = $this->pdo->getAttribute( \PDO::ATTR_DRIVER_NAME );
-		$version = floatval( $this->pdo->getAttribute( \PDO::ATTR_SERVER_VERSION ) );
 		if ($driver === 'mysql') {
-			$encoding = ($version >= 5.5) ? 'utf8mb4' : 'utf8';
-			$this->pdo->setAttribute(\PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES '.$encoding ); //on every re-connect
-			$this->pdo->exec(' SET NAMES '. $encoding); //also for current connection
-			$this->mysqlEncoding = $encoding;
+			$charset = $this->hasCap( 'utf8mb4' ) ? 'utf8mb4' : 'utf8';
+			$collate = $this->hasCap( 'utf8mb4_520' ) ? '_unicode_520_ci' : '_unicode_ci';
+			$this->pdo->setAttribute(\PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES '. $charset ); //on every re-connect
+			$this->pdo->exec(' SET NAMES '. $charset); //also for current connection
+			$this->mysqlCharset = $charset;
+			$this->mysqlCollate = $charset . $collate;
 		}
+	}
+	
+	/**
+	 * Determine if a database supports a particular feature.
+	 *
+	 * @return int|false Whether the database feature is supported, false otherwise.
+	 **/
+	protected function hasCap( $db_cap )
+	{
+		$version = $this->pdo->getAttribute( \PDO::ATTR_SERVER_VERSION );
+		
+		switch ( strtolower( $db_cap ) ) {
+			case 'utf8mb4':
+				if ( version_compare( $version, '5.5.3', '<' ) ) {
+					return false;
+				}
+				
+				$client_version = $this->pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION );
+				/*
+				 * libmysql has supported utf8mb4 since 5.5.3, same as the MySQL server.
+				 * mysqlnd has supported utf8mb4 since 5.0.9.
+				 */
+				if ( false !== strpos( $client_version, 'mysqlnd' ) ) {
+					$client_version = preg_replace( '/^\D+([\d.]+).*/', '$1', $client_version );
+					return version_compare( $client_version, '5.0.9', '>=' );
+				} else {
+					return version_compare( $client_version, '5.5.3', '>=' );
+				}
+			break;
+			case 'utf8mb4_520':
+				return version_compare( $version, '5.6', '>=' );
+			break;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -757,11 +826,15 @@ class RPDO implements Driver
 	/**
 	 * Returns the best possible encoding for MySQL based on version data.
 	 *
-	 * @return string
+	 * @param boolean $retCol pass TRUE to return both charset/collate
+	 *
+	 * @return string|array
 	 */
-	public function getMysqlEncoding()
+	public function getMysqlEncoding( $retCol = FALSE )
 	{
-		return $this->mysqlEncoding;
+		if( $retCol )
+			return array( 'charset' => $this->mysqlCharset, 'collate' => $this->mysqlCollate );
+		return $this->mysqlCharset;
 	}
 
 	/**
@@ -1041,7 +1114,6 @@ class RPDO implements Driver
 	public function getDatabaseType()
 	{
 		$this->connect();
-
 		return $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME );
 	}
 
@@ -1143,6 +1215,15 @@ use RedBeanPHP\QueryWriter\AQueryWriter as AQueryWriter;
 use RedBeanPHP\BeanHelper as BeanHelper;
 use RedBeanPHP\RedException as RedException;
 
+/* PHP 5.3 compatibility */
+if (interface_exists('\JsonSerializable')) {
+		/* We extend JsonSerializable to avoid namespace conflicts,
+		can't define interface with special namespace in PHP */
+		interface Jsonable extends \JsonSerializable {};
+} else {
+	interface Jsonable {};
+}
+
 /**
  * OODBBean (Object Oriented DataBase Bean).
  *
@@ -1160,7 +1241,7 @@ use RedBeanPHP\RedException as RedException;
  * This source file is subject to the BSD/GPLv2 License that is bundled
  * with this source code in the file license.txt.
  */
-class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
+class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable,Jsonable
 {
 	/**
 	 * FUSE error modes.
@@ -1307,6 +1388,35 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 
 	/**
 	 * Sets global aliases.
+	 * Registers a batch of aliases in one go. This works the same as
+	 * fetchAs and setAutoResolve but explicitly. For instance if you register
+	 * the alias 'cover' for 'page' a property containing a reference to a
+	 * page bean called 'cover' will correctly return the page bean and not
+	 * a (non-existant) cover bean.
+	 *
+	 * <code>
+	 * R::aliases( array( 'cover' => 'page' ) );
+	 * $book = R::dispense( 'book' );
+	 * $page = R::dispense( 'page' );
+	 * $book->cover = $page;
+	 * R::store( $book );
+	 * $book = $book->fresh();
+	 * $cover = $book->cover;
+	 * echo $cover->getMeta( 'type' ); //page
+	 * </code>
+	 *
+	 * The format of the aliases registration array is:
+	 *
+	 * {alias} => {actual type}
+	 *
+	 * In the example above we use:
+	 *
+	 * cover => page
+	 *
+	 * From that point on, every bean reference to a cover
+	 * will return a 'page' bean. Note that with autoResolve this
+	 * feature along with fetchAs() is no longer very important, although
+	 * relying on explicit aliases can be a bit faster.
 	 *
 	 * @param array $list list of global aliases to use
 	 *
@@ -1357,9 +1467,11 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 	 * Parses the join in the with-snippet.
 	 * For instance:
 	 *
+	 * <code>
 	 * $author
 	 * 	->withCondition(' @joined.detail.title LIKE ? ')
 	 *  ->ownBookList;
+	 * </code>
 	 *
 	 * will automatically join 'detail' on book to
 	 * access the title field.
@@ -2165,6 +2277,8 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 		$hasSQL         = ($this->withSql !== '' || $this->via !== NULL);
 		$exists         = isset( $this->properties[$property] );
 		$fieldLink      = $property . '_id';
+		$isFieldLink	= (($pos = strrpos($property, '_id')) !== FALSE) && array_key_exists( ($fieldName = substr($property, 0, $pos)), $this->properties );
+
 
 		if ( ($isOwn || $isShared) &&  (!$exists || $hasSQL || $differentAlias) ) {
 
@@ -2201,6 +2315,12 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 				throw new RedException( 'Cannot cast to bean.' );
 			}
 		}
+		
+		if ( $isFieldLink ){
+			unset( $this->properties[ $fieldName ]);
+			$this->properties[ $property ] = NULL;
+		}
+
 
 		if ( $value === FALSE ) {
 			$value = '0';
@@ -2321,6 +2441,20 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 
 	/**
 	 * Sends the call to the registered model.
+	 * This method can also be used to override bean behaviour.
+	 * In that case you don't want an error or exception to be triggered
+	 * if the method does not exist in the model (because it's optional).
+	 * Unfortunately we cannot add an extra argument to __call() for this
+	 * because the signature is fixed. Another option would be to set
+	 * a special flag ( i.e. $this->isOptionalCall ) but that would
+	 * cause additional complexity because we have to deal with extra temporary state.
+	 * So, instead I allowed the method name to be prefixed with '@', in practice
+	 * nobody creates methods like that - however the '@' symbol in PHP is widely known
+	 * to suppress error handling, so we can reuse the semantics of this symbol.
+	 * If a method name gets passed starting with '@' the overrideDontFail variable
+	 * will be set to TRUE and the '@' will be stripped from the function name before
+	 * attempting to invoke the method on the model. This way, we have all the
+	 * logic in one place.
 	 *
 	 * @param string $method name of the method
 	 * @param array  $args   argument list
@@ -2329,6 +2463,12 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 	 */
 	public function __call( $method, $args )
 	{
+		$overrideDontFail = FALSE;
+		if ( strpos( $method, '@' ) === 0 ) {
+			$method = substr( $method, 1 );
+			$overrideDontFail = TRUE;
+		}
+
 		if ( !isset( $this->__info['model'] ) ) {
 			$model = $this->beanHelper->getModelForBean( $this );
 
@@ -2340,7 +2480,7 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 		}
 		if ( !method_exists( $this->__info['model'], $method ) ) {
 
-			if ( self::$errorHandlingFUSE === FALSE ) {
+			if ( self::$errorHandlingFUSE === FALSE || $overrideDontFail ) {
 				return NULL;
 			}
 
@@ -2388,10 +2528,16 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 	 */
 	public function __toString()
 	{
-		$string = $this->__call( '__toString', array() );
+		$string = $this->__call( '@__toString', array() );
 
 		if ( $string === NULL ) {
-			return json_encode( $this->properties );
+			$list = array();
+			foreach($this->properties as $property => $value) {
+				if (is_scalar($value)) {
+					$list[$property] = $value;
+				}
+			}
+			return json_encode( $list );
 		} else {
 			return $string;
 		}
@@ -2954,6 +3100,20 @@ class OODBBean implements\IteratorAggregate,\ArrayAccess,\Countable
 			&& ( (string) $this->__info['type']   === (string) $bean->__info['type']   )
 		);
 	}
+
+	/**
+	 * Magic method jsonSerialize, implementation for the \JsonSerializable interface,
+	 * this method gets called by json_encode and facilitates a better JSON representation
+	 * of the bean. Exports the bean on JSON serialization, for the JSON fans.
+	 *
+	 * @see  http://php.net/manual/en/class.jsonserializable.php
+	 *
+	 * @return array
+	 */
+	public function jsonSerialize()
+	{
+		return $this->export();
+	}
 }
 }
 
@@ -3087,7 +3247,8 @@ namespace RedBeanPHP {
 interface Adapter
 {
 	/**
-	 * Returns the latest SQL statement.
+	 * Should returns a string containing the most recent SQL query
+	 * that has been processed by the adapter.
 	 *
 	 * @return string
 	 */
@@ -3308,7 +3469,17 @@ class DBAdapter extends Observable implements Adapter
 	}
 
 	/**
+	 * Returns a string containing the most recent SQL query
+	 * processed by the database adapter, thus conforming to the
+	 * interface:
+	 *
 	 * @see Adapter::getSQL
+	 *
+	 * Methods like get(), getRow() and exec() cause this SQL cache
+	 * to get filled. If no SQL query has been processed yet this function
+	 * will return an empty string.
+	 *
+	 * @return string
 	 */
 	public function getSQL()
 	{
@@ -3490,8 +3661,12 @@ namespace RedBeanPHP {
 
 /**
  * Database Cursor Interface.
- * Represents a simple database cursor.
- * Cursors make it possible to create lightweight BeanCollections.
+ * A cursor is used by Query Writers to fetch Query Result rows
+ * one row at a time. This is useful if you expect the result set to
+ * be quite large. This interface dscribes the API of a database
+ * cursor. There can be multiple implementations of the Cursor,
+ * by default RedBeanPHP offers the PDOCursor for drivers shipping
+ * with RedBeanPHP and the NULLCursor.
  *
  * @file    RedBeanPHP/Cursor.php
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -3505,7 +3680,8 @@ namespace RedBeanPHP {
 interface Cursor
 {
 	/**
-	 * Retrieves the next row from the result set.
+	 * Should retrieve the next row of the result set.
+	 * This method is used to iterate over the result set.
 	 *
 	 * @return array
 	 */
@@ -3530,6 +3706,9 @@ use RedBeanPHP\Cursor as Cursor;
  * PDO Database Cursor
  * Implementation of PDO Database Cursor.
  * Used by the BeanCollection to fetch one bean at a time.
+ * The PDO Cursor is used by Query Writers to support retrieval
+ * of large bean collections. For instance, this class is used to
+ * implement the findCollection()/BeanCollection functionality.
  *
  * @file    RedBeanPHP/Cursor/PDOCursor.php
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -3555,8 +3734,8 @@ class PDOCursor implements Cursor
 	/**
 	 * Constructor, creates a new instance of a PDO Database Cursor.
 	 *
-	 * @param PDOStatement  $res        the PDO statement
-	 * @param string        $fetchStyle fetch style constant to use
+	 * @param PDOStatement $res        the PDO statement
+	 * @param string       $fetchStyle fetch style constant to use
 	 *
 	 * @return void
 	 */
@@ -3591,7 +3770,9 @@ use RedBeanPHP\Cursor as Cursor;
 /**
  * NULL Database Cursor
  * Implementation of the NULL Cursor.
- * Used for an empty BeanCollection.
+ * Used for an empty BeanCollection. This Cursor
+ * can be used for instance if a query fails but the interface
+ * demands a cursor to be returned.
  *
  * @file    RedBeanPHP/Cursor/NULLCursor.php
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -4547,37 +4728,28 @@ abstract class AQueryWriter
 
 			if ( !is_array( $values ) ) $values = array( $values );
 
-			// If it's safe to skip bindings, do so...
-			if ( ctype_digit( implode( '', $values ) ) ) {
-				$sql .= implode( ',', $values ) . ' ) ';
+			if ( $paramTypeIsNum ) {
+				$sql .= implode( ',', array_fill( 0, count( $values ), '?' ) ) . ' ) ';
 
-				// only numeric, cant do much harm
-				$sqlConditions[] = $sql;
+				array_unshift($sqlConditions, $sql);
+
+				foreach ( $values as $k => $v ) {
+					$values[$k] = strval( $v );
+
+					array_unshift( $bindings, $v );
+				}
 			} else {
 
-				if ( $paramTypeIsNum ) {
-					$sql .= implode( ',', array_fill( 0, count( $values ), '?' ) ) . ' ) ';
+				$slots = array();
 
-					array_unshift($sqlConditions, $sql);
-
-					foreach ( $values as $k => $v ) {
-						$values[$k] = strval( $v );
-
-						array_unshift( $bindings, $v );
-					}
-				} else {
-
-					$slots = array();
-
-					foreach( $values as $k => $v ) {
-						$slot            = ':slot'.$counter++;
-						$slots[]         = $slot;
-						$bindings[$slot] = strval( $v );
-					}
-
-					$sql .= implode( ',', $slots ).' ) ';
-					$sqlConditions[] = $sql;
+				foreach( $values as $k => $v ) {
+					$slot            = ':slot'.$counter++;
+					$slots[]         = $slot;
+					$bindings[$slot] = strval( $v );
 				}
+
+				$sql .= implode( ',', $slots ).' ) ';
+				$sqlConditions[] = $sql;
 			}
 		}
 
@@ -5556,8 +5728,11 @@ class MySQL extends AQueryWriter implements QueryWriter
 	{
 		$table = $this->esc( $table );
 
-		$encoding = $this->adapter->getDatabase()->getMysqlEncoding();
-		$sql   = "CREATE TABLE $table (id INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY ( id )) ENGINE = InnoDB DEFAULT CHARSET={$encoding} COLLATE={$encoding}_unicode_ci ";
+		$charset_collate = $this->adapter->getDatabase()->getMysqlEncoding( TRUE );
+		$charset = $charset_collate['charset'];
+		$collate = $charset_collate['collate'];
+		
+		$sql   = "CREATE TABLE $table (id INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY ( id )) ENGINE = InnoDB DEFAULT CHARSET={$charset} COLLATE={$collate} ";
 
 		$this->adapter->exec( $sql );
 	}
@@ -5732,7 +5907,7 @@ class MySQL extends AQueryWriter implements QueryWriter
 				ALTER TABLE {$table}
 				ADD CONSTRAINT $cName
 				FOREIGN KEY $fkName ( `{$fieldNoQ}` ) REFERENCES `{$targetTableNoQ}`
-				({$targetFieldNoQ}) ON DELETE " . ( $isDependent ? 'CASCADE' : 'SET NULL' ) . ' ON UPDATE '.( $isDependent ? 'CASCADE' : 'SET NULL' ).';');
+				(`{$targetFieldNoQ}`) ON DELETE " . ( $isDependent ? 'CASCADE' : 'SET NULL' ) . ' ON UPDATE '.( $isDependent ? 'CASCADE' : 'SET NULL' ).';');
 		} catch ( SQLException $e ) {
 			// Failure of fk-constraints is not a problem
 		}
@@ -6252,6 +6427,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 	const C_DATATYPE_SPECIAL_MONEY    = 93;
 	const C_DATATYPE_SPECIAL_POLYGON  = 94;
 	const C_DATATYPE_SPECIAL_MONEY2   = 95; //Numbers only money, i.e. fixed point numeric
+	const C_DATATYPE_SPECIAL_JSON     = 96; //JSON support (only manual)
 	const C_DATATYPE_SPECIFIED        = 99;
 
 	/**
@@ -6353,6 +6529,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 			self::C_DATATYPE_SPECIAL_MONEY    => ' money ',
 			self::C_DATATYPE_SPECIAL_MONEY2   => ' numeric(10,2) ',
 			self::C_DATATYPE_SPECIAL_POLYGON  => ' polygon ',
+			self::C_DATATYPE_SPECIAL_JSON     => ' json ',
 		);
 
 		$this->sqltype_typeno = array();
@@ -6737,6 +6914,9 @@ abstract class Repository
 				$this->processEmbeddedBean( $embeddedBeans, $bean, $property, $value );
 				$bean->setMeta("sys.typeof.{$property}", $value->getMeta('type'));
 			} elseif ( is_array( $value ) ) {
+				foreach($value as &$item) {
+					$item = ( $item instanceof SimpleModel ) ? $item->unbox() : $item;
+				}
 				$originals = $bean->moveMeta( 'sys.shadow.' . $property, array() );
 				if ( strpos( $property, 'own' ) === 0 ) {
 					list( $ownAdditions, $ownTrashcan, $ownresidue ) = $this->processGroups( $originals, $value, $ownAdditions, $ownTrashcan, $ownresidue );
@@ -7151,19 +7331,43 @@ abstract class Repository
 	 * will return an array of beans of the specified type loaded with
 	 * the data fields provided by the result set from the database.
 	 *
+	 * New in 4.3.2: meta mask. The meta mask is a special mask to send
+	 * data from raw result rows to the meta store of the bean. This is
+	 * useful for bundling additional information with custom queries.
+	 * Values of every column whos name starts with $mask will be
+	 * transferred to the meta section of the bean under key 'data.bundle'.
+	 *
 	 * @param string $type type of beans you would like to have
 	 * @param array  $rows rows from the database result
+	 * @param string $mask meta mask to apply (optional)
 	 *
 	 * @return array
 	 */
-	public function convertToBeans( $type, $rows )
+	public function convertToBeans( $type, $rows, $mask = NULL )
 	{
+		$masklen = 0;
+		if ( $mask !== NULL ) $masklen = mb_strlen( $mask );
+
 		$collection                  = array();
 		$this->stash[$this->nesting] = array();
 		foreach ( $rows as $row ) {
+			$meta = array();
+			if ( !is_null( $mask ) ) {
+				foreach( $row as $key => $value ) {
+					if ( strpos( $key, $mask ) === 0 ) {
+						unset( $row[$key] );
+						$meta[$key] = $value;
+					}
+				}
+			}
+
 			$id                               = $row['id'];
 			$this->stash[$this->nesting][$id] = $row;
 			$collection[$id]                  = $this->load( $type, $id );
+
+			if ( $mask !== NULL ) {
+				$collection[$id]->setMeta( 'data.bundle', $meta );
+			}
 		}
 		$this->stash[$this->nesting] = NULL;
 
@@ -7304,6 +7508,14 @@ class Fluid extends Repository
 {
 	/**
 	 * Figures out the desired type given the cast string ID.
+	 * Given a cast ID, this method will return the associated
+	 * type (INT(10) or VARCHAR for instance). The returned type
+	 * can be processed by the Query Writer to build the specified
+	 * column for you in the database. The Cast ID is actually just
+	 * a superset of the QueryWriter types. In addition to default
+	 * Query Writer column types you can pass the following 'cast types':
+	 * 'id' and 'string'. These will map to Query Writer specific
+	 * column types (probably INT and VARCHAR).
 	 *
 	 * @param string $cast cast identifier
 	 *
@@ -7617,12 +7829,14 @@ use RedBeanPHP\Repository as Repository;
 class Frozen extends Repository
 {
 	/**
-	 * Handles exceptions. Suppresses exceptions caused by missing structures.
+	 * Handles exceptions.
+	 * In fluid mode, this suppresses exceptions caused by missing structures.
+	 * However the implementation in frozen mode is rather the opposite, it
+	 * will just re-throw every exception.
 	 *
 	 * @param \Exception $exception exception to handle
 	 *
 	 * @return void
-	 * @throws \Exception
 	 */
 	protected function handleException( \Exception $exception )
 	{
@@ -8216,12 +8430,13 @@ class OODB extends Observable
 	 *
 	 * @param string $type type of beans you would like to have
 	 * @param array  $rows rows from the database result
+	 * @param string $mask mask to apply for meta data
 	 *
 	 * @return array
 	 */
-	public function convertToBeans( $type, $rows )
+	public function convertToBeans( $type, $rows, $mask = NULL )
 	{
-		return $this->repository->convertToBeans( $type, $rows );
+		return $this->repository->convertToBeans( $type, $rows, $mask );
 	}
 
 	/**
@@ -8356,7 +8571,6 @@ use RedBeanPHP\Adapter as Adapter;
  */
 class ToolBox
 {
-
 	/**
 	 * @var OODB
 	 */
@@ -8389,7 +8603,6 @@ class ToolBox
 		$this->oodb    = $oodb;
 		$this->adapter = $adapter;
 		$this->writer  = $writer;
-
 		return $this;
 	}
 
@@ -8577,6 +8790,7 @@ class Finder
 	/**
 	 * Tries to find beans of a certain type,
 	 * if no beans are found, it dispenses a bean of that type.
+	 * Note that this function always returns an array.
 	 *
 	 * @see Finder::find
 	 *
@@ -8858,7 +9072,7 @@ class AssociationManager extends Observable
 	/**
 	 * Handles exceptions. Suppresses exceptions caused by missing structures.
 	 *
-	 * @param Exception $exception exception to handle
+	 * @param \Exception $exception exception to handle
 	 *
 	 * @return void
 	 */
@@ -8963,8 +9177,6 @@ class AssociationManager extends Observable
 	 * Creates a table name based on a types array.
 	 * Manages the get the correct name for the linking table for the
 	 * types provided.
-	 *
-	 * @todo find a nice way to decouple this class from QueryWriter?
 	 *
 	 * @param array $types 2 types as strings
 	 *
@@ -9169,6 +9381,12 @@ use RedBeanPHP\OODBBean as OODBBean;
  *
  * Interface for Bean Helper.
  * A little bolt that glues the whole machinery together.
+ * The Bean Helper is passed to the OODB RedBeanPHP Object to
+ * faciliatte the creation of beans and providing them with
+ * a toolbox. The Helper also facilitates the FUSE feature,
+ * determining how beans relate to their models. By overriding
+ * the getModelForBean method you can tune the FUSEing to
+ * fit your business application needs.
  *
  * @file    RedBeanPHP/IBeanHelper.php
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -9223,7 +9441,7 @@ interface BeanHelper
 	 *   if (!isset($bean->pages)) return NULL; //will ask again
 	 *   if ($bean->pages <= 10) return new Booklet;
 	 *   return new Book;
-	 *	}
+	 *	 }
 	 * }
 	 *
 	 * $h = new FlexBeanHelper;
@@ -9275,7 +9493,7 @@ class SimpleFacadeBeanHelper implements BeanHelper
 	/**
 	 * Factory function to create instance of Simple Model, if any.
 	 *
-	 * @var closure
+	 * @var \Closure
 	 */
 	private static $factory = null;
 
@@ -9297,7 +9515,7 @@ class SimpleFacadeBeanHelper implements BeanHelper
 	 * Sets the factory function to create the model when using FUSE
 	 * to connect a bean to a model.
 	 *
-	 * @param closure $factory factory function
+	 * @param \Closure $factory factory function
 	 *
 	 * @return void
 	 */
@@ -9498,9 +9716,16 @@ use RedBeanPHP\Observable as Observable;
  */
 class SimpleModelHelper implements Observer
 {
-
 	/**
-	 * @see Observer::onEvent
+	 * Gets notified by an observable.
+	 * This method decouples the FUSE system from the actual beans.
+	 * If a FUSE event happens 'update', this method will attempt to
+	 * invoke the corresponding method on the bean.
+	 *
+	 * @param string  $eventName i.e. 'delete', 'after_delete'
+	 * @param OODBean $bean      affected bean
+	 *
+	 * @return void
 	 */
 	public function onEvent( $eventName, $bean )
 	{
@@ -9511,7 +9736,20 @@ class SimpleModelHelper implements Observer
 	 * Attaches the FUSE event listeners. Now the Model Helper will listen for
 	 * CRUD events. If a CRUD event occurs it will send a signal to the model
 	 * that belongs to the CRUD bean and this model will take over control from
-	 * there.
+	 * there. This method will attach the following event listeners to the observable:
+	 *
+	 * - 'update'       (gets called by R::store, before the records gets inserted / updated)
+	 * - 'after_update' (gets called by R::store, after the records have been inserted / updated)
+	 * - 'open'         (gets called by R::load, after the record has been retrieved)
+	 * - 'delete'       (gets called by R::trash, before deletion of record)
+	 * - 'after_delete' (gets called by R::trash, after deletion)
+	 * - 'dispense'     (gets called by R::dispense)
+	 *
+	 * For every event type, this method will register this helper as a listener.
+	 * The observable will notify the listener (this object) with the event ID and the
+	 * affected bean. This helper will then process the event (onEvent) by invoking
+	 * the event on the bean. If a bean offers a method with the same name as the
+	 * event ID, this method will be invoked.
 	 *
 	 * @param Observable $observable object to observe
 	 *
@@ -9519,8 +9757,8 @@ class SimpleModelHelper implements Observer
 	 */
 	public function attachEventListeners( Observable $observable )
 	{
-		foreach ( array( 'update', 'open', 'delete', 'after_delete', 'after_update', 'dispense' ) as $e ) {
-			$observable->addEventListener( $e, $this );
+		foreach ( array( 'update', 'open', 'delete', 'after_delete', 'after_update', 'dispense' ) as $eventID ) {
+			$observable->addEventListener( $eventID, $this );
 		}
 	}
 }
@@ -10255,7 +10493,7 @@ class Facade
 	public static function addDatabase( $key, $dsn, $user = NULL, $pass = NULL, $frozen = FALSE )
 	{
 		if ( isset( self::$toolboxes[$key] ) ) {
-			throw new RedException( 'A database has already be specified for this key.' );
+			throw new RedException( 'A database has already been specified for this key.' );
 		}
 
 		if ( is_object($dsn) ) {
@@ -10286,6 +10524,20 @@ class Facade
 		$redbean     = new OODB( $writer, $frozen );
 
 		self::$toolboxes[$key] = new ToolBox( $redbean, $adapter, $writer );
+	}
+
+	/**
+	 * Determines whether a database identified with the specified key has
+	 * already been added to the facade. This function will return TRUE
+	 * if the database indicated by the key is available and FALSE otherwise.
+	 *
+	 * @param string $key the key/name of the database to check for
+	 *
+	 * @return boolean
+	 */
+	public static function hasDatabase( $key )
+	{
+		return ( isset( self::$toolboxes[$key] ) );
 	}
 
 	/**
@@ -10321,13 +10573,30 @@ class Facade
 	/**
 	 * Toggles DEBUG mode.
 	 * In Debug mode all SQL that happens under the hood will
-	 * be printed to the screen or logged by provided logger.
+	 * be printed to the screen and/or logged.
 	 * If no database connection has been configured using R::setup() or
 	 * R::selectDatabase() this method will throw an exception.
-	 * Returns the attached logger instance.
 	 *
-	 * @param boolean $tf   debug mode (true or false)
-	 * @param integer $mode (0 = to STDOUT, 1 = to ARRAY)
+	 * There are 2 debug styles:
+	 *
+	 * Classic: separate parameter bindings, explicit and complete but less readable
+	 * Fancy:   interpersed bindings, truncates large strings, highlighted schema changes
+	 *
+	 * Fancy style is more readable but sometimes incomplete.
+	 *
+	 * The first parameter turns debugging ON or OFF.
+	 * The second parameter indicates the mode of operation:
+	 *
+	 * 0 Log and write to STDOUT classic style (default)
+	 * 1 Log only, class style
+	 * 2 Log and write to STDOUT fancy style
+	 * 3 Log only, fancy style
+	 *
+	 * This function always returns the logger instance created to generate the
+	 * debug messages.
+	 *
+	 * @param boolean $tf   debug mode (TRUE or FALSE)
+	 * @param integer $mode mode of operation
 	 *
 	 * @return RDefault
 	 * @throws RedException
@@ -10361,7 +10630,7 @@ class Facade
 	 *
 	 * @return void
 	 */
-	public static function fancyDebug( $toggle )
+	public static function fancyDebug( $toggle = TRUE )
 	{
 		self::debug( $toggle, 2 );
 	}
@@ -10492,7 +10761,7 @@ class Facade
 	 *
 	 * @param string|array $typeOrBeanArray   type or bean array to import
 	 * @param integer      $number            number of beans to dispense
-	 * @param boolean	   $alwaysReturnArray if TRUE always returns the result as an array
+	 * @param boolean      $alwaysReturnArray if TRUE always returns the result as an array
 	 *
 	 * @return array|OODBBean
 	 */
@@ -10537,6 +10806,7 @@ class Facade
 	/**
 	 * Convience method. Tries to find beans of a certain type,
 	 * if no beans are found, it dispenses a bean of that type.
+	 * Note that this function always returns an array.
 	 *
 	 * @param  string $type     type of bean you are looking for
 	 * @param  string $sql      SQL code for finding the bean
@@ -10547,6 +10817,20 @@ class Facade
 	public static function findOrDispense( $type, $sql = NULL, $bindings = array() )
 	{
 		return self::$finder->findOrDispense( $type, $sql, $bindings );
+	}
+
+	/**
+	 * Same as findOrDispense but returns just one element.
+	 *
+	 * @param  string $type     type of bean you are looking for
+	 * @param  string $sql      SQL code for finding the bean
+	 * @param  array  $bindings parameters to bind to SQL
+	 *
+	 * @return OODBBean
+	 */
+	public static function findOneOrDispense( $type, $sql = NULL, $bindings = array() )
+	{
+		return reset( self::findOrDispense( $type, $sql, $bindings ) );
 	}
 
 	/**
@@ -10841,7 +11125,7 @@ class Facade
 	 * @param OODBBean $bean  bean to be copied
 	 * @param array    $trail for internal usage, pass array()
 	 * @param boolean  $pid   for internal usage
-	 * @param array	 $white white list filter with bean types to duplicate
+	 * @param array    $white white list filter with bean types to duplicate
 	 *
 	 * @return array
 	 */
@@ -10871,7 +11155,7 @@ class Facade
 	 * This is a simplified version of the deprecated R::dup() function.
 	 *
 	 * @param OODBBean $bean  bean to be copied
-	 * @param array	 $white white list filter with bean types to duplicate
+	 * @param array    $white white list filter with bean types to duplicate
 	 *
 	 * @return array
 	 */
@@ -10931,14 +11215,49 @@ class Facade
 	 * first parameter. The second parameter is meant for the database
 	 * result rows.
 	 *
+	 * Usage:
+	 *
+	 * <code>
+	 * $rows = R::getAll( 'SELECT * FROM ...' )
+	 * $beans = R::convertToBeans( $rows );
+	 * </code>
+	 *
+	 * As of version 4.3.2 you can specify a meta-mask.
+	 * Data from columns with names starting with the value specified in the mask
+	 * will be transferred to the meta section of a bean (under data.bundle).
+	 *
+	 * <code>
+	 * $rows = R::getAll( 'SELECT FROM... COUNT(*) AS extra_count ...' );
+	 * $beans = R::convertToBeans( $rows );
+	 * $bean = reset( $beans );
+	 * $data = $bean->getMeta( 'data.bundle' );
+	 * $extra_count = $data['extra_count'];
+	 * </code>
+	 *
 	 * @param string $type type of beans to produce
 	 * @param array  $rows must contain an array of array
 	 *
 	 * @return array
 	 */
-	public static function convertToBeans( $type, $rows )
+	public static function convertToBeans( $type, $rows, $metamask = NULL )
 	{
-		return self::$redbean->convertToBeans( $type, $rows );
+		return self::$redbean->convertToBeans( $type, $rows, $metamask );
+	}
+
+	/**
+	 * Just like converToBeans, but for one bean.
+	 * @see convertToBeans for more details.
+	 *
+	 * @param string $type type of beans to produce
+	 * @param array  $row  one row from the database
+	 *
+	 * @return array
+	 */
+	public static function convertToBean( $type, $row, $metamask = NULL )
+	{
+		$beans = self::$redbean->convertToBeans( $type, array( $row ), $metamask );
+		$bean  = reset( $beans );
+		return $bean;
 	}
 
 	/**
@@ -11410,6 +11729,30 @@ class Facade
 	}
 
 	/**
+	 * In case you use PDO (which is recommended and the default but not mandatory, hence
+	 * the database adapter), you can use this method to obtain the PDO object directly.
+	 * This is a convenience method, it will do the same as:
+	 *
+	 * <code>
+	 * R::getDatabaseAdapter()->getDatabase()->getPDO();
+	 * </code>
+	 *
+	 * If the PDO object could not be found, for whatever reason, this method
+	 * will return NULL instead.
+	 *
+	 * @return NULL|PDO
+	 */
+	public static function getPDO()
+	{
+		$databaseAdapter = self::getDatabaseAdapter();
+		if ( is_null( $databaseAdapter ) ) return NULL;
+		$database = $databaseAdapter->getDatabase();
+		if ( is_null( $database ) ) return NULL;
+		if ( !method_exists( $database, 'getPDO' ) ) return NULL;
+		return $database->getPDO();
+	}
+
+	/**
 	 * Returns the current duplication manager instance.
 	 *
 	 * @return DuplicationManager
@@ -11583,8 +11926,37 @@ class Facade
 
 	/**
 	 * Sets global aliases.
+	 * Registers a batch of aliases in one go. This works the same as
+	 * fetchAs and setAutoResolve but explicitly. For instance if you register
+	 * the alias 'cover' for 'page' a property containing a reference to a
+	 * page bean called 'cover' will correctly return the page bean and not
+	 * a (non-existant) cover bean.
 	 *
-	 * @param array $list list of global aliases
+	 * <code>
+	 * R::aliases( array( 'cover' => 'page' ) );
+	 * $book = R::dispense( 'book' );
+	 * $page = R::dispense( 'page' );
+	 * $book->cover = $page;
+	 * R::store( $book );
+	 * $book = $book->fresh();
+	 * $cover = $book->cover;
+	 * echo $cover->getMeta( 'type' ); //page
+	 * </code>
+	 *
+	 * The format of the aliases registration array is:
+	 *
+	 * {alias} => {actual type}
+	 *
+	 * In the example above we use:
+	 *
+	 * cover => page
+	 *
+	 * From that point on, every bean reference to a cover
+	 * will return a 'page' bean. Note that with autoResolve this
+	 * feature along with fetchAs() is no longer very important, although
+	 * relying on explicit aliases can be a bit faster.
+	 *
+	 * @param array $list list of global aliases to use
 	 *
 	 * @return void
 	 */
@@ -11775,8 +12147,18 @@ use RedBeanPHP\OODBBean as OODBBean;
 use RedBeanPHP\QueryWriter\AQueryWriter as AQueryWriter;
 
 /**
- * Duplication Manager.
- * Creates deep copies of beans.
+ * Duplication Manager
+ * The Duplication Manager creates deep copies from beans, this means
+ * it can duplicate an entire bean hierarchy. You can use this feature to
+ * implement versioning for instance. Because duplication and exporting are
+ * closely related this class is also used to export beans recursively
+ * (i.e. we make a duplicate and then convert to array). This class allows
+ * you to tune the duplication process by specifying filters determining
+ * which relations to take into account and by specifying tables
+ * (in which case no reflective queries have to be issued thus improving
+ * performance). This class also hosts the Camelfy function used to
+ * reformat the keys of an array, this method is publicly available and
+ * used internally by exportAll().
  *
  * @file    RedBeanPHP/DuplicationManager.php
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -12611,6 +12993,10 @@ namespace RedBeanPHP {
 /**
  * RedBean Plugin.
  * Marker interface for plugins.
+ * Use this interface when defining new plugins, it's an
+ * easy way for the rest of the application to recognize your
+ * plugin. This plugin interface does not require you to
+ * implement a specific API.
  *
  * @file    RedBean/Plugin.php
  * @author  Gabor de Mooij and the RedBeanPHP Community
@@ -12627,16 +13013,16 @@ interface Plugin
 
 ;
 }
-	namespace {
+namespace {
 
-	//make some classes available for backward compatibility
-	class RedBean_SimpleModel extends \RedBeanPHP\SimpleModel {};
+//make some classes available for backward compatibility
+class RedBean_SimpleModel extends \RedBeanPHP\SimpleModel {};
 
-	if (!class_exists('R')) {
-		class R extends \RedBeanPHP\Facade{};
-	}
+if (!class_exists('R')) {
+	class R extends \RedBeanPHP\Facade{};
+}
 
-	
+
 
 /**
  * Support functions for RedBeanPHP.
@@ -12685,7 +13071,7 @@ if (!function_exists('EID')) {
  *
  * @return void
  */
-if ( !function_exists( 'dump' ) ) {
+if ( !function_exists( 'dmp' ) ) {
 
 	function dmp( $list )
 	{
@@ -12716,5 +13102,4 @@ if ( !function_exists( 'array_flatten' ) ) {
 }
 
 
-	}
-	
+}
