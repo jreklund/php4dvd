@@ -364,7 +364,9 @@
 					$("#updateform").valid();
 					
 					{if $autoupdate}
-					$("#submit").click();
+					setTimeout(function(){
+						$("#submit").click();
+					}, 2000);
 					{/if}
 				});
 			</script>
