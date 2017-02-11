@@ -1,3 +1,29 @@
+## 3.2.3 (2017-02-11)
+### Added
+  - You can now force php4dvd to use HTTPS
+  - getValidId() validates that a correct id have been specified
+  
+### Changed
+  - Upgrading charset and collation
+    - Changing database into utf8mb4 and utf8mb4_unicode_520_ci
+      - MySQL 5.6+ and mysqlnd 5.0.9+
+    - Changing database into utf8mb4 and utf8mb4_unicode_ci
+      - MySQL 5.5.3+ and mysqlnd 5.0.9+
+    - Database fallback into utf8 and utf8_unicode_ci
+  - "Update all" now waits for 2 seconds, so that you can cancel update
+  
+### Fixed
+  - Removed weak typing comparisons
+  - Remove rememberme cookie after 1 second, fix for wrong browser clocks
+  - If user where removed and valid auth where specified, auth where never removed from database
+  - Everybody could search on imdb with $_GET['imdbid']
+  - Removed unwanted characters from url (movie.html)
+  - Some languages broke the menu up in two rows
+  - Search now match categories if "Search..." have been specified
+  - Spelling
+  - PHP 7.1 throws warning on "A non-numeric value encountered"
+  - Passwords could be changed even though they didn't match (PHP)
+
 ## 3.2.2 (2017-01-31)
 ### Added
   - You can now add TV-Series (Seasons)

@@ -28,6 +28,7 @@ Requirements
 
 - Apache 2.2+
 - PHP 5.3.7+
+- MySQL 5.0+
 - GD2 library to be able to upload (and resize) covers
 - PDO library
   - PDO driver for MySQL/MariaDB
@@ -36,9 +37,12 @@ Requirements
 Recommendations
 =======
 
+- Apache 2.4+ / Nginx
+- PHP 7+
+- MySQL 5.6+ / MariaDB 10.0+ 
 - YouTube Data API key
-  - Apache 2.4+
-  - PHP 5.5.0+
+  - Minimum Apache 2.4
+  - Minimum PHP 5.5.0
 
 Installation
 =======
