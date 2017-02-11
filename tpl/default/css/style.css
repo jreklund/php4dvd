@@ -49,7 +49,7 @@
 	padding-top: 42px;
 }
 
-@media (max-width: 1065px) and (min-width: 768px) {
+@media (max-width: 1283px) and (min-width: 768px) {
 	.hidden-sm {
 		display: none!important;
 	}
