@@ -23,13 +23,6 @@
 	</li>
 	{/if}
 	
-	{if $movie->hasCover()}
-	<li>
-		<a href="{prettyUrl(['go' => 'downloadcover','id' => $movie->id])}"><i class="fa fa-picture-o fa-fw" title="{$smarty.const.DOWNLOAD_COVER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-		<span class="hidden-sm">{$smarty.const.DOWNLOAD_COVER|htmlentities:3:'UTF-8'}</span></a>
-	</li>
-	{/if}
-	
 	<li>
 		{if $loggedin && $User->isEditor()}
 			{if $movie->own}{$own = 0}{else}{$own = 1}{/if}

@@ -10,26 +10,35 @@
 			<div class="col-xs-12">
 				<div class="photo">
 					{assign var=photo value=0}
-					{if isset($imdbmovie) && $imdbmovie->photo()}
-					<img src="{$imdbmovie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
-					{assign var=photo value=1}
-					{elseif isset($movie) && $movie->hasPhoto()}
-					<img src="{$movie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
-					{assign var=photo value=1}
-					{elseif isset($movie) && $movie->hasCover()}
-					<img src="{$movie->cover()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
-					{assign var=photo value=1}
+					{if isset($movie) && $movie->hasPhoto()}
+						{assign var=photo value=$movie->photo()}
+					{elseif isset($imdbmovie) && $imdbmovie->photo()}
+						{assign var=photo value=$imdbmovie->photo()}
 					{/if}
+					<div class="movie-box">
+						<div class="movie-cover">
+							{if $photo}
+							<img src="{$photo}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
+							{else}
+							<div class="movie-nocover{if isset($movie) && !$movie->hasCover()} hidden-xs{/if}"></div>
+							{/if}
+							{if isset($movie) && $movie->hasCover()}
+							<div class="movie-icons btn-group-vertical">
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'downloadcover','id' => $movie->id])}" title="{$smarty.const.DOWNLOAD_COVER|htmlentities:3:'UTF-8'}"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i></a>
+							</div>
+							{/if}
+						</div>
+					</div>
 					<div class="taglines">
 						{if $movie->taglines && strlen($movie->taglines) > 0}
 						{assign var=taglines value=$movie->getList('taglines')}
 						{section name=t loop=$taglines max=1}
-							<div>{$taglines[t]|htmlentities:3:'UTF-8'}</div>
+							<p>{$taglines[t]|htmlentities:3:'UTF-8'}</p>
 						{/section}
 						{/if}
 					</div>
 				</div>
-				<div class="maininfo{if !$photo}_full{/if}">
+				<div class="maininfo">
 					<div class="box box-primary">
 						{if $movie->genres && strlen($movie->genres) > 0}
 						<div class="box-header with-border">
@@ -88,10 +97,7 @@
 							<div class="director">
 								<span class="header">{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}:</span>
 								{assign var=director value=$movie->getList('director')}
-								{section name=d loop=$director}
-									{if !$smarty.section.d.first}, {/if}
-									<a class="people-link" href="{$webroot}#!/search/{$director[d]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$director[d]|htmlentities:3:'UTF-8'}</a>
-								{/section}
+								{foreach $director as $d}{if !$d@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$d|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$d|htmlentities:3:'UTF-8'}</a>{/foreach}
 							</div>
 							{/if}
 							
@@ -99,10 +105,7 @@
 							<div class="writer">
 								<span class="header">{$smarty.const.WRITER|htmlentities:3:'UTF-8'}:</span>
 								{assign var=writer value=$movie->getList('writer')}
-								{section name=w loop=$writer}
-									{if !$smarty.section.w.first}, {/if}
-									<a class="people-link" href="{$webroot}#!/search/{$writer[w]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$writer[w]|htmlentities:3:'UTF-8'}</a>
-								{/section}
+								{foreach $writer as $w}{if !$w@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$w|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$w|htmlentities:3:'UTF-8'}</a>{/foreach}
 							</div>
 							{/if}
 							
@@ -110,10 +113,7 @@
 							<div class="producer">
 								<span class="header">{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}:</span>
 								{assign var=producer value=$movie->getList('producer')}
-								{section name=p loop=$producer}
-									{if !$smarty.section.p.first}, {/if}
-									<a class="people-link" href="{$webroot}#!/search/{$producer[p]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$producer[p]|htmlentities:3:'UTF-8'}</a>
-								{/section}
+								{foreach $producer as $p}{if !$p@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$p|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$p|htmlentities:3:'UTF-8'}</a>{/foreach}
 							</div>
 							{/if}
 							
@@ -121,10 +121,7 @@
 							<div class="music">
 								<span class="header">{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}:</span>
 								{assign var=music value=$movie->getList('music')}
-								{section name=m loop=$music}
-									{if !$smarty.section.m.first}, {/if}
-									<a class="people-link" href="{$webroot}#!/search/{$music[m]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$music[m]|htmlentities:3:'UTF-8'}</a>
-								{/section}
+								{foreach $music as $m}{if !$m@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$m|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$m|htmlentities:3:'UTF-8'}</a>{/foreach}
 							</div>
 							{/if}
 							

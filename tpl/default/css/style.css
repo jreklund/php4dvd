@@ -315,12 +315,27 @@ width:100%;
 	margin: 0 2px 2px 0;
 	color: #222;
 }
-	.movie-link .movie-box {
+	.movie-box {
 		position: relative;
+	}
+	
+		.movie-box .movie-icons {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.movie-box .btn {
+			padding: 1px 2px 1px 2px;
+		}
+	
+	.movie-link .movie-box {
 		border: 1px solid #ccc;
 	}
 	
-		.movie-box	.movie-cover {
+		.movie-link .movie-cover {
 			overflow: hidden;
 		}
 		
@@ -330,7 +345,7 @@ width:100%;
 				background-color: #e2e2e2;
 			}
 
-			.movie-box	.movie-cover img {
+			.movie-link .movie-box .movie-cover img {
 				width: 157px;
 				height: 233px;
 			}
@@ -345,7 +360,7 @@ width:100%;
 			background-color: #FFF;
 			border-top: 3px solid #3c8dbc;
 		}
-.movies .movie-cover .movie-nocover {
+.movies .movie-nocover {
 	width: 157px;
 	height: 233px;
 }
@@ -353,18 +368,19 @@ width:100%;
 	text-align: left;
 	
 }
-.movies-list .movie-cover {
-	float: left;
-	border-right: 1px solid #ccc;
-}
+	.movies-list .movie-cover {
+		float: left;
+		overflow: hidden;
+		border-right: 1px solid #ccc;
+	}
 	.movies-list .movie-cover img {
 		width: 100px;
 		height: 148px;
 	}
-.movies-list .movie-cover .movie-nocover {
-	width: 100px;
-	height: 148px;
-}
+	.movies-list .movie-nocover {
+		width: 100px;
+		height: 148px;
+	}
 .list-movie-link {
 	background-color: #FFF;
 	position: relative;
@@ -471,6 +487,11 @@ width:100%;
 	max-width: 195px;
 	border-radius: 3px;
 	box-shadow: 0px 1px 5px black;
+}
+
+.movie .movie-nocover {
+	width: 195px;
+	height: 289px;
 }
 
 .movie .maininfo {
