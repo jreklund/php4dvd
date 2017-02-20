@@ -82,6 +82,8 @@ define("STATISTICS",								"Statistieken");
 define("VISIT_IMDB",								"IMDb informatie");
 define("VIEW_TRAILER",								"Bekijk trailer");
 define("DOWNLOAD_COVER",							"Download hoes");
+define("FAVOURITE",									"Favoriete");
+define("NOT_FAVOURITE",								"Niet favoriet");
 define("OWN",										"In bezit");
 define("NOT_OWN",									"Niet in bezit");
 define("SEEN",										"Gezien");

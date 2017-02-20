@@ -122,6 +122,14 @@ if(isset($_POST["movieid"])) {
 	}
 }
 
+// Update movie favourite status
+if(isset($movie) && isset($_GET["favourite"])) {
+	$movie->favourite = $_GET["favourite"] == 1 ? 1 : 0;
+	$moviedm->save($movie);
+	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
+	exit();
+}
+
 // Update movie seen status
 if(isset($movie) && isset($_GET["seen"])) {
 	$movie->seen = $_GET["seen"] == 1 ? 1 : 0;

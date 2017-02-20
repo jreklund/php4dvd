@@ -22,6 +22,7 @@ class Movie {
 		$this->year = $this->htmldecode($imdbmovie->year());
 		$this->duration = $this->htmldecode($imdbmovie->runtime());
 		$this->rating = $this->htmldecode($imdbmovie->rating());
+		$this->favourite = isset($this->favourite) ? $this->favourite : false;
 		$this->own = isset($this->own) ? $this->own : true;
 		$this->seen = isset($this->seen) ? $this->seen : true;
 		$this->loaned = isset($this->loaned) ? $this->loaned : false;

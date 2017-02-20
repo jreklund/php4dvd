@@ -23,40 +23,6 @@
 	</li>
 	{/if}
 	
-	<li>
-		{if $loggedin && $User->isEditor()}
-			{if $movie->own}{$own = 0}{else}{$own = 1}{/if}
-			<a href="{prettyUrl(['go' => 'own','id' => $movie->id,'own' => $own])}">
-		{else}
-		<a href="#">
-		{/if}
-		{if $movie->own}
-			<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-			<span class="hidden-sm">{$smarty.const.OWN|htmlentities:3:'UTF-8'}
-		{else}
-			<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-			<span class="hidden-sm">{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}
-		{/if}
-		</span></a>
-	</li>
-	
-	<li>
-		{if $loggedin && $User->isEditor()}
-			{if $movie->seen}{$seen = 0}{else}{$seen = 1}{/if}
-			<a href="{prettyUrl(['go' => 'seen','id' => $movie->id,'seen' => $seen])}">
-		{else}
-		<a href="#">
-		{/if}
-		{if $movie->seen}
-			<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-			<span class="hidden-sm">{$smarty.const.SEEN|htmlentities:3:'UTF-8'}
-		{else}
-			<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-			<span class="hidden-sm">{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}
-		{/if}
-		</span></a>
-	</li>
-	
 	{if $loggedin && $User->isEditor()}
 	<li>
 		<a href="{prettyUrl(['go' => 'edit','id' => $movie->id])}"><i class="fa fa-pencil fa-fw" title="{$smarty.const.EDIT|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>

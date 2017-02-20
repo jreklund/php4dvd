@@ -138,9 +138,10 @@ switch ($go) {
 						}
 						break;
 						
+	case "favourite":
 	case "seen":
 	case "own":			/**
-						 * Change the movie own/seen status
+						 * Change the movie favourite/seen/own status
 						 */
 						// Changing is only possible if the user is logged in and editor
 						if($loggedin && $User->isEditor()) {

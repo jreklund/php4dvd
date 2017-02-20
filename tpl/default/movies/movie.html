@@ -22,10 +22,50 @@
 							{else}
 							<div class="movie-nocover{if isset($movie) && !$movie->hasCover()} hidden-xs{/if}"></div>
 							{/if}
+						</div>
+						<div class="movie-icons btn-group-vertical visible-xs-inline-block">
+							{if $loggedin && $User->isEditor()}
+								{if $movie->favourite}{$favourite = 0}{else}{$favourite = 1}{/if}
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'favourite','id' => $movie->id,'favourite' => $favourite])}">
+							{else}
+							<a class="btn btn-default" href="#">
+							{/if}
+							{if $movie->favourite}
+								<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+							{else}
+								<i class="fa fa-heart-o fa-fw" title="{$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+							{/if}
+							</a>
+						
+							{if $loggedin && $User->isEditor()}
+								{if $movie->own}{$own = 0}{else}{$own = 1}{/if}
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'own','id' => $movie->id,'own' => $own])}">
+							{else}
+							<a class="btn btn-default" href="#">
+							{/if}
+							{if $movie->own}
+								<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+							{else}
+								<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+							{/if}
+							</a>
+						
+							{if $loggedin && $User->isEditor()}
+								{if $movie->seen}{$seen = 0}{else}{$seen = 1}{/if}
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'seen','id' => $movie->id,'seen' => $seen])}">
+							{else}
+							<a class="btn btn-default" href="#">
+							{/if}
+							{if $movie->seen}
+								<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+							{else}
+								<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+							{/if}
+							</a>
+						</div>
+						<div class="movie-icons download-cover">
 							{if isset($movie) && $movie->hasCover()}
-							<div class="movie-icons btn-group-vertical">
-								<a class="btn btn-default" href="{prettyUrl(['go' => 'downloadcover','id' => $movie->id])}" title="{$smarty.const.DOWNLOAD_COVER|htmlentities:3:'UTF-8'}"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i></a>
-							</div>
+							<a class="btn btn-default" href="{prettyUrl(['go' => 'downloadcover','id' => $movie->id])}" title="{$smarty.const.DOWNLOAD_COVER|htmlentities:3:'UTF-8'}"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i></a>
 							{/if}
 						</div>
 					</div>
@@ -42,7 +82,47 @@
 					<div class="box box-primary">
 						{if $movie->genres && strlen($movie->genres) > 0}
 						<div class="box-header with-border">
-							<div class="btn-group">
+							<div class="btn-group movie-icons hidden-xs">
+								{if $loggedin && $User->isEditor()}
+									{if $movie->favourite}{$favourite = 0}{else}{$favourite = 1}{/if}
+									<a class="btn btn-default" href="{prettyUrl(['go' => 'favourite','id' => $movie->id,'favourite' => $favourite])}">
+								{else}
+								<a class="btn btn-default" href="#">
+								{/if}
+								{if $movie->favourite}
+									<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								{else}
+									<i class="fa fa-heart-o fa-fw" title="{$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								{/if}
+								</a>
+							
+								{if $loggedin && $User->isEditor()}
+									{if $movie->own}{$own = 0}{else}{$own = 1}{/if}
+									<a class="btn btn-default" href="{prettyUrl(['go' => 'own','id' => $movie->id,'own' => $own])}">
+								{else}
+								<a class="btn btn-default" href="#">
+								{/if}
+								{if $movie->own}
+									<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								{else}
+									<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								{/if}
+								</a>
+							
+								{if $loggedin && $User->isEditor()}
+									{if $movie->seen}{$seen = 0}{else}{$seen = 1}{/if}
+									<a class="btn btn-default" href="{prettyUrl(['go' => 'seen','id' => $movie->id,'seen' => $seen])}">
+								{else}
+								<a class="btn btn-default" href="#">
+								{/if}
+								{if $movie->seen}
+									<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								{else}
+									<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								{/if}
+								</a>
+							</div>
+							<div class="btn-group-custom">
 								{assign var=genres value=$movie->getList('genres')}
 								{section name=g loop=$genres}
 									<a class="btn btn-default" href="{$webroot}#!/category/{$genres[g]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$genres[g]|htmlentities:3:'UTF-8'}</a>

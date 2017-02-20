@@ -82,6 +82,8 @@ define("STATISTICS",								"Statistik");
 define("VISIT_IMDB",								"Besök IMDb");
 define("VIEW_TRAILER",								"Se trailer");
 define("DOWNLOAD_COVER",							"Ladda hem omslag");
+define("FAVOURITE",									"Favorit");
+define("NOT_FAVOURITE",								"Inte favorit");
 define("OWN",										"Äger");
 define("NOT_OWN",									"Äger inte");
 define("SEEN",										"Sett");

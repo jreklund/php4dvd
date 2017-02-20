@@ -82,6 +82,8 @@ define("STATISTICS",								"Statistics");
 define("VISIT_IMDB",								"Visit IMDb");
 define("VIEW_TRAILER",								"View trailer");
 define("DOWNLOAD_COVER",							"Download cover");
+define("FAVOURITE",									"Favourite");
+define("NOT_FAVOURITE",								"Not favourite");
 define("OWN",										"Own");
 define("NOT_OWN",									"Not own");
 define("SEEN",										"Seen");
