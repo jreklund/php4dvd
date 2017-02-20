@@ -173,8 +173,12 @@ function durationConvertion($duration) {
 		return $duration;
 	$hours = floor($duration / 60);
 	$minutes = ($duration % 60);
-
-	return ($hours)?$hours. 'h '. $minutes .'min':$minutes.'min';
+	$str = '';
+	if($hours)
+		$str .= $hours. 'h ';
+	if($minutes)
+		$str .= $minutes.'min';
+	return $str;
 }
 
 /**
