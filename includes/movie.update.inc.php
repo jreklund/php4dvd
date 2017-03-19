@@ -38,7 +38,7 @@ if(isset($_GET["imdbsearch"])) {
 			\Imdb\TitleSearch::TV_MOVIE
 		);
 	
-		// Check if any of these results are allready added to our database
+		// Check if any of these results are already added to our database
 		$temp = array();
 		foreach($imdbresults as $result) {
 			$result->known = false;
