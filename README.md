@@ -12,7 +12,7 @@ Features
 - Add covers/posters to your movies
 - What do you think about a movie? Write it down in personal notes
 - Search function (title, year, plot)
-  - Filter by: categories
+  - Filter by: categories, format
   - Sort it by: name, year, rating, format, seen, own, added, loaned out
   - Results: limit amount of movies shown
   - Layouts: choose between five different display layouts

@@ -1,7 +1,7 @@
 ### 3.3.0 (2017-03-19)
 ## Added
   - Searching on media types/format
-  - Combindning CSS/JS
+  - Combining CSS/JS
 
 ## Fixed
   - Sidebar should scroll on small mobile devices
