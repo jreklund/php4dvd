@@ -60,20 +60,6 @@
 					</form>
 				</div><!-- /.box -->
 			</div><!-- /.col-ms-4 -->
-			<script>
-				$(document).ready(function() {
-					$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
-					$.validator.messages["email"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EMAIL|htmlentities:3:'UTF-8'}";
-					$.validator.messages["equalTo"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EQUAL_TO}";
-					$("#form").validate({
-						rules: {
-							password2: {
-								equalTo: "#password"
-							}
-						}
-					});
-				});
-			</script>
 		</div><!-- /.row -->
 	</section><!-- /.content -->
 </div> <!-- /.boxed -->

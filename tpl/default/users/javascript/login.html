@@ -1,0 +1,6 @@
+<script>
+$(document).ready(function() {
+	$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
+	$("#loginform").validate();
+});
+</script>

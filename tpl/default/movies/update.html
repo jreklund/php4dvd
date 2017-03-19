@@ -339,43 +339,6 @@
 					</div><!-- /.box-body .box-primary -->
 				</div><!-- /.maininfo -->
 			</div><!-- /.col-md-12 -->
-			<script>
-				$(document).ready(function() {
-					var availableTags = [
-						{if $movieformats|@count == 0}'{$smarty.const.BLU_RAY|htmlentities:3:'UTF-8'}',{/if}
-						{section name=f loop=$movieformats}'{$movieformats[f]|htmlentities:3:'UTF-8'}',{/section}
-					];
-
-					$('#format').typeahead({ source: availableTags });
-					
-					// remote, email, url, date, dateISO, digits, creditcard, equalTo, accept, maxlength, minlength, rangelength, range, max, min
-					$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
-					$.validator.messages["number"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_NUMBER|htmlentities:3:'UTF-8'}";
-					$.validator.messages["digits"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_DIGITS|htmlentities:3:'UTF-8'}";
-					$.validator.messages["email"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EMAIL|htmlentities:3:'UTF-8'}";
-					$.validator.messages["url"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_URL|htmlentities:3:'UTF-8'}";
-					$.validator.messages["date"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_DATE|htmlentities:3:'UTF-8'}";
-					$.validator.messages["accept"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_ACCEPT_JPG|htmlentities:3:'UTF-8'}";
-					$("#imdbsearchform").validate();
-					$("#imdbsearch").select();
-					$("#updateform").validate({
-						wrapper: 'div',
-						errorPlacement: function(e,r){ e.addClass("col-sm-9"),r.closest("div").before(e),r.parents(".has-feedback").addClass("has-error") },
-						success: function(e){ e.parents(".has-feedback").removeClass("has-error"),e.parent("div").remove()	},
-						rules: {
-							photo: { required: false, accept: "image/jpg,image/jpeg", },
-							cover: { required: false, accept: "image/jpg,image/jpeg", }
-						}
-					});
-					$("#updateform").valid();
-					
-					{if $autoupdate}
-					setTimeout(function(){
-						$("#submit").click();
-					}, 2000);
-					{/if}
-				});
-			</script>
 			{/if}
 		</div><!-- /.row -->
 	</section><!-- /.content -->

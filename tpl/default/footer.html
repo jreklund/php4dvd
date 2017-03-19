@@ -1,23 +1,31 @@
     <!-- REQUIRED JS SCRIPTS -->
+	<script src="{$tpl_include}javascripts/php4dvd.base.min.js"></script>
 	{if in_array($main,array('movies/update.html','users/login.html','users/user.html','users/users.html')) }
-    <script src="{$tpl_include}javascripts/jquery.validate.min.js"></script>
-	{/if}
-	{if in_array($main,array('movies/update.html','users/user.html','users/users.html')) }
-	<script src="{$tpl_include}javascripts/jquery.validate.additional-methods.min.js"></script>
+    <script src="{$tpl_include}javascripts/php4dvd.validate.min.js"></script>
 	{/if}
 	{if $main == 'movies/collection.html'}
-    <script src="{$tpl_include}javascripts/js.cookie.min.js"></script>
-	<script src="{$tpl_include}javascripts/jquery.lazyload.min.js"></script>
-    <script src="{$tpl_include}javascripts/php4dvd.js"></script>
-	<script src="{$tpl_include}javascripts/php4dvd.collection.js"></script>
+    <script src="{$tpl_include}javascripts/php4dvd.collection.min.js"></script>
 	{/if}
-    <script src="{$tpl_include}javascripts/bootstrap3.min.js"></script>
 	{if $main == 'movies/update.html'}
 	<script src="{$tpl_include}javascripts/bootstrap3-typeahead.min.js"></script>
 	{/if}
-    <script src="{$tpl_include}javascripts/AdminLTE.custom.min.js"></script>
 	{if $main == 'movies/movie.html'}
     <script src="{$tpl_include}javascripts/magnific-popup.min.js"></script>
+	{/if}
+	{if $main == 'movies/movie.html'}
+		{include file="movies/javascript/movie.html"}
+	{/if}
+	{if $main == 'movies/update.html'}
+		{include file="movies/javascript/update.html"}
+	{/if}
+	{if $main == 'users/login.html'}
+		{include file="users/javascript/login.html"}
+	{/if}
+	{if $main == 'users/user.html'}
+		{include file="users/javascript/user.html"}
+	{/if}
+	{if $main == 'users/users.html'}
+		{include file="users/javascript/users.html"}
 	{/if}
   </body>
 </html>

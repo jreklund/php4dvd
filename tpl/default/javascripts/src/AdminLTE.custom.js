@@ -41,6 +41,8 @@ $.AdminLTE.options = {
   sidebarToggleSelector: "[data-toggle='offcanvas']",
   //Activate sidebar push menu
   sidebarPushMenu: true,
+  //Activate sidebar slimscroll if the fixed layout is set (requires SlimScroll Plugin)
+  sidebarSlimScroll: true,
   //Control Sidebar Tree views
   enableControlTreeView: true,
   //Control Sidebar Options
@@ -187,9 +189,11 @@ function _init() {
     activate: function () {
       var _this = this;
       _this.fix();
-	  $('body, html, .wrapper').css('height', 'auto');
+      _this.fixSidebar();
+      $('body, html, .wrapper').css('height', 'auto');
       $(window, ".wrapper").resize(function () {
         _this.fix();
+        _this.fixSidebar();
       });
     },
     fix: function () {
@@ -221,6 +225,30 @@ function _init() {
             $(".content-wrapper, .right-side").css('min-height', controlSidebar.height());
         }
 
+      }
+    },
+    fixSidebar: function () {
+      //Make sure the body tag has the .fixed class
+      if (!$("body").hasClass("fixed")) {
+        if (typeof $.fn.slimScroll != 'undefined') {
+          $(".sidebar").slimScroll({destroy: true}).height("auto");
+        }
+        return;
+      } else if (typeof $.fn.slimScroll == 'undefined' && window.console) {
+        window.console.error("Error: the fixed layout requires the slimscroll plugin!");
+      }
+      //Enable slimscroll for fixed layout
+      if ($.AdminLTE.options.sidebarSlimScroll) {
+        if (typeof $.fn.slimScroll != 'undefined') {
+          //Destroy if it exists
+          $(".sidebar").slimScroll({destroy: true}).height("auto");
+          //Add slimscroll
+          $(".sidebar").slimScroll({
+            height: ($(window).height() - $(".main-header").height()) + "px",
+            color: "rgba(0,0,0,0.2)",
+            size: "3px"
+          });
+        }
       }
     }
   };
@@ -479,3 +507,8 @@ function _init() {
     }
   };
 }
+/*! php4dvd - Custom function for hiding .logo */
+var l = 1;
+$(window).on("scroll", function() {
+    l && $(this).scrollTop() > 50 && $(window).width() < 766 ? (l = 0, $('body').addClass('logo-hidden')) : !l && $(this).scrollTop() < 50 && (l = 1, $('body').removeClass('logo-hidden'))
+});

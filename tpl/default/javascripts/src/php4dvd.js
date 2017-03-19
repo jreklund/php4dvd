@@ -66,7 +66,7 @@ function search() {
 			Cookies.set("page", 0);
 		}
 		
-		// Number of resutls
+		// Number of results
 		var n = $("#n").val();
 		if(n && n > 0) {
 			url += "&n=" + encodeURIComponent(n);
