@@ -49,6 +49,8 @@ define("EXPORT_TO_CSV",								"Exportera");
 define("SEARCH_DEFAULT_TEXT",						"Sök...");
 define("CATEGORIES",								"Kategorier");
 define("ALL_CATEGORIES",							"Alla kategorier");
+define("FORMATS",									"Format");
+define("ALL_FORMATS",								"Alla format");
 define("SORT_BY",									"Sortera efter");
 define("LAYOUT",									"Layout");
 define("name asc",									"Namn (A-Z)");

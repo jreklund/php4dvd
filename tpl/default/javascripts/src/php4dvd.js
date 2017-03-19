@@ -37,6 +37,16 @@ function search() {
 			Cookies.remove("category");
 		}
 		
+		// Format
+		var f = $("#format").val();
+		if(f) {
+			url += "&f=" + encodeURIComponent(f);
+			location += "format/" + encodeURIComponent(f) + "/";
+			Cookies.set("format", f, { expires: 14 });
+		} else {
+			Cookies.remove("format");
+		}
+		
 		// Sort
 		var s = $("#sort").val();
 		if(s) {

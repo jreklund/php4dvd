@@ -49,6 +49,8 @@ define("EXPORT_TO_CSV",								"Exporteren");
 define("SEARCH_DEFAULT_TEXT",						"Zoek...");
 define("CATEGORIES",								"Categorieën");
 define("ALL_CATEGORIES",							"Alle categorieën");
+define("FORMATS",									"Formats");
+define("ALL_FORMATS",								"Alle formats");
 define("SORT_BY",									"Sorteer op");
 define("LAYOUT",									"Paginaopmaak");
 define("name asc",									"Naam (A-Z)");

@@ -6,6 +6,9 @@ $(document).ready(function() {
 	if(Cookies.get("category")) {
 		$("#category").val(Cookies.get("category"));
 	}
+	if(Cookies.get("format")) {
+		$("#format").val(Cookies.get("format"));
+	}
 	if(Cookies.get("sort")) {
 		$("#sort").val(Cookies.get("sort"));
 	}
@@ -26,6 +29,9 @@ $(document).ready(function() {
 	}
 	if(typeof parameters["category"] === 'string') {
 		$("#category").val(parameters["category"]);
+	}
+	if(typeof parameters["format"] === 'string') {
+		$("#format").val(parameters["format"]);
 	}
 	if(typeof parameters["sort"] === 'string') {
 		$("#sort").val(parameters["sort"]);

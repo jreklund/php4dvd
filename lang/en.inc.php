@@ -49,6 +49,8 @@ define("EXPORT_TO_CSV",								"Export");
 define("SEARCH_DEFAULT_TEXT",						"Search...");
 define("CATEGORIES",								"Categories");
 define("ALL_CATEGORIES",							"All categories");
+define("FORMATS",									"Formats");
+define("ALL_FORMATS",								"All formats");
 define("SORT_BY",									"Sort by");
 define("LAYOUT",									"Layout");
 define("name asc",									"Name (A-Z)");

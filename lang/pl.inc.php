@@ -49,6 +49,8 @@ define("EXPORT_TO_CSV",								"Eksportuj do CSV");
 define("SEARCH_DEFAULT_TEXT",						"Szukaj...");
 define("CATEGORIES",								"Kategorie");
 define("ALL_CATEGORIES",							"Wszystkie kategorie");
+define("FORMATS",									"Typie nośnika");
+define("ALL_FORMATS",								"Wszystkie rodzaje nośników");
 define("SORT_BY",									"Sortuj po");
 define("LAYOUT",									"Wybierz layout");
 define("name asc",									"Nazwie (rosnąco)");

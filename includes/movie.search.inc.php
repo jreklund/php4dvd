@@ -33,6 +33,7 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	isset($_GET["q"]) 	? $q = trim($_GET["q"])				: $q = "";
 	isset($_GET["s"]) 	? $sort = $_GET["s"]				: $sort = "";
 	isset($_GET["c"])	? $category = $_GET["c"]			: $category = "";
+	isset($_GET["f"])	? $format = $_GET["f"]				: $format = "";
 	isset($_GET["n"]) 	? $amount = abs(intval($_GET["n"]))	: $amount = 0;
 	isset($_GET["p"]) 	? $page = abs(intval($_GET["p"]))	: $page = 0;
 	
@@ -50,6 +51,10 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	if(!in_array($category,$moviecategories,true))
 		$category = "";
 	
+	// Validate $format against movie formats ($movieformats)
+	if(!in_array($format,$movieformats))
+		$format = "";
+	
 	// Change what columns to get from the database (movie collection)
 	$columns = array();
 	if($templateName === 'poster')
@@ -60,12 +65,12 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`');
 	
 	// Search the database for one more movie
-	$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount, false, $columns);
+	$movies = $moviedm->search($q, $sort, $category, $format,  $page * $amount, $amount, false, $columns);
 	
 	// If there are no movies found, reload
 	while($page > 0 && count($movies) === 0) {
 		$page--;
-		$movies = $moviedm->search($q, $sort, $category, $page * $amount, $amount, false, $columns);
+		$movies = $moviedm->search($q, $sort, $category, $format, $page * $amount, $amount, false, $columns);
 	}
 	$Website->assign("movies", $movies);
 	
@@ -107,7 +112,7 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 
 // Statistics
 if(!isset($refreshMovieList)) {
-	$movies = $moviedm->search('', '', '', 0, 0, true);
+	$movies = $moviedm->search('', '', '', '', 0, 0, true);
 	$numbertypes = array();
 	foreach($movieformats as $format) {
 		$numbertypes[] = array($format, 0);
