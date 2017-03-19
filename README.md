@@ -80,14 +80,10 @@ $settings["defaultlanguage"] = "pl"; // Polish
 Screenshots
 =======
 
-<img src="docs/screenshots/login.jpeg" alt="Login" width="45%">
-<img src="docs/screenshots/collection.jpeg" alt="Movie collection" width="45%"> 
-<img src="docs/screenshots/search.jpeg" alt="Search" width="45%"> 
-<img src="docs/screenshots/movie.jpeg" alt="Movie" width="45%"> 
-<img src="docs/screenshots/trailer.jpeg" alt="Movie trailer" width="45%"> 
-<img src="docs/screenshots/addmovie.jpeg" alt="Add movies" width="45%">
-<img src="docs/screenshots/imdb.jpeg" alt="Search from IMDb" width="45%">
-<img src="docs/screenshots/users.jpeg" alt="Users" width="45%">
+<img src="docs/screenshots/login.jpeg" alt="Login" width="45%"> <img src="docs/screenshots/collection.jpeg" alt="Movie collection" width="45%"> 
+<img src="docs/screenshots/search.jpeg" alt="Search" width="45%"> <img src="docs/screenshots/movie.jpeg" alt="Movie" width="45%"> 
+<img src="docs/screenshots/trailer.jpeg" alt="Movie trailer" width="45%"> <img src="docs/screenshots/addmovie.jpeg" alt="Add movies" width="45%"> 
+<img src="docs/screenshots/imdb.jpeg" alt="Search from IMDb" width="45%"> <img src="docs/screenshots/users.jpeg" alt="Users" width="45%"> 
 
 Configuration / FAQ
 =======
@@ -98,12 +94,12 @@ By default, guest users can't view your movie collection. If you want guest
 users to view your collection, set the 'guestview' variable to true in
 config/config.php after installation or upgrade.
 
-###SEO Friendly URL (pretty_url)
+### SEO Friendly URL (pretty_url)
 
 Activate inside config/config.default.php or config/config.php and read
 the instructions inside .htaccess.
 
-###Internal Server Error
+### Internal Server Error
 
 Try to run the website, but if the site failes opening with a 'Internal 
 Server Error', adjust the .htaccess file in the root of the site.
@@ -111,8 +107,8 @@ Try to remove the Options line by placing a # at the beginning of the line.
 Otherwise remove the `<Files>` section. These settings might fail because of
 the permissions of your webserver.
 
-###SSL certificate problem: unable to get local issuer certificate
-####Windows
+### SSL certificate problem: unable to get local issuer certificate
+#### Windows
 1. [Download cacert.pem](https://curl.haxx.se/docs/caextract.html).  
 2. Store it somewhere on your server.  
 `C:\php\extras\ssl\cacert.pem`  
@@ -120,7 +116,7 @@ the permissions of your webserver.
 `curl.cainfo = "C:\php\extras\ssl\cacert.pem"`  
 4. Restart your web server.
 
-####Linux
+#### Linux
 I recommend that you update your local `ca-bundle.crt` or `ca-certificates.crt` file for your whole system.  
 There are different best practices depending on OS. Google is your best bet, for finding the safest way.  
 
@@ -151,7 +147,7 @@ and came up with some extra features.
 Thanks to Izzy from [IzzySoft](http://projects.izzysoft.de/trac/imdbphp). He wrote the imdbphp class to be able to 
 search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothman/imdbphp) for continuing his work.
 
-###Libraries
+### Libraries
 
 #### HTML/CSS/JavaScript
   - [AdminLTE](https://almsaeedstudio.com/)
