@@ -1,3 +1,30 @@
+### 3.3.0 (2017-03-19)
+## Added
+  - Searching on media types/format
+  - Combindning CSS/JS
+
+## Fixed
+  - Sidebar should scroll on small mobile devices
+  - Typos
+
+## 3.2.5 (2017-02-21)
+### Changed
+  - Upadted imdbphp to 5.1.1
+
+## 3.2.4 (2017-02-20)
+### Added
+  - You can now flag your movies/series as favourite(s)
+  
+### Changed
+  - Updated imdbphp to 5.0.4 RC1
+  - Moved favourite/seen/own to the right of genres and right on poster on mobile
+  - Genres are now separate buttons (not grouped together)
+  - Download cover moved from navigation on top of poster
+
+### Fixed
+  - 1h 0min (on 60min runtime)
+  - Cover images should have reversed width/height limitations
+
 ## 3.2.3 (2017-02-11)
 ### Added
   - You can now force php4dvd to use HTTPS
