@@ -18,6 +18,7 @@ if($loggedin) {
 	$file  = "ID".$SEPARATOR;
 	$file .= IMDB_NUMBER.$SEPARATOR;
 	$file .= TITLE.$SEPARATOR;
+	$file .= TITLE_ORDER.$SEPARATOR;
 	$file .= AKA_TITLES.$SEPARATOR;
 	$file .= YEAR.$SEPARATOR;
 	$file .= DURATION_MINUTES.$SEPARATOR;
@@ -50,6 +51,7 @@ if($loggedin) {
 		$fileLoop .= makeData($movie->id);
 		$fileLoop .= makeData($movie->imdbid);
 		$fileLoop .= makeData($movie->name);
+		$fileLoop .= makeData($movie->nameorder);
 		$fileLoop .= makeData($movie->aka);
 		$fileLoop .= makeData($movie->year);
 		$fileLoop .= makeData($movie->duration);

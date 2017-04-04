@@ -146,13 +146,13 @@ switch ($currentstep) {
 							
 							// Website
 							$uConfig = array();
-							$uConfig['defaultlanguage'] = in_array($_POST["defaultlanguage"],$settings["languages"])?$_POST["defaultlanguage"]:$language;
+							$uConfig['defaultlanguage'] = in_array($_POST["defaultlanguage"],$settings["languages"],true)?$_POST["defaultlanguage"]:$language;
 							$Website->assign("language", $uConfig['defaultlanguage']);
 							$uConfig['url'] = preg_replace('/[^0-9a-zA-Z_\\-\\.\\/]+/','',stripslashes($_POST["url"]));
 							$Website->assign("url", $uConfig['url']);
 							$uConfig['guestview'] = isset($_POST["guestview"]) ? true : false;
 							$Website->assign("guestview",$uConfig['guestview']);
-							$uConfig['template'] = in_array($_POST["template"],$templates)?$_POST["template"]:$settings["template"];
+							$uConfig['template'] = in_array($_POST["template"],$templates,true)?$_POST["template"]:$settings["template"];
 							$Website->assign("template", $uConfig['template']);
 							
 							// Test database connection
@@ -239,14 +239,16 @@ switch ($currentstep) {
 							$search = array(
 								'__DATABASE__',
 								'__CHARACTER__',
-								'__COLLATE__'
+								'__COLLATE__',
+								'__NAME_ORDER__'
 							);
 							
 							// Replace matching strings with
 							$replace = array(
 								$settings["db"]["name"],
 								$charset_collate['charset'],
-								$charset_collate['collate']
+								$charset_collate['collate'],
+								$settings["name_order"]
 							);
 		
 							// Iterate sql files since last version and execute these files

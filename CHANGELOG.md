@@ -1,9 +1,13 @@
-### 3.3.0 (2017-03-19)
+## 3.4.0 (2017-04-04)
 ## Added
+  - Sorting without 'The' prefix #4 
+
+## 3.3.0 (2017-03-19)
+### Added
   - Searching on media types/format
   - Combining CSS/JS
 
-## Fixed
+### Fixed
   - Sidebar should scroll on small mobile devices
   - Typos
 

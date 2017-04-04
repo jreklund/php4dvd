@@ -13,6 +13,7 @@ class Movie {
 		$this->id = isset($this->id) ? $this->id : 0;
 		$this->imdbid = $this->htmldecode($imdbmovie->imdbid());
 		$this->name = $this->htmldecode($imdbmovie->title());
+		$this->nameorder = isset($this->nameorder) ? $this->nameorder : "";
 		$akas = array();
 		foreach($imdbmovie->alsoknow() as $aka) {
 			$title = $this->htmldecode($aka["title"]);

@@ -152,6 +152,14 @@ $settings["smarty"]["development"]		= $settings["development"];
 $settings["pretty_url"] = false;
 
 /**
+ * Select which prefixes to ignore when sorting.
+ * Removes "The" from "The Karate Kid", sorting will then start with the letter "K" instead.
+ * Separate all prefixes with a pipe character |.
+ */
+ 
+$settings["name_order"] = 'A|An|The';
+
+/**
  * Change number of results
  * array(20, 30, 40, 50, 60);
  */
