@@ -69,7 +69,7 @@ if(isset($_POST["movieid"])) {
 	
 	// NameOrder - Select which prefixes to ignore when sorting
 	$nameOrder = $settings["name_order"];
-	$movie->nameorder = trim(mb_ereg_replace('^('.$nameOrder.')[[:space:]]','',$movie->name));
+	$movie->nameorder = trim(preg_replace('/^('.$nameOrder.')[[:space:]]/u','',$movie->name));
 	
 	// Save movie
 	$movie->id = $moviedm->save($movie);

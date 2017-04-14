@@ -9,9 +9,9 @@ if($loggedin) {
 	$movies = $moviedm->search('','','','',0,0,false,array('*'));
 	
 	// Output CSV file
-	$SEPARATOR = utf8_encode(";");
-	$QUOTE = utf8_encode("\"");
-	$NEWLINE = utf8_encode("\n");
+	$SEPARATOR = ";";
+	$QUOTE = "\"";
+	$NEWLINE = "\n";
 	
 	// Header
 	$file = '';
@@ -79,7 +79,7 @@ if($loggedin) {
 		$fileLoop .= makeData($movie->cast);
 		$fileLoop .= $NEWLINE;
 	}
-	$file .= utf8_decode($fileLoop);
+	$file .= $fileLoop;
 	
 	ob_start();
 	ob_clean();
@@ -98,6 +98,6 @@ if($loggedin) {
 
 function makeData($content) {
 	global $QUOTE, $SEPARATOR;
-	return $QUOTE.utf8_encode(preg_replace("/\r?\n/", ", ", $content)).$QUOTE.$SEPARATOR;
+	return $QUOTE.preg_replace("/\r?\n/u", ", ", $content).$QUOTE.$SEPARATOR;
 }
 ?>

@@ -330,7 +330,7 @@ function prettyUrlHelper($href='',$url=array()) {
 function prettyUrlNameHelper($str='',$get='') {
 	if($get === 'name')
 		return urlTitle(convertAccentedCharacters($str),'-',TRUE);
-	return trim(preg_replace('/[^a-z 0-9~%.:_\-]+/i','',convertAccentedCharacters($str)));
+	return trim(preg_replace('/[^a-z 0-9~%.:_\-]+/iu','',convertAccentedCharacters($str)));
 }
 
 /**
@@ -373,8 +373,8 @@ function parsePrettyUrl() {
 
 function parsePrettyUrlNameHelper($str='',$get=false) {
 	if($get)
-		return preg_replace('/[^a-z0-9_-]+/i','',$str);
-	return preg_replace('/[^a-z 0-9~%.:_\-]+/i','',$str);
+		return preg_replace('/[^a-z0-9_-]+/iu','',$str);
+	return preg_replace('/[^a-z 0-9~%.:_\-]+/iu','',$str);
 }
 
 /**

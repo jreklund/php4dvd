@@ -11,8 +11,8 @@ if(isset($movie)) {
 			if($movie->hasCover()) {
 				$body = implode('', file($coverpath.$movie->id.".jpg"));
 				
-				// Creat the correct header
-				$name = preg_replace("/[^\s\.a-zA-Z0-9_-]/", "", $movie->name);
+				// Create the correct header
+				$name = preg_replace("/[^\s\.a-zA-Z0-9_-]/u", "", $movie->name);
 				header("Content-Disposition: attachment; filename=\"".addslashes($name).".jpg\"");
 				header("Content-type: application/force-download");
 				header("Pragma: cache");
