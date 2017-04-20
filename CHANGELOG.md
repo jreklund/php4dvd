@@ -1,5 +1,16 @@
+## 3.4.1 (2017-04-20)
+### Added
+  - Remove old authentication(s)
+  
+### Changed
+  - Updated random_compat to 2.0.10
+  - Updated imdbphp to 5.2.0
+  
+### Fixed
+  - Various UTF-8 encoding problems
+
 ## 3.4.0 (2017-04-04)
-## Added
+### Added
   - Sorting without 'The' prefix #4 
 
 ## 3.3.0 (2017-03-19)
