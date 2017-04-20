@@ -19,8 +19,9 @@ $login  = new Login($userdm,$authdm);
 if(!isset($_SESSION["User"]) && isset($_COOKIE["rememberme"])) {
 	list($selector, $token) = explode(":", $_COOKIE["rememberme"]);
 	if($selector && $token) {
-		$Auth = $authdm->getBySelector($selector);
 		$date = new DateTime();
+		$authdm->removeOld($date->format('Y-m-d H:i:s')); // Remove old authentication(s)
+		$Auth = $authdm->getBySelector($selector); // Get authentication by its selector
 		// If authentication match, login user
 		if(
 			$Auth &&

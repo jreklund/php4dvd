@@ -37,6 +37,16 @@ class Auth extends Database {
 	}
 	
 	/**
+	 * Remove old authentication(s).
+	 * @param string $datetime
+	 */
+	public function removeOld($datetime) {
+		$a = R::find('auth', 'expires <= ?', array( $datetime ));
+		if($a)
+			R::trashAll($a);
+	}
+	
+	/**
 	 * Get authentication by its selector.
 	 * @param string $username
 	 * @return the authentication or empty bean when the selector was not found
