@@ -1,3 +1,19 @@
+## 3.5.0 (2017-07-25)
+### Added
+  - Filter by: Movie | TV-Series | Own | Seen | Favorites
+  - Icons added in movie collection: TV-Series | Not Own | Not Seen | Favorites
+    - Configuration added to disable icons on posterview (poster, postertitle)
+  
+### Changed
+  - Updated imdbphp to 5.2.1
+  - Layouts (posterlist, list, listplot): Only two languages are now shown in movie collection
+  
+### Fixed
+  - Search field closed automatic on Android
+
+### Removed
+  - Seen and Own removed from "Sort by" in movie collection
+
 ## 3.4.1 (2017-04-20)
 ### Added
   - Remove old authentication(s)

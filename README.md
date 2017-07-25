@@ -12,8 +12,8 @@ Features
 - Add covers/posters to your movies
 - What do you think about a movie? Write it down in personal notes
 - Search function (title, year, plot)
-  - Filter by: categories, format
-  - Sort it by: name, year, rating, format, seen, own, added, loaned out
+  - Filter by: categories, format, movie, tv, seen, own, favourite
+  - Sort it by: name, year, rating, format, added, loaned out
   - Results: limit amount of movies shown
   - Layouts: choose between five different display layouts
 - Multi-user (admin, editor, guest)
@@ -108,6 +108,7 @@ Otherwise remove the `<Files>` section. These settings might fail because of
 the permissions of your webserver.
 
 ### SSL certificate problem: unable to get local issuer certificate
+Visible as ERROR 500 in your browser when adding movie/tv posters from IMDb.
 #### Windows
 1. [Download cacert.pem](https://curl.haxx.se/docs/caextract.html).  
 2. Store it somewhere on your server.  
