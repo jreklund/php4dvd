@@ -71,6 +71,7 @@ define("loaned asc",								"Loaned out (old-new)");
 define("loaned desc",								"Loaned out (new-old)");
 define("ALL", 										"All");
 define("RESULTS_PER_PAGE",							"Results per page");
+define("FILTER_BY",									"Filter by");
 // Results
 define("NO_RESULTS_FOUND",							"No titles where found.");
 define("NO_COVER",									"No cover");
@@ -124,6 +125,7 @@ define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
 define("LOANED_OUT_TO",								"Loaned out to");
 define("LOANED_OUT_SINCE",							"Loaned out since");
+define("MOVIE",										"Movie");
 define("TV_SERIES",									"TV Series");
 define("SEASONS",									"Seasons");
 define("YES",										"Yes");

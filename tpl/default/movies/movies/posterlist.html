@@ -9,11 +9,25 @@
 				</div>
 				<div class="list-movie-title">{$movies[m]->name|htmlentities:3:'UTF-8'} <small>({$movies[m]->year|htmlentities:3:'UTF-8'})</small></div>
 				<div class="list-movie-plot">{$movies[m]->plotoutline|htmlentities:3:'UTF-8'}</div>
-				<div class="list-movie-info">
+				<div class="list-movie-info list-movie-icons-{$movies[m]->tv+$movies[m]->favourite+!$movies[m]->own+!$movies[m]->seen}">
 					{durationConvertion($movies[m]->duration)|htmlentities:3:'UTF-8'}
 					| <strong>{$movies[m]->rating|htmlentities:3:'UTF-8'}</strong>/10
 					{assign var=languages value=$movies[m]->getList('languages')}
-					| {section name=l loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|htmlentities:3:'UTF-8'}{/section}
+					| {section name=l max=2 loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|htmlentities:3:'UTF-8'}{/section}
+				</div>
+				<div class="list-movie-icons">
+					{if $movies[m]->tv}
+						<i class="fa fa-tv fa-fw" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+					{/if}
+					{if $movies[m]->favourite}
+						<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+					{/if}
+					{if !$movies[m]->own}
+						<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+					{/if}
+					{if !$movies[m]->seen}
+						<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+					{/if}
 				</div>
 			</div>
 		</a>

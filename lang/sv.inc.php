@@ -71,6 +71,7 @@ define("loaned asc",								"Utlåande (gamla-nya)");
 define("loaned desc",								"Utlåande (nya-gamla)");
 define("ALL", 										"Alla");
 define("RESULTS_PER_PAGE",							"Resultat per sida");
+define("FILTER_BY",									"Filtrera efter");
 // Results
 define("NO_RESULTS_FOUND",							"Inga titlar hittades.");
 define("NO_COVER",									"Inget omslag");
@@ -124,6 +125,7 @@ define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
 define("LOANED_OUT_TO",								"Utlånad till");
 define("LOANED_OUT_SINCE",							"Utlånad sedan");
+define("MOVIE",										"Film");
 define("TV_SERIES",									"TV-serie");
 define("SEASONS",									"Säsonger");
 define("YES",										"Ja");

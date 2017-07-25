@@ -7,6 +7,22 @@
 					{elseif $movies[m]->hasCover()}<img class="lazy" data-original="{$movies[m]->cover()}" alt="{$movies[m]->name|htmlentities:3:'UTF-8'}" />
 					{else}<div class="movie-nocover"></div>{/if}
 				</div>
+				{if $poster_icons}
+				<div class="movie-icons btn-group-vertical">
+					{if $movies[m]->tv}
+						<span class="btn btn-default"><i class="fa fa-tv fa-fw" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>
+					{/if}
+					{if $movies[m]->favourite}
+						<span class="btn btn-default"><i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>
+					{/if}
+					{if !$movies[m]->own}
+						<span class="btn btn-default"><i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>
+					{/if}
+					{if !$movies[m]->seen}
+						<span class="btn btn-default"><i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>
+					{/if}
+				</div>
+				{/if}
 			</div>
 		</a>
 	{sectionelse}

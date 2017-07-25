@@ -71,6 +71,7 @@ define("loaned asc",								"Uitgeleend (oud-nieuw)");
 define("loaned desc",								"Uitgeleend (nieuw-oud)");
 define("ALL", 										"Alle");
 define("RESULTS_PER_PAGE",							"Resultaten per pagina");
+define("FILTER_BY",									"Filteren op");
 // Results
 define("NO_RESULTS_FOUND",							"Geen titels gevonden.");
 define("NO_COVER",									"Geen afbeelding");
@@ -124,6 +125,7 @@ define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
 define("LOANED_OUT_TO",								"Uitgeleend aan");
 define("LOANED_OUT_SINCE",							"Uitgeleend sinds");
+define("MOVIE",										"Film");
 define("TV_SERIES",									"TV Serie");
 define("SEASONS",									"Seizoenen");
 define("YES",										"Ja");

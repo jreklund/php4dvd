@@ -15,6 +15,21 @@ $(document).ready(function() {
 	if(Cookies.get("layout")) {
 		$("#l").val(Cookies.get("layout"));
 	}
+	if(Cookies.get("movie")) {
+		$("#movie").val(Cookies.get("movie"));
+	}
+	if(Cookies.get("tv")) {
+		$("#tv").val(Cookies.get("tv"));
+	}
+	if(Cookies.get("own")) {
+		$("#own").val(Cookies.get("own"));
+	}
+	if(Cookies.get("seen")) {
+		$("#seen").val(Cookies.get("seen"));
+	}
+	if(Cookies.get("favourite")) {
+		$("#favourite").val(Cookies.get("favourite"));
+	}
 	if(Cookies.get("page")) {
 		$("#p").val(Cookies.get("page"));
 	}

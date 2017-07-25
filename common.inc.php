@@ -110,12 +110,14 @@ $tpl_name = $settings["smarty"]["template"];
 $tpl_skin = 'skin-'.$settings["template_skin"];
 $tpl_skin_light = $settings["template_skin_light"];
 $tpl_movie_collection = $settings["template_movie_collection"];
+$tpl_poster_icons = $settings["template_poster_icons"];
 if($tpl_skin_light) {
 	$tpl_skin .= '-light';
 	$tpl_name .= '-light';
 }
 $Website->assign("template", $tpl_name);
 $Website->assign("template_skin", $tpl_skin);
+$Website->assign("poster_icons", $tpl_poster_icons);
 
 // Template for movie collection
 $templateName = isset($_COOKIE['layout']) ? $_COOKIE['layout'] : '';

@@ -64,12 +64,18 @@ class Movies extends Database {
 	 * @param string $search
 	 * @param string $sort
 	 * @param string $category
+	 * @param string $format
+	 * @param int $movieTv
+	 * @param int $own
+	 * @param int $seen
+	 * @param int $favourite
 	 * @param int $page
 	 * @param int $amount
 	 * @param boolean $array
+	 * @param array $searchColumns
 	 * @return the movies that match the search criteria
 	 */
-	function search($search, $sort = "nameorder", $category = "", $format = "", $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
+	function search($search, $sort = "nameorder", $category = "", $format = "", $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
 		// Words
 		$words = preg_split("/\s+/", $search);
 		
@@ -110,6 +116,18 @@ class Movies extends Database {
 		}
 		if($format != "") {
 			$query .= " AND `format` = ?"; $bindings[] = $format;
+		}
+		if($movieTv === 0 || $movieTv === 1) {
+			$query .= " AND `tv` = ?"; $bindings[] = $movieTv;
+		}
+		if($own === 0 || $own === 1) {
+			$query .= " AND `own` = ?"; $bindings[] = $own;
+		}
+		if($seen === 0 || $seen === 1) {
+			$query .= " AND `seen` = ?"; $bindings[] = $seen;
+		}
+		if($favourite === 0 || $favourite === 1) {
+			$query .= " AND `favourite` = ?"; $bindings[] = $favourite;
 		}
 		if($sort != "") {
 			$query .= " ORDER BY ".$sort.", `nameorder`";

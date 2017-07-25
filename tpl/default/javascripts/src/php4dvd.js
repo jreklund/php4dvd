@@ -66,6 +66,51 @@ function search() {
 			Cookies.set("layout", 0);
 		}
 		
+		// Movie
+		var movie = $("#movie").val();
+		if(movie) {
+			url += "&movie=" + encodeURIComponent(movie);
+			Cookies.set("movie", movie, { expires: 14 });
+		} else {
+			Cookies.set("movie", 0);
+		}
+		
+		// Tv
+		var tv = $("#tv").val();
+		if(tv) {
+			url += "&tv=" + encodeURIComponent(tv);
+			Cookies.set("tv", tv, { expires: 14 });
+		} else {
+			Cookies.set("tv", 0);
+		}
+		
+		// Own
+		var own = $("#own").val();
+		if(own) {
+			url += "&own=" + encodeURIComponent(own);
+			Cookies.set("own", own, { expires: 14 });
+		} else {
+			Cookies.set("own", -1);
+		}
+		
+		// Seen
+		var seen = $("#seen").val();
+		if(seen) {
+			url += "&seen=" + encodeURIComponent(seen);
+			Cookies.set("seen", seen, { expires: 14 });
+		} else {
+			Cookies.set("seen", -1);
+		}
+		
+		// Favourite
+		var favourite = $("#favourite").val();
+		if(favourite) {
+			url += "&favourite=" + encodeURIComponent(favourite);
+			Cookies.set("favourite", favourite, { expires: 14 });
+		} else {
+			Cookies.set("favourite", -1);
+		}
+		
 		// Page
 		var p = $("#p").val();
 		if(p && p > 0) {
@@ -119,6 +164,40 @@ $(document).ready(function() {
 		var $this = $(this);
 		$this.addClass('active').siblings().removeClass('active');
 		document.getElementById("l").value = $this.data('value');
+		search();
+	});
+	$('i','#filter-by').on('click', function() {
+		var $this = $(this),
+		runOnce = true;
+		$this.addClass('active');
+		
+		if($this.data('toggle')) {
+			if($this.data('value') == -1 && runOnce) {
+				$this.data('value',0);
+				runOnce = false;
+			}
+			if($this.data('value') == 0 && runOnce) {
+				$this.data('value',1);
+				$this.removeClass($this.data('remove'));
+				$this.addClass($this.data('add'));
+				runOnce = false;
+			}
+			if($this.data('value') == 1 && runOnce) {
+				$this.data('value',-1);
+				$this.removeClass('active');
+				$this.removeClass($this.data('add'));
+				$this.addClass($this.data('remove'));
+				runOnce = false;
+			}
+		} else {
+			if($this.data('value') == 0) {
+				$this.data('value',1);
+			} else {
+				$this.removeClass('active');
+				$this.data('value',0);
+			}
+		}
+		document.getElementById($this.data('id')).value = $this.data('value');
 		search();
 	});
 });

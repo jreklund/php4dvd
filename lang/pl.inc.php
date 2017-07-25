@@ -71,6 +71,7 @@ define("loaned asc",								"Najpierw niewypożyczone");
 define("loaned desc",								"Najpierw wypożyczone");
 define("ALL",										"Wszystkie");
 define("RESULTS_PER_PAGE",							"Pozycji na stronie");
+define("FILTER_BY",									"Filtruj po");
 // Results
 define("NO_RESULTS_FOUND",							"Nie znaleziono pozycji");
 define("NO_COVER",									"Brak okładki");
@@ -124,6 +125,7 @@ define("DVD",										"DVD");
 define("BLU_RAY",									"Blu-ray");
 define("LOANED_OUT_TO",								"Wypożyczony dla");
 define("LOANED_OUT_SINCE",							"Wypożyczony od");
+define("MOVIE",										"Film");
 define("TV_SERIES",									"Serial TV");
 define("SEASONS",									"Sezony");
 define("YES",										"Tak");

@@ -104,29 +104,29 @@
     background: #f7f7f7;
 }
 
-.sidebar-menu li#layout {
+.sidebar-menu li.icons-group {
 	padding: 13px 30px 9px 11px;
 	color: #b8c7ce;
 }
 
-.default-light .sidebar-menu li#layout {
+.default-light .sidebar-menu li.icons-group {
 	color: #848484;
 	background: #f4f4f5;
 }
 
-.sidebar-menu li#layout .active {
+.sidebar-menu li.icons-group .active {
 	color: #FFF;
 }
 
-.default-light .sidebar-menu li#layout .active {
+.default-light .sidebar-menu li.icons-group .active {
 	color: #000;
 }
 
-.sidebar-menu li#layout i {
+.sidebar-menu li.icons-group i {
 	cursor: pointer;
 }
 
-.sidebar-menu li#layout i.fa-bars {
+.sidebar-menu li.icons-group i.fa-bars {
 	position: relative;
 	top: -1px;
 }
@@ -378,6 +378,15 @@ width:100%;
 	width: 157px;
 	height: 233px;
 }
+.movies .movie-icons>.btn:first-child:not(:last-child), .movies .movie-icons>.btn {
+	border-top-right-radius: 0;
+}
+.movies .movie-icons>.btn:last-child:not(:first-child), .movies .movie-icons>.btn {
+	border-bottom-right-radius: 0;
+}
+.movies .movie-icons {
+	right: -1px;
+}
 .movies-list {
 	text-align: left;
 	
@@ -420,7 +429,7 @@ width:100%;
 		width: 100%;
 	}
 }
-.list-movie-link:hover .list-movie-info, .list-movie-link:hover .list-movie-plot {
+.list-movie-link:hover .list-movie-info, .list-movie-link:hover .list-movie-plot, .list-movie-link:hover .list-movie-icons {
 	color: #222;
 }
 .list-movie-title, .list-movie-info, .list-movie-plot {
@@ -454,6 +463,25 @@ width:100%;
 	border-top: 3px solid #3c8dbc;
 	font-size: 12px;
 	background-color: #f4f4f4;
+}
+.list-movie-icons {
+	position: absolute;
+	right: 5px;
+	bottom: 2px;
+	margin: 0;
+	padding: 0;
+}
+.list-movie-icons-1 {
+	padding-right: 30px;
+}
+.list-movie-icons-2 {
+	padding-right: 50px;
+}
+.list-movie-icons-3 {
+	padding-right: 70px;
+}
+.list-movie-icons-4 {
+	padding-right: 90px;
 }
 /**
  * IMDb search for movies
