@@ -9,7 +9,7 @@ $settings = array();
 /**
  * Set the languages that are available for the user.
  */
-$settings["languages"] = array("English" => "en", "Nederlands" => "nl", "Swedish" => "sv", "Polish" => "pl");
+$settings["languages"] = array("English" => "en", "Nederlands" => "nl", "Swedish" => "sv", "Polish" => "pl", "German" => "de");
 $settings["defaultlanguage"] = "en";
 
 /**
@@ -52,7 +52,7 @@ $settings["url"]["HTTPS"] = false;
 
 /**
  * The database settings.
- * Fill in the hostname of the databse, the databse name and the username and password to connect. 
+ * Fill in the hostname of the databse, the databse name and the username and password to connect.
  */
 $settings["db"] = array();
 $settings["db"]["host"] = "localhost";
@@ -78,7 +78,7 @@ $settings["photo"]["movies"] = "./movies/";
 $settings["photo"]["covers"] = $settings["photo"]["movies"]."covers/";
 
 /**
- * Define min/max size limits for upload (size in bytes) 
+ * Define min/max size limits for upload (size in bytes)
  */
 $settings["photo"]["min_upload_size"] = 10000;
 $settings["photo"]["max_upload_size"] = 2000000;
@@ -88,7 +88,7 @@ $settings["photo"]["max_upload_size"] = 2000000;
  */
 $settings["photo"]["max_width"] = 2500;
 $settings["photo"]["max_height"] = 3500;
- 
+
 /**
  * Thumbnails are made of the covers you upload. These are resized to a maximum width and height.
  */
@@ -108,7 +108,7 @@ $settings["photo"]["p_maxheight"] = 800;
  */
 
 $settings["photo"]["high_res"] = false;
- 
+
 /**
  * Can guest visitors view your movies? If you only want users with a login to view your movies, set this to false.
  */
@@ -132,7 +132,7 @@ $settings["template_movie_collection"] = 'postertitle';
 $settings["template_poster_icons"] = true;
 
 /**
- * Smarty settings. 
+ * Smarty settings.
  * The directory of the template engine Smarty. Default values will do fine.
  */
 if(!isset($template_name))
@@ -150,7 +150,7 @@ $settings["smarty"]["development"]		= $settings["development"];
  * Rewrite /.?go=movie&id=1&name=name-of-movie into /movie/id/1/name/name-of-movie/
  * You will need to change some settings inside .htaccess
  */
- 
+
 $settings["pretty_url"] = false;
 
 /**
@@ -158,14 +158,14 @@ $settings["pretty_url"] = false;
  * Removes "The" from "The Karate Kid", sorting will then start with the letter "K" instead.
  * Separate all prefixes with a pipe character |.
  */
- 
+
 $settings["name_order"] = 'A|An|The';
 
 /**
  * Change number of results
  * array(20, 30, 40, 50, 60);
  */
- 
+
 $settings["number_of_results"] = array();
 
 /**
@@ -173,7 +173,7 @@ $settings["number_of_results"] = array();
  * Display all movies with -1
  * 0 = 100
  */
- 
+
 $settings["results_per_page"] = -1;
 
 /**
