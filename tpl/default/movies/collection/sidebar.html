@@ -68,6 +68,13 @@
 			</div>
 		</li>
 		<li class="header">{$smarty.const.FILTER_BY|htmlentities:3:'UTF-8'}</li>
+		<li id="filter-by-original" class="hidden">
+			<i class="fa fa-2x fa-fw fa-film" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="movie" data-value="0" data-toggle="0"></i>
+			<i class="fa fa-2x fa-fw fa-tv" title="{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="tv" data-value="0" data-toggle="0"></i>
+			<i class="fa fa-2x fa-fw fa-star-o" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'} / {$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="own" data-value="-1" data-toggle="1" data-remove="fa-star-o" data-add="fa-star"></i>
+			<i class="fa fa-2x fa-fw fa-eye-slash" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'} / {$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="seen" data-value="-1" data-toggle="1" data-remove="fa-eye-slash" data-add="fa-eye"></i>
+			<i class="fa fa-2x fa-fw fa-heart-o" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'} / {$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="favourite" data-value="-1" data-toggle="1" data-remove="fa-heart-o" data-add="fa-heart"></i>
+		</li>
 		<li id="filter-by" class="icons-group">
 			<i class="{if $filterByMovie == '1'}active {/if}fa fa-2x fa-fw fa-film" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="movie" data-value="{$filterByMovie}" data-toggle="0"></i>
 			<i class="{if $filterByTv == '1'}active {/if}fa fa-2x fa-fw fa-tv" title="{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="tv" data-value="{$filterByTv}" data-toggle="0"></i>

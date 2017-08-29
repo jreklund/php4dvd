@@ -67,8 +67,64 @@ $(document).ready(function() {
 			this.value = '';
 			search();
 		}
+		if( event.which == 35 ) {
+			resetSearch();
+			search();
+		}
 	});
-
+	
+	// Focus search field on CTRL+F, CMD+F and F3
+	window.addEventListener("keydown",function (e) {
+		if (e.keyCode === 114 || ((e.ctrlKey||e.metaKey) && e.keyCode === 70)) {
+			document.getElementById("q").focus();
+			e.preventDefault();
+		}
+	});
+	
+	// Change collection layout
+	$('i','#layout').on('click', function() {
+		var $this = $(this);
+		$this.addClass('active').siblings().removeClass('active');
+		document.getElementById("l").value = $this.data('value');
+		search();
+	});
+	
+	// Filter by: Movie | TV-Series | Own | Seen | Favorites
+	$('.sidebar-menu').on('click','#filter-by i', function() {
+		var $this = $(this),
+		runOnce = true;
+		$this.addClass('active');
+		
+		if($this.data('toggle')) {
+			if($this.data('value') == -1 && runOnce) {
+				$this.data('value',0);
+				runOnce = false;
+			}
+			if($this.data('value') == 0 && runOnce) {
+				$this.data('value',1);
+				$this.removeClass($this.data('remove'));
+				$this.addClass($this.data('add'));
+				runOnce = false;
+			}
+			if($this.data('value') == 1 && runOnce) {
+				$this.data('value',-1);
+				$this.removeClass('active');
+				$this.removeClass($this.data('add'));
+				$this.addClass($this.data('remove'));
+				runOnce = false;
+			}
+		} else {
+			if($this.data('value') == 0) {
+				$this.data('value',1);
+			} else {
+				$this.removeClass('active');
+				$this.data('value',0);
+			}
+		}
+		document.getElementById($this.data('id')).value = $this.data('value');
+		search();
+	});
+	
 	// Search by default
 	search();
 	

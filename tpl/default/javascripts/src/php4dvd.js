@@ -154,54 +154,26 @@ function search() {
 	}
 }
 
+/**
+ * Reset all search fields to default values
+ */
+function resetSearch() {
+	document.getElementById("q").value = '';
+	document.getElementById("p").value = 0;
+	document.getElementById("movie").value = 0;
+	document.getElementById("tv").value = 0;
+	document.getElementById("own").value = -1;
+	document.getElementById("seen").value = -1;
+	document.getElementById("favourite").value = -1;
+	document.getElementById("category").value = '';
+	document.getElementById("format").value = '';
+	document.getElementById("filter-by").innerHTML = document.getElementById("filter-by-original").innerHTML;
+}
+
 function setPage(p) {
 	$("#p").val(p);
 	search();
 }
-
-$(document).ready(function() {
-	$('i','#layout').on('click', function() {
-		var $this = $(this);
-		$this.addClass('active').siblings().removeClass('active');
-		document.getElementById("l").value = $this.data('value');
-		search();
-	});
-	$('i','#filter-by').on('click', function() {
-		var $this = $(this),
-		runOnce = true;
-		$this.addClass('active');
-		
-		if($this.data('toggle')) {
-			if($this.data('value') == -1 && runOnce) {
-				$this.data('value',0);
-				runOnce = false;
-			}
-			if($this.data('value') == 0 && runOnce) {
-				$this.data('value',1);
-				$this.removeClass($this.data('remove'));
-				$this.addClass($this.data('add'));
-				runOnce = false;
-			}
-			if($this.data('value') == 1 && runOnce) {
-				$this.data('value',-1);
-				$this.removeClass('active');
-				$this.removeClass($this.data('add'));
-				$this.addClass($this.data('remove'));
-				runOnce = false;
-			}
-		} else {
-			if($this.data('value') == 0) {
-				$this.data('value',1);
-			} else {
-				$this.removeClass('active');
-				$this.data('value',0);
-			}
-		}
-		document.getElementById($this.data('id')).value = $this.data('value');
-		search();
-	});
-});
-
 
 /**
  * Get the parameters from the query string that follow the '#!/' part of the url.
