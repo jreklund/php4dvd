@@ -20,7 +20,7 @@
 							{if $photo}
 							<img src="{$photo}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
 							{else}
-							<div class="movie-nocover{if isset($movie) && !$movie->hasCover()} hidden-xs{/if}"></div>
+							<div class="movie-nocover"></div>
 							{/if}
 						</div>
 						<div class="movie-icons btn-group-vertical visible-xs-inline-block">

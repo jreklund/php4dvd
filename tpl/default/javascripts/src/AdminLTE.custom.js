@@ -513,8 +513,3 @@ function _init() {
     }
   };
 }
-/*! php4dvd - Custom function for hiding .logo */
-var l = 1;
-$(window).on("scroll", function() {
-    l && $(this).scrollTop() > 50 && $(window).width() < 766 ? (l = 0, $('body').addClass('logo-hidden')) : !l && $(this).scrollTop() < 50 && (l = 1, $('body').removeClass('logo-hidden'))
-});

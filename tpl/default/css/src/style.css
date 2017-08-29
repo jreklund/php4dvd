@@ -147,7 +147,8 @@
 	.movie .maininfo {
 		margin: 0;
 	}
-	.logo-hidden .main-sidebar, .logo-hidden .left-side {
+	
+	.main-sidebar, .left-side, .fixed .content-wrapper, .fixed .right-side {
 		padding-top: 50px;
 	}
 }
@@ -555,6 +556,16 @@ width:100%;
 .movie .movie-nocover {
 	width: 170px;
 	height: 252px;
+}
+
+.movie .photo .movie-nocover {
+	width: 195px;
+	height: 195px;
+}
+
+.photo .movie-cover .movie-nocover {
+	box-shadow: 0 1px 5px #000;
+	border: none;
 }
 
 .movie .maininfo {
