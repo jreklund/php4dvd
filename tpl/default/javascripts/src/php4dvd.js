@@ -57,6 +57,15 @@ function search() {
 			Cookies.remove("sort");
 		}
 		
+		// Parental Guidance
+		var pg = $("#pg").slider('getValue').toString();
+		if(pg) {
+			url += "&pg=" + encodeURIComponent(pg);
+			Cookies.set("pg", pg, { expires: 14 });
+		} else {
+			Cookies.remove("pg");
+		}
+		
 		// Layout
 		var l = $("#l").val();
 		if(l) {
@@ -158,16 +167,18 @@ function search() {
  * Reset all search fields to default values
  */
 function resetSearch() {
-	document.getElementById("q").value = '';
-	document.getElementById("p").value = 0;
-	document.getElementById("movie").value = 0;
-	document.getElementById("tv").value = 0;
-	document.getElementById("own").value = -1;
-	document.getElementById("seen").value = -1;
-	document.getElementById("favourite").value = -1;
-	document.getElementById("category").value = '';
-	document.getElementById("format").value = '';
-	document.getElementById("filter-by").innerHTML = document.getElementById("filter-by-original").innerHTML;
+	var $pg = $('#pg');
+	$("#q").val('');
+	$("#p").val(0);
+	$pg.slider('setValue',[$pg.data('slider-min'),$pg.data('slider-max')]);
+	$("#movie").val(0);
+	$("#tv").val(0);
+	$("#own").val(-1);
+	$("#seen").val(-1);
+	$("#favourite").val(-1);
+	$("#category").val('');
+	$("#format").val('');
+	$("#filter-by").html($("#filter-by-original").html());
 }
 
 function setPage(p) {

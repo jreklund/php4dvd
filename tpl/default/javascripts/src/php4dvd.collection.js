@@ -59,33 +59,40 @@ $(document).ready(function() {
 	}
 	
 	// Search handling
-	$("#q").keyup(function(event) {
-		if ( event.which == 13 ) {
+	$("#q").on('keyup', function(e) {
+		if ( e.key === 'Enter' ) {
 			search();
 		}
-		if ( event.which == 46 ) {
+		if ( e.key === 'Delete' || e.key === 'Del' ) {
 			this.value = '';
 			search();
 		}
-		if( event.which == 35 ) {
+		if( e.key === 'End' ) {
 			resetSearch();
 			search();
 		}
 	});
 	
 	// Focus search field on CTRL+F, CMD+F and F3
-	window.addEventListener("keydown",function (e) {
-		if (e.keyCode === 114 || ((e.ctrlKey||e.metaKey) && e.keyCode === 70)) {
-			document.getElementById("q").focus();
+	$(document).on('keydown',function (e) {
+		if (e.key === 'F3' || ((e.ctrlKey||e.metaKey) && e.key === 'f')) {
+			$("#q").focus();
 			e.preventDefault();
 		}
+	});
+	
+	// Parental Guidance
+	var pgTimer = false;
+	$('.sidebar-menu').on('change','input#pg', function() {
+		if(pgTimer) { clearTimeout(pgTimer); }
+		pgTimer = setTimeout(function(){ search(); }, 600);
 	});
 	
 	// Change collection layout
 	$('i','#layout').on('click', function() {
 		var $this = $(this);
 		$this.addClass('active').siblings().removeClass('active');
-		document.getElementById("l").value = $this.data('value');
+		$("#l").val($this.data('value'));
 		search();
 	});
 	
@@ -121,7 +128,7 @@ $(document).ready(function() {
 				$this.data('value',0);
 			}
 		}
-		document.getElementById($this.data('id')).value = $this.data('value');
+		$("#" + $this.data('id')).val($this.data('value'));
 		search();
 	});
 	
