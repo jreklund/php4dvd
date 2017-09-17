@@ -32,13 +32,13 @@ $Website->assign("resultsperpage", $resultsperpage);
 if(!isset($refreshMovieList)) {
 	$pg = isset($_COOKIE["pg"]) ? $_COOKIE["pg"] : 0;
 } else {
-	$pg = isset($_GET["pg"]) ? $_GET["pg"] : 0;
+	$pg = isset($_GET["pg"])    ? $_GET["pg"]    : 0;
 }
 
 // Extract Parental Guidance values
 $pgMin = 0;
 $pgMax = $parental_guidance["age"];
-$pg = explode(',',$pg);
+$pg    = explode(',',$pg);
 if( isset($pg[0]) && ctype_digit($pg[0]) && isset($pg[1]) && ctype_digit($pg[1]) ) {
 	list($pgMin,$pgMax) = $pg;
 }
@@ -48,17 +48,17 @@ $Website->assign("parental_guidance_value", $pgMin . ',' . $pgMax);
 
 // Filter by movie/tv, own, seen, favourite
 if(!isset($refreshMovieList)) {
-	isset($_COOKIE["movie"])     ? $fbMovie = abs(intval($_COOKIE["movie"]))    : $fbMovie = 0;
-	isset($_COOKIE["tv"])        ? $fbTv = abs(intval($_COOKIE["tv"]))          : $fbTv = 0;
-	isset($_COOKIE["own"])       ? $fbOwn = intval($_COOKIE["own"])             : $fbOwn = -1;
-	isset($_COOKIE["seen"])      ? $fbSeen = intval($_COOKIE["seen"])           : $fbSeen = -1;
-	isset($_COOKIE["favourite"]) ? $fbFavourite = intval($_COOKIE["favourite"]) : $fbFavourite = -1;
+	$fbMovie     = isset($_COOKIE["movie"])     ? abs(intval($_COOKIE["movie"])) :  0;
+	$fbTv        = isset($_COOKIE["tv"])        ? abs(intval($_COOKIE["tv"]))    :  0;
+	$fbOwn       = isset($_COOKIE["own"])       ? intval($_COOKIE["own"])        : -1;
+	$fbSeen      = isset($_COOKIE["seen"])      ? intval($_COOKIE["seen"])       : -1;
+	$fbFavourite = isset($_COOKIE["favourite"]) ? intval($_COOKIE["favourite"])  : -1;
 } else {
-	isset($_GET["movie"])        ? $fbMovie = abs(intval($_GET["movie"]))       : $fbMovie = 0;
-	isset($_GET["tv"])           ? $fbTv = abs(intval($_GET["tv"]))             : $fbTv = 0;
-	isset($_GET["own"])          ? $fbOwn = intval($_GET["own"])                : $fbOwn = -1;
-	isset($_GET["seen"])         ? $fbSeen = intval($_GET["seen"])              : $fbSeen = -1;
-	isset($_GET["favourite"])    ? $fbFavourite = intval($_GET["favourite"])    : $fbFavourite = -1;
+	$fbMovie     = isset($_GET["movie"])        ? abs(intval($_GET["movie"]))    :  0;
+	$fbTv        = isset($_GET["tv"])           ? abs(intval($_GET["tv"]))       :  0;
+	$fbOwn       = isset($_GET["own"])          ? intval($_GET["own"])           : -1;
+	$fbSeen      = isset($_GET["seen"])         ? intval($_GET["seen"])          : -1;
+	$fbFavourite = isset($_GET["favourite"])    ? intval($_GET["favourite"])     : -1;
 }
 
 // Validate $fbMovie and $fbTv; and choose to display only one or both
