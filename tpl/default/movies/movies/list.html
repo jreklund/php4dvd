@@ -8,6 +8,9 @@
 					| <strong>{$movies[m]->rating|htmlentities:3:'UTF-8'}</strong>/10
 					{assign var=languages value=$movies[m]->getList('languages')}
 					| {section name=l max=2 loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|htmlentities:3:'UTF-8'}{/section}
+					{if $parental_guidance}
+					| PG-{$movies[m]->pg|htmlentities:3:'UTF-8'}
+					{/if}
 				</div>
 				<div class="list-movie-icons">
 					{if $movies[m]->tv}

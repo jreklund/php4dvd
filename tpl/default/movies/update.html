@@ -144,6 +144,15 @@
 									</div>
 								</div>
 								<div class="form-group has-feedback">
+									<label for="pg" class="{$colWidthSmall} control-label">{$smarty.const.PARENTAL_GUIDANCE|htmlentities:3:'UTF-8'}</label>
+									<div class="{$colWidthLarge}">
+										<div class="input-group">
+											<input type="text" name="pg" id="pg" min="0" max="{$parental_guidance_age}" class="form-control number" value="{if isset($movie)}{$movie->pg|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.PARENTAL_GUIDANCE|htmlentities:3:'UTF-8'}">
+											<span class="input-group-addon">{$smarty.const.PARENTAL_GUIDANCE_AGE|htmlentities:3:'UTF-8'}</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group has-feedback">
 									<label class="{$colWidthSmall} control-label">{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<label class="radio-inline" for="favourite_yes">
@@ -296,6 +305,12 @@
 									<label for="genres" class="{$colWidthSmall} control-label">{$smarty.const.GENRES|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
 										<textarea name="genres" id="genres" rows="5" class="form-control" placeholder="{$smarty.const.GENRES|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->genres|htmlentities:3:'UTF-8'}{/if}</textarea>
+									</div>
+								</div>
+								<div class="form-group has-feedback">
+									<label for="mpaa" class="{$colWidthSmall} control-label">{$smarty.const.MPAA|htmlentities:3:'UTF-8'}</label>
+									<div class="{$colWidthLarge}">
+										<textarea name="mpaa" id="mpaa" rows="5" class="form-control" placeholder="{$smarty.const.COUNTRY|htmlentities:3:'UTF-8'}::{$smarty.const.MPAA|htmlentities:3:'UTF-8'}">{if isset($movie)}{$movie->mpaa|htmlentities:3:'UTF-8'}{/if}</textarea>
 									</div>
 								</div>
 								<div class="form-group has-feedback">

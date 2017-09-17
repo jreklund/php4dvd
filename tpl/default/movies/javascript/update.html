@@ -19,7 +19,7 @@
 		$("#imdbsearch").select();
 		$("#updateform").validate({
 			wrapper: 'div',
-			errorPlacement: function(e,r){ e.addClass("col-sm-9"),r.closest("div").before(e),r.parents(".has-feedback").addClass("has-error") },
+			errorPlacement: function(e,r){ e.addClass("col-sm-9"),r.closest("div.col-sm-7,div.col-sm-6").before(e),r.parents(".has-feedback").addClass("has-error") },
 			success: function(e){ e.parents(".has-feedback").removeClass("has-error"),e.parent("div").remove()	},
 			rules: {
 				photo: { required: false, accept: "image/jpg,image/jpeg", },
