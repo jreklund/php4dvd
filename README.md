@@ -12,6 +12,7 @@ Features
 - Add covers/posters to your movies
 - What do you think about a movie? Write it down in personal notes
 - Search function (title, year, plot)
+  - Age rating: filter by age (Parental Guidance/MPAA)
   - Filter by: categories, format, movie, tv, seen, own, favourite
   - Sort it by: name, year, rating, format, added, loaned out
   - Results: limit amount of movies shown
@@ -76,6 +77,7 @@ $settings["defaultlanguage"] = "pl"; // Polish
 4. Run the php4dvd installation script by accessing the URL in a web browser.
 5. Manually remove the install/ directory.
 6. Log into php4dvd using your username/password.
+7. Empty your browser's cache or force refresh with CTRL+F5 (Win), Ctrl+Shift+R (Win/Linux) or Command+Shift+R (Mac).
 
 Screenshots
 =======
@@ -88,21 +90,34 @@ Screenshots
 Configuration / FAQ
 =======
 
-You will find all configurable options inside config/config.default.php,
-all of which can be set in your config/config.php file. 
+You will find all configurable options inside `config/config.default.php`,
+all of which can be set in your `config/config.php` file. 
 By default, guest users can't view your movie collection. If you want guest
-users to view your collection, set the 'guestview' variable to true in
+users to view your collection, set the `guestview` variable to true in
 config/config.php after installation or upgrade.
 
 ### SEO Friendly URL (pretty_url)
 
-Activate inside config/config.default.php or config/config.php and read
+Activate inside `config/config.default.php` or `config/config.php` and read
 the instructions inside .htaccess.
+
+### Age rating / Parental Guidance / MPAA
+
+Activate inside `config/parental.guidance.php` or `config/config.php` and read
+the instructions inside `config/parental.guidance.php`.
+
+### Keyboard shortcuts
+- CTRL+F, CMD+F or F3
+  - Focus search field
+- DELETE (in search field)
+  - Removes text in search field
+- END (in search field)
+  - Reset everything (except: sort by, results per page and layout)
 
 ### Internal Server Error
 
-Try to run the website, but if the site failes opening with a 'Internal 
-Server Error', adjust the .htaccess file in the root of the site.
+Try to run the website, but if the site failes opening with a `Internal 
+Server Error`, adjust the .htaccess file in the root of the site.
 Try to remove the Options line by placing a # at the beginning of the line.
 Otherwise remove the `<Files>` section. These settings might fail because of
 the permissions of your webserver.
@@ -131,11 +146,11 @@ Templates
 =======
 
 You can customize your site by adding your own template. Take a look at the
-tpl/default/ directory and copy this directory to your own tpl directory.
-Now you can adjust the config/config.php to your new template. Check all 
+`tpl/default/` directory and copy this directory to your own tpl directory.
+Now you can adjust the `config/config.php` to your new template. Check all 
 template files and try to adjust them to your own whishes.
 
-If you just want to change the color, please check config/config.defaults.php for available skins.
+If you just want to change the color, please check `config/config.defaults.php` for available skins.
     
 Thanks to
 =======

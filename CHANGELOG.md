@@ -1,3 +1,15 @@
+## 3.6.0 ()
+### Added
+  - Parental Guidance #7
+  - Keyboard Shortcuts for search
+    - CTRL+F, CMD+F and F3: focus search field
+	- END: deletes selected filters #9
+  - German language by @Bloodsoul
+  
+### Changed
+  - Remove logo from mobile
+  - Updated imdbphp to 5.2.2
+
 ## 3.5.0 (2017-07-25)
 ### Added
   - Filter by: Movie | TV-Series | Own | Seen | Favorites
