@@ -131,6 +131,56 @@
 	top: -1px;
 }
 
+.default-light .sidebar-menu li.slider-group .slider-selection {
+	background: #848484;
+}
+
+.default-light .sidebar-menu li.slider-group .slider-handle {
+	background: #000;
+	background-image: none;
+}
+
+.default-light .sidebar-menu li.slider-group {
+	background: #f4f4f5;
+}
+
+.sidebar-menu li.slider-group {
+	padding: 10px 25px;
+}
+
+	.sidebar-menu li.slider-group .slider.slider-horizontal {
+		width: 100%;
+	}
+	
+	.sidebar-menu li.slider-group .slider-handle {
+		background-color: #FFF;
+		background-image: none;
+	}
+	
+	#black .slider-selection {
+		background: #3c8dbc;
+	}
+
+	#blue .slider-selection {
+		background: #3c8dbc;
+	}
+
+	#green .slider-selection {
+		background: #00a65a;
+	}
+
+	#purple .slider-selection {
+		background: #932ab6;
+	}
+
+	#red .slider-selection {
+		background: #f56954;
+	}
+
+	#yellow .slider-selection {
+		background: #f39c12;
+	}
+
 /*
  * Menu AND override default values
  */
