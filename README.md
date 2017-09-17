@@ -93,8 +93,8 @@ Configuration / FAQ
 You will find all configurable options inside `config/config.default.php`,
 all of which can be set in your `config/config.php` file. 
 By default, guest users can't view your movie collection. If you want guest
-users to view your collection, set the `guestview` variable to true in
-config/config.php after installation or upgrade.
+users to view your collection, set the `guestview` variable to `true` in
+`config/config.php` after installation or upgrade.
 
 ### SEO Friendly URL (pretty_url)
 
