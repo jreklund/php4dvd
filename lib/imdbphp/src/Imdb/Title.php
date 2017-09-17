@@ -132,7 +132,7 @@ class Title extends MdbBase {
       "Quotes" => "/quotes",
       "ReleaseInfo" => "/releaseinfo",
       "Soundtrack" => "/soundtrack",
-      "Synopsis" => "/synopsis",
+      "Synopsis" => "/plotsummary",
       "Taglines" => "/taglines",
       "Title" => "/",
       "Trailers" => "/videogallery/content_type-trailer",
@@ -2377,7 +2377,7 @@ class Title extends MdbBase {
        'value'     => trim($value[1]),
        'country'   => $country[1],
        'date'      => $dateValue,
-       'nbScreens' => intval(str_replace(",","",$nbScreen[1]))
+       'nbScreens' => isset($nbScreen[1]) ? intval(str_replace(",","",$nbScreen[1])) : 0,
      );
 
      // Remove the entry from the list of entries
