@@ -28,6 +28,24 @@ $Website->assign("sortoptions", $allsortoptions);
 $resultsperpage = is_array($numOfResults) && !empty($numOfResults)?$numOfResults:array(20, 30, 40, 50, 60);
 $Website->assign("resultsperpage", $resultsperpage);
 
+// Parental Guidance
+if(!isset($refreshMovieList)) {
+	$pg = isset($_COOKIE["pg"]) ? $_COOKIE["pg"] : 0;
+} else {
+	$pg = isset($_GET["pg"]) ? $_GET["pg"] : 0;
+}
+
+// Extract Parental Guidance values
+$pgMin = 0;
+$pgMax = $parental_guidance["age"];
+$pg = explode(',',$pg);
+if( isset($pg[0]) && ctype_digit($pg[0]) && isset($pg[1]) && ctype_digit($pg[1]) ) {
+	list($pgMin,$pgMax) = $pg;
+}
+
+// Parental Guidance values
+$Website->assign("parental_guidance_value", $pgMin . ',' . $pgMax);
+
 // Filter by movie/tv, own, seen, favourite
 if(!isset($refreshMovieList)) {
 	isset($_COOKIE["movie"])     ? $fbMovie = abs(intval($_COOKIE["movie"]))    : $fbMovie = 0;
@@ -102,17 +120,17 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	if($templateName === 'poster' || $templateName === 'postertitle')
 		$columns = array('`id`','`name`','`year`','`seen`','`own`','`favourite`','`tv`');
 	if($templateName === 'posterlist' || $templateName === 'listplot')
-		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`plotoutline`','`seen`','`own`','`favourite`','`tv`');
+		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`plotoutline`','`seen`','`own`','`favourite`','`tv`','`pg`');
 	if($templateName === 'list')
-		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`seen`','`own`','`favourite`','`tv`');
+		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`seen`','`own`','`favourite`','`tv`','`pg`');
 	
 	// Search the database for one more movie
-	$movies = $moviedm->search($q, $sort, $category, $format, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
+	$movies = $moviedm->search($q, $sort, $category, $format, $pgMin, $pgMax, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
 	
 	// If there are no movies found, reload
 	while($page > 0 && count($movies) === 0) {
 		$page--;
-		$movies = $moviedm->search($q, $sort, $category, $format, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
+		$movies = $moviedm->search($q, $sort, $category, $format, $pgMin, $pgMax, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
 	}
 	$Website->assign("movies", $movies);
 	
@@ -154,7 +172,7 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 
 // Statistics
 if(!isset($refreshMovieList)) {
-	$movies = $moviedm->search('', '', '', '', '', '', '', '', 0, 0, true);
+	$movies = $moviedm->search('', '', '', '', '', '', '', '', '', '', 0, 0, true);
 	$numbertypes = array();
 	foreach($movieformats as $format) {
 		$numbertypes[] = array($format, 0);

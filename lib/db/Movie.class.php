@@ -8,8 +8,9 @@ class Movie {
 	/**
 	 * Fill this movie from an IMDb movie object.
 	 * @param $imdbmovie
+	 * @param $parental_guidance
 	 */
-	public function fill($imdbmovie) {
+	public function fill($imdbmovie, $parental_guidance) {
 		$this->id = isset($this->id) ? $this->id : 0;
 		$this->imdbid = $this->htmldecode($imdbmovie->imdbid());
 		$this->name = $this->htmldecode($imdbmovie->title());
@@ -23,6 +24,8 @@ class Movie {
 		$this->year = $this->htmldecode($imdbmovie->year());
 		$this->duration = $this->htmldecode($imdbmovie->runtime());
 		$this->rating = $this->htmldecode($imdbmovie->rating());
+		$age = $this->parentalGuidance($imdbmovie->mpaa(),$parental_guidance);
+		$this->pg = $age === $parental_guidance["age"] ? $this->pg : $age;
 		$this->favourite = isset($this->favourite) ? $this->favourite : false;
 		$this->own = isset($this->own) ? $this->own : true;
 		$this->seen = isset($this->seen) ? $this->seen : true;
@@ -42,6 +45,7 @@ class Movie {
 		$this->video = isset($this->video) ? $this->video : "";
 		$this->country = $this->join("\n", $this->htmldecode($imdbmovie->country()));
 		$this->genres = $this->join("\n", $this->htmldecode($imdbmovie->genres()));
+		$this->mpaa = $this->join("\n", $this->htmldecode($imdbmovie->mpaa()), '::');
 		$this->director = $this->join("\n", $this->htmldecode($imdbmovie->director()));
 		$this->writer = $this->join("\n", $this->htmldecode($imdbmovie->writing()));
 		$this->producer = $this->join("\n", $this->htmldecode($imdbmovie->producer()));
@@ -61,14 +65,60 @@ class Movie {
 		}
 	}
 	
-	private function join($glue, $pieces, $striptags = true, $allowable_tags = "") {
-		$p = array();
-		foreach($pieces as $piece) {
-			if(is_array($piece) && isset($piece["name"]))
-				$piece = $piece["name"];
-			$p[] = trim(strip_tags($piece, $allowable_tags));
+	private function join($glue, $pieces, $separator = '', $striptags = true, $allowable_tags = '') {
+		$p = '';
+		foreach($pieces as $k => $v) {
+			if(is_array($v) && isset($v["name"]))
+				$v = $v["name"];
+			if($striptags)
+				$v = strip_tags($v, $allowable_tags);
+			if($separator === '')
+				$p .= trim($v) . $glue;
+			else
+				$p .= trim($k) . $separator . trim($v) . $glue;
 		}
-		return join($glue, $p);
+		return rtrim($p);
+	}
+	
+	private function parentalGuidance($mpaa,$parental_guidance) {
+		$want	= $parental_guidance["countries"];
+		$age	= $parental_guidance["age"];
+		$map	= $parental_guidance["map"];
+		
+		// No mpaa available
+		if(!is_array($mpaa) || empty($mpaa))
+			return $age;
+
+		// What countries have a working map
+		$mapKeys = array_keys($map);
+		$mpaaKeys = array_keys($mpaa);
+		$mapAvailable = array_intersect($mapKeys,$mpaaKeys);
+		
+		// No map available 
+		if(empty($mapAvailable)) 
+			return $age;
+		
+		// Do I prefer any of the available countries
+		$wanted = array_intersect($want,$mapAvailable);
+		if(empty($wanted))
+			return $this->_parentalGuidance($mpaa,$map,$age);
+		
+		// Return first matching rating
+		foreach($wanted as $w) {
+			if( isset($map[$w][$mpaa[$w]]) )
+				return $map[$w][$mpaa[$w]];
+		}
+		
+		// Rating not available
+		return $this->_parentalGuidance($mpaa, $map, $age);
+	}
+	
+	private function _parentalGuidance($mpaa, $map, $age) {
+		foreach($mpaa as $c => $pg) {
+			if( isset($map[$c][$pg]) )
+				return $map[$c][$pg];
+		}
+		return $age;
 	}
 	
 	public function getList($field) {

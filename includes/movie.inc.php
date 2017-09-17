@@ -33,6 +33,11 @@ $pagination = $settings["pagination"];
 $numberOfCast = $settings["number_of_cast"];
 $Website->assign("numberOfCast", $numberOfCast);
 
+// Parental Guidance
+$parental_guidance = $settings["parental_guidance"];
+$Website->assign("parental_guidance", $parental_guidance["mpaa"]);
+$Website->assign("parental_guidance_age", $parental_guidance["age"]);
+
 // Retrieve a movie
 if($id = getValidId('id',true)) {
 	$movie = $moviedm->get($id);
@@ -57,7 +62,7 @@ if($loggedin && $User->isEditor() && $imdbid = getValidId('imdbid',true)) {
 		$movie = new Movie();
 	else 
 		$movieId = $movie->id;
-	$movie->fill($imdbmovie);
+	$movie->fill($imdbmovie,$parental_guidance);
 	if(isset($movie) && isset($movieId))
 		$movie->id = $movieId;
 	$Website->assign("movie", $movie);

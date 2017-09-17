@@ -30,6 +30,9 @@ if(!file_exists($loc . "config/config.default.php")) {
 require_once($loc . "config/config.default.php");
 $default_settings = $settings;
 
+// Load Parental Guidance config file
+require_once($loc . "config/parental.guidance.php");
+
 // Load the config file
 if(file_exists($loc . "config/config.php")) {
 	require_once($loc . "config/config.php");
@@ -117,6 +120,8 @@ if($tpl_skin_light) {
 }
 $Website->assign("template", $tpl_name);
 $Website->assign("template_skin", $tpl_skin);
+$Website->assign("template_colour", $settings["template_skin"]);
+$Website->assign("template_light", $settings["template_skin_light"]);
 $Website->assign("poster_icons", $tpl_poster_icons);
 
 // Template for movie collection

@@ -142,6 +142,13 @@
 							</div>
 							{/if}
 							
+							{if $parental_guidance}
+								<div class="parental_guidance">
+									<span class="header">{$smarty.const.PARENTAL_GUIDANCE|htmlentities:3:'UTF-8'}:</span>
+									PG-{$movie->pg|htmlentities:3:'UTF-8'}
+								</div>
+							{/if}
+							
 							{if $movie->seasons && $movie->seasons != 0}
 							<div class="seasons">
 								<span class="header">{$smarty.const.SEASONS|htmlentities:3:'UTF-8'}:</span> 
