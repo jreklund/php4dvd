@@ -7,7 +7,8 @@ $settings["parental_guidance"]["mpaa"] = false;
 /**
  * Select preferred rating system
  * If no information are available from your countries, it will select the first matching pair from IMDb
- * array('United States', 'Sweden', ...)
+ * Movies before 1990 mostly have no parental information for Germany, but you can use a fallback to e.g. West Germany
+ * array('United States', 'Sweden', 'Germany', 'West Germany', ...)
  */
 $settings["parental_guidance"]["countries"] = array(
     'United States'
