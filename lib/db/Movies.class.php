@@ -77,7 +77,7 @@ class Movies extends Database {
 	 * @param array $searchColumns
 	 * @return the movies that match the search criteria
 	 */
-	function search($search, $sort = "nameorder", $category = "", $format = "", $pgMin = null, $pgMax = null, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
+	function search($search, $sort = "nameorder", $category = "", $format = "", $pgMin = 0, $pgMax = 0, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
 		// Words
 		$words = preg_split("/\s+/", $search);
 		
@@ -119,10 +119,10 @@ class Movies extends Database {
 		if($format != "") {
 			$query .= " AND `format` = ?"; $bindings[] = $format;
 		}
-		if($pgMin != null) {
+		if($pgMin != 0) {
 			$query .= " AND `pg` >= ?"; $bindings[] = $pgMin;
 		}
-		if($pgMax != null) {
+		if($pgMax != 0) {
 			$query .= " AND `pg` <= ?"; $bindings[] = $pgMax;
 		}
 		if($movieTv === 0 || $movieTv === 1) {

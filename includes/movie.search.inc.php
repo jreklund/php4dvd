@@ -29,18 +29,29 @@ $resultsperpage = is_array($numOfResults) && !empty($numOfResults)?$numOfResults
 $Website->assign("resultsperpage", $resultsperpage);
 
 // Parental Guidance
-if(!isset($refreshMovieList)) {
-	$pg = isset($_COOKIE["pg"]) ? $_COOKIE["pg"] : 0;
-} else {
-	$pg = isset($_GET["pg"])    ? $_GET["pg"]    : 0;
-}
-
-// Extract Parental Guidance values
 $pgMin = 0;
-$pgMax = $parental_guidance["age"];
-$pg    = explode(',',$pg);
-if( isset($pg[0]) && ctype_digit($pg[0]) && isset($pg[1]) && ctype_digit($pg[1]) ) {
-	list($pgMin,$pgMax) = $pg;
+$pgMax = 0;
+
+if($parental_guidance["mpaa"]) {
+	if(!isset($refreshMovieList)) {
+		$pg = isset($_COOKIE["pg"]) ? $_COOKIE["pg"] : 0;
+	} else {
+		$pg = isset($_GET["pg"])    ? $_GET["pg"]    : 0;
+	}
+
+	// Extract Parental Guidance values
+	$pgMax = $parental_guidance["age"];
+	$pg    = explode(',',$pg);
+	if( isset($pg[0]) && ctype_digit($pg[0]) && isset($pg[1]) && ctype_digit($pg[1]) ) {
+		list($pgMin,$pgMax) = $pg;
+	}
+	/**
+	 * Movies added before v3.6.0 gets age 21 by default. 
+	 * This will make you see them if you lower that age.
+	*/
+	if($parental_guidance["age"] == $pgMax) {
+		$pgMax = 99;
+	}
 }
 
 // Parental Guidance values
