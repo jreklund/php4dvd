@@ -172,6 +172,7 @@ search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothma
 	  - [HTML5 Shiv](https://github.com/aFarkas/html5shiv)
 	  - [Respond.js](https://github.com/scottjehl/Respond)
 	- [Font Awesome](http://fontawesome.io/)
+  - [bootstrap-slider](https://github.com/seiyria/bootstrap-slider)
   - [Bootstrap 3 Typeahead](https://github.com/bassjobsen/Bootstrap-3-Typeahead)
   - [JavaScript Cookie](https://github.com/js-cookie/js-cookie)
   - [jQuery Validation Plugin](https://jqueryvalidation.org/)

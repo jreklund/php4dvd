@@ -1,4 +1,20 @@
-## 3.6.0 ()
+## 3.6.1 (2017-09-19)
+### Added
+  - Support for West Germany (Parental Guidance) by @Bloodsoul #12
+
+### Updated
+  - imdbphp 5.2.3
+  - Screenshots
+  - Code cleanup
+
+### Fixed
+  - Search field got extra border when focused
+  - Parental Guidance
+    - Let the user decide the maximum age
+	- If maximum age have been lowered; allow users too se movies added before 3.6.0
+	- Only run queries if it have been activated
+
+## 3.6.0 (2017-09-17)
 ### Added
   - Parental Guidance #7
   - Keyboard Shortcuts for search
