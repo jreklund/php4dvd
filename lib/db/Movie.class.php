@@ -25,7 +25,7 @@ class Movie {
 		$this->duration = $this->htmldecode($imdbmovie->runtime());
 		$this->rating = $this->htmldecode($imdbmovie->rating());
 		$age = $this->parentalGuidance($imdbmovie->mpaa(),$parental_guidance);
-		$this->pg = $age === $parental_guidance["age"] ? $this->pg : $age;
+		$this->pg = $age > $parental_guidance["age"] ? $parental_guidance["age"] : $age;
 		$this->favourite = isset($this->favourite) ? $this->favourite : false;
 		$this->own = isset($this->own) ? $this->own : true;
 		$this->seen = isset($this->seen) ? $this->seen : true;
