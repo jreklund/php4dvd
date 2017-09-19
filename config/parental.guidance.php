@@ -149,14 +149,20 @@ $settings["parental_guidance"]["map"] = array(
 		'Interdiction'	=> 18, // Needs verification
 		'X'				=> 18
 	),
-    'Germany' => array(
-        '0'     => 0,
-        '6'     => 6,
-        '12'    => 12,
-		'14'	=> 14,
-        '16'    => 16,
-        '18'    => 18
-    ),
+	'Germany' => array(
+		'0'     => 0,
+		'6'     => 6,
+		'12'    => 12,
+		'16'    => 16,
+		'18'    => 18
+	),
+	'West Germany' => array(
+		'0'     => 0,
+		'6'     => 6,
+		'12'    => 12,
+		'16'    => 16,
+		'18'    => 18
+	),
 	'Greece' => array(
 		'Unrestricted'	=> 0, // Needs verification
 		'13'			=> 13,
