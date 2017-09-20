@@ -156,7 +156,7 @@ function fillObject($obj, $row, $include = array(), $exclude = array()) {
 				$allowed = false;
 			}
 			if($allowed)
-				$obj->{$key} = stripslashes($value);
+				$obj->{$key} = $value;
 		}
 		return $obj;
 	}

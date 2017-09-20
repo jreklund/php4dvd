@@ -9,7 +9,13 @@
 					<span class="hidden-sm">{$smarty.const.VISIT_IMDB}</span></a>
 	</li>
 	{/if}
-	{if $movie->trailer}
+	{if 0 !== $movie->trailer|strpos:"http://"}
+	<li>
+		<a href="vlc://file:///{$movie->trailer}" rel="noreferrer noopener" title="{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'})">
+		<i class="fa fa-youtube-play fa-fw" title="{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+		<span class="hidden-sm">{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}</span></a>
+	</li>
+	{elseif $movie->trailer}
 	<li>
 		<a href="{$movie->trailer}" class="popup-trailer" target="_blank" rel="noreferrer noopener" title="{$movie->name|htmlentities:3:'UTF-8'} ({$movie->year|htmlentities:3:'UTF-8'})">
 		<i class="fa fa-youtube-play fa-fw" title="{$smarty.const.VIEW_TRAILER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>

@@ -13,6 +13,7 @@
 		$.validator.messages["digits"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_DIGITS|htmlentities:3:'UTF-8'}";
 		$.validator.messages["email"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EMAIL|htmlentities:3:'UTF-8'}";
 		$.validator.messages["url"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_URL|htmlentities:3:'UTF-8'}";
+		$.validator.messages["vlcPlayer"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_URL|htmlentities:3:'UTF-8'}";
 		$.validator.messages["date"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_DATE|htmlentities:3:'UTF-8'}";
 		$.validator.messages["accept"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_ACCEPT_JPG|htmlentities:3:'UTF-8'}";
 		$("#imdbsearchform").validate();
@@ -23,7 +24,8 @@
 			success: function(e){ e.parents(".has-feedback").removeClass("has-error"),e.parent("div").remove()	},
 			rules: {
 				photo: { required: false, accept: "image/jpg,image/jpeg", },
-				cover: { required: false, accept: "image/jpg,image/jpeg", }
+				cover: { required: false, accept: "image/jpg,image/jpeg", },
+				trailer: { vlcPlayer: true }
 			}
 		});
 		$("#updateform").valid();
