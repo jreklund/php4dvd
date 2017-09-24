@@ -5,8 +5,9 @@
 	</li>
 	{if $movie->imdbid != ""}
 	<li>
-		<a href="http://www.imdb.com/title/tt{$movie->imdbid}/" target="_blank" rel="noreferrer noopener"><i class="fa fa-film fa-fw" title="{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-					<span class="hidden-sm">{$smarty.const.VISIT_IMDB}</span></a>
+		<a href="http://www.imdb.com/title/tt{$movie->imdbid|urlencode}/" target="_blank" rel="noreferrer noopener">
+		<i class="fa fa-film fa-fw" title="{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+		<span class="hidden-sm">{$smarty.const.VISIT_IMDB|htmlentities:3:'UTF-8'}</span></a>
 	</li>
 	{/if}
 	{if $movie->trailer}
@@ -32,7 +33,7 @@
 		
 	{if $loggedin && $User->isEditor()}
 	<li>
-		<a href="javascript:void(0);" onclick="if(confirm('{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}')) location.href='{prettyUrl(['go' => 'delete','id' => $movie->id])}';"><i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+		<a href="{prettyUrl(['go' => 'delete','id' => $movie->id])}" onclick="return confirm('{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}');"><i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
 		<span class="hidden-sm">{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}</span></a>
 	</li>
 	{/if}

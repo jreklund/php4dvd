@@ -100,7 +100,7 @@
 									</td>
 									<td>
 										{if $User->isAdmin() && $user->username != $defaultAdmin}
-										<a href="javascript:void(0);" onclick="if(confirm('{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}')) location.href='{prettyUrl(['go' => 'deleteuser','id' => $user->id])}';"><i class="fa fa-user-times" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a>
+										<a href="{prettyUrl(['go' => 'deleteuser','id' => $user->id])}" onclick="return confirm('{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}');"><i class="fa fa-user-times" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a>
 										{/if}
 									</td>
 								</tr>
