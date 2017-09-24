@@ -1,3 +1,19 @@
+## 3.6.2 (2017-09-24)
+### Security
+  - XSS attacks
+    - Trailer URLs where never validated
+    - imdbid; if it's possible with 20 characters
+	- Do not trust imdbphp
+	
+### Changed
+  - Handle pagination with jQuery
+  - MoviePosterDB have been down for a while. Adding CineMaterial instead.
+  - Duration: Move "minutes" to the right
+  
+### Fixed
+  - Escape all translated strings
+  - Searching for trailers and posters didn't work with: Nick and Norah's Infinite Playlist
+
 ## 3.6.1 (2017-09-19)
 ### Added
   - Support for West Germany (Parental Guidance) by @Bloodsoul #12
