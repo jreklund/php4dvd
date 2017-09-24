@@ -132,6 +132,17 @@ $(document).ready(function() {
 		search();
 	});
 	
+	// Switch page
+	$('#results').on('click','.paginate_button a', function(e) {
+		e.preventDefault();
+		$("#p").val($(this).data('page'));
+		search();
+	});
+	$('#results').on('change','.paginate_button select', function() {
+		$("#p").val(this.value);
+		search();
+	});
+	
 	// Search by default
 	search();
 	

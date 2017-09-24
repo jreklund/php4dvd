@@ -181,11 +181,6 @@ function resetSearch() {
 	$("#filter-by").html($("#filter-by-original").html());
 }
 
-function setPage(p) {
-	$("#p").val(p);
-	search();
-}
-
 /**
  * Get the parameters from the query string that follow the '#!/' part of the url.
  */
