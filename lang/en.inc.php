@@ -97,7 +97,6 @@ define("REMOVE",									"Remove");
 define("LOANED_OUT",								"Loaned out");
 define("TO",										"to");
 define("ON",										"on");
-define("MINUTES",									"minutes");
 
 /**
 * Add/edit movie
@@ -118,6 +117,8 @@ define("TITLE",										"Title");
 define("TITLE_ORDER",								"Title (Sort by)");
 define("AKA_TITLES",								"Also known as");
 define("YEAR",										"Year");
+define("DURATION",									"Duration");
+define("MINUTES",									"minutes");
 define("DURATION_MINUTES",							"Duration (minutes)");
 define("RATING",									"Rating");
 define("FORMAT",									"Format");

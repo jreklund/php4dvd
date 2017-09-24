@@ -97,7 +97,6 @@ define("REMOVE",									"Ta bort");
 define("LOANED_OUT",								"Utlånad");
 define("TO",										"till");
 define("ON",										"på");
-define("MINUTES",									"minuter");
 
 /**
 * Add/edit movie
@@ -118,6 +117,8 @@ define("TITLE",										"Rubrik");
 define("TITLE_ORDER",								"Rubrik (Sortera efter)");
 define("AKA_TITLES",								"Känd som");
 define("YEAR",										"År");
+define("DURATION",									"Längd");
+define("MINUTES",									"minuter");
 define("DURATION_MINUTES",							"Längd (minuter)");
 define("RATING",									"Betyg");
 define("FORMAT",									"Format");
