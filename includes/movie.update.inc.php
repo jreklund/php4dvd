@@ -67,6 +67,11 @@ if(isset($_POST["movieid"])) {
 	// Update movie
 	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew'));
 	
+	// Validate Trailer URLs
+	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL,FILTER_FLAG_HOST_REQUIRED) ) {
+		$movie->trailer = '';
+	}
+	
 	// NameOrder - Select which prefixes to ignore when sorting
 	$nameOrder = $settings["name_order"];
 	$movie->nameorder = trim(preg_replace('/^('.$nameOrder.')[[:space:]]/u','',$movie->name));
