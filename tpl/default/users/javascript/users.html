@@ -6,7 +6,12 @@
 		$.validator.messages["username"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_USERNAME|htmlentities:3:'UTF-8'|nl2br|strip}";
 		$("#form").validate({
 			rules: {
-				username: "username",
+				username: {
+					username: true,
+					depends: function(e) {
+						{literal}e.value = e.value.replace(/\.{2,}/u,'.'){/literal}
+					}
+				},
 				password: "required",
 				password2: {
 					equalTo: "#password"
