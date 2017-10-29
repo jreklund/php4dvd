@@ -16,13 +16,14 @@ if(isset($user) && isset($_POST["email"])) {
 		$exclude[] = 'permission';
 	}
 	// Do not update password when there was no new password entered or when they don't match
-	if(!isset($_POST["password"]) || !isset($_POST["password2"]) || $_POST["password"] !== $_POST["password2"]) {
+	if(!isset($_POST["password"],$_POST["password2"]) || empty($_POST["password"]) || $_POST["password"] !== $_POST["password2"]) {
 		$exclude[] = 'password';
 	}
 	// Valid e-mail adress
 	if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
 		$user->email = $_POST["email"];
 	}
+	
 	// Update password when a new password was entered
 	if(!in_array('password',$exclude,true)) {
 		$user->password = $login->passwordHash($_POST['password']);
@@ -33,8 +34,10 @@ if(isset($user) && isset($_POST["email"])) {
 	}
 	
 	// Check for duplicate users with the same e-mail address
-	$duplicateUsers = $userdm->usersWithEmail($user->email);
-	if($duplicateUsers > 1) {
+	$duplicateUsers = 0;
+	if($User->email !== $user->email)
+		$duplicateUsers = $userdm->usersWithEmail($user->email);
+	if($duplicateUsers >= 1) {
 		$Website->assign("username_error", DUPLICATE_USER_NAME_OR_EMAIL);
 	} else {
 		// Save to the database
