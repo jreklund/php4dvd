@@ -188,6 +188,7 @@ define("VALIDATOR_URL",								"Trage bitte eine gültige URL ein (http://...)")
 define("VALIDATOR_DATE",							"Trage bitte ein gültiges Datum ein (yyyy-mm-dd)");
 define("VALIDATOR_ACCEPT_JPG",						"Verwende bitte einen gültigen Dateityp (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Beide Werte sollten gleich sein");
+define("VALIDATOR_USERNAME",						"Bitte geben Sie einen gültigen Benutzernamen ein. (A–Z, 0–9, .)\nZwischen 5-50 Zeichen.");
 
 /**
  * Installer

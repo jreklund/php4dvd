@@ -181,13 +181,14 @@ define("CONFIRM_REMOVE",							"Jesteś pewien, ze chcesz to usunąć?");
 define("CONFIRM_REMOVE_COVER",						"Jestes pewien, ze chcesz usunąć okładkę?");
 // Validation
 define("VALIDATOR_REQUIRED",						"To pole nie może być puste!");
-define("VALIDATOR_NUMBER",							"Błąd : dozwolone są tylko wartości liczbowe i zmiennoprzecinkowe np \"1\", \"7.6\" itp.");
-define("VALIDATOR_DIGITS",							"Bład : Dozwolone są tylko wartości liczbowe np \"1990\", \"0034213\" itp.");
-define("VALIDATOR_EMAIL",							"Błąd : Proszę podać prawidłowy adres e-mail");
-define("VALIDATOR_URL",								"Błąd : Proszę podać prawidłowy adres url (http://...)");
-define("VALIDATOR_DATE",							"Błąd : Proszę podać prawidłową datę (yyyy-mm-dd)");
-define("VALIDATOR_ACCEPT_JPG",						"Błąd : Proszę uzyć prawidłowego typu pliku (jpg)");
-define("VALIDATOR_EQUAL_TO",						"Błąd : Hasła różnią się od siebie");
+define("VALIDATOR_NUMBER",							"Dozwolone są tylko wartości liczbowe i zmiennoprzecinkowe np \"1\", \"7.6\" itp.");
+define("VALIDATOR_DIGITS",							"Dozwolone są tylko wartości liczbowe np \"1990\", \"0034213\" itp.");
+define("VALIDATOR_EMAIL",							"Proszę podać prawidłowy adres e-mail");
+define("VALIDATOR_URL",								"Proszę podać prawidłowy adres url (http://...)");
+define("VALIDATOR_DATE",							"Proszę podać prawidłową datę (yyyy-mm-dd)");
+define("VALIDATOR_ACCEPT_JPG",						"Proszę uzyć prawidłowego typu pliku (jpg)");
+define("VALIDATOR_EQUAL_TO",						"Hasła różnią się od siebie");
+define("VALIDATOR_USERNAME",						"Proszę podać poprawną nazwę użytkownika. (A–Z, 0–9, .)\nMiędzy 5-50 znaków.");
  
 /**
  * Installer

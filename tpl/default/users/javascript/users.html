@@ -3,8 +3,10 @@
 		$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
 		$.validator.messages["email"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EMAIL|htmlentities:3:'UTF-8'}";
 		$.validator.messages["equalTo"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_EQUAL_TO|htmlentities:3:'UTF-8'}";
+		$.validator.messages["username"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_USERNAME|htmlentities:3:'UTF-8'|nl2br|strip}";
 		$("#form").validate({
 			rules: {
+				username: "username",
 				password: "required",
 				password2: {
 					equalTo: "#password"

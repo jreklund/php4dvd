@@ -24,11 +24,11 @@ if($loggedin || $User->isAdmin()) {
 if($loggedin && $User->isAdmin() && isset($_POST["username"])) {
 	$newuser = R::dispense('users');
 	// Username selected
-	if(isset($_POST['username']) && !empty($_POST['username'])) {
-		$newuser->username = $_POST['username'];	
+	if(isset($_POST['username']) && preg_match('/^[a-z0-9.]{5,50}$/iu',$_POST['username'])) {
+		$newuser->username = $_POST['username'];
 	}
 	// Passwords are matching?
-	if(isset($_POST["password"]) && isset($_POST["password2"]) && $_POST["password"] === $_POST["password2"] && !empty($_POST["password"])) {
+	if(isset($_POST["password"],$_POST["password2"]) && $_POST["password"] === $_POST["password2"] && !empty($_POST["password"])) {
 		$newuser->password = $login->passwordHash($_POST['password']);
 	}
 	// Valid e-mail adress

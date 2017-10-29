@@ -188,6 +188,7 @@ define("VALIDATOR_URL",								"Voer een juist URL in (http://...)");
 define("VALIDATOR_DATE",							"Voer een juiste datum in (yyyy-mm-dd)");
 define("VALIDATOR_ACCEPT_JPG",						"Voer een juist plaatje in (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Beide waarden moeten gelijk zijn");
+define("VALIDATOR_USERNAME",						"Vul alstublieft een geldige gebruikersnaam in. (A–Z, 0–9, .)\nTussen 5-50 tekens.");
 
 /**
  * Installer

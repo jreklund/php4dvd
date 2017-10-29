@@ -188,6 +188,7 @@ define("VALIDATOR_URL",								"Vänligen ange en korrekt länk (http://...)");
 define("VALIDATOR_DATE",							"Vänligen ange ett korrekt datum (yyyy-mm-dd)");
 define("VALIDATOR_ACCEPT_JPG",						"Vänligen ange en korrekt bild (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Båda värdena måste matcha");
+define("VALIDATOR_USERNAME",						"Ange ett giltigt användarnamn. (A-Z, 0-9, .)\nMellan 5-50 tecken.");
 
 /**
  * Installer
