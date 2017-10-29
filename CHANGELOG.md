@@ -1,3 +1,17 @@
+## 3.6.3 (2017-10-30)
+### Fixed
+  - The password is saved even though it was empty. (My profile)
+  - Users could change into a already used email address.
+  
+### Changed
+  - Only allow a-z, 0-9 and dot (".") in usernames. Between 5-50 characters.
+
+### Updated
+  - BulletProof 3.2.0
+  - jQuery Validation Plugin 1.17.0
+  - jQuery 3.2.1
+  - RedBeanPHP 5.0
+
 ## 3.6.2 (2017-09-24)
 ### Security
   - XSS attacks
