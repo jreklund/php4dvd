@@ -106,6 +106,27 @@ the instructions inside .htaccess.
 Activate inside `config/parental.guidance.php` or `config/config.php` and read
 the instructions inside `config/parental.guidance.php`.
 
+### Configure languages
+#### Tell IMDb which is the preferred language (e.g. en-US, de-DE, pt-BR)
+Sometimes IMDb gets unsure that the specified language are correct, if you only specify your unique language and territory code (de-DE). In the example below, you can find that we have chosen to include `de-DE (German, Germany)`, `de (German)` and `en (English)`. If IMDb can’t find anything matching German, Germany, you will get German results instead or English if there are no German translation.
+```
+$settings["imdbphp"]["langauge"] = 'de-DE,de,en';
+```
+Please use The Unicode Consortium [Langugage-Territory Information](http://www.unicode.org/cldr/charts/latest/supplemental/language_territory_information.html) database for finding your unique language and territory code.
+
+| Langauge | Code | Territory   | Code |
+| -------- | ---- | ----------- | ---- |
+| German   | de   | Germany {O} | DE   |
+
+After you have found your unique language and territory code you will need to combine them. Start with language code (de), add a separator (-) and at last your territory code (DE); `de-DE`. Now include your language code (de); `de-DE,de`. And the last step add English (en); `de-DE,de,en`.
+
+#### Change geolocation
+Sometimes your server aren't located in your preferred area (language), so you can use another ip address (e.g. a public proxy), for tricking IMDb geolocation system.
+There are some movies/TV Series that have the English translation in "World-wide" and the only way to retrieve them is an US/UK IP-address.
+```
+$settings["imdbphp"]["ip_address"] = '';
+```
+
 ### Keyboard shortcuts
 - CTRL+F, CMD+F or F3
   - Focus search field

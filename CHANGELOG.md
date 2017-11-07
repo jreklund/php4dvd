@@ -1,3 +1,14 @@
+## 3.7.0 (2017-11-07)
+### Added
+  - You can now change your preferred language from IMDb. #15
+
+### Changed
+  - Username can't start or end with a dot (".")
+  - Username can only have one dot as a separation; forename...surname turns into forename.surname
+  
+### Updated
+  - imdbphp 5.2.4
+
 ## 3.6.3 (2017-10-30)
 ### Fixed
   - The password is saved even though it was empty. (My profile)
