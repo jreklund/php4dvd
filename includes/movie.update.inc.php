@@ -19,9 +19,18 @@ if(isset($_GET["imdbsearch"])) {
 	if(strlen($imdbsearch) > 0) {
 		// IMDb engine
 		require_once($loc."/lib/imdbphp/bootstrap.php");
+		
+		// IMDB config
+		$config = new \Imdb\Config();
+		if($settings["imdbphp"]["langauge"])
+			$config->language = $settings["imdbphp"]["langauge"];
+		if($settings["imdbphp"]["ip_address"])
+			$config->ip_address = $settings["imdbphp"]["ip_address"];
+		if($settings["imdbphp"]["debug"])
+			$config->debug = $settings["imdbphp"]["debug"];
 	
 		// Search IMDb for the movie
-		$imdb = new \Imdb\TitleSearch();
+		$imdb = new \Imdb\TitleSearch($config);
 		$wantedTypes = array(
 			\Imdb\TitleSearch::MOVIE,
 			\Imdb\TitleSearch::VIDEO,
@@ -85,9 +94,18 @@ if(isset($_POST["movieid"])) {
 	} elseif($getImdbImage && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0) {
 		// IMDb engine
 		require_once($loc."/lib/imdbphp/bootstrap.php");
+		
+		// IMDB config
+		$config = new \Imdb\Config();
+		if($settings["imdbphp"]["langauge"])
+			$config->language = $settings["imdbphp"]["langauge"];
+		if($settings["imdbphp"]["ip_address"])
+			$config->ip_address = $settings["imdbphp"]["ip_address"];
+		if($settings["imdbphp"]["debug"])
+			$config->debug = $settings["imdbphp"]["debug"];
 
 		$photo = $photopath . $movie->id.".jpg";
-		$m = new \Imdb\Title($movie->imdbid);
+		$m = new \Imdb\Title($movie->imdbid,$config);
 		
 		if(isset($settings["photo"]["high_res"])) {
 			// Photo manipulation

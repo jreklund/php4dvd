@@ -9,7 +9,17 @@ $settings = array();
 /**
  * Set the languages that are available for the user.
  */
-$settings["languages"] = array("English" => "en", "Nederlands" => "nl", "Swedish" => "sv", "Polish" => "pl", "German" => "de");
+$settings["languages"] = array(
+	"English"    => "en",
+	"Nederlands" => "nl",
+	"Swedish"    => "sv",
+	"Polish"     => "pl",
+	"German"     => "de"
+);
+
+/**
+ * Set the default language for the user.
+ */
 $settings["defaultlanguage"] = "en";
 
 /**
@@ -203,3 +213,22 @@ $settings['number_of_cast'] = -1;
  * 10. Enter your domain: domain.com/*
  */
 $settings['youtube_key'] = '';
+
+/**
+ * Set the language Imdb will use for titles, and some other localised data (e.g. tv episode air dates)
+ * Any valid language code can be used here (e.g. en-US, de, pt-BR).
+ * If this option is specified, a Accept-Language header with this value will be included in requests to IMDb.
+ */
+$settings["imdbphp"]["langauge"] = '';
+
+/**
+ * Set originating IP address of a client connecting to a web server through an HTTP proxy or a load balancer.
+ * Useful with language for times when Imdb uses your ip address geo-location before Accept-Language header.
+ * If this option is specified, a X-Forwarded-For header with this value will be included in requests to IMDb.
+ */
+$settings["imdbphp"]["ip_address"] = '';
+
+/**
+ * Enable debug mode?
+ */
+$settings["imdbphp"]["debug"] = $settings["development"];

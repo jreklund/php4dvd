@@ -54,9 +54,18 @@ if($id = getValidId('id',true)) {
 if($loggedin && $User->isEditor() && $imdbid = getValidId('imdbid',true)) {
 	// IMDB engine
 	require_once($loc."/lib/imdbphp/bootstrap.php");
+	
+	// IMDB config
+	$config = new \Imdb\Config();
+	if($settings["imdbphp"]["langauge"])
+		$config->language = $settings["imdbphp"]["langauge"];
+	if($settings["imdbphp"]["ip_address"])
+		$config->ip_address = $settings["imdbphp"]["ip_address"];
+	if($settings["imdbphp"]["debug"])
+		$config->debug = $settings["imdbphp"]["debug"];
 		
 	// Search at IMDB by id
-	$imdbmovie = new \Imdb\Title($imdbid);
+	$imdbmovie = new \Imdb\Title($imdbid,$config);
 	$Website->assign("imdbmovie", $imdbmovie);
 	if(!isset($movie))
 		$movie = new Movie();
