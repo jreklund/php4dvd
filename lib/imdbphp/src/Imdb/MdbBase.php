@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  * @copyright (c) 2002-2004 by Giorgos Giagas and (c) 2004-2009 by Itzchak Rehberg and IzzySoft
  */
 class MdbBase extends Config {
-  public $version = '5.2.3';
+  public $version = '5.2.4';
 
   protected $months = array(
       "January" => "01",
@@ -72,7 +72,7 @@ class MdbBase extends Config {
 
     if ($config) {
       foreach (array("language","imdbsite","cachedir","usecache","storecache","usezip","converttozip","cache_expire",
-                 "photodir","photoroot","imdb_img_url","debug","throwHttpExceptions","use_proxy",
+                 "photodir","photoroot","imdb_img_url","debug","throwHttpExceptions","use_proxy","ip_address",
                  "proxy_host","proxy_port","proxy_user","proxy_pw","default_agent","force_agent") as $key) {
         $this->$key = $config->$key;
       }
