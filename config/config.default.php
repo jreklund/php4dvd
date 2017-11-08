@@ -14,9 +14,9 @@ $settings["languages"] = array(
 	"Nederlands" => "nl",
 	"Swedish"    => "sv",
 	"Polish"     => "pl",
-	"German"     => "de"
+	"German"     => "de",
+	"Italian"    => "it"
 );
-
 /**
  * Set the default language for the user.
  */
