@@ -15,7 +15,7 @@
 	{if $main == 'movies/movie.html'}
 		{include file="movies/javascript/movie.html"}
 	{/if}
-	{if $main == 'movies/update.html'}
+	{if $main == 'movies/update.html' && !isset($imdbresults)}
 		{include file="movies/javascript/update.html"}
 	{/if}
 	{if $main == 'users/login.html'}
