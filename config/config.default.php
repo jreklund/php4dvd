@@ -17,6 +17,7 @@ $settings["languages"] = array(
 	"German"     => "de",
 	"Italian"    => "it"
 );
+
 /**
  * Set the default language for the user.
  */
