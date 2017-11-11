@@ -24,7 +24,7 @@ if($loggedin || $User->isAdmin()) {
 if($loggedin && $User->isAdmin() && isset($_POST["username"])) {
 	$newuser = R::dispense('users');
 	// Username selected
-	if(isset($_POST['username']) && preg_match('/^[^.][a-z0-9.]{5,50}[^.]$/iu',$_POST['username'])) {
+	if(isset($_POST['username']) && preg_match('/^(?!\.)[a-z0-9.]{5,50}(?<!\.)$/iu',$_POST['username'])) {
 		$newuser->username = preg_replace('/\.{2,}/u','.',$_POST['username']);
 	}
 	// Passwords are matching?
