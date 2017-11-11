@@ -1,0 +1,8 @@
+<script>
+	$(document).ready(function() {
+		// remote, email, url, date, dateISO, digits, creditcard, equalTo, accept, maxlength, minlength, rangelength, range, max, min
+		$.validator.messages["required"] = "<i class='fa fa-times-circle-o' aria-hidden='true'></i> {$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
+		$("#imdbsearchform").validate();
+		$("#imdbsearch").select();
+	});
+</script>

@@ -6,7 +6,7 @@
 	{if $main == 'movies/collection.html'}
     <script src="{$tpl_include}javascripts/php4dvd.collection.min.js"></script>
 	{/if}
-	{if $main == 'movies/update.html'}
+	{if $main == 'movies/update.html' && !isset($imdbresults)}
 	<script src="{$tpl_include}javascripts/bootstrap3-typeahead.min.js"></script>
 	{/if}
 	{if $main == 'movies/movie.html'}
@@ -17,6 +17,8 @@
 	{/if}
 	{if $main == 'movies/update.html' && !isset($imdbresults)}
 		{include file="movies/javascript/update.html"}
+	{elseif $main == 'movies/update.html'}
+		{include file="movies/javascript/update.from.imdb.html"}
 	{/if}
 	{if $main == 'users/login.html'}
 		{include file="users/javascript/login.html"}
