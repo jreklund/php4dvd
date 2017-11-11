@@ -185,7 +185,7 @@ define("VALIDATOR_NUMBER",							"Per piacere inserisci un numero valido");
 define("VALIDATOR_DIGITS",							"Per piacere inserisci un numero valido");
 define("VALIDATOR_EMAIL",							"Per piacere inserisci un indirizzo e-mail valido");
 define("VALIDATOR_URL",								"Per piacere inserisci un URL valido (http://...)");
-define("VALIDATOR_DATE",							"Per piacere inserisci una data valida (dd-mm-yyyy)");
+define("VALIDATOR_DATE",							"Per piacere inserisci una data valida (yyyy-mm-dd)");
 define("VALIDATOR_ACCEPT_JPG",						"Per piacere utilizza un tipo di file valido (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Entrambi i campi devono corrispondere");
 define("VALIDATOR_USERNAME",						"Per favore inserisci un username valido. (A–Z, 0–9, .)\nTra 5 ed i 50 caratteri.");
