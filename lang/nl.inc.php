@@ -137,6 +137,8 @@ define("COVER",										"Hoes");
 define("SEARCH_FOR_COVER",							"Zoek naar hoes");
 define("PHOTO",										"Poster");
 define("SEARCH_FOR_PHOTO",							"Zoeken naar poster");
+define("PHOTO_FROM_IMDB",							"Poster (IMDb)");
+define("DOWNLOAD_FROM_IMDB",						"Downloaden van IMDb");
 define("TRAILER_URL",								"Trailer URL");
 define("SEARCH_FOR_TRAILER",						"Zoek naar trailer");
 define("PERSONAL_NOTES",							"Persoonlijke opmerkingen");

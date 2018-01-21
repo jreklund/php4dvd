@@ -228,6 +228,21 @@
 										<input type="text" name="seasons" id="seasons" class="form-control digits" value="{if isset($movie)}{$movie->seasons|htmlentities:3:'UTF-8'}{/if}" maxlength="2">
 									</div>
 								</div>
+								{if !isset($imdbmovie) && isset($movie)}
+								<div class="form-group has-feedback">
+									<label for="imdbphoto" class="{$colWidthSmall} control-label">
+										{$smarty.const.PHOTO_FROM_IMDB|htmlentities:3:'UTF-8'} 
+									</label>
+									<div class="{$colWidthLarge}">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" name="imdbphoto">
+												{$smarty.const.DOWNLOAD_FROM_IMDB|htmlentities:3:'UTF-8'} 
+											</label>
+										</div>
+									</div>
+								</div>
+								{/if}
 								<div class="form-group has-feedback">
 									<label for="photo" class="{$colWidthSmall} control-label">
 										{$smarty.const.PHOTO|htmlentities:3:'UTF-8'} 

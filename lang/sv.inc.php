@@ -137,6 +137,8 @@ define("COVER",										"Omslag");
 define("SEARCH_FOR_COVER",							"Sök efter omslag");
 define("PHOTO",										"Affisch");
 define("SEARCH_FOR_PHOTO",							"Sök efter affisch");
+define("PHOTO_FROM_IMDB",							"Affisch (IMDb)");
+define("DOWNLOAD_FROM_IMDB",						"Hämta från IMDb");
 define("TRAILER_URL",								"Trailer URL");
 define("SEARCH_FOR_TRAILER",						"Sök efter trailer");
 define("PERSONAL_NOTES",							"Personliga anteckningar");

@@ -73,8 +73,12 @@ if(isset($_POST["movieid"])) {
 		$getImdbImage = true;
 	}
 	
+	// Update image from IMDb
+	if(isset($_POST["imdbphoto"]))
+		$getImdbImage = true;
+	
 	// Update movie
-	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew'));
+	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew', 'imdbphoto'));
 	
 	// Validate Trailer URLs
 	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL,FILTER_FLAG_HOST_REQUIRED) ) {
@@ -88,7 +92,7 @@ if(isset($_POST["movieid"])) {
 	// Save movie
 	$movie->id = $moviedm->save($movie);
 	
-	// Save its photo or use image from IMDb (new movies only)
+	// Save its photo or use image from IMDb
 	if(isset($_FILES["photo"]) && isset($_FILES["photo"]["size"]) && $_FILES["photo"]["size"] > 0) {
 		$movie->addPhoto("photo");
 	} elseif($getImdbImage && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0) {

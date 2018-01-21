@@ -137,6 +137,8 @@ define("COVER",										"Cover");
 define("SEARCH_FOR_COVER",							"Cerca cover");
 define("PHOTO",										"Poster");
 define("SEARCH_FOR_PHOTO",							"Cerca poster");
+define("PHOTO_FROM_IMDB",							"Poster (IMDb)");
+define("DOWNLOAD_FROM_IMDB",						"Scarica da IMDb");
 define("TRAILER_URL",								"URL Trailer");
 define("SEARCH_FOR_TRAILER",						"Cerca trailer");
 define("PERSONAL_NOTES",							"Note personali");
