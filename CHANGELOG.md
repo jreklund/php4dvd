@@ -1,3 +1,12 @@
+## 3.7.1 (2018-01-21)
+### Added
+  - Italian language by @Pajaura #17
+  
+### Fixed
+  - Incorrect username regex
+  - Only load javascript when needed
+  - Update posters from IMDb #23
+
 ## 3.7.0 (2017-11-07)
 ### Added
   - You can now change your preferred language from IMDb. #15
