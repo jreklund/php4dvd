@@ -16,6 +16,7 @@ $settings["languages"] = array(
 	"Polish"     => "pl",
 	"German"     => "de",
 	"Italian"    => "it",
+	"Czech"      => "cz",
 );
 
 /**
@@ -137,7 +138,7 @@ $settings["user"]["defaultAdmin"] = "admin";
  * Poster icons: Show TV, favourite, not own and not seen icons on posters
  */
 $settings["template"] = 'default';
-$settings["template_skin"] = 'blue';
+$settings["template_skin"] = 'yellow';
 $settings["template_skin_light"] = false;
 $settings["template_movie_collection"] = 'postertitle';
 $settings["template_poster_icons"] = true;
@@ -162,7 +163,7 @@ $settings["smarty"]["development"]		= $settings["development"];
  * You will need to change some settings inside .htaccess
  */
 
-$settings["pretty_url"] = false;
+$settings["pretty_url"] = true;
 
 /**
  * Select which prefixes to ignore when sorting.
@@ -220,7 +221,7 @@ $settings['youtube_key'] = '';
  * Any valid language code can be used here (e.g. en-US, de, pt-BR).
  * If this option is specified, a Accept-Language header with this value will be included in requests to IMDb.
  */
-$settings["imdbphp"]["langauge"] = '';
+$settings["imdbphp"]["langauge"] = 'cz';
 
 /**
  * Set originating IP address of a client connecting to a web server through an HTTP proxy or a load balancer.
