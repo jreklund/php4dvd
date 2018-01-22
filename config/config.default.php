@@ -16,6 +16,7 @@ $settings["languages"] = array(
 	"Polish"     => "pl",
 	"German"     => "de",
 	"Italian"    => "it",
+	"Czech"      => "cz",
 );
 
 /**
