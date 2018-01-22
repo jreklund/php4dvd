@@ -22,7 +22,7 @@ $settings["languages"] = array(
 /**
  * Set the default language for the user.
  */
-$settings["defaultlanguage"] = "";
+$settings["defaultlanguage"] = "en";
 
 /**
  * Change your language and timezone here if required.
@@ -221,7 +221,7 @@ $settings['youtube_key'] = '';
  * Any valid language code can be used here (e.g. en-US, de, pt-BR).
  * If this option is specified, a Accept-Language header with this value will be included in requests to IMDb.
  */
-$settings["imdbphp"]["langauge"] = 'cz';
+$settings["imdbphp"]["langauge"] = '';
 
 /**
  * Set originating IP address of a client connecting to a web server through an HTTP proxy or a load balancer.
