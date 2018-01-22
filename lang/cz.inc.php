@@ -187,10 +187,10 @@ define("VALIDATOR_NUMBER",							"Prosím zadejte platné číslo");
 define("VALIDATOR_DIGITS",							"Prosím zadejte platné číslo");
 define("VALIDATOR_EMAIL",							"Prosím zadejte platnou emailovou adresu");
 define("VALIDATOR_URL",								"Zadejte prosím platnou adresu URL (http://...)");
-define("VALIDATOR_DATE",							"Prosím vložte správné datum(yyyy-mm-dd)");
+define("VALIDATOR_DATE",							"Prosím vložte správné datum (yyyy-mm-dd)");
 define("VALIDATOR_ACCEPT_JPG",						"Použijte platný typ souboru (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Obě hodnoty by měly být stejné");
-define("VALIDATOR_USERNAME",						"Prosím zadejte platné uživatelské jméno. (A-Z, 0-9,.) \ Nebsahuje 5 až 50 znaků. ");
+define("VALIDATOR_USERNAME",						"Prosím zadejte platné uživatelské jméno. (A-Z, 0-9, .)\nEbsahuje 5 až 50 znaků.");
 
 /**
  * Installer
