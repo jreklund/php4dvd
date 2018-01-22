@@ -138,7 +138,7 @@ $settings["user"]["defaultAdmin"] = "admin";
  * Poster icons: Show TV, favourite, not own and not seen icons on posters
  */
 $settings["template"] = 'default';
-$settings["template_skin"] = 'yellow';
+$settings["template_skin"] = 'blue';
 $settings["template_skin_light"] = false;
 $settings["template_movie_collection"] = 'postertitle';
 $settings["template_poster_icons"] = true;
