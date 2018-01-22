@@ -4,11 +4,11 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * This is the language file. If you want the website to be in your own language, translate the following lines and
  * change the configuration settings where you add the new language and update the default language:
- * 
+ *
  * config.php:
  * $settings["languages"] = array("English" => "cz"); -> $settings["languages"] = array("English" => "en", "Nederlands" => "nl");
  * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "nl";
- * 
+ *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 
@@ -137,6 +137,8 @@ define("COVER",										"Obal");
 define("SEARCH_FOR_COVER",							"Vyhledat obál");
 define("PHOTO",										"Plakát");
 define("SEARCH_FOR_PHOTO",							"Vyhledat plakát");
+define("PHOTO_FROM_IMDB",							"Plakát (IMDb)");
+define("DOWNLOAD_FROM_IMDB",						"Stáhnout z IMDb");
 define("TRAILER_URL",								"Film URL");
 define("SEARCH_FOR_TRAILER",						"Vyhledat film");
 define("PERSONAL_NOTES",							"Osobní poznámky");

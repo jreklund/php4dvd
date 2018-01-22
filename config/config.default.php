@@ -22,7 +22,7 @@ $settings["languages"] = array(
 /**
  * Set the default language for the user.
  */
-$settings["defaultlanguage"] = "en";
+$settings["defaultlanguage"] = "";
 
 /**
  * Change your language and timezone here if required.
@@ -163,7 +163,7 @@ $settings["smarty"]["development"]		= $settings["development"];
  * You will need to change some settings inside .htaccess
  */
 
-$settings["pretty_url"] = true;
+$settings["pretty_url"] = false;
 
 /**
  * Select which prefixes to ignore when sorting.
