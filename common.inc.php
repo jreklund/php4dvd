@@ -53,30 +53,27 @@ if(file_exists($loc . "config/config.php")) {
 	}
 }
 
-// Force the use of HTTPS
-if(
-	isset($settings["url"]["HTTPS"]) && $settings["url"]["HTTPS"] && 
-	(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on')
-) {
-	header('Location: https://'. $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
-	exit();
-}
-
-// Include util functions
-require_once($loc . "lib/util.inc.php");
-
-// Load smarty template parser
-require_once($loc . "lib/Website.class.php");
-$Website = new Website($settings);
-
 // Base url
 $protocol = "http";
 if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) {
 	$protocol = "https";
 }
-if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO']) {
+if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
 	$protocol = "https";
 }
+
+// Force the use of HTTPS
+if(
+	isset($settings["url"]["HTTPS"]) && $settings["url"]["HTTPS"] && $protocol !== 'https'
+) {
+	header('Location: https://'. $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
+	exit();
+}
+
+// Load smarty template parser
+require_once($loc . "lib/Website.class.php");
+$Website = new Website($settings);
+
 $baseurl = $protocol . "://" . $_SERVER["HTTP_HOST"];
 $Website->assign("baseurl", $baseurl);
 
@@ -91,6 +88,9 @@ if(strlen($basepath) > 0 && !preg_match("/\/$/", $basepath)) {
 }
 $webroot = $baseurl . "/" . $basepath;
 $Website->assign("webroot", $webroot);
+
+// Include util functions
+require_once($loc . "lib/util.inc.php");
 
 // Pretty URL
 $pretty_url = $settings["pretty_url"];

@@ -35,18 +35,8 @@ function reload($add = array()) {
  * @param string $add what to add after the current url? (&back=true for example)
  */
 function back($add = array()) {
-	global $webroot;
-	// Current url
-	$protocol = "http";
-	if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']) {
-		$protocol = "https";
-	}
-	if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO']) {
-		$protocol = "https";
-	}
-	$baseurl = $protocol . "://" . $_SERVER["HTTP_HOST"];
-	$currentUrl = $baseurl . $_SERVER["REQUEST_URI"];
-	
+	global $webroot, $currentUrl;
+
 	// Reload the previous page if not the same
 	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 	header("Expires: Mon, 01 Jan 1970 00:00:00 GMT"); 	// Date in the past
