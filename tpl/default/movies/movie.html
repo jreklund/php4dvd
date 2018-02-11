@@ -142,6 +142,13 @@
 							</div>
 							{/if}
 							
+							{if $movie->votes && $movie->votes != 0}
+							<div class="votes">
+								<span class="header">{$smarty.const.VOTES|htmlentities:3:'UTF-8'}:</span> 
+								{$movie->votes|htmlentities:3:'UTF-8'}
+							</div>
+							{/if}
+							
 							{if $parental_guidance}
 								<div class="parental_guidance">
 									<span class="header">{$smarty.const.PARENTAL_GUIDANCE|htmlentities:3:'UTF-8'}:</span>

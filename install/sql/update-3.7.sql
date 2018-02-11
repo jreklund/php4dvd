@@ -1,0 +1,1 @@
+ALTER TABLE `movies` ADD `votes` INT(8) UNSIGNED NOT NULL DEFAULT '0' AFTER `rating`;

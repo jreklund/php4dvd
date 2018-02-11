@@ -16,7 +16,7 @@ $movieformats = $moviedm->getFormats();
 $Website->assign("movieformats", $movieformats);
 
 // The movie sort columns
-$sortoptions = array('nameorder', 'year', 'rating', 'format', 'added', 'loaned');
+$sortoptions = array('nameorder', 'year', 'rating', 'votes', 'format', 'added', 'loaned');
 $allsortoptions = array();
 foreach($sortoptions as $so) {
 	$allsortoptions[] = $so . " " . "asc";

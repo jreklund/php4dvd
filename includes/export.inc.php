@@ -23,6 +23,7 @@ if($loggedin) {
 	$file .= YEAR.$SEPARATOR;
 	$file .= DURATION_MINUTES.$SEPARATOR;
 	$file .= RATING.$SEPARATOR;
+	$file .= VOTES.$SEPARATOR;
 	$file .= FORMAT.$SEPARATOR;
 	$file .= PARENTAL_GUIDANCE.$SEPARATOR;
 	$file .= FAVOURITE.$SEPARATOR;
@@ -60,6 +61,7 @@ if($loggedin) {
 		$fileLoop .= makeData($movie->year);
 		$fileLoop .= makeData($movie->duration);
 		$fileLoop .= makeData($movie->rating ? $movie->rating : "");
+		$fileLoop .= makeData($movie->votes);
 		$fileLoop .= makeData($movie->format);
 		$fileLoop .= makeData($movie->pg);
 		$fileLoop .= makeData($movie->favourite);

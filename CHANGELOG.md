@@ -1,3 +1,7 @@
+## 3.7.2 (2018-02-11)
+### Added
+  - New field: IMDb number of votes #29
+  
 ## 3.7.1 (2018-01-21)
 ### Added
   - Italian language by @Pajaura #17
