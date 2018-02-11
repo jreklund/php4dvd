@@ -16,7 +16,7 @@ $movieformats = $moviedm->getFormats();
 $Website->assign("movieformats", $movieformats);
 
 // The movie sort columns
-$sortoptions = array('nameorder', 'year', 'rating', 'format', 'added', 'loaned');
+$sortoptions = array('nameorder', 'year', 'rating', 'votes', 'format', 'added', 'loaned');
 $allsortoptions = array();
 foreach($sortoptions as $so) {
 	$allsortoptions[] = $so . " " . "asc";
@@ -131,9 +131,9 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	if($templateName === 'poster' || $templateName === 'postertitle')
 		$columns = array('`id`','`name`','`year`','`seen`','`own`','`favourite`','`tv`');
 	if($templateName === 'posterlist' || $templateName === 'listplot')
-		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`plotoutline`','`seen`','`own`','`favourite`','`tv`','`pg`');
+		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`votes`','`languages`','`plotoutline`','`seen`','`own`','`favourite`','`tv`','`pg`');
 	if($templateName === 'list')
-		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`seen`','`own`','`favourite`','`tv`','`pg`');
+		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`votes`','`languages`','`seen`','`own`','`favourite`','`tv`','`pg`');
 	
 	// Search the database for one more movie
 	$movies = $moviedm->search($q, $sort, $category, $format, $pgMin, $pgMax, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
