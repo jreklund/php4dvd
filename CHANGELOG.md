@@ -1,3 +1,18 @@
+## 3.8.0 (2018-02-24)
+### Added
+  - Added a new confirmation box
+    - You can now toggle Own/Seen from your collection #19
+  - Czech language by @jakub96124124 #26
+
+### Fixed
+  - Incorrect protocol on load balancers #27
+  - urlTitle() should ignore non-ansi characters 
+ 
+### Updated
+  - bootstrap-slider 10.0.0
+  - JavaScript Cookie 2.2.0
+  - imdbphp 5.2.5
+  
 ## 3.7.2 (2018-02-11)
 ### Added
   - New field: IMDb number of votes #29
