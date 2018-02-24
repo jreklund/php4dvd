@@ -20,8 +20,8 @@
 		{/if}
 		
 		{if !isset($imdbmovie) && isset($movie) && $movie->hasCover()}
-		<li>
-			<a href="{prettyUrl(['go'=>'deletecover','id'=>$movie->id])}" onclick="return confirm('{$smarty.const.CONFIRM_REMOVE_COVER|htmlentities:3:'UTF-8'}');">
+		<li data-title="{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}" data-id="{$movie->id}">
+			<a href="#" data-toggle="modal" data-target="#confirmation" data-type="deletecover">
 				<i class="fa fa-picture-o fa-fw " title="{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
 				<i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
 				<span class="hidden-sm">{$smarty.const.REMOVE_COVER|htmlentities:3:'UTF-8'}</span>
@@ -30,7 +30,12 @@
 		{/if}
 		
 		{if isset($movie) && !isset($imdbmovie)}
-		<li><a href="{prettyUrl(['go'=>'delete','id'=>$movie->id])}" onclick="return confirm('{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}');"><i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> <span class="hidden-sm">{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}</span></a></li>
+		<li data-title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" data-id="{$movie->id}">
+			<a href="#" data-toggle="modal" data-target="#confirmation" data-type="delete">
+				<i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i> 
+				<span class="hidden-sm">{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}</span>
+			</a>
+		</li>
 		{/if}
 	</ul>
 {/if}

@@ -32,9 +32,11 @@
 	{/if}
 		
 	{if $loggedin && $User->isEditor()}
-	<li>
-		<a href="{prettyUrl(['go' => 'delete','id' => $movie->id])}" onclick="return confirm('{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}');"><i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-		<span class="hidden-sm">{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}</span></a>
+	<li data-title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" data-id="{$movie->id}">
+		<a href="#" data-toggle="modal" data-target="#confirmation" data-type="delete">
+			<i class="fa fa-minus-circle fa-fw" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+			<span class="hidden-sm">{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}</span>
+		</a>
 	</li>
 	{/if}
   </ul>

@@ -1,0 +1,23 @@
+<div class="modal fade" id="confirmation">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="hidden text-own">{$smarty.const.DO_YOU_OWN_THIS|htmlentities:3:'UTF-8'}</div>
+			<div class="hidden text-seen">{$smarty.const.HAVE_YOU_SEEN_THIS|htmlentities:3:'UTF-8'}</div>
+			<div class="hidden text-delete">{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}</div>
+			<div class="hidden text-deleteuser">{$smarty.const.CONFIRM_REMOVE|htmlentities:3:'UTF-8'}</div>
+			<div class="hidden text-deletecover">{$smarty.const.CONFIRM_REMOVE_COVER|htmlentities:3:'UTF-8'}</div>
+			<div class="hidden text-logout">{$smarty.const.ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT|htmlentities:3:'UTF-8'}</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default modal-close pull-left" data-dismiss="modal">{$smarty.const.NO|htmlentities:3:'UTF-8'}</button>
+				<button type="button" class="btn btn-primary modal-save">{$smarty.const.YES|htmlentities:3:'UTF-8'}</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

@@ -42,8 +42,12 @@ function back($add = array()) {
 	header("Expires: Mon, 01 Jan 1970 00:00:00 GMT"); 	// Date in the past
 	if(isset($_SERVER["HTTP_REFERER"]) && $_SERVER["HTTP_REFERER"] != $currentUrl) {
 		$url = setQueryString($_SERVER["HTTP_REFERER"], $add);
+		if(is_ajax_request())
+			exit($url);
 		header("Location: " . $url);
 	} else {
+		if(is_ajax_request())
+			exit($webroot);
 		header("Location: " . $webroot);
 	}
 	exit();
@@ -216,7 +220,7 @@ function urlTitle($str, $separator = '-', $lowercase = FALSE) {
 
 	$str = strip_tags($str);
 	foreach ($trans as $key => $val) {
-		$str = preg_replace('#'.$key.'#iu', $val, $str);
+		$str = preg_replace('#'.$key.'#i', $val, $str);
 	}
 
 	if ($lowercase === TRUE) {
@@ -419,4 +423,15 @@ if(!function_exists('hash_equals')) {
 
 		return $result === 0;
 	}
+}
+
+/**
+ * Is AJAX request?
+ *
+ * Test to see if a request contains the HTTP_X_REQUESTED_WITH header.
+ *
+ * @return 	bool
+ */
+function is_ajax_request() {
+	return ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 }

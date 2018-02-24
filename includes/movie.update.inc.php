@@ -154,25 +154,31 @@ if(isset($_POST["movieid"])) {
 }
 
 // Update movie favourite status
-if(isset($movie) && isset($_GET["favourite"])) {
-	$movie->favourite = $_GET["favourite"] == 1 ? 1 : 0;
+if(isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'favourite') {
+	$movie->favourite = $movie->favourite ? 0 : 1;
 	$moviedm->save($movie);
+	if(is_ajax_request())
+		exit($webroot);
 	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
 	exit();
 }
 
 // Update movie seen status
-if(isset($movie) && isset($_GET["seen"])) {
-	$movie->seen = $_GET["seen"] == 1 ? 1 : 0;
+if(isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'seen') {
+	$movie->seen = $movie->seen ? 0 : 1;
 	$moviedm->save($movie);
+	if(is_ajax_request())
+		exit($webroot);
 	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
 	exit();
 }
 
 // Update movie own status
-if(isset($movie) && isset($_GET["own"])) {
-	$movie->own = $_GET["own"] == 1 ? 1 : 0;
+if(isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'own') {
+	$movie->own = $movie->own ? 0 : 1;
 	$moviedm->save($movie);
+	if(is_ajax_request())
+		exit($webroot);
 	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
 	exit();
 }

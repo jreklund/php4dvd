@@ -25,8 +25,7 @@
 						</div>
 						<div class="movie-icons btn-group-vertical visible-xs-inline-block">
 							{if $loggedin && $User->isEditor()}
-								{if $movie->favourite}{$favourite = 0}{else}{$favourite = 1}{/if}
-								<a class="btn btn-default" href="{prettyUrl(['go' => 'favourite','id' => $movie->id,'favourite' => $favourite])}">
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'favourite','id' => $movie->id])}">
 							{else}
 							<a class="btn btn-default" href="#">
 							{/if}
@@ -38,8 +37,7 @@
 							</a>
 						
 							{if $loggedin && $User->isEditor()}
-								{if $movie->own}{$own = 0}{else}{$own = 1}{/if}
-								<a class="btn btn-default" href="{prettyUrl(['go' => 'own','id' => $movie->id,'own' => $own])}">
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'own','id' => $movie->id])}">
 							{else}
 							<a class="btn btn-default" href="#">
 							{/if}
@@ -51,8 +49,7 @@
 							</a>
 						
 							{if $loggedin && $User->isEditor()}
-								{if $movie->seen}{$seen = 0}{else}{$seen = 1}{/if}
-								<a class="btn btn-default" href="{prettyUrl(['go' => 'seen','id' => $movie->id,'seen' => $seen])}">
+								<a class="btn btn-default" href="{prettyUrl(['go' => 'seen','id' => $movie->id])}">
 							{else}
 							<a class="btn btn-default" href="#">
 							{/if}
@@ -84,8 +81,7 @@
 						<div class="box-header with-border">
 							<div class="btn-group movie-icons hidden-xs">
 								{if $loggedin && $User->isEditor()}
-									{if $movie->favourite}{$favourite = 0}{else}{$favourite = 1}{/if}
-									<a class="btn btn-default" href="{prettyUrl(['go' => 'favourite','id' => $movie->id,'favourite' => $favourite])}">
+									<a class="btn btn-default" href="{prettyUrl(['go' => 'favourite','id' => $movie->id])}">
 								{else}
 								<a class="btn btn-default" href="#">
 								{/if}
@@ -97,8 +93,7 @@
 								</a>
 							
 								{if $loggedin && $User->isEditor()}
-									{if $movie->own}{$own = 0}{else}{$own = 1}{/if}
-									<a class="btn btn-default" href="{prettyUrl(['go' => 'own','id' => $movie->id,'own' => $own])}">
+									<a class="btn btn-default" href="{prettyUrl(['go' => 'own','id' => $movie->id])}">
 								{else}
 								<a class="btn btn-default" href="#">
 								{/if}
@@ -110,8 +105,7 @@
 								</a>
 							
 								{if $loggedin && $User->isEditor()}
-									{if $movie->seen}{$seen = 0}{else}{$seen = 1}{/if}
-									<a class="btn btn-default" href="{prettyUrl(['go' => 'seen','id' => $movie->id,'seen' => $seen])}">
+									<a class="btn btn-default" href="{prettyUrl(['go' => 'seen','id' => $movie->id])}">
 								{else}
 								<a class="btn btn-default" href="#">
 								{/if}

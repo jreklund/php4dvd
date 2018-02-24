@@ -91,8 +91,10 @@ define("FAVOURITE",									"Ulubiony");
 define("NOT_FAVOURITE",								"Nie ulubionym");
 define("OWN",										"Mam w kolekcji");
 define("NOT_OWN",									"Nie posiadam!");
+define("DO_YOU_OWN_THIS",							"Czy jesteś właścicielem tego?");
 define("SEEN",										"Widziałem");
 define("UNSEEN",									"Nie widziałem");
+define("HAVE_YOU_SEEN_THIS",						"Widziałeś to?");
 define("EDIT",										"Edytuj");
 define("REMOVE",									"Usuń");
 // Movie information

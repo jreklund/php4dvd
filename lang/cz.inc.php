@@ -91,8 +91,10 @@ define("FAVOURITE",									"Oblíbený");
 define("NOT_FAVOURITE",								"Neoblíbený");
 define("OWN",										"Vlastní");
 define("NOT_OWN",									"Nevlastní");
+define("DO_YOU_OWN_THIS",							"Vlastníte to?");
 define("SEEN",										"Viděl");
 define("UNSEEN",									"Neviděl");
+define("HAVE_YOU_SEEN_THIS",						"Viděl jsi to?");
 define("EDIT",										"Upravit");
 define("REMOVE",									"Odstranit");
 // Movie information

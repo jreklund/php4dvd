@@ -65,6 +65,12 @@
  * Menu
  */
 
+@media (min-width: 768px) {
+	.fixed.modal-open .main-header {
+		right: 17px;
+	}
+}
+
 .nav-select-wrapper {
     position: relative;
 }
@@ -241,7 +247,7 @@
  * Custom
  */
  
-html {
+body {
   overflow-y: scroll;
 }
 
@@ -372,63 +378,69 @@ width:100%;
 	text-align: center;
 }
 
-.movie-link {
+.movie-box {
+	position: relative;
+}
+
+.movies .movie-box, .movies-list .movie-box {
 	display: inline-block;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	margin: 0 2px 2px 0;
-	color: #222;
+	margin-right: 2px;
+	background-color: #FFF;
+	border: 1px solid #ccc;
 }
-	.movie-box {
-		position: relative;
+.movies-list .movie-box {
+	margin-bottom: 5px;
+}
+	.movie-link {
+		color: #222;
+		display: block;
 	}
 	
-		.movie-icons {
-			position: absolute;
-			right: 10px;
-			top: 10px;
-			margin: 0;
-			padding: 0;
-		}
+	.poster-list .movie-link {
+		display: inline-block;
+	}
+	
+	.movie-icons {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		margin: 0;
+		padding: 0;
+	}
 
-		.movie-box .movie-icons .btn {
-			padding: 1px 2px 1px 2px;
-		}
-	
-	.movie-link .movie-box {
-		border: 1px solid #ccc;
+	.movie-box .movie-icons .btn {
+		padding: 1px 2px 1px 2px;
 	}
 	
-		.movie-link .movie-cover {
+	.movie-link .movie-cover {
+		overflow: hidden;
+	}
+		.movies .movie-cover img, .movies .movie-nocover {
+			width: 157px;
+			height: 233px;
+		}
+		.movie-cover .movie-nocover {
 			overflow: hidden;
+			border: 1px solid white;
+			background-color: #e2e2e2;
 		}
 		
-			.movie-cover .movie-nocover {
-				overflow: hidden;
-				border: 1px solid white;
-				background-color: #e2e2e2;
-			}
-
-			.movie-link .movie-box .movie-cover img {
-				width: 157px;
-				height: 233px;
-			}
+	.movie-title, .movie-info, .movie-plot {
+		-o-text-overflow: ellipsis;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 	
-		.movie-box .movie-title {
-			padding: 10px;
-			width: 157px;
-			white-space: nowrap;
-			-o-text-overflow: ellipsis;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			background-color: #FFF;
-			border-top: 3px solid #3c8dbc;
-		}
-.movies .movie-nocover {
-	width: 157px;
-	height: 233px;
-}
+	.movies .movie-title {
+		padding: 10px;
+		width: 157px;
+		white-space: nowrap;
+		border-top: 3px solid #3c8dbc;
+	}
+
 .movies .movie-icons>.btn:first-child:not(:last-child), .movies .movie-icons>.btn {
 	border-top-right-radius: 0;
 }
@@ -444,94 +456,76 @@ width:100%;
 }
 	.movies-list .movie-cover {
 		float: left;
-		overflow: hidden;
 		border-right: 1px solid #ccc;
 	}
-	.movies-list .movie-cover img {
+	.movies-list .movie-cover img, .movies-list .movie-nocover {
 		width: 100px;
 		height: 148px;
 	}
-	.movies-list .movie-nocover {
-		width: 100px;
-		height: 148px;
-	}
-.list-movie-link {
-	background-color: #FFF;
-	position: relative;
-}
-.list-movie-link {
-	display: inline-block;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	margin-bottom: 5px;
-	margin-right: 2px;
-	color: #222;
+.movies-list .movie-box {
 	width: 33%;
-	border: 1px solid #ccc;
 }
 @media (max-width: 1430px) {
-	.list-movie-link {
+	.movies-list .movie-box {
 		width: 49%;
 	}
 }
 @media (max-width: 950px) {
-	.list-movie-link {
+	.movies-list .movie-box {
 		width: 100%;
 	}
 }
-.list-movie-link:hover .list-movie-info, .list-movie-link:hover .list-movie-plot, .list-movie-link:hover .list-movie-icons {
+.movie-link:hover .movie-info, .movie-link:hover .movie-plot {
 	color: #222;
 }
-.list-movie-title, .list-movie-info, .list-movie-plot {
+.movies-list .movie-title, .movie-info, .movie-plot {
 	padding: 4px 5px;
 	display: block; /* Fallback for non-webkit */
 	display: -webkit-box;
 	margin: 0 auto;
 	-webkit-box-orient: vertical;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
-.list-movie-title, .list-movie-info {
+.movies-list .movie-title, .movie-info {
 	height: 28px; /* Fallback for non-webkit */
 	-webkit-line-clamp: 1;
 }
-.list-movie-plot {
+.movies-list .movie-title {
+	font-weight: bold;
+}
+.movie-plot {
 	height: 84px;
 	-webkit-line-clamp: 4;
 	padding-top: 0px;
 }
-.list-movie-title {
-	font-weight: bold;
-}
-.poster-list .list-movie-info {
+.poster-list .movie-info {
 	position: absolute;
 	left: 101px;
 	bottom: 0;
 	right: 0;
 }
-.list-movie-info {
+.movie-info {
 	border-top: 3px solid #3c8dbc;
 	font-size: 12px;
 	background-color: #f4f4f4;
 }
-.list-movie-icons {
-	position: absolute;
+.movies-list .movie-icons {
 	right: 5px;
 	bottom: 2px;
-	margin: 0;
-	padding: 0;
+	top: unset;
 }
-.list-movie-icons-1 {
+.movies-list .movie-icons i:hover {
+	cursor: pointer;
+}
+.movie-icons-1 {
 	padding-right: 30px;
 }
-.list-movie-icons-2 {
+.movie-icons-2 {
 	padding-right: 50px;
 }
-.list-movie-icons-3 {
+.movie-icons-3 {
 	padding-right: 70px;
 }
-.list-movie-icons-4 {
+.movie-icons-4 {
 	padding-right: 90px;
 }
 /**

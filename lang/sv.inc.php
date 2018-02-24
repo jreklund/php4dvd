@@ -91,8 +91,10 @@ define("FAVOURITE",									"Favorit");
 define("NOT_FAVOURITE",								"Inte favorit");
 define("OWN",										"Äger");
 define("NOT_OWN",									"Äger inte");
+define("DO_YOU_OWN_THIS",							"Äger du detta?");
 define("SEEN",										"Sett");
 define("UNSEEN",									"Inte sett");
+define("HAVE_YOU_SEEN_THIS",						"Har du sett detta?");
 define("EDIT",										"Redigera");
 define("REMOVE",									"Ta bort");
 // Movie information

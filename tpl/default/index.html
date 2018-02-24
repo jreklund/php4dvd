@@ -48,7 +48,11 @@
 					<ul class="dropdown-menu">
 						{if $loggedin && $User->isAdmin()}<li{if $currentUrl == $webroot|cat:"?go=users" || $currentUrl == $webroot|cat:"users/"} class="selected"{/if}><a href="{prettyUrl(['go' => 'users'])}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {$smarty.const.USER_MANAGEMENT|htmlentities:3:'UTF-8'}</a></li>{/if}
 						<li{if $currentUrl == $webroot|cat:"?go=profile" || $currentUrl == $webroot|cat:"profile/"} class="selected"{/if}><a href="{prettyUrl(['go' => 'profile'])}"><i class="fa fa-user fa-fw" aria-hidden="true"></i> {$smarty.const.MY_PROFILE|htmlentities:3:'UTF-8'}</a></li>
-						<li><a href="{prettyUrl(['logout'])}" onclick="return confirm('{$smarty.const.ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT|htmlentities:3:'UTF-8'}');"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {$smarty.const.LOG_OUT|htmlentities:3:'UTF-8'}</a></li>
+						<li data-title="{$smarty.const.LOG_OUT|htmlentities:3:'UTF-8'}">
+							<a href="#" data-toggle="modal" data-target="#confirmation" data-type="logout">
+								<i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {$smarty.const.LOG_OUT|htmlentities:3:'UTF-8'}
+							</a>
+						</li>
 					</ul>
 				</li>
 				{elseif $guestview}
