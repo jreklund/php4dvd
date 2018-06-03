@@ -251,13 +251,13 @@
 					</div>
 					{/if}
 					
-					{if $movie->notes && strlen($movie->notes) > 0}
+					{if $movie->notes_html && strlen($movie->notes_html) > 0}
 					<div class="box">
 						<div class="box-header with-border">
 							<h3 class="box-title">{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}</h3>
 						</div>
 						<div class="box-body notes">
-							{$movie->notes|htmlentities:3:'UTF-8'|nl2br}
+							{$movie->notes_html|nl2br}
 						</div>
 					</div>
 					{/if}

@@ -37,6 +37,7 @@ class Movie {
 		$this->seasons = $this->htmldecode($imdbmovie->seasons());
 		$this->trailer = isset($this->trailer) ? $this->trailer : "";
 		$this->notes = isset($this->notes) ? $this->notes : "";
+		$this->notes_html = isset($this->notes_html) ? $this->notes_html : "";
 		$this->taglines = $this->join("\n\n", $this->htmldecode($imdbmovie->taglines()));
 		$this->plotoutline = trim(strip_tags($this->htmldecode($imdbmovie->plotoutline())));
 		$this->plots = $this->join("\n\n", $this->htmldecode($imdbmovie->plot()));
