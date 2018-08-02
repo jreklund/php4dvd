@@ -1,3 +1,7 @@
+## 3.8.1 (2018-06-03)
+### Added
+  - Markdown support in personal notes #38
+
 ## 3.8.0 (2018-02-24)
 ### Added
   - Added a new confirmation box

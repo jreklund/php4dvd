@@ -2,6 +2,8 @@
 defined('DIRECTACCESS') OR exit('No direct script access allowed');
 
 require_once($loc . "includes/movie.inc.php");
+require_once($loc . "/lib/parsedown/Parsedown.php");
+require_once($loc . "/lib/htmlpurifier/library/HTMLPurifier.auto.php");
 
 // The movie formats
 $movieformats = $moviedm->getFormats();
@@ -79,6 +81,12 @@ if(isset($_POST["movieid"])) {
 	
 	// Update movie
 	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew', 'imdbphoto'));
+	
+	//Render markdown in notes	
+	$purifier = new HTMLPurifier();
+	$parsedown = new Parsedown();
+	$parsedown->setSafeMode(true);
+	$movie->notes_html = $purifier->purify($parsedown->text($movie->notes));
 	
 	// Validate Trailer URLs
 	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL,FILTER_FLAG_HOST_REQUIRED) ) {
