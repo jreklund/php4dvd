@@ -126,7 +126,7 @@ class Title extends MdbBase {
       "Goofs" => "/trivia?tab=gf",
       "Keywords" => "/keywords",
       "Locations" => "/locations",
-      "MovieConnections" => "/trivia?tab=mc",
+      "MovieConnections" => "/movieconnections",
       "OfficialSites" => "/officialsites",
       "ParentalGuide" => "/parentalguide",
       "Plot" => "/plotsummary",
@@ -534,9 +534,9 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   public function language() {
-   if ($this->main_language == "") {
+   if (empty($this->main_language)) {
      if (empty($this->langs)) $this->langs = $this->languages();
-     $this->main_language = $this->langs[0];
+     if (!empty($this->langs)) $this->main_language = $this->langs[0];
    }
    return $this->main_language;
   }
@@ -635,7 +635,7 @@ class Title extends MdbBase {
     if (empty($this->main_creator)) {
       $this->getPage("Title");
       if (@preg_match("#Creators?:\</h4\>[\s\n]*(.*?)(</div|<a class=\"tn15more)#ms", $this->page["Title"], $match)) {
-        if (preg_match_all('#/name/nm(\d{7}).*?><span.+?>(.*?)</span#s', $match[1], $matches)) {
+        if (preg_match_all('#/name/nm(\d+).*?><span.+?>(.*?)</span#s', $match[1], $matches)) {
           for ($i = 0; $i < count($matches[0]); ++$i)
             $this->main_creator[] = array('name' => $matches[2][$i], 'imdb' => $matches[1][$i]);
         }
@@ -1137,7 +1137,7 @@ class Title extends MdbBase {
       $doc = new \DOMDocument();
       @$doc->loadHTML($page);
       $xp = new \DOMXPath($doc);
-      $cells = $xp->query("//ul[@id=\"plot-summaries-content\"]/li");
+      $cells = $xp->query("//ul[@id=\"plot-summaries-content\"]/li[@id!=\"no-summary-content\"]");
       foreach ($cells as $cell) {
         $link = '';
         if($a = $cell->getElementsByTagName('a')->item(0)) {
@@ -1347,7 +1347,7 @@ class Title extends MdbBase {
           'thumb' => null,
           'photo' => null
       );
-      $dir["imdb"] = preg_replace('!.*href="/name/nm(\d{7})/.*!ims', '$1', $cels[1]);
+      $dir["imdb"] = preg_replace('!.*href="/name/nm(\d+)/.*!ims', '$1', $cels[1]);
       $dir["name"] = trim(strip_tags($cels[1]));
       if (empty($dir['name']))
         continue;
@@ -1441,7 +1441,7 @@ class Title extends MdbBase {
    if (!$writing_rows) return array();
    for ( $i = 0; $i < count ($writing_rows); $i++){
      $wrt = array();
-     if ( preg_match('!<a\s+href="/name/nm(\d{7})/[^>]*>\s*(.+)\s*</a>!ims',$writing_rows[$i],$match) ) {
+     if ( preg_match('!<a\s+href="/name/nm(\d+)/[^>]*>\s*(.+)\s*</a>!ims',$writing_rows[$i],$match) ) {
        $wrt['imdb'] = $match[1];
        $wrt['name'] = trim($match[2]);
      } elseif ( preg_match('!<td\s+class="name">(.+?)</td!ims',$writing_rows[$i],$match) ) {
@@ -1512,7 +1512,7 @@ class Title extends MdbBase {
     }
     foreach ($composer_rows as $composer_row) {
       $composer = array();
-      if (preg_match('!<a\s+href="/name/nm(\d{7})/[^>]*>\s*(.+)\s*</a>!ims', $composer_row, $match)) {
+      if (preg_match('!<a\s+href="/name/nm(\d+)/[^>]*>\s*(.+)\s*</a>!ims', $composer_row, $match)) {
         $composer['imdb'] = $match[1];
         $composer['name'] = trim($match[2]);
       } elseif (preg_match('!<td\s+class="name">(.+?)</td!ims', $composer_row, $match)) {
@@ -1915,12 +1915,13 @@ class Title extends MdbBase {
    * @return array [0..n] of array mid,name,year,comment - or empty array if not found
    */
   protected function parseConnection($conn) {
+    $arr = array();
     $tag_s = strpos($this->page["MovieConnections"],"<h4 class=\"li_group\">$conn");
     if (empty($tag_s)) return array(); // no such feature
     $tag_e = strpos($this->page["MovieConnections"],"<h4 class=\"li",$tag_s+4);
-    if (empty($tag_e)) $tag_e = strpos($this->page["MovieConnections"],"<script",$tag_s);
+    if (empty($tag_e)) $tag_e = strpos($this->page["MovieConnections"],"<h2",$tag_s);
     $block = substr($this->page["MovieConnections"],$tag_s,$tag_e-$tag_s);
-    if (preg_match_all('!<a href="(.*?)">(.*?)</a>&nbsp;\((\d{4})\)(.*<br\s*/>(.*?)\s*</div>)?!ims',$block,$matches)) {
+    if (preg_match_all('!<a href="(.*?)">(.*?)</a>(?:&nbsp;\((\d{4})\))?(.*?<br\s*/>(.*?)\s*</div>)?!ims',$block,$matches)) {
       $this->debug_object($matches);
       $mc = count($matches[0]);
       for ($i=0;$i<$mc;++$i) {
@@ -2268,7 +2269,7 @@ class Title extends MdbBase {
               break;
             case "award_description":
               $desc = trim($col['data'][$k]);
-              if ( preg_match_all( '|<a href\="/name/nm(\d{7})[^"]*"\s*>(.*?)</a>|s', $desc, $data) ) {
+              if ( preg_match_all( '|<a href\="/name/nm(\d+)[^"]*"\s*>(.*?)</a>|s', $desc, $data) ) {
                 $people = isset( $data[0][0] ) ? array_combine($data[1],$data[2]) : array();
                 preg_match('!(.+?)<br!ims',$desc,$data) ? $cat=$data[1] : $cat='';
                 if (substr($cat,0,3)=='<a ') $cat = '';
