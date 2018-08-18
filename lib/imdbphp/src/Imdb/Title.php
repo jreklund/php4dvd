@@ -65,7 +65,6 @@ class Title extends MdbBase {
   protected $main_year = -1;
   protected $main_endyear = -1;
   protected $main_yearspan = array();
-  protected $main_creator = array();
   protected $main_tagline = "";
   protected $main_storyline = "";
   protected $main_prodnotes = array();
@@ -114,6 +113,7 @@ class Title extends MdbBase {
   protected $isSerial = null;
   protected $episodeSeason = null;
   protected $episodeEpisode = null;
+  protected $jsonLD = null;
 
   protected $pageUrls = array(
       "AlternateVersions" => '/alternateversions',
@@ -135,6 +135,7 @@ class Title extends MdbBase {
       "Soundtrack" => "/soundtrack",
       "Synopsis" => "/plotsummary",
       "Taglines" => "/taglines",
+      "Technical" => "/technical",
       "Title" => "/",
       "Trailers" => "/videogallery/content_type-trailer",
       "Trivia" => "/trivia",
@@ -327,6 +328,11 @@ class Title extends MdbBase {
       if (@preg_match('!Runtime:</h4>\s*(.+?)\s*</div!ms',$this->page["Title"],$match))
         $this->main_runtime = $match[1];
     }
+    if ($this->main_runtime == "") {
+      $this->getPage("Technical");
+      if (@preg_match('!Runtime.*?<td>(.+?)</td!ms',$this->page["Technical"],$match))
+        $this->main_runtime = $match[1];
+    }
     return $this->main_runtime;
   }
 
@@ -336,18 +342,13 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   public function runtime() {
-    $runarr = $this->runtimes();
-    if (isset($runarr[0]["time"])) {
-      return $runarr[0]["time"];
+    $jsonValue = isset($this->jsonLD()->duration) ? $this->jsonLD()->duration : (isset($this->jsonLD()->timeRequired) ? $this->jsonLD()->timeRequired : null);
+    if (isset($jsonValue) && preg_match('/PT((\d+)H)?(\d+)M/', $jsonValue, $matches)) {
+      $runtime = isset($matches[2]) ? intval($matches[2]) * 60 : 0;
+      return $runtime + intval($matches[3]);
     }
 
-    // No runtimes in tech details? Maybe there's one under the title
-    $this->getPage("Title");
-    if (preg_match('/<time itemprop="duration" datetime="PT(\d+)M"/', $this->page["Title"], $matches)) {
-      return (int)$matches[1];
-    }
-
-    return NULL;
+    return null;
   }
 
   /**
@@ -359,11 +360,11 @@ class Title extends MdbBase {
     if (empty($this->movieruntimes)) {
       $this->movieruntimes = array();
       $rt = $this->runtime_all();
-      foreach (explode('|', strip_tags($rt)) as $runtimestring) {
-        if (preg_match("/(\d+) min/", $runtimestring, $matches)) {
-          $runtime = $matches[1];
+      foreach (preg_split('!(\||<br>)!', strip_tags($rt,'<br>')) as $runtimestring) {
+        if (preg_match_all("/(\d+\s+hr\s+\d+\s+min)?\((\d+)\s+min\)|(\d+)\s+min/", $runtimestring, $matches, PREG_SET_ORDER, 0)) {
+          $runtime = isset($matches[1][2]) ? $matches[1][2] : (isset($matches[0][3]) ? $matches[0][3] : 0);
           $annotations = array();
-          if (preg_match_all("/\((.+?)\)/", $runtimestring, $matches)) {
+          if (preg_match_all("/\((?!\d+\s+min)(.+?)\)/", $runtimestring, $matches)) {
             $annotations = $matches[1];
           }
           $this->movieruntimes[] = array("time"=>$runtime, "country"=>'', "comment"=>'', "annotations" => $annotations);
@@ -390,34 +391,12 @@ class Title extends MdbBase {
   }
 
  #----------------------------------------------------------[ Movie Rating ]---
-  /**
-   * Setup votes
-   */
-  protected function rate_vote() {
-    $page = $this->getPage("Title");
-
-    if (preg_match('!itemprop="ratingValue">(\d{1,2}[\.,]\d)!i', $page, $match)) {
-      $rating = str_replace(',', '.', $match[1]);
-      $this->main_rating = $rating;
-    } else {
-      $this->main_rating = 0;
-    }
-
-    if (preg_match('!itemprop="ratingCount">([\d\.,]+)</span!i', $page, $match)) {
-      $votes = str_replace(array('.', ','), '', $match[1]);
-      $this->main_votes = (int)$votes;
-    } else {
-      $this->main_votes = 0;
-    }
-  }
-
   /** Get movie rating
    * @return string rating current rating as given by IMDB site
    * @see IMDB page / (TitlePage)
    */
   public function rating () {
-    if ($this->main_rating == -1) $this->rate_vote();
-    return $this->main_rating;
+    return isset($this->jsonLD()->aggregateRating->ratingValue) ? $this->jsonLD()->aggregateRating->ratingValue : '';
   }
 
   /**
@@ -426,8 +405,7 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   public function votes() {
-    if ($this->main_votes == -1) $this->rate_vote();
-    return $this->main_votes;
+    return isset($this->jsonLD()->aggregateRating->ratingCount) ? $this->jsonLD()->aggregateRating->ratingCount : 0;
   }
 
   /**
@@ -619,7 +597,7 @@ class Title extends MdbBase {
   public function colors() {
     if (empty($this->moviecolors)) {
       $this->getPage("Title");
-      if (preg_match_all("|/search/title\?colors=.+?\s.+?>\s*(.*?)<|",$this->page["Title"],$matches))
+      if (preg_match_all("|/search/title\?colors=[^>]+?>\s?(.*?)</a|",$this->page["Title"],$matches))
         $this->moviecolors = $matches[1];
     }
     return $this->moviecolors;
@@ -627,21 +605,23 @@ class Title extends MdbBase {
 
  #---------------------------------------------------------------[ Creator ]---
   /**
-   * Get the creator of a movie (most likely for seasons only)
+   * Get the creator(s) of a TV Show
    * @return array creator (array[0..n] of array[name,imdb])
    * @see IMDB page / (TitlePage)
    */
   public function creator() {
-    if (empty($this->main_creator)) {
-      $this->getPage("Title");
-      if (@preg_match("#Creators?:\</h4\>[\s\n]*(.*?)(</div|<a class=\"tn15more)#ms", $this->page["Title"], $match)) {
-        if (preg_match_all('#/name/nm(\d+).*?><span.+?>(.*?)</span#s', $match[1], $matches)) {
-          for ($i = 0; $i < count($matches[0]); ++$i)
-            $this->main_creator[] = array('name' => $matches[2][$i], 'imdb' => $matches[1][$i]);
+    $result = array();
+    if ($this->jsonLD()->{'@type'} === 'TVSeries' && isset($this->jsonLD()->creator) && is_array($this->jsonLD()->creator)) {
+      foreach ($this->jsonLD()->creator as $creator) {
+        if ($creator->{'@type'} === 'Person') {
+          $result[] = array(
+            'name' => $creator->name,
+            'imdb' => rtrim(str_replace('/name/nm', '', $creator->url), '/')
+          );
         }
       }
     }
-    return $this->main_creator;
+    return $result;
   }
 
  #---------------------------------------------------------------[ Tagline ]---
@@ -705,12 +685,7 @@ class Title extends MdbBase {
   public function episodeTitle() {
     if (!$this->isEpisode()) return "";
 
-    $page = $this->getPage("Title");
-
-    if (preg_match("@<h1 itemprop=\"name\" class=\"\">(.+?)</h1>@", $page, $matches)) {
-       return trim(str_replace('&nbsp;', ' ', $matches[1]));
-    }
-    return "";
+    return $this->jsonLD()->name;
   }
 
   private function populateEpisodeSeasonEpisode() {
@@ -754,12 +729,11 @@ class Title extends MdbBase {
   public function episodeAirDate() {
     if (!$this->isEpisode()) return "";
 
-    $page = $this->getPage("Title");
-
-    if (preg_match("@<meta itemprop=\"datePublished\" content=\"([\d\-]+)\" />@", $page, $matches)) {
-      return $matches[1];
+    if (!isset($this->jsonLD()->datePublished)) {
+      return '';
     }
-    return "";
+
+    return $this->jsonLD()->datePublished;
   }
 
   /**
@@ -836,14 +810,12 @@ class Title extends MdbBase {
    * @see IMDB page / (TitlePage)
    */
   private function populatePoster() {
-    preg_match('!<img [^>]+src="([^"]+)"[^>]+itemprop="image" />!ims', $this->getPage("Title"), $match);
-    if (empty($match[1])) return false;
-    $this->main_poster_thumb = $match[1];
-    if ( preg_match('|(.*\._V1).*|iUs',$match[1],$mo) ) {
-      $this->main_poster = $mo[1];
-      return true;
-    } else {
-      return false;
+    if (isset($this->jsonLD()->image)) {
+      $this->main_poster = $this->jsonLD()->image;
+    }
+    preg_match('!<img [^>]+title="[^"]+Poster"[^>]+src="([^"]+)"[^>]+/>!ims', $this->getPage("Title"), $match);
+    if (!empty($match[1])) {
+      $this->main_poster_thumb = $match[1];
     }
   }
 
@@ -959,7 +931,7 @@ class Title extends MdbBase {
    */
   public function country() {
     if (empty($this->countries)) {
-      if (preg_match_all('!/search/title\?country_of_origin=.+?\s.+?>(.*?)<!m', $this->getPage("Title"), $matches)) {
+      if (preg_match_all('!/search/title\?country_of_origin=[^>]+?>(.*?)<!m', $this->getPage("Title"), $matches)) {
         $this->countries = $matches[1];
       }
     }
@@ -1023,7 +995,7 @@ class Title extends MdbBase {
   public function sound() {
    if (empty($this->sound)) {
     $this->getPage("Title");
-    if (preg_match_all("|/search/title\?sound_mixes=.+?\s.+?>\s*(.*?)<|",$this->page["Title"],$matches))
+    if (preg_match_all("|/search/title\?sound_mixes=[^>]+>\s*(.*?)</|",$this->page["Title"],$matches))
       $this->sound = $matches[1];
    }
    return $this->sound;
@@ -2370,6 +2342,16 @@ class Title extends MdbBase {
     $this->page[$page] = parent::getPage($page);
 
     return $this->page[$page];
+  }
+
+  protected function jsonLD() {
+    if ($this->jsonLD) {
+      return $this->jsonLD;
+    }
+    $page = $this->getPage('Title');
+    preg_match('#<script type="application/ld\+json">(.+?)</script>#ims', $page, $matches);
+    $this->jsonLD = json_decode($matches[1]);
+    return $this->jsonLD;
   }
 
 }
