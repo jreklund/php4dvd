@@ -347,6 +347,11 @@ class Title extends MdbBase {
       $runtime = isset($matches[2]) ? intval($matches[2]) * 60 : 0;
       return $runtime + intval($matches[3]);
     }
+    // Fallback in case new json format aren't available
+    $runtimes = $this->runtimes();
+    if( isset($runtimes[0]['time']) ) {
+        return $runtimes[0]['time'];
+    }
 
     return null;
   }
@@ -797,7 +802,7 @@ class Title extends MdbBase {
   public function storyline() {
     if ($this->main_storyline == "") {
       $page = $this->getPage("Title");
-      if (@preg_match('!Storyline</h2>.*?itemprop="description">(.*?)</span>!ims', $page, $match)) {
+      if (@preg_match('~Storyline</h2>.*?<div.*?<p>.*?<span>(.*?)</span>.*?</p>~ims', $page, $match)) {
         $this->main_storyline = trim($match[1]);
       }
     }
@@ -1748,7 +1753,7 @@ class Title extends MdbBase {
     if ( empty($this->soundclip_sites) ) {
       $this->parse_extcontent('Sound Clips',$this->soundclip_sites);
     }
-    return $this->video_sites;
+    return $this->soundclip_sites;
   }
 
  #-------------------------------------------------------[ Off-site photos ]---
