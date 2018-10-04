@@ -1,3 +1,14 @@
+## 3.8.1 (2018-10-04)
+### Added
+  - Hungarian/Magyar language by @PoLaKoSz #41
+  
+### Fixed
+  - You can now utilize "Download from IMDb" on Title -> Edit -> Update #42
+  - Images are automatically downloaded from IMDb in case there aren't one stored #42
+  
+### Updated
+  - imdbphp 6.0.4
+
 ## 3.8.0 (2018-02-24)
 ### Added
   - Added a new confirmation box
