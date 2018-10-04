@@ -95,7 +95,7 @@ if(isset($_POST["movieid"])) {
 	// Save its photo or use image from IMDb
 	if(isset($_FILES["photo"]) && isset($_FILES["photo"]["size"]) && $_FILES["photo"]["size"] > 0) {
 		$movie->addPhoto("photo");
-	} elseif($getImdbImage && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0) {
+	} elseif( ($getImdbImage || !$movie->hasPhoto()) && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0 ) {
 		// IMDb engine
 		require_once($loc."/lib/imdbphp/bootstrap.php");
 		

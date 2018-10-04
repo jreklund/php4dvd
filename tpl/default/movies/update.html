@@ -234,7 +234,7 @@
 										<input type="text" name="seasons" id="seasons" class="form-control digits" value="{if isset($movie)}{$movie->seasons|htmlentities:3:'UTF-8'}{/if}" maxlength="2">
 									</div>
 								</div>
-								{if !isset($imdbmovie) && isset($movie)}
+								{if isset($movie)}
 								<div class="form-group has-feedback">
 									<label for="imdbphoto" class="{$colWidthSmall} control-label">
 										{$smarty.const.PHOTO_FROM_IMDB|htmlentities:3:'UTF-8'} 
