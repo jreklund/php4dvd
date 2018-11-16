@@ -117,16 +117,16 @@ if(isset($_POST["movieid"])) {
 			
 			if($m->savephoto($photo,FALSE)) {
 				list($width,$height) = getImageSize($photo);
-				Bulletproof\resize(
-									$photo,
-									"jpg",
-									$width,
-									$height,
-									$settings["photo"]["p_maxwidth"],
-									$settings["photo"]["p_maxheight"],
-									true,
-									false
-								);
+				Bulletproof\utils\resize(
+					$photo,
+					"jpg",
+					$width,
+					$height,
+					$settings["photo"]["p_maxwidth"],
+					$settings["photo"]["p_maxheight"],
+					true,
+					false
+				);
 			}
 		} else {
 			$m->savephoto($photo);

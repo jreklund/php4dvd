@@ -197,7 +197,7 @@ class Movie {
 			if($upload){
 				if(!rename($image->getFullPath(),$photo))
 					return false;
-				$resize = Bulletproof\resize(
+				$resize = Bulletproof\Utils\resize(
 					$photo,
 					$image->getMime(),
 					$image->getWidth(),
@@ -266,7 +266,7 @@ class Movie {
 					return false;
 				if(!copy($cover, $thumb))
 					return false;
-				$resize = Bulletproof\resize(
+				$resize = Bulletproof\Utils\resize(
 					$thumb,
 					$image->getMime(),
 					$image->getWidth(),
