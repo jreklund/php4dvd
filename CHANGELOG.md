@@ -1,3 +1,13 @@
+## 3.8.2 (2018-11-16)
+### Updated
+  - Bulletproof 4.0.1
+  - imdbphp 6.1.0
+  - RedBeanPHP 5.2.0
+  - Smarty 3.1.33
+  - JQuery Validation Plugin 1.18.0
+  - JQuery 3.2.1
+  - bootstrap-slider 10.2.3
+
 ## 3.8.1 (2018-10-04)
 ### Added
   - Hungarian/Magyar language by @PoLaKoSz #41
