@@ -956,7 +956,7 @@ class Title extends MdbBase {
       $page = $this->getPage("ReleaseInfo");
       if (empty($page)) return array(); // no such page
       
-      $ak_s = strpos($page, "<a id=\"akas\"");
+      $ak_s = strpos($page, "id=\"akas\"");
       if ($ak_s == 0)
         return array();
       $alsoknow_end = strpos($page, "</table>", $ak_s);
@@ -1276,7 +1276,7 @@ class Title extends MdbBase {
  #----------------------------------------------------------------[ Actors ]---
   /**
    * Get the actors/cast members for this title
-   * @param boolean $clean_ws whether to clean white-space inside names
+   * @param boolean $short whether to get only the cast listed on the title page, or to get the full cast listing
    * @return array cast (array[0..n] of array[imdb,name,name_alias,role,role_episodes,role_start_year,role_end_year,thumb,photo])
    * e.g.
    * <pre>
@@ -1296,12 +1296,17 @@ class Title extends MdbBase {
    * </pre>
    * @see IMDB page /fullcredits
    */
-  public function cast() {
+  public function cast($short = false) {
     if (!empty($this->credits_cast)) {
       return $this->credits_cast;
     }
 
-    $page = $this->getPage("Credits");
+    if ($short) {
+      $page = $this->getPage("Title");
+    } else {
+      $page = $this->getPage("Credits");
+    }
+
     if (empty($page)) {
       return array(); // no such page
     }
@@ -1977,16 +1982,16 @@ class Title extends MdbBase {
     if (empty($this->release_info)) {
       $page = $this->getPage("ReleaseInfo");
       if (empty($page)) return array(); // no such page
-      $tag_s = strpos($page, "<a id=\"releases\"");
+      $tag_s = strpos($page, "id=\"releases\"");
       if ($tag_s == 0)
         return array();
       $tag_e = strpos($page,'</table',$tag_s);
       $block = substr($page,$tag_s,$tag_e-$tag_s);
       
-      preg_match_all('!<tr[^>]*>\s*<td><a[^>]*>(.*?)</a></td>\s*<td[^>]*>(.*?)</td>\s*<td>(.*?)</td>!ims',$block,$matches);
+      preg_match_all('!<tr[^>]*>\s*<td><a[^>]*>(.*?)</a></td>\s*<td[^>]*>(.*?)</td>\s*<td[^>]*>(.*?)</td>!ims',$block,$matches);
       if( ! empty($matches[0]) && $mc = count($matches[0]) ) {
         for ($i=0;$i<$mc;++$i) {
-          $country = strip_tags($matches[1][$i]);
+          $country = trim(strip_tags($matches[1][$i]));
           $comment = trim(preg_replace('/\s+/', ' ', $matches[3][$i]));
           if ( preg_match('!^(\d{1,2})\s(.+?)\s(\d{4})$!s',trim($matches[2][$i]),$match) ) { // day, month and year
             $this->release_info[] = array('country'=>$country,'day'=>$match[1],'month'=>$match[2],'mon'=>$this->monthNo(trim($match[2])),'year'=>$match[3],'comment'=>$comment);
@@ -2178,11 +2183,12 @@ class Title extends MdbBase {
    * @return array keywords
    * @see IMDB page /keywords
    */
-  function keywords_all() {
+  public function keywords_all() {
     if (empty($this->all_keywords)) {
-      $this->getPage("Keywords");
-      if (preg_match_all('|<a href\="/keyword/[\w\?_\=\-\s"]+>(.*?)</a>|',$this->page["Keywords"],$matches))
+      $page = $this->getPage("Keywords");
+      if (preg_match_all('|<a href\="/keyword/[\w\?_\=\-\s"%]+>(.*?)</a>|', $page, $matches)) {
         $this->all_keywords = $matches[1];
+      }
     }
     return $this->all_keywords;
   }
