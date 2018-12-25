@@ -111,7 +111,7 @@ if(isset($_POST["movieid"])) {
 		$photo = $photopath . $movie->id.".jpg";
 		$m = new \Imdb\Title($movie->imdbid,$config);
 		
-		if(isset($settings["photo"]["high_res"])) {
+		if(isset($settings["photo"]["high_res"]) && $settings["photo"]["high_res"]) {
 			// Photo manipulation
 			require_once($loc . "/lib/bulletproof/utils/func.image-resize.php");
 			
