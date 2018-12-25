@@ -1,3 +1,10 @@
+## 3.8.3 (2018-12-25)
+### Fixed
+  - Always downloaded a high res photo
+
+### Updated
+  - imdbphp 6.1.3
+
 ## 3.8.2 (2018-11-16)
 ### Updated
   - Bulletproof 4.0.1
