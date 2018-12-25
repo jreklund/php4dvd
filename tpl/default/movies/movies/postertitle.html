@@ -12,7 +12,7 @@
 			{if $poster_icons}
 			<div class="movie-icons btn-group-vertical" data-id="{$movies[m]->id}" data-title="{$movies[m]->name|htmlentities:3:'UTF-8'}">
 				{if $movies[m]->tv}
-					<span class="btn btn-default"><i class="fa fa-tv fa-fw" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>
+					<span class="btn btn-default"><i class="fa fa-tv fa-fw" title="{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>
 				{/if}
 				{if $movies[m]->favourite}
 					<span class="btn btn-default"><i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></span>

@@ -16,7 +16,7 @@
 			</a>
 			<div class="movie-icons" data-id="{$movies[m]->id}" data-title="{$movies[m]->name|htmlentities:3:'UTF-8'}">
 				{if $movies[m]->tv}
-					<i class="fa fa-tv fa-fw" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+					<i class="fa fa-tv fa-fw" title="{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
 				{/if}
 				{if $movies[m]->favourite}
 					<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
