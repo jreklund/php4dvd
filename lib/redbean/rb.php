@@ -696,23 +696,29 @@ class RPDO implements Driver
 	protected function bindParams( $statement, $bindings )
 	{
 		foreach ( $bindings as $key => &$value ) {
-			if ( is_integer( $key ) ) {
-				if ( is_null( $value ) ) {
-					$statement->bindValue( $key + 1, NULL, \PDO::PARAM_NULL );
-				} elseif ( !$this->flagUseStringOnlyBinding && AQueryWriter::canBeTreatedAsInt( $value ) && abs( $value ) <= $this->max ) {
-					$statement->bindParam( $key + 1, $value, \PDO::PARAM_INT );
-				} else {
-					$statement->bindParam( $key + 1, $value, \PDO::PARAM_STR );
-				}
+			$k = is_integer( $key ) ? $key + 1 : $key;
+
+			if ( is_array( $value ) && count( $value ) == 2 ) {
+				$paramType = end( $value );
+				$value = reset( $value );
 			} else {
-				if ( is_null( $value ) ) {
-					$statement->bindValue( $key, NULL, \PDO::PARAM_NULL );
-				} elseif ( !$this->flagUseStringOnlyBinding && AQueryWriter::canBeTreatedAsInt( $value ) && abs( $value ) <= $this->max ) {
-					$statement->bindParam( $key, $value, \PDO::PARAM_INT );
+				$paramType = NULL;
+			}
+
+			if ( is_null( $value ) ) {
+				$statement->bindValue( $k, NULL, \PDO::PARAM_NULL );
+				continue;
+			}
+
+			if ( $paramType != \PDO::PARAM_INT && $paramType != \PDO::PARAM_STR ) {
+				if ( !$this->flagUseStringOnlyBinding && AQueryWriter::canBeTreatedAsInt( $value ) && abs( $value ) <= $this->max ) {
+					$paramType = \PDO::PARAM_INT;
 				} else {
-					$statement->bindParam( $key, $value, \PDO::PARAM_STR );
+					$paramType = \PDO::PARAM_STR;
 				}
 			}
+
+			$statement->bindParam( $k, $value, $paramType );
 		}
 	}
 
@@ -4907,6 +4913,19 @@ interface QueryWriter
 	public function queryTagged( $type, $tagList, $all = FALSE, $addSql = '', $bindings = array() );
 
 	/**
+	 * Like queryTagged but only counts.
+	 *
+	 * @param string  $type     the bean type you want to query
+	 * @param array   $tagList  an array of strings, each string containing a tag title
+	 * @param boolean $all      if TRUE only return records that have been associated with ALL the tags in the list
+	 * @param string  $addSql   addition SQL snippet, for pagination
+	 * @param array   $bindings parameter bindings for additional SQL snippet
+	 *
+	 * @return integer
+	 */
+	public function queryCountTagged( $type, $tagList, $all = FALSE, $addSql = '', $bindings = array() );
+
+	/**
 	 * Returns all parent rows or child rows of a specified row.
 	 * Given a type specifier and a primary key id, this method returns either all child rows
 	 * as defined by having <type>_id = id or all parent rows as defined per id = <type>_id
@@ -5217,6 +5236,11 @@ abstract class AQueryWriter
 	public $typeno_sqltype = array();
 
 	/**
+	 * @var bool
+	 */
+	protected static $noNuke = false;
+
+	/**
 	 * Toggles support for automatic generation of JSON columns.
 	 * Using JSON columns means that strings containing JSON will
 	 * cause the column to be created (not modified) as a JSON column.
@@ -5232,6 +5256,21 @@ abstract class AQueryWriter
 	{
 		$old = self::$flagUseJSONColumns;
 		self::$flagUseJSONColumns = $flag;
+		return $old;
+	}
+
+	/**
+	 * Toggles support for nuke().
+	 * Can be used to turn off the nuke() feature for security reasons.
+	 * Returns the old flag value.
+	 *
+	 * @param boolean $flag TRUE or FALSE
+	 *
+	 * @return boolean
+	 */
+	public static function forbidNuke( $flag ) {
+		$old = self::$noNuke;
+		self::$noNuke = (bool) $flag;
 		return $old;
 	}
 
@@ -6161,9 +6200,22 @@ abstract class AQueryWriter
 	}
 
 	/**
-	 * @see QueryWriter::queryTagged
+	 * Returns or counts all rows of specified type that have been tagged with one of the
+	 * strings in the specified tag list array.
+	 *
+	 * Note that the additional SQL snippet can only be used for pagination,
+	 * the SQL snippet will be appended to the end of the query.
+	 *
+	 * @param string  $type     the bean type you want to query
+	 * @param array   $tagList  an array of strings, each string containing a tag title
+	 * @param boolean $all      if TRUE only return records that have been associated with ALL the tags in the list
+	 * @param string  $addSql   addition SQL snippet, for pagination
+	 * @param array   $bindings parameter bindings for additional SQL snippet
+	 * @param string  $wrap     SQL wrapper string (use %s for subquery)
+	 *
+	 * @return array
 	 */
-	public function queryTagged( $type, $tagList, $all = FALSE, $addSql = '', $bindings = array() )
+	private function queryTaggedGeneric( $type, $tagList, $all = FALSE, $addSql = '', $bindings = array(), $wrap = '%s' )
 	{
 		if ( $this->flagUseCache ) {
 			$key = $this->getCacheKey( array( implode( ',', $tagList ), $all, trim($addSql), $bindings, 'selectTagged' ) );
@@ -6189,6 +6241,7 @@ abstract class AQueryWriter
 			{$addSql}
 			-- keep-cache
 		";
+		$sql = sprintf($wrap,$sql);
 
 		$bindings = array_merge( $tagList, array( $score ), $bindings );
 		$rows = $this->adapter->get( $sql, $bindings );
@@ -6198,6 +6251,23 @@ abstract class AQueryWriter
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * @see QueryWriter::queryTagged
+	 */
+	public function queryTagged( $type, $tagList, $all = FALSE, $addSql = '', $bindings = array() )
+	{
+		return $this->queryTaggedGeneric( $type, $tagList, $all, $addSql, $bindings );
+	}
+
+	/**
+	 * @see QueryWriter::queryCountTagged
+	 */
+	public function queryCountTagged( $type, $tagList, $all = FALSE, $addSql = '', $bindings = array() )
+	{
+		$rows = $this->queryTaggedGeneric( $type, $tagList, $all, $addSql, $bindings, 'SELECT COUNT(*) AS counted FROM (%s) AS counting' );
+		return intval($rows[0]['counted']);
 	}
 
 	/**
@@ -6875,6 +6945,7 @@ class MySQL extends AQueryWriter implements QueryWriter
 	 */
 	public function wipeAll()
 	{
+		if (AQueryWriter::$noNuke) throw new \Exception('The nuke() command has been disabled using noNuke() or R::feature(novice/...).');
 		$this->adapter->exec( 'SET FOREIGN_KEY_CHECKS = 0;' );
 
 		foreach ( $this->getTables() as $t ) {
@@ -7230,6 +7301,7 @@ class CUBRID extends AQueryWriter implements QueryWriter
 	 */
 	public function wipeAll()
 	{
+		if (AQueryWriter::$noNuke) throw new \Exception('The nuke() command has been disabled using noNuke() or R::feature(novice/...).');
 		foreach ( $this->getTables() as $t ) {
 			foreach ( $this->getKeyMapForType( $t ) as $k ) {
 				$this->adapter->exec( "ALTER TABLE \"$t\" DROP FOREIGN KEY \"{$k['name']}\"" );
@@ -9400,6 +9472,90 @@ class Finder
 	}
 
 	/**
+	 * A custom record-to-bean mapping function for findMulti.
+	 *
+	 * Usage:
+	 *
+	 * <code>
+	 * $collection = R::findMulti( 'shop,product,price',
+	 * 'SELECT shop.*, product.*, price.* FROM shop
+	 *	LEFT JOIN product ON product.shop_id = shop.id
+	 *	LEFT JOIN price ON price.product_id = product.id', [], [
+	 *		Finder::map( 'shop', 'product' ),
+	 *		Finder::map( 'product', 'price' ),
+	 *	]);
+	 * </code>
+	 *
+	 * @param string $parentName name of the parent bean
+	 * @param string $childName  name of the child bean
+	 *
+	 * @return array
+	 */
+	public static function map($parentName,$childName) {
+		return array(
+			'a' => $parentName,
+			'b' => $childName,
+			'matcher' => function( $parent, $child ) use ( $parentName, $childName ) {
+				$propertyName = 'own' . ucfirst( $childName );
+				if (!isset($parent[$propertyName])) {
+					$parent[$propertyName] = array();
+				}
+				$property = "{$parentName}ID";
+				return ( $child->$property == $parent->id );
+			},
+			'do' => function( $parent, $child ) use ( $childName ) {
+				$list = 'own'.ucfirst( $childName ).'List';
+				$parent->noLoad()->{$list}[] = $child;
+			}
+		);
+	}
+
+	/**
+	* A custom record-to-bean mapping function for findMulti.
+	*
+	* Usage:
+	*
+	* <code>
+	* $collection = R::findMulti( 'book,book_tag,tag',
+	* 'SELECT book.*, book_tag.*, tag.* FROM book
+	*      LEFT JOIN book_tag ON book_tag.book_id = book.id
+	*      LEFT JOIN tag ON book_tag.tag_id = tag.id', [], [
+	*              Finder::nmMap( 'book', 'tag' ),
+	*      ]);
+	* </code>
+	*
+	* @param string $parentName name of the parent bean
+	* @param string $childName  name of the child bean
+	*
+	* @return array
+	*/
+	public static function nmMap( $parentName, $childName )
+	{
+		$types = array($parentName, $childName);
+		sort( $types );
+		$link = implode( '_', $types );
+		return array(
+			'a' => $parentName,
+			'b' => $childName,
+			'matcher' => function( $parent, $child, $beans ) use ( $parentName, $childName, $link ) {
+				$propertyName = 'shared' . ucfirst( $childName );
+				if (!isset($parent[$propertyName])) {
+					$parent[$propertyName] = array();
+				}
+				foreach( $beans[$link] as $linkBean ) {
+					if ( $linkBean["{$parentName}ID"] == $parent->id && $linkBean["{$childName}ID"] == $child->id ) {
+						return true;
+					}
+				}
+			},
+			'do' => function( $parent, $child ) use ( $childName ) {
+				$list = 'shared'.ucfirst( $childName ).'List';
+				$parent->noLoad()->{$list}[] = $child;
+			}
+		);
+	}
+
+	/**
 	 * Finds a bean using a type and a where clause (SQL).
 	 * As with most Query tools in RedBean you can provide values to
 	 * be inserted in the SQL statement by populating the value
@@ -10158,40 +10314,6 @@ interface BeanHelper
 	/**
 	 * Given a certain bean this method will
 	 * return the corresponding model.
-	 * If no model is returned (NULL), RedBeanPHP might ask again.
-	 *
-	 * @note You can make RedBeanPHP faster by doing the setup wiring yourself.
-	 * The event listeners take time, so to speed-up RedBeanPHP you can
-	 * drop 'FUSE', if you're not interested in the Models.
-	 *
-	 * @note You can do funny stuff with this method but please be careful.
-	 * You *could* create a model depending on properties of the bean, but
-	 * it's a bit well... adventurous, here is an example:
-	 *
-	 * <code>
-	 * class Book extends RedBeanPHP\SimpleModel {};
-	 * class Booklet extends RedBeanPHP\SimpleModel {};
-	 *
-	 * class FlexBeanHelper extends RedBeanPHP\BeanHelper\SimpleFacadeBeanHelper {
-	 *  public function getModelForBean( RedBeanPHP\OODBBean $bean ) {
-	 *   if (!isset($bean->pages)) return NULL; //will ask again
-	 *   if ($bean->pages <= 10) return new Booklet;
-	 *   return new Book;
-	 *	 }
-	 * }
-	 *
-	 * $h = new FlexBeanHelper;
-	 * R::getRedBean()->setBeanHelper($h);
-	 * $book = R::dispense('book');
-	 * var_dump($book->box()); //NULL cant reach model
-	 * $book->pages = 5;
-	 * var_dump($book->box()); //Booklet
-	 * $book->pages = 15;
-	 * var_dump($book->box()); //still.. Booklet, model has been set
-	 * $book2 = R::dispense('book');
-	 * $book2->pages = 15;
-	 * var_dump($book2->box()); //Book, more than 10 pages
-	 * </code>
 	 *
 	 * @param OODBBean $bean bean to obtain the corresponding model of
 	 *
@@ -10839,6 +10961,42 @@ class TagManager
 
 		return $this->redbean->convertToBeans( $beanType, $records );
 	}
+
+	/**
+	 * Like taggedAll() but only counts.
+	 *
+	 * @see taggedAll
+	 *
+	 * @param string       $beanType type of bean you are looking for
+	 * @param array|string $tagList  list of tags to match
+	 * @param string       $sql      additional sql snippet
+	 * @param array        $bindings bindings
+	 *
+	 * @return integer
+	 */
+	public function countTaggedAll( $beanType, $tagList, $sql = '', $bindings = array() )
+	{
+		$tags  = $this->extractTagsIfNeeded( $tagList );
+		return $this->toolbox->getWriter()->queryCountTagged( $beanType, $tags, TRUE, $sql, $bindings );
+	}
+
+	/**
+	 * Like tagged() but only counts.
+	 *
+	 * @see tagged
+	 *
+	 * @param string       $beanType type of bean you are looking for
+	 * @param array|string $tagList  list of tags to match
+	 * @param string       $sql      additional sql snippet
+	 * @param array        $bindings bindings
+	 *
+	 * @return integer
+	 */
+	public function countTagged( $beanType, $tagList, $sql = '', $bindings = array() )
+	{
+		$tags  = $this->extractTagsIfNeeded( $tagList );
+		return $this->toolbox->getWriter()->queryCountTagged( $beanType, $tags, FALSE, $sql, $bindings );
+	}
 }
 }
 
@@ -11047,12 +11205,13 @@ use RedBeanPHP\Util\MatchUp as MatchUp;
 use RedBeanPHP\Util\Look as Look;
 use RedBeanPHP\Util\Diff as Diff;
 use RedBeanPHP\Util\Tree as Tree;
+use RedBeanPHP\Util\Feature;
 
 /**
  * RedBean Facade
  *
  * Version Information
- * RedBean Version @version 5.2
+ * RedBean Version @version 5.3
  *
  * This class hides the object landscape of
  * RedBeanPHP behind a single letter class providing
@@ -11072,7 +11231,7 @@ class Facade
 	/**
 	 * RedBeanPHP version constant.
 	 */
-	const C_REDBEANPHP_VERSION = '5.2';
+	const C_REDBEANPHP_VERSION = '5.3';
 
 	/**
 	 * @var ToolBox
@@ -11392,6 +11551,21 @@ class Facade
 		}
 
 		self::$toolboxes[$key] = new ToolBox( $redbean, $adapter, $writer );
+	}
+
+	/**
+	 * Sets PDO attributes for MySQL SSL connection.
+	 *
+	 * @param string $key  path client key i.e. '/etc/mysql/ssl/client-key.pem'
+	 * @param string $cert path client cert i.e. '/etc/mysql/ssl/client-cert.pem'
+	 * @param string $ca   path certifying agent certificate '/etc/mysql/ssl/ca-cert.pem'
+	 * @param string $id   apply to toolbox (default = 'default')
+	 */
+	public static function useMysqlSSL( $key, $cert, $ca, $id = 'default' ) {
+		$pdo = self::$toolboxes[$id]->getDatabaseAdapter()->getDatabase()->getPDO();
+		$pdo->setAttribute( \PDO::MYSQL_ATTR_SSL_KEY,  $key);
+		$pdo->setAttribute( \PDO::MYSQL_ATTR_SSL_CERT,  $cert);
+		$pdo->setAttribute( \PDO::MYSQL_ATTR_SSL_CA,  $ca);
 	}
 
 	/**
@@ -12532,6 +12706,40 @@ class Facade
 	public static function taggedAll( $beanType, $tagList, $sql = '', $bindings = array() )
 	{
 		return self::$tagManager->taggedAll( $beanType, $tagList, $sql, $bindings );
+	}
+
+	/**
+	 * Same as taggedAll() but counts beans only (does not return beans).
+	 *
+	 * @see R::taggedAll
+	 *
+	 * @param string       $beanType type of bean you are looking for
+	 * @param array|string $tagList  list of tags to match
+	 * @param string       $sql      additional sql snippet
+	 * @param array        $bindings bindings
+	 *
+	 * @return integer
+	 */
+	public static function countTaggedAll( $beanType, $tagList, $sql = '', $bindings = array() )
+	{
+		return self::$tagManager->countTaggedAll( $beanType, $tagList, $sql, $bindings );
+	}
+
+	/**
+	 * Same as tagged() but counts beans only (does not return beans).
+	 *
+	 * @see R::tagged
+	 *
+	 * @param string       $beanType type of bean you are looking for
+	 * @param array|string $tagList  list of tags to match
+	 * @param string       $sql      additional sql snippet
+	 * @param array        $bindings bindings
+	 *
+	 * @return integer
+	 */
+	public static function countTagged( $beanType, $tagList, $sql = '', $bindings = array() )
+	{
+		return self::$tagManager->countTagged( $beanType, $tagList, $sql, $bindings );
 	}
 
 	/**
@@ -13876,6 +14084,34 @@ class Facade
 	public static function parents( OODBBean $bean, $sql = NULL, $bindings = array() )
 	{
 		return self::$tree->parents( $bean, $sql, $bindings );
+	}
+
+	/**
+	 * Toggles support for nuke().
+	 * Can be used to turn off the nuke() feature for security reasons.
+	 * Returns the old flag value.
+	 *
+	 * @param boolean $flag TRUE or FALSE
+	 *
+	 * @return boolean
+	 */
+	public static function noNuke( $yesNo ) {
+		return AQueryWriter::forbidNuke( $yesNo );
+	}
+
+	/**
+	 * Selects the feature set you want as specified by
+	 * the label.
+	 *
+	 * Usage:
+	 * R::useFeatureSet( 'novice/latest' );
+	 *
+	 * @param string $label label
+	 *
+	 * @return void
+	 */
+	public static function useFeatureSet( $label ) {
+		return Feature::feature($label);
 	}
 
 	/**
@@ -15456,6 +15692,64 @@ class Tree {
 
 		return $this->oodb->convertToBeans( $type, $rows );		
 	}	
+}
+}
+
+namespace RedBeanPHP\Util {
+use RedBeanPHP\Facade as R;
+
+/**
+ * Feature Utility
+ *
+ * The Feature Utility class provides an easy way to turn
+ * on or off features. This allows us to introduce new features
+ * without accidentally breaking backward compatibility.
+ * 
+ * @file    RedBeanPHP/Util/Feature.php
+ * @author  Gabor de Mooij and the RedBeanPHP Community
+ * @license BSD/GPLv2
+ *
+ * @copyright
+ * copyright (c) G.J.G.T. (Gabor) de Mooij and the RedBeanPHP Community
+ * This source file is subject to the BSD/GPLv2 License that is bundled
+ * with this source code in the file license.txt.
+ */
+class Feature
+{
+	/**
+	 * Selects the feature set you want as specified by
+	 * the label.
+	 *
+	 * Usage:
+	 * R::useFeatureSet( 'novice/latest' );
+	 *
+	 * @param string $label label
+	 *
+	 * @return void
+	 */
+	public static function feature( $label ) {
+		switch( $label ) {
+			case "novice/latest":
+				R::noNuke( TRUE );
+				R::setAutoResolve( TRUE );
+				break;
+			case "latest":
+				R::noNuke( FALSE );
+				R::setAutoResolve( TRUE );
+				break;
+			case "novice/5.3":
+				R::noNuke( TRUE );
+				R::setAutoResolve( TRUE );
+				break;
+			case "5.3":
+				R::noNuke( FALSE );
+				R::setAutoResolve( TRUE );
+				break;
+			default:
+				throw new \Exception("Unknown feature set label.");
+				break;
+		}
+	}
 }
 }
 
