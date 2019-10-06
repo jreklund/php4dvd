@@ -81,7 +81,7 @@ if(isset($_POST["movieid"])) {
 	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew', 'imdbphoto'));
 	
 	// Validate Trailer URLs
-	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL,FILTER_FLAG_HOST_REQUIRED) ) {
+	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL) ) {
 		$movie->trailer = '';
 	}
 	
