@@ -1,3 +1,14 @@
+## 3.8.4 (2019-10-06)
+### Fixed
+  - cdcovers.cc are no longer available
+  - TV icon displayed incorrect title
+
+### Updated
+  - imdbphp 6.3.0
+  - RedBeanPHP 5.4
+  - Updated random_compat to 2.0.18
+  - JavaScript Cookie 2.2.1
+
 ## 3.8.3 (2018-12-25)
 ### Fixed
   - Always downloaded a high res photo
@@ -12,7 +23,7 @@
   - RedBeanPHP 5.2.0
   - Smarty 3.1.33
   - JQuery Validation Plugin 1.18.0
-  - JQuery 3.2.1
+  - JQuery 3.3.1
   - bootstrap-slider 10.2.3
 
 ## 3.8.1 (2018-10-04)

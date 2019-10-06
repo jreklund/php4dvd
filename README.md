@@ -47,7 +47,7 @@ Recommendations
 
 Installation
 =======
-1. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package if you haven't already.
+1. [Download](https://github.com/jreklund/php4dvd/releases) and unzip php4dvd package if you haven't already.
 2. Create a database for php4dvd on your web server, as well as a MySQL (or MariaDB) user who has all privileges for accessing and modifying it.
 3. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
@@ -71,7 +71,7 @@ $settings["defaultlanguage"] = "nl"; // Nederlands
 $settings["defaultlanguage"] = "sv"; // Swedish
 $settings["defaultlanguage"] = "pl"; // Polish
 ```
-2. [Download](https://github.com/jreklund/php4dvd/archive/master.zip) and unzip php4dvd package if you haven't already.
+2. [Download](https://github.com/jreklund/php4dvd/releases) and unzip php4dvd package if you haven't already.
 3. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
 4. Run the php4dvd installation script by accessing the URL in a web browser.
@@ -187,7 +187,7 @@ search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothma
 ### Libraries
 
 #### HTML/CSS/JavaScript
-  - [AdminLTE](https://almsaeedstudio.com/)
+  - [AdminLTE](https://adminlte.io)
     - [Bootstrap](http://getbootstrap.com/)
 	  - [jQuery](https://jquery.com/)
 	  - [HTML5 Shiv](https://github.com/aFarkas/html5shiv)
