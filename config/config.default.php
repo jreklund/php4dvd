@@ -222,7 +222,7 @@ $settings['youtube_key'] = '';
  * Any valid language code can be used here (e.g. en-US, de, pt-BR).
  * If this option is specified, a Accept-Language header with this value will be included in requests to IMDb.
  */
-$settings["imdbphp"]["langauge"] = '';
+$settings["imdbphp"]["language"] = '';
 
 /**
  * Set originating IP address of a client connecting to a web server through an HTTP proxy or a load balancer.
