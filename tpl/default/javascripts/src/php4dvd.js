@@ -46,7 +46,17 @@ function search() {
 		} else {
 			Cookies.remove("format");
 		}
-		
+
+                // Loanname
+                var loan = $("#loannames").val();
+                if(loan) {
+                        url += "&loan=" + encodeURIComponent(loan);
+                        location += "loanname/" + encodeURIComponent(loan) + "/";
+                        Cookies.set("loanname", loan, { expires: 14 });
+                } else {
+                        Cookies.remove("loanname");
+                }
+
 		// Sort
 		var s = $("#sort").val();
 		if(s) {
@@ -178,6 +188,7 @@ function resetSearch() {
 	$("#favourite").val(-1);
 	$("#category").val('');
 	$("#format").val('');
+	$("#loannames").val('');
 	$("#filter-by").html($("#filter-by-original").html());
 }
 

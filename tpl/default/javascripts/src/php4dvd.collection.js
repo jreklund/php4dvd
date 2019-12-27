@@ -9,6 +9,9 @@ $(document).ready(function() {
 	if(Cookies.get("format")) {
 		$("#format").val(Cookies.get("format"));
 	}
+        if(Cookies.get("loanname")) {
+                $("#loannames").val(Cookies.get("loanname"));
+        }
 	if(Cookies.get("sort")) {
 		$("#sort").val(Cookies.get("sort"));
 	}
@@ -48,6 +51,9 @@ $(document).ready(function() {
 	if(typeof parameters["format"] === 'string') {
 		$("#format").val(parameters["format"]);
 	}
+        if(typeof parameters["loanname"] === 'string') {
+                $("#loannames").val(parameters["loanname"]);
+        }
 	if(typeof parameters["sort"] === 'string') {
 		$("#sort").val(parameters["sort"]);
 	}

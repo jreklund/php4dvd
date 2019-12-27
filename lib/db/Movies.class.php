@@ -65,6 +65,7 @@ class Movies extends Database {
 	 * @param string $sort
 	 * @param string $category
 	 * @param string $format
+         * @param string $loanname
 	 * @param int $pgMin
 	 * @param int $pgMax
 	 * @param int $movieTv
@@ -75,9 +76,9 @@ class Movies extends Database {
 	 * @param int $amount
 	 * @param boolean $array
 	 * @param array $searchColumns
-	 * @return the movies that match the search criteria
+	 * @return the movies that match the search criteria   
 	 */
-	function search($search, $sort = "nameorder", $category = "", $format = "", $pgMin = 0, $pgMax = 0, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
+	function search($search, $sort = "nameorder", $category = "", $format = "", $loanname = "", $pgMin = 0, $pgMax = 0, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
 		// Words
 		$words = preg_split("/\s+/", $search);
 		
@@ -119,6 +120,9 @@ class Movies extends Database {
 		if($format != "") {
 			$query .= " AND `format` = ?"; $bindings[] = $format;
 		}
+                if($loanname != "") {
+                        $query .= " AND `loaned` = TRUE AND `loanname` = ?"; $bindings[] = $loanname;
+                }
 		if($pgMin != 0) {
 			$query .= " AND `pg` >= ?"; $bindings[] = $pgMin;
 		}
@@ -204,4 +208,18 @@ class Movies extends Database {
 		}
 		return $formats;
 	}
+
+         /**
+         * Retrieve all distinct movie loannames from the database.
+         * @return all movie loannames
+         */
+        function getLoannames() {
+                $loannames = array();
+                foreach(R::getCol("SELECT DISTINCT `loanname` FROM `movies`") as $loanname) {
+                        if(strlen($loanname) > 0)
+                                $loannames[] = $loanname;
+                }
+                return $loannames;
+        }
+
 }
