@@ -77,7 +77,7 @@ class Movies extends Database {
 	 * @param array $searchColumns
 	 * @return the movies that match the search criteria
 	 */
-	function search($search, $sort = "nameorder", $category = "", $format = "", $pgMin = 0, $pgMax = 0, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
+	function search($search, $sort = "nameorder", $category = "", $format = "", $pgMin = null, $pgMax = null, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
 		// Words
 		$words = preg_split("/\s+/", $search);
 

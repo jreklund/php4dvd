@@ -6,7 +6,7 @@ require_once($loc . "includes/movie.inc.php");
 // If the user logged in, export the movies
 if($loggedin) {
 	// Retrieve the movies
-	$movies = $moviedm->search('', '', '', '', null, null, null, null, null, null, null, null, false, array('*'));
+	$movies = $moviedm->search('', '', '', '', null, null, null, null, null, null, 0, 0, false, array('*'));
 
 	// Output CSV file
 	$SEPARATOR = ";";

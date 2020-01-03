@@ -185,7 +185,7 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 
 // Statistics
 if(!isset($refreshMovieList)) {
-	$movies = $moviedm->search('', '', '', '', null, null, null, null, null, null, null, null, true);
+	$movies = $moviedm->search('', '', '', '', null, null, null, null, null, null, 0, 0, true);
 	$numbertypes = array();
 	foreach($movieformats as $format) {
 		$numbertypes[] = array($format, 0);
