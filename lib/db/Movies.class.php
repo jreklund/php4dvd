@@ -18,7 +18,7 @@ class Movies extends Database {
 		$this->fillObject($m, $movie);
 		return R::store($m);
 	}
-	
+
 	/**
 	 * Remove a movie.
 	 * @param Movie $movie
@@ -35,13 +35,13 @@ class Movies extends Database {
 		$m = R::load("movies", $movie->id);
 		if($m) {
 			R::trash($m);
-			
+
 			// Remove its photo and cover
 			$movie->removePhoto($photopath);
 			$movie->removeCover($coverpath);
 		}
 	}
-	
+
 	/**
 	 * Create a class from the database item.
 	 * @param $dbItem
@@ -49,7 +49,7 @@ class Movies extends Database {
 	private function create($dbItem) {
 		return $this->fillObject(new Movie(), $dbItem);
 	}
-	
+
 	/**
 	 * Get a movie by its id.
 	 * @param int $id
@@ -58,21 +58,21 @@ class Movies extends Database {
 	public function get($id) {
 		return $this->create(R::getRow('SELECT * FROM `movies` WHERE `id` = ?', array($id)));
 	}
-	
+
 	/**
 	 * Search for movies.
 	 * @param string $search
 	 * @param string $sort
 	 * @param string $category
 	 * @param string $format
-	 * @param int $pgMin
-	 * @param int $pgMax
-	 * @param int $movieTv
-	 * @param int $own
-	 * @param int $seen
-	 * @param int $favourite
-	 * @param int $page
-	 * @param int $amount
+	 * @param int|null $pgMin
+	 * @param int|null $pgMax
+	 * @param int|null $movieTv
+	 * @param int|null $own
+	 * @param int|null $seen
+	 * @param int|null $favourite
+	 * @param int|null $page
+	 * @param int|null $amount
 	 * @param boolean $array
 	 * @param array $searchColumns
 	 * @return the movies that match the search criteria
@@ -80,11 +80,11 @@ class Movies extends Database {
 	function search($search, $sort = "nameorder", $category = "", $format = "", $pgMin = 0, $pgMax = 0, $movieTv = null, $own = null, $seen = null, $favourite = null, $page = 0, $amount = 0, $array = false, $searchColumns = array()) {
 		// Words
 		$words = preg_split("/\s+/", $search);
-		
+
 		// Columns to return
 		if(!$searchColumns)
 			$searchColumns = array('`id`','`imdbid`','`name`','`format`','`own`','`seen`');
-		
+
 		// Query
 		$query  = "SELECT SQL_CALC_FOUND_ROWS ".implode(',',$searchColumns)." FROM `movies` WHERE 1 = 1";
 		$bindings = array();
@@ -93,7 +93,7 @@ class Movies extends Database {
 			$query .= " AND ((";$i = 0;
 			for($i; $i < $wordsTotal; ++$i) {
 				$word = $words[$i];
-				
+
 				$query .= "(";
 				$query .= "`name` LIKE ? OR ";		$bindings[] = '%'.$word.'%';
 				$query .= "`aka` LIKE ? OR ";		$bindings[] = '%'.$word.'%';
@@ -119,10 +119,10 @@ class Movies extends Database {
 		if($format != "") {
 			$query .= " AND `format` = ?"; $bindings[] = $format;
 		}
-		if($pgMin != 0) {
+		if($pgMin !== null && $pgMin >= 1) {
 			$query .= " AND `pg` >= ?"; $bindings[] = $pgMin;
 		}
-		if($pgMax != 0) {
+		if($pgMax !== null && $pgMax >= 0 && $pgMax < 99) {
 			$query .= " AND `pg` <= ?"; $bindings[] = $pgMax;
 		}
 		if($movieTv === 0 || $movieTv === 1) {
@@ -143,7 +143,7 @@ class Movies extends Database {
 		if($amount > 0) {
 			$query .= " LIMIT ?,?"; $bindings[] = $page; $bindings[] = $amount;
 		}
-		
+
 		// Get all movies
 		$movies = array();
 		if($array) {
@@ -155,7 +155,7 @@ class Movies extends Database {
 		}
 		return $movies;
 	}
-	
+
 	/**
 	 * Get the amount of rows when doing the search limited.
 	 * @return the number of rows in total
@@ -163,7 +163,7 @@ class Movies extends Database {
 	public function getFoundRows() {
 		return R::getCell("SELECT FOUND_ROWS()");
 	}
-	
+
 	/**
 	 * Get a movie by its Imdb id.
 	 * @param string $imdbid
@@ -172,7 +172,7 @@ class Movies extends Database {
 	function getByImdb($imdbid) {
 		return R::getRow('SELECT `id` FROM `movies` WHERE `imdbid` = ?', array($imdbid));
 	}
-	
+
 	/**
 	 * Get all distinct categories.
 	 * @return the list of category names
@@ -191,7 +191,7 @@ class Movies extends Database {
 		sort($categories);
 		return $categories;
 	}
-	
+
 	/**
 	 * Retrieve all distinct movie formats from the database.
 	 * @return all movie formats

@@ -30,7 +30,7 @@ $Website->assign("resultsperpage", $resultsperpage);
 
 // Parental Guidance
 $pgMin = 0;
-$pgMax = 0;
+$pgMax = 99;
 
 if($parental_guidance["mpaa"]) {
 	if(!isset($refreshMovieList)) {
@@ -44,9 +44,11 @@ if($parental_guidance["mpaa"]) {
 	$pg    = explode(',',$pg);
 	if( isset($pg[0]) && ctype_digit($pg[0]) && isset($pg[1]) && ctype_digit($pg[1]) ) {
 		list($pgMin,$pgMax) = $pg;
+		$pgMin = (int) $pgMin;
+		$pgMax = (int) $pgMax;
 	}
 	/**
-	 * Movies added before v3.6.0 gets age 21 by default. 
+	 * Movies added before v3.6.0 gets age 21 by default.
 	 * This will make you see them if you lower that age.
 	*/
 	if($parental_guidance["age"] == $pgMax) {
@@ -107,25 +109,25 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 	isset($_GET["f"])	? $format = $_GET["f"]				: $format = "";
 	isset($_GET["n"]) 	? $amount = abs(intval($_GET["n"]))	: $amount = 0;
 	isset($_GET["p"]) 	? $page = abs(intval($_GET["p"]))	: $page = 0;
-	
+
 	// Validate $sort against movie sort columns ($allsortoptions)
 	// NEVER DELETE THIS. You will be open to SQL Injections.
 	// Redbeanphp can't use binding for ORDER BY.
 	if(!in_array($sort,$allsortoptions,true))
 		$sort = "";
-	
+
 	// Validate $amount against number of results ($resultsperpage)
 	if(!in_array($amount,$resultsperpage,true))
 		$amount = $resultsPerPageDefault?$resultsPerPageDefault:100;
-	
+
 	// Validate $category against movie categories ($moviecategories)
 	if(!in_array($category,$moviecategories,true))
 		$category = "";
-	
+
 	// Validate $format against movie formats ($movieformats)
 	if(!in_array($format,$movieformats,true))
 		$format = "";
-	
+
 	// Change what columns to get from the database (movie collection)
 	$columns = array();
 	if($templateName === 'poster' || $templateName === 'postertitle')
@@ -134,35 +136,35 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`plotoutline`','`seen`','`own`','`favourite`','`tv`','`pg`');
 	if($templateName === 'list')
 		$columns = array('`id`','`name`','`year`','`duration`','`rating`','`languages`','`seen`','`own`','`favourite`','`tv`','`pg`');
-	
+
 	// Search the database for one more movie
 	$movies = $moviedm->search($q, $sort, $category, $format, $pgMin, $pgMax, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
-	
+
 	// If there are no movies found, reload
 	while($page > 0 && count($movies) === 0) {
 		$page--;
 		$movies = $moviedm->search($q, $sort, $category, $format, $pgMin, $pgMax, $fbMovieTv, $fbOwn, $fbSeen, $fbFavourite, $page * $amount, $amount, false, $columns);
 	}
 	$Website->assign("movies", $movies);
-	
+
 	// Get the total amount of rows
 	$totalmovies = $moviedm->getFoundRows();
 	$Website->assign("totalmovies", $totalmovies);
 	$pages = $amount > 0 ? ceil($totalmovies/$amount) : 1;
-	
+
 	// Navigation
 	$Website->assign("pages", $pages);
 	$Website->assign("next", $page + 1 < $pages);
 	$Website->assign("previous", $page > 0);
 	$Website->assign("amount", $amount);
-		
+
 	$page++;
 	$Website->assign("page", $page);
-		
+
 	// The amount of pages shown (before current and after current)
 	if(!$pagination)
 		$pagination = 6;
-		
+
 	// Define the start value of the pages
 	// Start at $page-$pagination (or 1)
 	$startAt = $page - $pagination;
@@ -183,7 +185,7 @@ if(($loggedin || $guestview) && isset($refreshMovieList)) {
 
 // Statistics
 if(!isset($refreshMovieList)) {
-	$movies = $moviedm->search('', '', '', '', '', '', '', '', '', '', 0, 0, true);
+	$movies = $moviedm->search('', '', '', '', null, null, null, null, null, null, null, null, true);
 	$numbertypes = array();
 	foreach($movieformats as $format) {
 		$numbertypes[] = array($format, 0);

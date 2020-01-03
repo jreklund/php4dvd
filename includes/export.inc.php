@@ -6,13 +6,13 @@ require_once($loc . "includes/movie.inc.php");
 // If the user logged in, export the movies
 if($loggedin) {
 	// Retrieve the movies
-	$movies = $moviedm->search('','','','','','','','','','',0,0,false,array('*'));
-	
+	$movies = $moviedm->search('', '', '', '', null, null, null, null, null, null, null, null, false, array('*'));
+
 	// Output CSV file
 	$SEPARATOR = ";";
 	$QUOTE = "\"";
 	$NEWLINE = "\n";
-	
+
 	// Header
 	$file = '';
 	$file  = "ID".$SEPARATOR;
@@ -49,7 +49,7 @@ if($loggedin) {
 	$file .= PRODUCER.$SEPARATOR;
 	$file .= MUSIC.$SEPARATOR;
 	$file .= CAST.$NEWLINE;
-	
+
 	// Movies
 	$fileLoop = '';
 	foreach($movies as $movie) {
@@ -90,7 +90,7 @@ if($loggedin) {
 		$fileLoop .= $NEWLINE;
 	}
 	$file .= $fileLoop;
-	
+
 	ob_start();
 	ob_clean();
 	header("Content-Disposition: attachment; filename=\"export.csv\"");
@@ -101,7 +101,7 @@ if($loggedin) {
 	header("Expires: ".date("r", time()+60*60));
 	header("Last-Modified: ".date("r", time()));
 	header("Content-length: ".strlen($file)."\r\n");
-	echo $file;	
+	echo $file;
 	ob_flush();
 	exit();
 }
