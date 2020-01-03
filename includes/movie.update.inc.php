@@ -22,8 +22,8 @@ if(isset($_GET["imdbsearch"])) {
 		
 		// IMDB config
 		$config = new \Imdb\Config();
-		if($settings["imdbphp"]["langauge"])
-			$config->language = $settings["imdbphp"]["langauge"];
+		if($settings["imdbphp"]["language"])
+			$config->language = $settings["imdbphp"]["language"];
 		if($settings["imdbphp"]["ip_address"])
 			$config->ip_address = $settings["imdbphp"]["ip_address"];
 		if($settings["imdbphp"]["debug"])
@@ -101,8 +101,8 @@ if(isset($_POST["movieid"])) {
 		
 		// IMDB config
 		$config = new \Imdb\Config();
-		if($settings["imdbphp"]["langauge"])
-			$config->language = $settings["imdbphp"]["langauge"];
+		if($settings["imdbphp"]["language"])
+			$config->language = $settings["imdbphp"]["language"];
 		if($settings["imdbphp"]["ip_address"])
 			$config->ip_address = $settings["imdbphp"]["ip_address"];
 		if($settings["imdbphp"]["debug"])

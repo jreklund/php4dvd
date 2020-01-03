@@ -110,11 +110,11 @@ the instructions inside `config/parental.guidance.php`.
 #### Tell IMDb which is the preferred language (e.g. en-US, de-DE, pt-BR)
 Sometimes IMDb gets unsure that the specified language are correct, if you only specify your unique language and territory code (de-DE). In the example below, you can find that we have chosen to include `de-DE (German, Germany)`, `de (German)` and `en (English)`. If IMDb can’t find anything matching German, Germany, you will get German results instead or English if there are no German translation.
 ```
-$settings["imdbphp"]["langauge"] = 'de-DE,de,en';
+$settings["imdbphp"]["language"] = 'de-DE,de,en';
 ```
 Please use The Unicode Consortium [Langugage-Territory Information](http://www.unicode.org/cldr/charts/latest/supplemental/language_territory_information.html) database for finding your unique language and territory code.
 
-| Langauge | Code | Territory   | Code |
+| Language | Code | Territory   | Code |
 | -------- | ---- | ----------- | ---- |
 | German   | de   | Germany {O} | DE   |
 

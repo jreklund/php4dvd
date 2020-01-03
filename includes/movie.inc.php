@@ -57,8 +57,8 @@ if($loggedin && $User->isEditor() && $imdbid = getValidId('imdbid',true)) {
 	
 	// IMDB config
 	$config = new \Imdb\Config();
-	if($settings["imdbphp"]["langauge"])
-		$config->language = $settings["imdbphp"]["langauge"];
+	if($settings["imdbphp"]["language"])
+		$config->language = $settings["imdbphp"]["language"];
 	if($settings["imdbphp"]["ip_address"])
 		$config->ip_address = $settings["imdbphp"]["ip_address"];
 	if($settings["imdbphp"]["debug"])
