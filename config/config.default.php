@@ -15,6 +15,7 @@ $settings["languages"] = array(
 	"Swedish"    => "sv",
 	"Polish"     => "pl",
 	"German"     => "de",
+	"French"     => "fr",
 	"Italian"    => "it",
 	"Czech"      => "cz",
 	"Magyar"     => "hu",
