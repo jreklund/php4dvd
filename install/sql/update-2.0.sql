@@ -1,21 +1,21 @@
 -- phpMyAdmin SQL Dump
 -- version 2.8.2.4
 -- http://www.phpmyadmin.net
--- 
+--
 -- Host: localhost
 -- Server version: 5.0.24
 -- PHP Version: 5.1.6
--- 
+--
 -- Database: `php4dvd`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `movies`
--- 
+--
 
-ALTER TABLE `movies` 
+ALTER TABLE `movies`
 	DROP INDEX `name`,
 	DROP INDEX `imdbid`,
 	DROP INDEX `aka`,

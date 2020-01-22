@@ -19,7 +19,7 @@ if(isset($_GET["imdbsearch"])) {
 	if(strlen($imdbsearch) > 0) {
 		// IMDb engine
 		require_once($loc."/lib/imdbphp/bootstrap.php");
-		
+
 		// IMDB config
 		$config = new \Imdb\Config();
 		if($settings["imdbphp"]["language"])
@@ -28,7 +28,7 @@ if(isset($_GET["imdbsearch"])) {
 			$config->ip_address = $settings["imdbphp"]["ip_address"];
 		if($settings["imdbphp"]["debug"])
 			$config->debug = $settings["imdbphp"]["debug"];
-	
+
 		// Search IMDb for the movie
 		$imdb = new \Imdb\TitleSearch($config);
 		$wantedTypes = array(
@@ -39,14 +39,14 @@ if(isset($_GET["imdbsearch"])) {
 			\Imdb\TitleSearch::TV_MINI_SERIES
 		);
 		$imdbresults = $imdb->search($imdbsearch,$wantedTypes);
-		
+
 		// Select Movie/TV Series based on movietypes
 		$movietypes = array(
 			\Imdb\TitleSearch::MOVIE,
 			\Imdb\TitleSearch::VIDEO,
 			\Imdb\TitleSearch::TV_MOVIE
 		);
-	
+
 		// Check if any of these results are already added to our database
 		$temp = array();
 		foreach($imdbresults as $result) {
@@ -72,33 +72,33 @@ if(isset($_POST["movieid"])) {
 		$movie = new Movie();
 		$getImdbImage = true;
 	}
-	
+
 	// Update image from IMDb
 	if(isset($_POST["imdbphoto"]))
 		$getImdbImage = true;
-	
+
 	// Update movie
 	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew', 'imdbphoto'));
-	
+
 	// Validate Trailer URLs
 	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL) ) {
 		$movie->trailer = '';
 	}
-	
+
 	// NameOrder - Select which prefixes to ignore when sorting
 	$nameOrder = $settings["name_order"];
 	$movie->nameorder = trim(preg_replace('/^('.$nameOrder.')[[:space:]]/u','',$movie->name));
-	
+
 	// Save movie
 	$movie->id = $moviedm->save($movie);
-	
+
 	// Save its photo or use image from IMDb
 	if(isset($_FILES["photo"]) && isset($_FILES["photo"]["size"]) && $_FILES["photo"]["size"] > 0) {
 		$movie->addPhoto("photo");
 	} elseif( ($getImdbImage || !$movie->hasPhoto()) && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0 ) {
 		// IMDb engine
 		require_once($loc."/lib/imdbphp/bootstrap.php");
-		
+
 		// IMDB config
 		$config = new \Imdb\Config();
 		if($settings["imdbphp"]["language"])
@@ -110,11 +110,11 @@ if(isset($_POST["movieid"])) {
 
 		$photo = $photopath . $movie->id.".jpg";
 		$m = new \Imdb\Title($movie->imdbid,$config);
-		
+
 		if(isset($settings["photo"]["high_res"]) && $settings["photo"]["high_res"]) {
 			// Photo manipulation
 			require_once($loc . "/lib/bulletproof/utils/func.image-resize.php");
-			
+
 			if($m->savephoto($photo,FALSE)) {
 				list($width,$height) = getImageSize($photo);
 				Bulletproof\utils\resize(
@@ -132,12 +132,12 @@ if(isset($_POST["movieid"])) {
 			$m->savephoto($photo);
 		}
 	}
-	
+
 	// Save its cover
 	if(isset($_FILES["cover"]) && isset($_FILES["cover"]["size"]) && $_FILES["cover"]["size"] > 0) {
 		$movie->addCover("cover");
 	}
-	
+
 	// Go to the next auto update step
 	if(isset($_POST["autoupdate"]) && $_POST["autoupdate"]) {
 		header("Location: " . prettyUrl(array('go' => 'imdbupdate', 'lastid' => $movie->id)));

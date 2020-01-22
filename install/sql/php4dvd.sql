@@ -1,19 +1,19 @@
 -- phpMyAdmin SQL Dump
 -- version 2.8.2.4
 -- http://www.phpmyadmin.net
--- 
+--
 -- Host: localhost
 -- Server version: 5.0.24
 -- PHP Version: 5.1.6
--- 
+--
 -- Database: `php4dvd`
--- 
+--
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `movies`
--- 
+--
 
 DROP TABLE IF EXISTS `movies`;
 CREATE TABLE `movies` (
@@ -58,9 +58,9 @@ CREATE TABLE `movies` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table structure for table `users`
--- 
+--
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -74,9 +74,9 @@ CREATE TABLE `users` (
   KEY `username` (`username`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
--- 
+--
 -- Dumping data for table `users`
--- 
+--
 
-INSERT INTO `users` (`id`, `email`, `username`, `password`, `permission`, `lastlogin`) VALUES 
+INSERT INTO `users` (`id`, `email`, `username`, `password`, `permission`, `lastlogin`) VALUES
 (1, 'admin@admin.com', 'admin', '21232f297a57a5a743894a0e4a801fc3', 2, '0000-00-00 00:00:00');

@@ -1,6 +1,6 @@
 <?php
 defined('DIRECTACCESS') OR exit('No direct script access allowed');
- 
+
 /**
  * This is the language file. If you want the website to be in your own language, translate the following lines and
  * change the configuration settings where you add the new language and update the default language:
@@ -11,12 +11,12 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
  *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
- 
+
 /**
  * Title
  */
 define("_TITLE",									"Moja kolekcja");
- 
+
 /**
  * Menu
  */
@@ -29,7 +29,7 @@ define("USER_MANAGEMENT",							"Użytkownicy");
 define("LOG_IN",									"Zaloguj");
 define("LOG_OUT",									"Wyloguj");
 define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Chcesz się wylogować?");
- 
+
 /**
  * Log in page
  */
@@ -37,7 +37,7 @@ define("USER_NAME",									"Użytkownik");
 define("PASSWORD",									"Hasło");
 define("INCORRECT_USERNAME_OR_PASSWORD",			"Nieprawidłowa nazwa użytkownika lub hasło");
 define("REMEMBER_ME",								"Zapamiętaj mnie");
- 
+
 /**
  * Home
  */
@@ -79,7 +79,7 @@ define("NO_RESULTS_FOUND",							"Nie znaleziono pozycji");
 define("NO_COVER",									"Brak okładki");
 define("NUMBER_OF_TITLES",							"Ilość tytułów");
 define("STATISTICS",								"Statystyki");
- 
+
 /**
  * Movie
  */
@@ -101,7 +101,7 @@ define("REMOVE",									"Usuń");
 define("LOANED_OUT",								"Wypożyczony");
 define("TO",										"dla");
 define("ON",										"od");
- 
+
 /**
 * Add/edit movie
 */
@@ -165,7 +165,7 @@ define("CAST",										"Obsada");
 // Automatic update
 define("AUTOUPDATE_INFO",							"Twoje filmy są obecnie aktualizowane informacjami z bazy IMDb. W zależności od ilości filmów, może to zajać dłuższą chwilę, Bądź cierpliwy...");
 define("STOP_UPDATE",								"Zatrzymaj aktualizację");
- 
+
 /**
 * User management
 */
@@ -179,7 +179,7 @@ define("ADMIN",										"Administrator");
 define("USERS",										"Użytkownik");
 define("LAST_LOGGED_IN",							"Ostatnio zalogowany");
 define("DUPLICATE_USER_NAME_OR_EMAIL",				"Istnieje już użytkownik o takiej nazwie lub o takim adresie e-mail!");
- 
+
 /**
  * Messages
  */
@@ -196,7 +196,7 @@ define("VALIDATOR_DATE",							"Proszę podać prawidłową datę (yyyy-mm-dd)")
 define("VALIDATOR_ACCEPT_JPG",						"Proszę uzyć prawidłowego typu pliku (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Hasła różnią się od siebie");
 define("VALIDATOR_USERNAME",						"Proszę podać poprawną nazwę użytkownika. (A–Z, 0–9, .)\nMiędzy 5-50 znaków.");
- 
+
 /**
  * Installer
  */

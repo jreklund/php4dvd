@@ -22,7 +22,7 @@ $Website->assign("coverpath", $coverpath);
 // Number of results
 $numOfResults = $settings["number_of_results"];
 
-// Default results per page amount 
+// Default results per page amount
 $resultsPerPageDefault = $settings["results_per_page"];
 $Website->assign("resultsPerPageDefault", $resultsPerPageDefault);
 
@@ -54,7 +54,7 @@ if($id = getValidId('id',true)) {
 if($loggedin && $User->isEditor() && $imdbid = getValidId('imdbid',true)) {
 	// IMDB engine
 	require_once($loc."/lib/imdbphp/bootstrap.php");
-	
+
 	// IMDB config
 	$config = new \Imdb\Config();
 	if($settings["imdbphp"]["language"])
@@ -63,13 +63,13 @@ if($loggedin && $User->isEditor() && $imdbid = getValidId('imdbid',true)) {
 		$config->ip_address = $settings["imdbphp"]["ip_address"];
 	if($settings["imdbphp"]["debug"])
 		$config->debug = $settings["imdbphp"]["debug"];
-		
+
 	// Search at IMDB by id
 	$imdbmovie = new \Imdb\Title($imdbid,$config);
 	$Website->assign("imdbmovie", $imdbmovie);
 	if(!isset($movie))
 		$movie = new Movie();
-	else 
+	else
 		$movieId = $movie->id;
 	$movie->fill($imdbmovie,$parental_guidance);
 	if(isset($movie) && isset($movieId))

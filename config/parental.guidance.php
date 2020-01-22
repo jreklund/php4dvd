@@ -339,7 +339,7 @@ $settings["parental_guidance"]["map"] = array(
 		'PG-18'	=> 18,
 		'X'		=> 18
 	),
-	// No information available 
+	// No information available
 	'Poland' => array(),
 	// No information on PG-0
 	'Portugal' => array(
@@ -359,7 +359,7 @@ $settings["parental_guidance"]["map"] = array(
 		'N-15'		=> 15,
 		'IM-18'		=> 18,
 		'IM-18-XXX'	=> 18,
-		'IC'		=> 18 
+		'IC'		=> 18
 	),
 	'Russia' => array(
 		'0+'	=> 0,

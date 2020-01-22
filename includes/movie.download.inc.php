@@ -10,7 +10,7 @@ if(isset($movie)) {
 		case "cover":
 			if($movie->hasCover()) {
 				$body = implode('', file($coverpath.$movie->id.".jpg"));
-				
+
 				// Create the correct header
 				$name = preg_replace("/[^\s\.a-zA-Z0-9_-]/u", "", $movie->name);
 				header("Content-Disposition: attachment; filename=\"".addslashes($name).".jpg\"");

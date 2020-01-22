@@ -7,7 +7,7 @@ require_once($loc . "includes/movie.inc.php");
 if($loggedin && $User->isEditor()) {
 	// Get the last movie updated
 	$lastMovieId = getValidId('lastid');
-	
+
 	// Get the next movie to update
 	$movies = $moviedm->search("", "id");
 	$nextMovie = false;
@@ -16,13 +16,13 @@ if($loggedin && $User->isEditor()) {
 			$nextMovie = $movie;
 			break;
 		}
-		
+
 		// When we hit the last movie, the next movie should be selected
 		if($movie->id == $lastMovieId) {
 			$lastMovieId = false;
 		}
 	}
-	
+
 	// Redirect to the update url which will automatically save and go back here
 	if($nextMovie) {
 		header("Location: " . prettyUrl(array('go' => 'edit', 'id' => $nextMovie->id, 'imdbid' => $nextMovie->imdbid, 'autoupdate' => 1)));

@@ -64,7 +64,7 @@ switch ($currentstep) {
 						 * Default welcome page
 						 */
 						break;
-						
+
 	case "permissions":	/**
 						 * Check permissions of folders
 						 */
@@ -78,7 +78,7 @@ switch ($currentstep) {
 							"movies/" => true,
 							"movies/covers/" => true
 						);
-						
+
 						// Check directories
 						$permissionsOk = true;
 						$tmp = array();
@@ -92,7 +92,7 @@ switch ($currentstep) {
 						$Website->assign("permissionsOk", $permissionsOk);
 						$Website->assign("directories", $directories);
 						break;
-						
+
 	case "configuration":
 						/**
 						 * Create the configuration file
@@ -102,13 +102,13 @@ switch ($currentstep) {
 						$Website->assign("dbname", $settings["db"]["name"]);
 						$Website->assign("dbuser", $settings["db"]["user"]);
 						$Website->assign("dbpass", $settings["db"]["pass"]);
-						
+
 						// Website base url
 						$Website->assign("url", rtrim($settings["url"]["base"],'/'));
-						
+
 						// Default language
 						$Website->assign("languages", $settings["languages"]);
-						
+
 						// The templates
 						$tempaltes = array();
 						$dir = $loc."tpl/";
@@ -123,10 +123,10 @@ switch ($currentstep) {
 						sort($templates);
 						$Website->assign("templates", $templates);
 						$Website->assign("template", $template_name);
-						
+
 						// Guest view
 						$Website->assign("guestview", $settings["user"]["guestview"]);
-						
+
 						/**
 						 * Update configuration
 						 */
@@ -143,7 +143,7 @@ switch ($currentstep) {
 							$Website->assign("dbuser", $dbsettings["user"]);
 							$dbsettings["pass"] = stripslashes($_POST["dbpass"]);
 							$Website->assign("dbpass", $dbsettings["pass"]);
-							
+
 							// Website
 							$uConfig = array();
 							$uConfig['defaultlanguage'] = in_array($_POST["defaultlanguage"],$settings["languages"],true)?$_POST["defaultlanguage"]:$language;
@@ -154,7 +154,7 @@ switch ($currentstep) {
 							$Website->assign("guestview",$uConfig['guestview']);
 							$uConfig['template'] = in_array($_POST["template"],$templates,true)?$_POST["template"]:$settings["template"];
 							$Website->assign("template", $uConfig['template']);
-							
+
 							// Test database connection
 							$success = false;
 							try {
@@ -163,36 +163,36 @@ switch ($currentstep) {
 							} catch(Exception $e) {
 								$Website->assign("error", $e->getMessage());
 							}
-							
+
 							// Save config when the validation was successful
 							if($success) {
 								// Make config file
 								$nl = "\r\n";
 								$config = "<?php" . $nl;
 								$config .= "defined('DIRECTACCESS') OR exit('No direct script access allowed');" . $nl;
-								
+
 								// Default language
 								$config .= '$settings["defaultlanguage"] = "' . addslashes($uConfig['defaultlanguage']) . '";' . $nl;
-								
+
 								// Url
 								$config .= '$settings["url"]["base"] = "' . addslashes($uConfig['url']) . '";' . $nl;
-								
+
 								// Database
 								$config .= '$settings["db"]["host"] = "' . addcslashes( $dbsettings["host"], "\\'" ) . '";' . $nl;
 								$config .= '$settings["db"]["port"] = ' . addcslashes( $dbsettings["port"], "\\'" ) . ';' . $nl;
 								$config .= '$settings["db"]["name"] = "' . addcslashes( $dbsettings["name"], "\\'" ) . '";' . $nl;
 								$config .= '$settings["db"]["user"] = "' . addcslashes( $dbsettings["user"], "\\'" ) . '";' . $nl;
 								$config .= '$settings["db"]["pass"] = "' . addcslashes( $dbsettings["pass"], "\\'" ) . '";' . $nl;
-								
+
 								// Guest view
 								$config .= '$settings["user"]["guestview"] = ' . ($uConfig['guestview']?'true':'false') . ';' . $nl;
-								
+
 								// Template
 								$config .= '$settings["template"] = "' . addslashes($uConfig['template']) . '";' . $nl;
-								
+
 								// Close
 								$config .= "?>";
-								
+
 								// Write
 								$file = $loc . "config/config.php";
 								$fsuccess = true;
@@ -210,7 +210,7 @@ switch ($currentstep) {
 							}
 						}
 						break;
-						
+
 	case "database":	/**
 						 * Create or upgrade the database
 						 */
@@ -221,7 +221,7 @@ switch ($currentstep) {
 							echo $e->getMessage();
 							exit();
 						}
-						
+
 						// New installation or upgrade?
 						$tables = array("movies" => true, "users" => true);
 						foreach(R::getCol("SHOW TABLES;") as $table) {
@@ -229,20 +229,20 @@ switch ($currentstep) {
 						}
 						$new_installation = !empty($tables);
 						$Website->assign("new_installation", $new_installation);
-						
+
 						// Update database
 						if(isset($_POST["accepted"])) {
 							// Select utf8mb4 or utf8 depending on MySQL/MariaDB
 							$charset_collate = $Database->getMysqlEncoding();
-							
-							// Search after the following inside .sql 
+
+							// Search after the following inside .sql
 							$search = array(
 								'__DATABASE__',
 								'__CHARACTER__',
 								'__COLLATE__',
 								'__NAME_ORDER__'
 							);
-							
+
 							// Replace matching strings with
 							$replace = array(
 								$settings["db"]["name"],
@@ -250,10 +250,10 @@ switch ($currentstep) {
 								$charset_collate['collate'],
 								$settings["name_order"]
 							);
-		
+
 							// Iterate sql files since last version and execute these files
 							$v = number_format(DB_VERSION + 0.1, 1);
-							
+
 							// Run first script when this is a new installation
 							if($new_installation) {
 								$php4dvd_sql = readFileContent($loc . "install/sql/php4dvd-3.3.sql");
@@ -266,11 +266,11 @@ switch ($currentstep) {
 										exit();
 									}
 								}
-								
+
 								// Start upgrade at lowest supported version, which is v3.4
 								$v = 3.4;
 							}
-							
+
 							// Run all upgrade scripts
 							for(; $v <= NEW_DB_VERSION; $v = number_format($v + 0.1, 1)) {
 								$sql = readFileContent($loc . "install/sql/update-".$v.".sql");
@@ -284,14 +284,14 @@ switch ($currentstep) {
 									}
 								}
 							}
-							
+
 							// Done, so go to the next step!
 							header("Location: ./?go=" . $nextstep);
 							exit();
-						}						
+						}
 						break;
-						
-						
+
+
 	case "finished":	/**
 						 * Update version and finish the installation
 						 */
@@ -299,14 +299,14 @@ switch ($currentstep) {
 							// Make version file
 							$nl = "\r\n";
 							$version = "<?php" . $nl;
-	
+
 							// Version
 							$version .= 'define(\'VERSION\', \'' . NEW_VERSION . '\');' . $nl;
 							$version .= 'define(\'DB_VERSION\', \'' . NEW_DB_VERSION . '\');' . $nl;
-							
+
 							// Close
 							$version .= "?>";
-							
+
 							// Write
 							$file = $loc . "config/version.inc.php";
 							$fsuccess = true;

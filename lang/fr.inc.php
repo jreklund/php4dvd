@@ -4,11 +4,11 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * This is the language file. If you want the website to be in your own language, translate the following lines and
  * change the configuration settings where you add the new language and update the default language:
- * 
+ *
  * config.php:
  * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Nederlands" => "nl");
  * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "nl";
- * 
+ *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 
@@ -57,8 +57,8 @@ define("nameorder asc",								"Nom (A-Z)");
 define("nameorder desc",							"Nom (Z-A)");
 define("year asc",									"Année (0-9)");
 define("year desc",									"Année (9-0)");
-define("rating asc",								"Classement (0-9)");
-define("rating desc",								"Classement (9-0)");
+define("rating asc",								"Note (0-9)");
+define("rating desc",								"Note (9-0)");
 define("votes asc",								    "Votes (0-9)");
 define("votes desc",								"Votes (9-0)");
 define("format asc",								"Format (A-Z)");
@@ -124,7 +124,7 @@ define("YEAR",										"Année");
 define("DURATION",									"Durée");
 define("MINUTES",									"minutes");
 define("DURATION_MINUTES",							"Durée (minutes)");
-define("RATING",									"Classement");
+define("RATING",									"Note");
 define("VOTES",									    "Votes");
 define("FORMAT",									"Format");
 define("DVD",										"DVD");
@@ -157,14 +157,14 @@ define("VIDEO",										"Vidéo");
 define("COUNTRY",									"Pays");
 define("GENRES",									"Genres");
 define("MPAA",										"MPAA");
-define("DIRECTOR",									"Directeur");
+define("DIRECTOR",									"Réalisateur");
 define("WRITER",									"Scénariste");
 define("PRODUCER",									"Producteur");
 define("MUSIC",										"Musique");
-define("CAST",										"Casting");
+define("CAST",										"Acteurs");
 // Automatic update
 define("AUTOUPDATE_INFO",							"Vos films sont automatiquement mis à jour à partir d'IMDb. Cela peut prendre un certain temps, alors soyez patient...");
-define("STOP_UPDATE",								"Arrêtez la mise à jour");
+define("STOP_UPDATE",								"Arrêter la mise à jour");
 
 /**
 * User management

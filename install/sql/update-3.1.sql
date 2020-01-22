@@ -1,6 +1,6 @@
 -- 
 -- Table structure for table `auth`
--- 
+--
 
 CREATE TABLE `auth` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,

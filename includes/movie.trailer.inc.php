@@ -12,7 +12,7 @@ if(!$youtubeKey) {
 	* Please ensure that you have enabled the YouTube Data API for your project.
 	*/
 	$search = urlencode($movie->name . ' ' . $movie->year . ' trailer');
-	
+
 	$query = "https://www.googleapis.com/youtube/v3/search";
 	$query .= "?part=id&maxResults=1&q={$search}&safeSearch=none&type=video&key={$youtubeKey}";
 
@@ -22,9 +22,9 @@ if(!$youtubeKey) {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	$output = curl_exec($ch);
 	curl_close($ch);
-	
+
 	$trailers = json_decode($output,true);
-	
+
 	if(isset($trailers['items'][0]['id']['videoId'])) {
 		header('Location: https://www.youtube.com/embed/' . $trailers['items'][0]['id']['videoId'] . '?rel=0&iv_load_policy=3&autoplay=1');
 		exit;

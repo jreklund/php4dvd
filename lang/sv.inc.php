@@ -4,11 +4,11 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * This is the language file. If you want the website to be in your own language, translate the following lines and
  * change the configuration settings where you add the new language and update the default language:
- * 
+ *
  * config.php:
  * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Swedish" => "sv");
  * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "sv";
- * 
+ *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 

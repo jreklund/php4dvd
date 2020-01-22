@@ -35,11 +35,11 @@ if($loggedin && $User->isAdmin() && isset($_POST["username"])) {
 	if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
 		$newuser->email = $_POST["email"];
 	}
-	// Valid permission 
+	// Valid permission
 	if(isset($_POST['permission']) && in_array($_POST['permission'],array('0','1','2'),true)) {
 		$newuser->permission = intval($_POST['permission']);
 	}
-	
+
 	// Not a valid username, password or email.
 	if(!$newuser->username || !$newuser->password || !$newuser->email) {
 		$Website->assign("newuser", $newuser);

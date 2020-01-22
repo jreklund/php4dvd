@@ -1,6 +1,6 @@
 -- 
 -- Database structure
--- 
+--
 
 ALTER DATABASE __DATABASE__ CHARACTER SET = __CHARACTER__ COLLATE = __COLLATE__;
 

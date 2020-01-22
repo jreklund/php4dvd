@@ -4,7 +4,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * This is the language file. If you want the website to be in your own language, translate the following lines and
  * change the configuration settings where you add the new language and update the default language:
- * 
+ *
  * config.php:
  * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Nederlands" => "nl");
  * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "nl";

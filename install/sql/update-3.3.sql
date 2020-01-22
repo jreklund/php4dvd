@@ -1,12 +1,12 @@
 -- 
 -- Database structure
--- 
+--
 
 ALTER DATABASE __DATABASE__ CHARACTER SET = __CHARACTER__ COLLATE = __COLLATE__;
 
--- 
+--
 -- Table structure for table `auth`
--- 
+--
 
 DROP TABLE IF EXISTS `auth`;
 CREATE TABLE `auth` (
@@ -19,9 +19,9 @@ CREATE TABLE `auth` (
   KEY `selector` (`selector`)
 ) ENGINE=InnoDB DEFAULT CHARSET=__CHARACTER__ COLLATE=__COLLATE__;
 
--- 
+--
 -- Table structure for table `movies`
--- 
+--
 
 ALTER TABLE `movies`
   CONVERT TO CHARACTER SET __CHARACTER__ COLLATE __COLLATE__,
@@ -49,14 +49,13 @@ ALTER TABLE `movies`
   DROP INDEX `search`,
   ENGINE=InnoDB;
 
--- 
+--
 -- Table structure for table `users`
--- 
-  
+--
+
 ALTER TABLE `users`
   CONVERT TO CHARACTER SET __CHARACTER__ COLLATE __COLLATE__,
   CHANGE `email` `email` VARCHAR(191) CHARACTER SET __CHARACTER__ COLLATE __COLLATE__ NOT NULL,
   CHANGE `username` `username` VARCHAR(50) CHARACTER SET __CHARACTER__ COLLATE __COLLATE__ NOT NULL,
   CHANGE `password` `password` VARCHAR(255) CHARACTER SET __CHARACTER__ COLLATE __COLLATE__ NOT NULL,
   ENGINE=InnoDB;
-  
