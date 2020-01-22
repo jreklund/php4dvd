@@ -25,10 +25,10 @@ define("HOME",										"Accueil");
 define("BACK",										"Retour");
 define("SETTINGS",									"Paramètres");
 define("MY_PROFILE",								"Mon profil");
-define("USER_MANAGEMENT",							"Gestion utilisateur");
+define("USER_MANAGEMENT",							"Gestion utilisateurs");
 define("LOG_IN", 									"Connexion");
 define("LOG_OUT",									"Déconnexion");
-define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Êtes-vous sûr(e) de vous déconnecter?");
+define("ARE_YOU_SURE_YOU_WANT_TO_LOG_OUT",			"Êtes-vous sûr(e) de vouloir vous déconnecter?");
 
 /**
  * Log in page
@@ -44,7 +44,7 @@ define("REMEMBER_ME",								"Se souvenir de moi");
 // Menu
 define("ADD",										"Ajout");
 define("UPDATE_ALL_MOVIE_INFORMATION",				"Tout mettre à jour");
-define("EXPORT_TO_CSV",								"Export");
+define("EXPORT_TO_CSV",								"Export en CSV");
 // Search
 define("SEARCH_DEFAULT_TEXT",						"Recherche...");
 define("CATEGORIES",								"Catégories");
@@ -94,7 +94,7 @@ define("NOT_OWN",									"Non possédé");
 define("DO_YOU_OWN_THIS",							"Le possédez-vous?");
 define("SEEN",										"Vu");
 define("UNSEEN",									"Non vu");
-define("HAVE_YOU_SEEN_THIS",						"Avez vous vu ceci?");
+define("HAVE_YOU_SEEN_THIS",						"Avez-vous vu ceci?");
 define("EDIT",										"Editer");
 define("REMOVE",									"Supprimer");
 // Movie information
@@ -113,7 +113,7 @@ define("REMOVE_COVER",								"Enlever jaquette");
 // IMDb search
 define("ADD_FROM_IMDB",								"Ajouter à partir de IMDb");
 define("SEARCH",									"Recherche");
-define("RESULTS_FROM_IMDB",							"Résultats from IMDb");
+define("RESULTS_FROM_IMDB",							"Résultats de IMDb");
 // Movie information
 define("MOVIE_INFORMATION",							"Informations");
 define("IMDB_NUMBER",								"N° IMDb");
@@ -148,9 +148,9 @@ define("TRAILER_URL",								"URL de bande-annonce");
 define("SEARCH_FOR_TRAILER",						"Recherche de bande-annonce");
 define("PERSONAL_NOTES",							"Notes personnelles");
 define("TAGLINES",									"Tags");
-define("PLOT_OUTLINE",								"Grandes lignes");
+define("PLOT_OUTLINE",								"Accroche");
 define("PLOTS",										"Résumé");
-define("LANGUAGES",									"Langages");
+define("LANGUAGES",									"Langues");
 define("SUBTITLES",									"Sous-titres");
 define("AUDIO",										"Audio");
 define("VIDEO",										"Vidéo");
@@ -209,7 +209,7 @@ define("PERMISSIONS",								"Permissions");
 define("PERMISSIONS_TEXT",							"Les répertoires et fichiers suivants doivent être créés et nécessitent des autorisations d'écriture:");
 define("OK",										"OK");
 define("FAILED",									"Echec");
-define("FIX_PERMISSIONS",							"Chmod (777) ces répertoires ou fichiers avec votre client FTP préféré.");
+define("FIX_PERMISSIONS",							"Effectuez un Chmod (777) sur ces répertoires ou fichiers avec votre client FTP préféré.");
 define("REFRESH",									"Actualiser");
 define("CONFIGURATION",								"Configuration");
 define("CONFIGURATION_TEXT",						"Remplissez ce formulaire pour configurer php4dvd pour votre serveur.");
@@ -218,8 +218,8 @@ define("HOST",										"Hôte");
 define("PORT",										"Port");
 define("WEBSITE",									"Site web");
 define("URL",										"Url");
-define("TEMPLATE",									"Template");
-define("LANGUAGE",									"Langage");
+define("TEMPLATE",									"Thème");
+define("LANGUAGE",									"Langue");
 define("GUEST_USERS_CAN_SEE_COLLECTION",			"Les utilisateurs invités peuvent voir ma collection");
 define("FAILED_TO_WRITE_FILE",						"Echec d'écriture du fichier");
 define("DATABASE_NEW_TEXT",							"Une nouvelle version de la base de données sera installée. Toutes les anciennes tables existantes seront supprimées!");
