@@ -15,7 +15,7 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * Title
  */
-define("_TITLE",									"My collection");
+define("_TITLE",									"Ma collection");
 
 /**
  * Menu
