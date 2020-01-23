@@ -13,6 +13,7 @@ $settings["languages"] = array(
 	"English"    => "en",
 	"Nederlands" => "nl",
 	"Swedish"    => "sv",
+	"French"     => "fr",
 	"Polish"     => "pl",
 	"German"     => "de",
 	"Italian"    => "it",
