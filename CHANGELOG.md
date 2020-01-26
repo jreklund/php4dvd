@@ -1,3 +1,13 @@
+## 3.9.0 (2020-01-26)
+### Added
+  - French language by @maxlefou #55
+
+### Fixed
+  - Czech language by @Ajtak #51
+  - Filter movies by rating exactly pg-0 #50
+  - Spelling of the configuration option `$settings["imdbphp"]["language"]` by @Bloodsoul #49
+  - PHP 7.3 - FILTER_FLAG_HOST_REQUIRED are now deprecated
+
 ## 3.8.4 (2019-10-06)
 ### Fixed
   - cdcovers.cc are no longer available
@@ -29,11 +39,11 @@
 ## 3.8.1 (2018-10-04)
 ### Added
   - Hungarian/Magyar language by @PoLaKoSz #41
-  
+
 ### Fixed
   - You can now utilize "Download from IMDb" on Title -> Edit -> Update #42
   - Images are automatically downloaded from IMDb in case there aren't one stored #42
-  
+
 ### Updated
   - imdbphp 6.0.4
 
@@ -45,21 +55,21 @@
 
 ### Fixed
   - Incorrect protocol on load balancers #27
-  - urlTitle() should ignore non-ansi characters 
- 
+  - urlTitle() should ignore non-ansi characters
+
 ### Updated
   - bootstrap-slider 10.0.0
   - JavaScript Cookie 2.2.0
   - imdbphp 5.2.5
-  
+
 ## 3.7.2 (2018-02-11)
 ### Added
   - New field: IMDb number of votes #29
-  
+
 ## 3.7.1 (2018-01-21)
 ### Added
   - Italian language by @Pajaura #17
-  
+
 ### Fixed
   - Incorrect username regex
   - Only load javascript when needed
@@ -72,7 +82,7 @@
 ### Changed
   - Username can't start or end with a dot (".")
   - Username can only have one dot as a separation; forename...surname turns into forename.surname
-  
+
 ### Updated
   - imdbphp 5.2.4
 
@@ -80,7 +90,7 @@
 ### Fixed
   - The password is saved even though it was empty. (My profile)
   - Users could change into a already used email address.
-  
+
 ### Changed
   - Only allow a-z, 0-9 and dot (".") in usernames. Between 5-50 characters.
 
@@ -96,12 +106,12 @@
     - Trailer URLs where never validated
     - imdbid; if it's possible with 20 characters
 	- Do not trust imdbphp
-	
+
 ### Changed
   - Handle pagination with jQuery
   - MoviePosterDB have been down for a while. Adding CineMaterial instead.
   - Duration: Move "minutes" to the right
-  
+
 ### Fixed
   - Escape all translated strings
   - Searching for trailers and posters didn't work with: Nick and Norah's Infinite Playlist
@@ -129,7 +139,7 @@
     - CTRL+F, CMD+F and F3: focus search field
 	- END: deletes selected filters #9
   - German language by @Bloodsoul
-  
+
 ### Changed
   - Remove logo from mobile
   - Updated imdbphp to 5.2.2
@@ -139,11 +149,11 @@
   - Filter by: Movie | TV-Series | Own | Seen | Favorites
   - Icons added in movie collection: TV-Series | Not Own | Not Seen | Favorites
     - Configuration added to disable icons on posterview (poster, postertitle)
-  
+
 ### Changed
   - Updated imdbphp to 5.2.1
   - Layouts (posterlist, list, listplot): Only two languages are now shown in movie collection
-  
+
 ### Fixed
   - Search field closed automatic on Android
 
@@ -153,17 +163,17 @@
 ## 3.4.1 (2017-04-20)
 ### Added
   - Remove old authentication(s)
-  
+
 ### Changed
   - Updated random_compat to 2.0.10
   - Updated imdbphp to 5.2.0
-  
+
 ### Fixed
   - Various UTF-8 encoding problems
 
 ## 3.4.0 (2017-04-04)
 ### Added
-  - Sorting without 'The' prefix #4 
+  - Sorting without 'The' prefix #4
 
 ## 3.3.0 (2017-03-19)
 ### Added
@@ -181,7 +191,7 @@
 ## 3.2.4 (2017-02-20)
 ### Added
   - You can now flag your movies/series as favourite(s)
-  
+
 ### Changed
   - Updated imdbphp to 5.0.4 RC1
   - Moved favourite/seen/own to the right of genres and right on poster on mobile
@@ -196,7 +206,7 @@
 ### Added
   - You can now force php4dvd to use HTTPS
   - getValidId() validates that a correct id have been specified
-  
+
 ### Changed
   - Upgrading charset and collation
     - Changing database into utf8mb4 and utf8mb4_unicode_520_ci
@@ -205,7 +215,7 @@
       - MySQL 5.5.3+ and mysqlnd 5.0.9+
     - Database fallback into utf8 and utf8_unicode_ci
   - "Update all" now waits for 2 seconds, so that you can cancel update
-  
+
 ### Fixed
   - Removed weak typing comparisons
   - Remove rememberme cookie after 1 second, fix for wrong browser clocks
@@ -226,7 +236,7 @@
   - Updated AdminLTE to 2.3.11
   - Blu-ray are now the standard video format
   - Add from IMDb now includes Direct-to-video
-  
+
 ### Fixed
   - setlocale uses ISO 639-1 and ISO 3166-1
   - Wrong character encoding on table.auth
@@ -236,20 +246,20 @@
 ### Added
   - Validation of photos (jpeg|jpg)
   - "Remember me" on log in
-  
+
 ### Changed
   - Updated imdbphp to 5.0.3
   - Updated BulletProof to 2.0.2
-  
+
 ### Fixed
-  - Resize high-res image only when it's saved 
+  - Resize high-res image only when it's saved
   - Missing id tag on input/textarea
   - Plots author mistaken for next plot
     - Ignore author if longer then 75 chars
   - Navigation no longer indented on moviecolletion (mobile)
   - Check if Youtube API key is available
   - Compability with PHP 5.3.7+. Youtube API requires PHP 5.5.0+
-  
+
 ### Security
   - Added rel="noreferrer noopener" on target="_blank" links
     - https://html.spec.whatwg.org/multipage/semantics.html#link-type-noopener
@@ -260,7 +270,7 @@
 ### Added
   - Added ability to change amount of cast shown
   - Downloading high resolution images from IMDb (enable in settings)
-  
+
 ### Changed
   - Moved movie specific variables from common.inc into movie.inc
   - Renamed language names to match ISO 639-1 codes
@@ -282,15 +292,15 @@
   - Updated all JavaScript dependencies
   - Removed "results per page" from dropdown
   - Display all movies by default
-  
+
 ### Fixed
   - Layouts highlight not remembered
   - Loading icon not working
-  - Updated polish translation from tmseth 
+  - Updated polish translation from tmseth
   - Results per page: Dropdown will now adapt for changes made to $settings["results_per_page"]
 
 ## 3.1 (2016-09-28)
-###Added
+### Added
   - Fetch trailers automatic from YouTube
   - Can delete search query with "delete"-button
   - Added four more layouts.
@@ -333,8 +343,8 @@
   - Can convert movies duration from 90 minutes into 1h 30min.
   - Your position is saved. So then you go back, you will return to the same spot. (Cred: Tonza)
   - You can now click on categories inside movies, to search for that category.
-  
-### Changed 
+
+### Changed
   - Updated code to PHP 5.3.7+.
   - Updated to the latest RedBeanPhp (4.3.2), Smarty (3.1.30), imdbphp (4.1.1) and BulletProof (2.0.0).
   - Changed maxwidth for thumbnails/posters to better correspond with new theme.
@@ -360,14 +370,14 @@
   - isIE9()
   - findExtention()
   - mkpath()
-  
+
 ### Fixed
   - $baseurl returned wrong value on multiple sub folders.
   - Export function generated wrong characters.
   - Only run statistics and movie collection ones.
   - Installer overrides users choice of language in step 2 (configuration).
   - Some functions didn't return https if activated.
-  
+
 ### Security
   - Password is now stored using password_hash. Reset password with MD5.
   - No longer store password in $_SESSION or Smarty $user.
@@ -382,7 +392,7 @@
   - Updated to the latest imdbphp2 class (v2.1.0).
   - Revisited database model and increased database fields.
   - Multiple languages introduced.
-	
+
 ## 1.2
 
   - Updated to the latest imdbphp2 class (v1.9.9).
@@ -394,7 +404,7 @@
 
   - IMDb plot text broken. Fixed by upgrading to imdbphp2 (pre-release 1.9.8).
   - Searching for cover link fixed when adding new movie.
-	
+
 ## 1.0
 
   - Add a link to an (Apple) trailer [#13](https://sourceforge.net/p/php4dvd/feature-requests/13/).
@@ -409,7 +419,7 @@
   - Movie, audio and subtitles added to movie information [#14](https://sourceforge.net/p/php4dvd/feature-requests/14/).
   - Export to CSV [#15](https://sourceforge.net/p/php4dvd/feature-requests/15/).
   - FIX: IMDb movie information is downloaded with correct characters and stored as UTF-8 text.
-	
+
 ## 0.2
 
   - php4dvd can be installed or upgraded with the web installer.
@@ -426,7 +436,7 @@
   - Added path of the movie images and covers to the config. This location can be adjusted.
   - Removed double plotline from the movie overview.
   - Loading screen when building the list of movies.
-      
+
 ## 0.1
 
   - Initial release, including ajax search, sorting by name and year, adding movies, searching on IMDb, searching for covers, adding covers.
