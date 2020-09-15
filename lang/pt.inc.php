@@ -193,7 +193,7 @@ define("VALIDATOR_DIGITS",							"Por favor insira um número válido");
 define("VALIDATOR_EMAIL",							"Por favor insira um endereço de e-mail válido");
 define("VALIDATOR_URL",								"Por favor insira um url válido (http: // ...)");
 define("VALIDATOR_DATE",							"Por favor, indique uma data válida (aaaa-mm-dd)");
-define("VALIDATOR_ACCEPT_JPG",						"Por favor, use um tipo de arquivo válido (jpg)");
+define("VALIDATOR_ACCEPT_JPG",						"Por favor, use um tipo de ficheiro válido (jpg)");
 define("VALIDATOR_EQUAL_TO",						"Ambos os valores devem ser os mesmos");
 define("VALIDATOR_USERNAME",						"Por favor insira um nome de utilizador válido. (A-Z, 0-9,.) \nbetween 5-50 caracteres.");
 
@@ -221,7 +221,7 @@ define("URL",										"Url");
 define("TEMPLATE",									"Modelo");
 define("LANGUAGE",									"Língua");
 define("GUEST_USERS_CAN_SEE_COLLECTION",			"Os utilizadores convidados podem ver a minha colecção");
-define("FAILED_TO_WRITE_FILE",						"Falha ao gravar o arquivo");
+define("FAILED_TO_WRITE_FILE",						"Falha ao gravar o ficheiro");
 define("DATABASE_NEW_TEXT",							"Uma nova versão da base de dados será instalada. Quaisquer tabelas antigas existentes serão removidas!");
 define("DATABASE_UPGRADE_TEXT",						"A base de dados será atualizada para a versão mais recente. Nenhuma informação será removida (é mais seguro fazer um backup primeiro!).");
 define("ACCEPT",									"Eu aceito");
