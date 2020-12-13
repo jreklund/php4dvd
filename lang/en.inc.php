@@ -4,11 +4,11 @@ defined('DIRECTACCESS') OR exit('No direct script access allowed');
 /**
  * This is the language file. If you want the website to be in your own language, translate the following lines and
  * change the configuration settings where you add the new language and update the default language:
- * 
+ *
  * config.php:
  * $settings["languages"] = array("English" => "en"); -> $settings["languages"] = array("English" => "en", "Nederlands" => "nl");
  * $settings["defaultlanguage"] = "en" -> $settings["defaultlanguage"] = "nl";
- * 
+ *
  * When you want your translation to be included in the next php4dvd release, please send me a message on https://github.com/jreklund/php4dvd
  */
 
@@ -85,6 +85,7 @@ define("STATISTICS",								"Statistics");
  */
 // Menu
 define("VISIT_IMDB",								"Visit IMDb");
+define("VISIT_TMDB",								"Visit TMDb");
 define("VIEW_TRAILER",								"View trailer");
 define("DOWNLOAD_COVER",							"Download cover");
 define("FAVOURITE",									"Favourite");
@@ -112,11 +113,14 @@ define("UPDATE",									"Update");
 define("REMOVE_COVER",								"Remove cover");
 // IMDb search
 define("ADD_FROM_IMDB",								"Add from IMDb");
+define("ADD_FROM_TMDB",								"Add from TMDb");
 define("SEARCH",									"Search");
 define("RESULTS_FROM_IMDB",							"Results from IMDb");
+define("RESULTS_FROM_TMDB",							"Results from TMDb");
 // Movie information
 define("MOVIE_INFORMATION",							"Information");
 define("IMDB_NUMBER",								"IMDb number");
+define("TMDB_NUMBER",								"TMDb number");
 define("TITLE",										"Title");
 define("TITLE_ORDER",								"Title (Sort by)");
 define("AKA_TITLES",								"Also known as");
@@ -163,7 +167,7 @@ define("PRODUCER",									"Producer");
 define("MUSIC",										"Music");
 define("CAST",										"Cast");
 // Automatic update
-define("AUTOUPDATE_INFO",							"Your movies are automatically updated from IMDb. This may take a while, so please be patient...");
+define("AUTOUPDATE_INFO",							"Your movies are automatically updated from IMDb/TMDb. This may take a while, so please be patient...");
 define("STOP_UPDATE",								"Stop the update");
 
 /**
