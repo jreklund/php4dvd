@@ -114,3 +114,5 @@ $Website->assign("loggedin", $loggedin);
  */
 $guestview = $settings["user"]["guestview"];
 $Website->assign("guestview", $guestview);
+$Website->assign('tmdbphp', !empty($settings['tmdbphp']['apikey']));
+

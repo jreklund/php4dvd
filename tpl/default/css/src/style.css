@@ -1,7 +1,7 @@
 /**
  * Override default values
  */
- 
+
 .login-box, .register-box {
 	margin: 7% auto auto auto;
 }
@@ -157,12 +157,12 @@
 	.sidebar-menu li.slider-group .slider.slider-horizontal {
 		width: 100%;
 	}
-	
+
 	.sidebar-menu li.slider-group .slider-handle {
 		background-color: #FFF;
 		background-image: none;
 	}
-	
+
 	#black .slider-selection {
 		background: #3c8dbc;
 	}
@@ -203,7 +203,7 @@
 	.movie .maininfo {
 		margin: 0;
 	}
-	
+
 	.main-sidebar, .left-side, .fixed .content-wrapper, .fixed .right-side {
 		padding-top: 50px;
 	}
@@ -246,7 +246,7 @@
 /**
  * Custom
  */
- 
+
 body {
   overflow-y: scroll;
 }
@@ -292,7 +292,7 @@ body {
 	vertical-align: middle;
 	margin-top: -5px;
 }
-	
+
 .btn-group-custom>.btn {
 	position: relative;
 	float: left;
@@ -330,7 +330,7 @@ width:100%;
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
-  width:100%;        
+  width:100%;
 }
 
 .tt-suggestion {
@@ -357,7 +357,7 @@ width:100%;
 .tt-suggestion p {
   margin: 0;
 }
- 
+
 /**
  * Movies
  */
@@ -373,7 +373,7 @@ width:100%;
     width: 80px;
     height: 80px;
 }
- 
+
 .movie-wrapper {
 	text-align: center;
 }
@@ -398,11 +398,11 @@ width:100%;
 		color: #222;
 		display: block;
 	}
-	
+
 	.poster-list .movie-link {
 		display: inline-block;
 	}
-	
+
 	.movie-icons {
 		position: absolute;
 		right: 10px;
@@ -414,7 +414,7 @@ width:100%;
 	.movie-box .movie-icons .btn {
 		padding: 1px 2px 1px 2px;
 	}
-	
+
 	.movie-link .movie-cover {
 		overflow: hidden;
 	}
@@ -427,13 +427,13 @@ width:100%;
 			border: 1px solid white;
 			background-color: #e2e2e2;
 		}
-		
+
 	.movie-title, .movie-info, .movie-plot {
 		-o-text-overflow: ellipsis;
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
-	
+
 	.movies .movie-title {
 		padding: 10px;
 		width: 157px;
@@ -452,7 +452,7 @@ width:100%;
 }
 .movies-list {
 	text-align: left;
-	
+
 }
 	.movies-list .movie-cover {
 		float: left;
@@ -531,23 +531,23 @@ width:100%;
 /**
  * IMDb search for movies
  */
-.imdbmovies .imdbresult a {
+.imdbmovies .imdbresult a, .tmdbmovies .tmdbresult a  {
 	display: block;
 	padding: 8px;
 	margin: -8px;
 }
 
-.imdbmovies .imdbresult:hover {
+.imdbmovies .imdbresult:hover, .tmdbmovies .tmdbresult:hover {
 	background-color: #E2E2E2;
 }
 
-.imdbmovies .imdbresult .imdb {
+.imdbmovies .imdbresult .imdb, .tmdbmovies .tmdbresult:hover {
 	width: 20px;
 }
-.imdbmovies .imdbresult .known {
+.imdbmovies .imdbresult .known, .tmdbmovies .tmdbresult:hover {
 	text-decoration: line-through;
 }
-.imdbmovies .imdbresult .year {
+.imdbmovies .imdbresult .year, .tmdbmovies .tmdbresult:hover {
 	width: 44px;
 	white-space: nowrap;
 	text-align: right;
@@ -556,7 +556,7 @@ width:100%;
 /**
  * Movie information
  */
- 
+
 .movie .content-header h1 {
 	text-align: center;
 }
@@ -639,7 +639,7 @@ width:100%;
 }
 
 .movie .plotoutline {
-	
+
 }
 
 .movie .castlist ul {

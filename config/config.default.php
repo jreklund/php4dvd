@@ -237,3 +237,15 @@ $settings["imdbphp"]["ip_address"] = '';
  * Enable debug mode?
  */
 $settings["imdbphp"]["debug"] = $settings["development"];
+
+/**
+ * Apikey for themoviedb.org is available at site https://www.themoviedb.org/.
+ * If apikey not set, tmdb will be not availabe.
+ */
+$settings["tmdbphp"]["apikey"] = '';
+/**
+ * Set the language Tmdb will use for titles, and some other localised data (e.g. tv episode air dates)
+ * Any valid language code can be used here (see https://developers.themoviedb.org/3/getting-started/languages).
+ * If this option is specified, a Accept-Language header with this value will be included in requests to TMDb.
+ */
+$settings["tmdbphp"]["language"] = '';

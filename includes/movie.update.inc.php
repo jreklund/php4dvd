@@ -1,5 +1,5 @@
 <?php
-defined('DIRECTACCESS') OR exit('No direct script access allowed');
+defined('DIRECTACCESS') or exit('No direct script access allowed');
 
 require_once($loc . "includes/movie.inc.php");
 
@@ -12,173 +12,233 @@ $autoupdate = isset($_GET["autoupdate"]) ? 1 : 0;
 $Website->assign("autoupdate", $autoupdate);
 
 // Find movies from IMDb
-if(isset($_GET["imdbsearch"])) {
-	// What is the search term?
-	$imdbsearch = trim($_GET["imdbsearch"]);
-	$Website->assign("imdbsearch", $imdbsearch);
-	if(strlen($imdbsearch) > 0) {
-		// IMDb engine
-		require_once($loc."/lib/imdbphp/bootstrap.php");
-		
-		// IMDB config
-		$config = new \Imdb\Config();
-		if($settings["imdbphp"]["language"])
-			$config->language = $settings["imdbphp"]["language"];
-		if($settings["imdbphp"]["ip_address"])
-			$config->ip_address = $settings["imdbphp"]["ip_address"];
-		if($settings["imdbphp"]["debug"])
-			$config->debug = $settings["imdbphp"]["debug"];
-	
-		// Search IMDb for the movie
-		$imdb = new \Imdb\TitleSearch($config);
-		$wantedTypes = array(
-			\Imdb\TitleSearch::MOVIE,
-			\Imdb\TitleSearch::VIDEO,
-			\Imdb\TitleSearch::TV_MOVIE,
-			\Imdb\TitleSearch::TV_SERIES,
-			\Imdb\TitleSearch::TV_MINI_SERIES
-		);
-		$imdbresults = $imdb->search($imdbsearch,$wantedTypes);
-		
-		// Select Movie/TV Series based on movietypes
-		$movietypes = array(
-			\Imdb\TitleSearch::MOVIE,
-			\Imdb\TitleSearch::VIDEO,
-			\Imdb\TitleSearch::TV_MOVIE
-		);
-	
-		// Check if any of these results are already added to our database
-		$temp = array();
-		foreach($imdbresults as $result) {
-			$result->known = false;
-			$imdbmovie = $moviedm->getByImdb($result->imdbid());
-			if($imdbmovie)
-				$result->known = true;
-			$temp[] = $result;
-		}
-		$imdbresults = $temp;
-		$Website->assign("movietypes", $movietypes);
-		$Website->assign("imdbresults", $imdbresults);
-	}
+if (isset($_GET["imdbsearch"])) {
+    // What is the search term?
+    $imdbsearch = trim($_GET["imdbsearch"]);
+    $Website->assign("imdbsearch", $imdbsearch);
+    if (strlen($imdbsearch) > 0) {
+        // IMDb engine
+        require_once($loc . "/lib/imdbphp/bootstrap.php");
+
+        // IMDB config
+        $config = new \Imdb\Config();
+        if ($settings["imdbphp"]["language"])
+            $config->language = $settings["imdbphp"]["language"];
+        if ($settings["imdbphp"]["ip_address"])
+            $config->ip_address = $settings["imdbphp"]["ip_address"];
+        if ($settings["imdbphp"]["debug"])
+            $config->debug = $settings["imdbphp"]["debug"];
+
+        // Search IMDb for the movie
+        $imdb = new \Imdb\TitleSearch($config);
+        $wantedTypes = array(
+            \Imdb\TitleSearch::MOVIE,
+            \Imdb\TitleSearch::VIDEO,
+            \Imdb\TitleSearch::TV_MOVIE,
+            \Imdb\TitleSearch::TV_SERIES,
+            \Imdb\TitleSearch::TV_MINI_SERIES
+        );
+        $imdbresults = $imdb->search($imdbsearch, $wantedTypes);
+
+        // Select Movie/TV Series based on movietypes
+        $movietypes = array(
+            \Imdb\TitleSearch::MOVIE,
+            \Imdb\TitleSearch::VIDEO,
+            \Imdb\TitleSearch::TV_MOVIE
+        );
+
+        // Check if any of these results are already added to our database
+        $temp = array();
+        foreach ($imdbresults as $result) {
+            $result->known = false;
+            $imdbmovie = $moviedm->getByImdb($result->imdbid());
+            if ($imdbmovie)
+                $result->known = true;
+            $temp[] = $result;
+        }
+        $imdbresults = $temp;
+        $Website->assign("movietypes", $movietypes);
+        $Website->assign("imdbresults", $imdbresults);
+    }
+}
+
+// Find movies from TMDb
+if (isset($_GET["tmdbsearch"])) {
+// What is the search term?
+    $tmdbsearch = trim($_GET["tmdbsearch"]);
+    $Website->assign("tmdbsearch", $tmdbsearch);
+    if (strlen($tmdbsearch) > 0) {
+
+        require_once($loc . "/lib/tmdbphp/tmdb-api.php");
+        $tmdb = new TMDB();
+        $tmdb->setAPIKey($settings["tmdbphp"]["apikey"]);
+        if ($settings["tmdbphp"]["language"]) {
+            $tmdb->setLang($settings["tmdbphp"]["language"]);
+        }
+
+
+        $tmdbresults = $tmdb->searchMovie($tmdbsearch);
+        $movietypes = array(
+            ApiBaseObject::MEDIA_TYPE_MOVIE,
+            ApiBaseObject::CREDITS_TYPE_CAST,
+            ApiBaseObject::CREDITS_TYPE_CREW
+        );
+
+        // Check if any of these results are already added to our database
+        $temp = array();
+        foreach ($tmdbresults as $result) {
+            $result->known = false;
+            $tmdbmovie = $moviedm->getByTmdb($result->getID());
+            if ($tmdbmovie)
+                $result->known = true;
+            $temp[] = $result;
+        }
+        $imdbresults = $temp;
+        $Website->assign("movietypes", $movietypes);
+        $Website->assign("tmdbresults", $imdbresults);
+    }
 }
 
 // Update movie
-if(isset($_POST["movieid"])) {
-	// Editing existing movie?
-	$getImdbImage = false;
-	$movieid = $_POST["movieid"];
-	$movie = $moviedm->get($movieid);
-	if(!$movie) {
-		$movie = new Movie();
-		$getImdbImage = true;
-	}
-	
-	// Update image from IMDb
-	if(isset($_POST["imdbphoto"]))
-		$getImdbImage = true;
-	
-	// Update movie
-	$movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew', 'imdbphoto'));
-	
-	// Validate Trailer URLs
-	if( !filter_var($movie->trailer,FILTER_VALIDATE_URL) ) {
-		$movie->trailer = '';
-	}
-	
-	// NameOrder - Select which prefixes to ignore when sorting
-	$nameOrder = $settings["name_order"];
-	$movie->nameorder = trim(preg_replace('/^('.$nameOrder.')[[:space:]]/u','',$movie->name));
-	
-	// Save movie
-	$movie->id = $moviedm->save($movie);
-	
-	// Save its photo or use image from IMDb
-	if(isset($_FILES["photo"]) && isset($_FILES["photo"]["size"]) && $_FILES["photo"]["size"] > 0) {
-		$movie->addPhoto("photo");
-	} elseif( ($getImdbImage || !$movie->hasPhoto()) && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0 ) {
-		// IMDb engine
-		require_once($loc."/lib/imdbphp/bootstrap.php");
-		
-		// IMDB config
-		$config = new \Imdb\Config();
-		if($settings["imdbphp"]["language"])
-			$config->language = $settings["imdbphp"]["language"];
-		if($settings["imdbphp"]["ip_address"])
-			$config->ip_address = $settings["imdbphp"]["ip_address"];
-		if($settings["imdbphp"]["debug"])
-			$config->debug = $settings["imdbphp"]["debug"];
+if (isset($_POST["movieid"])) {
+    // Editing existing movie?
+    $getImdbImage = false;
+    $getTmdbImage = false;
+    $movieid = $_POST["movieid"];
+    $movie = $moviedm->get($movieid);
+    if (!$movie) {
+        $movie = new Movie();
+        $getImdbImage = true;
+    }
 
-		$photo = $photopath . $movie->id.".jpg";
-		$m = new \Imdb\Title($movie->imdbid,$config);
-		
-		if(isset($settings["photo"]["high_res"]) && $settings["photo"]["high_res"]) {
-			// Photo manipulation
-			require_once($loc . "/lib/bulletproof/utils/func.image-resize.php");
-			
-			if($m->savephoto($photo,FALSE)) {
-				list($width,$height) = getImageSize($photo);
-				Bulletproof\utils\resize(
-					$photo,
-					"jpg",
-					$width,
-					$height,
-					$settings["photo"]["p_maxwidth"],
-					$settings["photo"]["p_maxheight"],
-					true,
-					false
-				);
-			}
-		} else {
-			$m->savephoto($photo);
-		}
-	}
-	
-	// Save its cover
-	if(isset($_FILES["cover"]) && isset($_FILES["cover"]["size"]) && $_FILES["cover"]["size"] > 0) {
-		$movie->addCover("cover");
-	}
-	
-	// Go to the next auto update step
-	if(isset($_POST["autoupdate"]) && $_POST["autoupdate"]) {
-		header("Location: " . prettyUrl(array('go' => 'imdbupdate', 'lastid' => $movie->id)));
-		exit();
-	}
-	// Go to movie
-	else {
-		if(isset($_POST['addnew']))
-			header("Location: " . prettyUrl(array('go' => 'add')));
-		else
-			header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
-		exit();
-	}
+    // Update image from IMDb
+    if (isset($_POST["imdbphoto"]))
+        $getImdbImage = true;
+
+    if (isset($_POST["tmdbphoto"]))
+        $getTmdbImage = true;
+
+    // Update movie
+    $movie = fillObject($movie, $_POST, array(), array('movieid', 'autoupdate', 'submit', 'addnew', 'imdbphoto', 'tmdbphoto'));
+
+    // Validate Trailer URLs
+    if (!filter_var($movie->trailer, FILTER_VALIDATE_URL)) {
+        $movie->trailer = '';
+    }
+
+    // NameOrder - Select which prefixes to ignore when sorting
+    $nameOrder = $settings["name_order"];
+    $movie->nameorder = trim(preg_replace('/^(' . $nameOrder . ')[[:space:]]/u', '', $movie->name));
+
+    // Save movie
+    $movie->id = $moviedm->save($movie);
+
+    // Save its photo or use image from IMDb
+    if (isset($_FILES["photo"]) && isset($_FILES["photo"]["size"]) && $_FILES["photo"]["size"] > 0) {
+        $movie->addPhoto("photo");
+    } elseif (($getImdbImage || !$movie->hasPhoto()) && isset($movie->imdbid) && strlen(trim($movie->imdbid)) > 0) {
+        // IMDb engine
+        require_once($loc . "/lib/imdbphp/bootstrap.php");
+
+        // IMDB config
+        $config = new \Imdb\Config();
+        if ($settings["imdbphp"]["language"])
+            $config->language = $settings["imdbphp"]["language"];
+        if ($settings["imdbphp"]["ip_address"])
+            $config->ip_address = $settings["imdbphp"]["ip_address"];
+        if ($settings["imdbphp"]["debug"])
+            $config->debug = $settings["imdbphp"]["debug"];
+
+        $photo = $photopath . $movie->id . ".jpg";
+        $m = new \Imdb\Title($movie->imdbid, $config);
+
+        if (isset($settings["photo"]["high_res"]) && $settings["photo"]["high_res"]) {
+            // Photo manipulation
+            require_once($loc . "/lib/bulletproof/utils/func.image-resize.php");
+
+            if ($m->savephoto($photo, FALSE)) {
+                list($width, $height) = getImageSize($photo);
+                Bulletproof\utils\resize(
+                    $photo,
+                    "jpg",
+                    $width,
+                    $height,
+                    $settings["photo"]["p_maxwidth"],
+                    $settings["photo"]["p_maxheight"],
+                    true,
+                    false
+                );
+            }
+        } else {
+            $m->savephoto($photo);
+        }
+    } elseif (($getTmdbImage || !$movie->hasPhoto()) && isset($movie->tmdbid) && strlen(trim($movie->tmdbid)) > 0) {
+        // TMDB engine
+        require_once($loc . "/lib/tmdbphp/tmdb-api.php");
+        $tmdb = new TMDB();
+        $tmdb->setAPIKey($settings["tmdbphp"]["apikey"]);
+        if ($settings["tmdbphp"]["language"]) {
+            $tmdb->setLang($settings["tmdbphp"]["language"]);
+        }
+
+        $tmdbmovie = $tmdb->getMovie($movie->tmdbid);
+        $photoImg = 'https://image.tmdb.org/t/p/w500/' . $tmdbmovie->getPoster();
+
+        $photo = $photopath . $movie->id . ".jpg";
+        $ch = curl_init($photoImg);
+        $fp = fopen($photo, 'wb');
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+    }
+
+    // Save its cover
+    if (isset($_FILES["cover"]) && isset($_FILES["cover"]["size"]) && $_FILES["cover"]["size"] > 0) {
+        $movie->addCover("cover");
+    }
+
+    // Go to the next auto update step
+    if (isset($_POST["autoupdate"]) && $_POST["autoupdate"]) {
+        header("Location: " . prettyUrl(array('go' => 'imdbupdate', 'lastid' => $movie->id)));
+        exit();
+    } // Go to movie
+    else {
+        if (isset($_POST['addnew']))
+            header("Location: " . prettyUrl(array('go' => 'add')));
+        else
+            header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
+        exit();
+    }
 }
 
 // Update movie favourite status
-if(isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'favourite') {
-	$movie->favourite = $movie->favourite ? 0 : 1;
-	$moviedm->save($movie);
-	if(is_ajax_request())
-		exit($webroot);
-	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
-	exit();
+if (isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'favourite') {
+    $movie->favourite = $movie->favourite ? 0 : 1;
+    $moviedm->save($movie);
+    if (is_ajax_request())
+        exit($webroot);
+    header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
+    exit();
 }
 
 // Update movie seen status
-if(isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'seen') {
-	$movie->seen = $movie->seen ? 0 : 1;
-	$moviedm->save($movie);
-	if(is_ajax_request())
-		exit($webroot);
-	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
-	exit();
+if (isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'seen') {
+    $movie->seen = $movie->seen ? 0 : 1;
+    $moviedm->save($movie);
+    if (is_ajax_request())
+        exit($webroot);
+    header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
+    exit();
 }
 
 // Update movie own status
-if(isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'own') {
-	$movie->own = $movie->own ? 0 : 1;
-	$moviedm->save($movie);
-	if(is_ajax_request())
-		exit($webroot);
-	header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
-	exit();
+if (isset($movie) && isset($_GET["go"]) && $_GET["go"] === 'own') {
+    $movie->own = $movie->own ? 0 : 1;
+    $moviedm->save($movie);
+    if (is_ajax_request())
+        exit($webroot);
+    header("Location: " . prettyUrl(array('go' => 'movie', 'id' => $movie->id, 'name' => $movie->name)));
+    exit();
 }
