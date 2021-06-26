@@ -1,3 +1,12 @@
+## 3.10.0 (2021-06-26)
+### Added
+  - Portuguese language by @cnovoa #64
+
+### Updated
+  - imdbphp 6.5.1
+  - RedBeanPHP 5.7
+  - Smarty 3.1.39
+
 ## 3.9.0 (2020-01-26)
 ### Added
   - French language by @maxlefou #55
