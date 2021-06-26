@@ -127,8 +127,6 @@ define("DURATION_MINUTES",							"Duração (minutos)");
 define("RATING",									"Avaliação");
 define("VOTES",										"Votos");
 define("FORMAT",									"Formato");
-define("DVD",										"DVD");
-define("BLU_RAY",									"Blu-ray");
 define("PARENTAL_GUIDANCE",							"Classificação etária");
 define("PARENTAL_GUIDANCE_AGE",						"Anos");
 define("LOANED_OUT_TO",								"Emprestado a");
