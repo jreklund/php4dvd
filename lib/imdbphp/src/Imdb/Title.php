@@ -40,6 +40,7 @@ class Title extends MdbBase
     protected $castlist = array(); // pilot only
     protected $crazy_credits = array();
     protected $credits_cast = array();
+    protected $credits_cinematographer = array();
     protected $credits_composer = array();
     protected $credits_director = array();
     protected $credits_producer = array();
@@ -58,12 +59,10 @@ class Title extends MdbBase
     protected $main_poster_thumb = "";
     protected $main_pictures = array();
     protected $main_plotoutline = "";
-    protected $main_rating = -1;
     protected $main_runtime = "";
     protected $main_movietype = "";
     protected $main_title = "";
     protected $original_title = "";
-    protected $main_votes = -1;
     protected $main_year = -1;
     protected $main_endyear = -1;
     protected $main_yearspan = array();
@@ -106,10 +105,6 @@ class Title extends MdbBase
     protected $official_sites = array();
     protected $locations = array();
     protected $budget = null;
-    protected $openingWeekend = array();
-    protected $gross = array();
-    protected $weekendGross = array();
-    protected $admissions = array();
     protected $filmingDates = null;
     protected $moviealternateversions = array();
     protected $isSerial = null;
@@ -588,7 +583,7 @@ class Title extends MdbBase
                         $movie['year'] = $years;
                         $movie['endyear'] = "";
                     }
-                    if (preg_match('/([0-9.,]{1,3})\/10\s*\(([0-9\s,]+)/i', $cell->parentNode->getElementsByTagName('div')->item(3)->getAttribute('title'),
+                    if (preg_match('/([0-9.,]{1,3})\/10\s*\(([0-9\s.,]+)/iu', $cell->parentNode->getElementsByTagName('div')->item(3)->getAttribute('title'),
                       $rating)) {
                         $movie['rating'] = str_replace(',', '.', $rating[1]);
                         $movie['votes'] = preg_replace('/[^0-9]/', '', $rating[2]);
@@ -822,10 +817,13 @@ class Title extends MdbBase
         return $this->isSerial = (bool)preg_match('|href="/title/tt\d{7,8}/episodes\?|i', $this->getPage("Title"));
     }
 
-    // @TODO do this properly and make this public. Perhaps it could just come from self::movietype() ?
-    protected function isEpisode()
+    /**
+     * Is this title a TV Show episode?
+     * @return boolean
+     */
+    public function isEpisode()
     {
-        return $this->is_serial();
+        return self::movietype() === self::TV_EPISODE;
     }
 
     /**
@@ -1555,6 +1553,37 @@ class Title extends MdbBase
 
     #----------------------------------------------------------------[ Actors ]---
 
+    /*
+    * Get the Stars members for this title
+    * @return empty array OR array Stars (array[0..n] of array[imdb,name])
+     * e.g.
+     * <pre>
+     * array (
+     *  'imdb' => '0000134',
+     *  'name' => 'Robert De Niro', // Actor's name on imdb
+     * )
+     * </pre>
+    */
+    public function actor_stars()
+    {
+        $stars = array();
+        if (empty($this->jsonLD()->actor)) {
+            return $stars;
+        }
+        $actors = $this->jsonLD()->actor;
+        if (!is_array($this->jsonLD()->actor)) {
+            $actors = array($this->jsonLD()->actor);
+        }
+        foreach ($actors as $actor) {
+            $act = array(
+                'imdb' => preg_replace('!.*?/name/nm(\d+)/.*!', '$1', $actor->url),
+                'name' => $actor->name,
+            );
+            $stars[] = $act;
+        }
+        return $stars;
+    }
+    
     /**
      * Get the actors/cast members for this title
      * @param boolean $short whether to get only the cast listed on the title page, or to get the full cast listing
@@ -1774,6 +1803,39 @@ class Title extends MdbBase
             }
         }
         return $this->credits_producer;
+    }
+
+    #-------------------------------------------------------------[ Cinematographers ]---
+
+    /** Obtain the cinematographer(s) ("Cinematography by...")
+     * @return array cinematographer (array[0..n] of arrays[imdb,name,role])
+     * @see IMDB page /fullcredits
+     */
+    public function cinematographer()
+    {
+        if (!empty($this->credits_cinematographer)) {
+            return $this->credits_cinematographer;
+        }
+        $cinematographer_rows = $this->get_table_rows($this->getPage('Credits'), "Cinematography by");
+        foreach ($cinematographer_rows as $cinematographer_row) {
+            $cinematographer = array();
+            if (preg_match('!<a\s+href="/name/nm(\d+)/[^>]*>\s*(.+)\s*</a>!ims', $cinematographer_row, $match)) {
+                $cinematographer['imdb'] = $match[1];
+                $cinematographer['name'] = trim($match[2]);
+            } elseif (preg_match('!<td\s+class="name">(.+?)</td!ims', $cinematographer_row, $match)) {
+                $cinematographer['imdb'] = '';
+                $cinematographer['name'] = trim($match[1]);
+            } else {
+                continue;
+            }
+            if (preg_match('!<td\s+class="credit"\s*>\s*(.+?)\s*</td>!ims', $cinematographer_row, $match)) {
+                $cinematographer['role'] = trim($match[1]);
+            } else {
+                $cinematographer['role'] = null;
+            }
+            $this->credits_cinematographer[] = $cinematographer;
+        }
+        return $this->credits_cinematographer;
     }
 
     #-------------------------------------------------------------[ Composers ]---
@@ -2065,7 +2127,7 @@ class Title extends MdbBase
             foreach ($head as $header) {
                 if (preg_match('/:/', $header)) {
                     list($type, $value) = explode(':', $header, 2);
-                    if ($type == 'Location') {
+                    if ($type == 'Location' || $type == 'location' ) {
                         return preg_replace('/\s/', '', $value);
                     }
                 }
@@ -2096,7 +2158,7 @@ class Title extends MdbBase
                           'site' => $entry['site'],
                           'url' => $entry['url'],
                           'type' => $entry['type'],
-                          'desc' => $entry['desc']
+                          'desc' => trim($entry['desc'])
                         );
                     } elseif (preg_match('!<a .*href="(?<url>.+?)".*?>(?<site>.*?) - (?<desc>.+)</a>!s',
                       $matches[1][$i], $entry)) {
@@ -2105,11 +2167,11 @@ class Title extends MdbBase
                           'site' => $entry['site'],
                           'url' => $entry['url'],
                           'type' => '',
-                          'desc' => $entry['desc']
+                          'desc' => trim($entry['desc'])
                         );
                     } elseif (preg_match('!<a .*href="(?<url>.+?)".*?>(?<desc>.+)</a>!s', $matches[1][$i], $entry)) {
                         $entry['url'] = $this->convertIMDBtoRealURL($entry['url']);
-                        $res[] = array('site' => '', 'url' => $entry['url'], 'type' => '', 'desc' => $entry['desc']);
+                        $res[] = array('site' => '', 'url' => $entry['url'], 'type' => '', 'desc' => trim($entry['desc']));
                     }
                 }
             }
@@ -2175,8 +2237,9 @@ class Title extends MdbBase
 
     #==========================================================[ /trivia page ]===
     #----------------------------------------------------------[ Trivia Array ]---
-    /** Get the trivia info
-     * @param boolean $spoil Whether to retrieve the spoilers (TRUE) or the non-spoilers (FALSE, default)
+    /**
+     * Get the trivia info
+     * @param boolean $spoil *Deprecated*. There are no longer spoiler trivia on imdb
      * @return array trivia (array[0..n] string
      * @see IMDB page /trivia
      */
@@ -2188,7 +2251,7 @@ class Title extends MdbBase
                 return array();
             } // no such page
             if ($spoil) {
-                preg_match('!<a id="spoilers"(.+?)\s*<div class="article!ims', $this->page["Trivia"], $block);
+                return [];
             } else {
                 preg_match('!<div id="trivia_content"(.+?)<a id="spoilers"!ims', $this->page["Trivia"], $block);
                 if (empty($block)) {
@@ -2483,12 +2546,12 @@ class Title extends MdbBase
             $tag_e = strpos($page, '</ul', $tag_s);
             $block = substr($page, $tag_s, $tag_e - $tag_s);
 
-            if (preg_match_all('@href="(.*?)"[^>]*>(.*?)</a>@', $block, $matches)) {
+            if (preg_match_all('@href="(.*?)"[^>]*>([^<]*)</a>@', $block, $matches)) {
                 $mc = count($matches[0]);
                 for ($i = 0; $i < $mc; ++$i) {
                     $this->extreviews[$i] = array(
-                      "url" => 'https://' . $this->imdbsite . $matches[1][$i],
-                      "desc" => $matches[2][$i]
+                      "url" => $matches[1][$i],
+                      "desc" => trim($matches[2][$i])
                     );
                 }
             }
@@ -2979,5 +3042,4 @@ class Title extends MdbBase
             return $matches[1];
         }
     }
-
 }
