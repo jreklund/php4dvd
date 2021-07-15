@@ -1,3 +1,7 @@
+## 3.10.1 (2021-07-15)
+### Updated
+  - imdbphp 7.2.0
+
 ## 3.10.0 (2021-06-26)
 ### Added
   - Portuguese language by @cnovoa #64
