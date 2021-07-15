@@ -1,6 +1,6 @@
 <?php
-/**
-================================================================================ 
+/*
+================================================================================
  LISENCE
 ================================================================================
 
@@ -18,13 +18,13 @@
 
     You should have received a copy of the GNU General Public License
     along with php4dvd. If not, see <http://www.gnu.org/licenses/>.
-**/
+*/
 
-/**
- * This page controls your site. Do not change anything unless you know what you are doing. 
+/*
+ * This page controls your site. Do not change anything unless you know what you are doing.
  * If you want to change the looks of your page, copy the default directory in /tpl/ and create your own template.
  */
- 
+
 // Only load .php files from index.php
 define('DIRECTACCESS', TRUE);
 
@@ -37,7 +37,7 @@ require_once("common.inc.php");
 // Installer
 if(file_exists($loc . "install/index.php")) {
 	// New version to install?
-	if(NEW_VERSION > VERSION) {
+	if(version_compare(VERSION, NEW_VERSION, '<')) {
 		header("Location: ./install/");
 		exit();
 	}
@@ -67,18 +67,18 @@ switch ($go) {
 						 */
 						// Template
 						$Website->assign("main", "movies/collection.html");
-						
+
 						// Movies
 						require_once($loc . "includes/movie.search.inc.php");
 						break;
-	
+
 	case "login":		/**
 						 * Login form
 						 */
 						// Template
 						$Website->assign("main", "users/login.html");
 						break;
-						
+
 	case "movies":		/**
 						 * Create a list of the movies
 						 */
@@ -86,15 +86,15 @@ switch ($go) {
 						if($loggedin || $guestview) {
 							// Template
 							$template = "movies/movies/".$templateName.".html";
-							
+
 							// Only count movies ones
 							$refreshMovieList = true;
-							
+
 							// Movies
 							require_once($loc . "includes/movie.search.inc.php");
-						}						
+						}
 						break;
-						
+
 	case "movie":		/**
 						 * Show the information of one movie
 						 */
@@ -102,12 +102,12 @@ switch ($go) {
 						if($loggedin || $guestview) {
 							// Template
 							$Website->assign("main", "movies/movie.html");
-							
+
 							// Movies
 							require_once($loc . "includes/movie.inc.php");
 						}
 						break;
-						
+
 	case "trailer":		/**
 						 * Show movie trailer
 						 */
@@ -115,14 +115,14 @@ switch ($go) {
 						if($loggedin || $guestview) {
 							// Template
 							$Website->assign("main", "movies/trailer.html");
-							
+
 							// Trailer
 							$trailer = true;
 							require_once($loc . "includes/movie.trailer.inc.php");
 						}
-						break;		
-						
-	case "add":			
+						break;
+
+	case "add":
 	case "edit":	 	/**
 						 * Add/edit a movie
 						 */
@@ -130,14 +130,14 @@ switch ($go) {
 						if($loggedin && $User->isEditor()) {
 							// Template
 							$Website->assign("main", "movies/update.html");
-							
+
 							// Movies
 							require_once($loc . "includes/movie.update.inc.php");
 						} else {
 							home();
 						}
 						break;
-						
+
 	case "favourite":
 	case "seen":
 	case "own":			/**
@@ -151,7 +151,7 @@ switch ($go) {
 							home();
 						}
 						break;
-						
+
 	case "delete":		/**
 						 * Remove a movie
 						 */
@@ -162,7 +162,7 @@ switch ($go) {
 						}
 						exit();
 						break;
-						
+
 	case "downloadcover":
 						/**
 						 * Download the movie cover
@@ -173,7 +173,7 @@ switch ($go) {
 							require_once($loc . "includes/movie.download.inc.php");
 						}
 						break;
-						
+
 	case "deletecover":	/**
 						 * Remove a movie
 						 */
@@ -184,7 +184,7 @@ switch ($go) {
 						}
 						exit();
 						break;
-						
+
 	case "imdbupdate":	/**
 						 * Update all movie information from IMDb
 						 */
@@ -195,7 +195,7 @@ switch ($go) {
 							home();
 						}
 						break;
-						
+
 	case "export":		/**
 						 * Download movie list as CSV
 						 */
@@ -206,7 +206,7 @@ switch ($go) {
 						}
 						exit();
 						break;
-						
+
 	case "users":		/**
 						 * Modify the user accounts
 						 */
@@ -214,14 +214,14 @@ switch ($go) {
 						if($loggedin && $User->isAdmin()) {
 							// Template
 							$Website->assign("main", "users/users.html");
-	
+
 							// Users
 							require_once($loc . "includes/users.inc.php");
 						} else {
 							home();
 						}
 						break;
-						
+
 	case "profile":		/**
 						 * Modify your profile
 						 */
@@ -235,14 +235,14 @@ switch ($go) {
 						if($loggedin) {
 							// Template
 							$Website->assign("main", "users/user.html");
-						
+
 							// Users
 							require_once($loc . "includes/user.update.inc.php");
 						} else {
 							home();
 						}
 						break;
-						
+
 	case "deleteuser":	/**
 						 * Remove a user
 						 */
@@ -256,8 +256,8 @@ switch ($go) {
 }
 
 // PHP parse time
-$time_end = microtime(true); 
-$managertime = $time_end - $time_start;  
+$time_end = microtime(true);
+$managertime = $time_end - $time_start;
 
 // Display template
 try {
@@ -269,9 +269,9 @@ try {
 }
 
 // Smarty template parse time
-$time_end = microtime(true); 
-$tpltime = $time_end - $time_start - $managertime;  
+$time_end = microtime(true);
+$tpltime = $time_end - $time_start - $managertime;
 
 // Print the parse timings at the end of the HTML page
-print "\n\n<!-- ** php parsetime: ".number_format($managertime, 5)." sec. ** -->\n"; 
+print "\n\n<!-- ** php parsetime: ".number_format($managertime, 5)." sec. ** -->\n";
 print "<!-- ** tpl parsetime: ".number_format($tpltime, 5)." sec. ** -->";
