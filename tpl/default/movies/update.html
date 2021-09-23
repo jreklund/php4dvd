@@ -23,6 +23,28 @@
 					</div>
 				</div>
 			</div>
+			{if $tmdbphp}
+			<div class="col-md-6">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">{$smarty.const.ADD_FROM_TMDB|htmlentities:3:'UTF-8'}</h3>
+					</div>
+					<div class="box-body">
+						<form id="tmdbsearchform">
+							<div class="form-group has-feedback">
+								<div class="input-group col-sm-8">
+									<input type="hidden" name="go" value="add">
+									<input type="text" id="tmdbsearch" name="tmdbsearch" class="form-control required" value="{if isset($tmdbsearch)}{$tmdbsearch|htmlentities:3:'UTF-8'}{/if}">
+									<span class="input-group-btn">
+										<button class="btn btn-info btn-flat" type="submit">{$smarty.const.SEARCH|htmlentities:3:'UTF-8'}</button>
+									</span>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			{/if}
 		</div>
 		{/if}
 		<div class="row">
@@ -56,8 +78,40 @@
 					</div><!-- /.box-body -->
 				</div>
 			</div><!-- /.col-md-12 -->
-			{elseif isset($imdbsearch) && strlen($imdbsearch) > 0}
-			{* No results found on IMDb *}
+			{elseif isset($tmdbresults) && $tmdbresults|@count > 0}
+			{* Search results from TMDb *}
+			<div class="col-md-6">
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">{$smarty.const.RESULTS_FROM_TMDB|htmlentities:3:'UTF-8'}</h3>
+					</div><!-- /.box-header -->
+					<div class="box-body no-padding">
+						<table class="table table-striped tmdbmovies">
+							<tbody>
+							{section name=r loop=$tmdbresults}
+							<tr class="tmdbresult">
+								<td class="tmdb">
+									<a href="http://www.tmdb.com/title/tt{$tmdbresults[r]->getID()|urlencode}/" target="_blank" rel="noreferrer noopener">
+										 <i class="fa {if $tmdbresults[r]->getMediaType()|in_array:$movietypes}fa-film{else}fa-television{/if} fa-fw" title="{$smarty.const.VISIT_TMDB|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+										</a>
+								</td>
+
+								<td class="title{if $tresults[r]->known} known{/if}">
+									<a href="{prettyUrl(['go'=>'add','tmdbid'=>$tmdbresults[r]->getID()])}">{$tmdbresults[r]->getTitle()|htmlentities:3:'UTF-8'}</a>
+								</td>
+
+								<td class="year{if $tmdbresults[r]->known} known{/if}">
+									<a href="{prettyUrl(['go'=>'add','tmdbid'=>$tmdbresults[r]->getID()])}">{$tmdbresults[r]->get('release_date')|date_format:"%Y"|htmlentities:3:'UTF-8'}</a>
+								</td>
+							</tr>
+							{/section}
+							</tbody>
+						</table>
+					</div><!-- /.box-body -->
+				</div>
+			</div><!-- /.col-md-12 -->
+			{elseif (isset($imdbsearch) && strlen($imdbsearch) > 0) ||  (isset($tmdbsearch) && strlen($tmdbsearch) > 0) }
+			{* No results found on IMDb/TMDb *}
 			<div class="col-md-6">
 				<div class="callout callout-info">
 				<p>{$smarty.const.NO_RESULTS_FOUND|htmlentities:3:'UTF-8'}</p>
@@ -75,6 +129,11 @@
 					{$colWidthSmall = "col-sm-3"}
 					{$colWidthLarge = "col-sm-7"}
 					<img src="{$imdbmovie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
+					{elseif isset($tmdbmovie) && $tmdbmovie->photo}
+					{$hasPhoto = true}
+					{$colWidthSmall = "col-sm-3"}
+					{$colWidthLarge = "col-sm-7"}
+					<img src="{$tmdbmovie->photo}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
 					{elseif isset($movie) && $movie->hasPhoto()}
 					{$hasPhoto = true}
 					{$colWidthSmall = "col-sm-3"}
@@ -82,7 +141,7 @@
 					<img src="{$movie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
 					{/if}
 				</div>
-				
+
 				<div class="{if $hasPhoto}maininfo{/if}">
 					<div class="box box-primary">
 						<div class="box-header with-border">
@@ -101,12 +160,23 @@
 							<div class="box-body">
 								<input type="hidden" name="autoupdate" value="{$autoupdate}">
 								<input type="hidden" name="movieid" value="{if isset($movie)}{$movie->id}{/if}">
-								<div class="form-group has-feedback">
-									<label for="imdbid" class="{$colWidthSmall} control-label">{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}</label>
-									<div class="{$colWidthLarge}">
-										<input type="text" name="imdbid" id="imdbid" class="form-control digits" value="{if isset($movie)}{$movie->imdbid|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}">
+
+								{if isset($movie) && isset($movie->imdbid)}
+									<div class="form-group has-feedback">
+										<label for="imdbid" class="{$colWidthSmall} control-label">{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}</label>
+										<div class="{$colWidthLarge}">
+											<input type="text" name="imdbid" id="imdbid" class="form-control digits" value="{if isset($movie)}{$movie->imdbid|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.IMDB_NUMBER|htmlentities:3:'UTF-8'}">
+										</div>
 									</div>
-								</div>
+								{elseif isset($movie) && isset($movie->tmdbid)}
+									<div class="form-group has-feedback">
+										<label for="tmdbid" class="{$colWidthSmall} control-label">{$smarty.const.TMDB_NUMBER|htmlentities:3:'UTF-8'}</label>
+										<div class="{$colWidthLarge}">
+											<input type="text" name="tmdbid" id="tmdbid" class="form-control digits" value="{if isset($movie)}{$movie->tmdbid|htmlentities:3:'UTF-8'}{/if}" placeholder="{$smarty.const.TMDB_NUMBER|htmlentities:3:'UTF-8'}">
+										</div>
+									</div>
+								{/if}
+
 								<div class="form-group has-feedback">
 									<label for="name" class="{$colWidthSmall} control-label">{$smarty.const.TITLE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
@@ -237,13 +307,13 @@
 								{if isset($movie)}
 								<div class="form-group has-feedback">
 									<label for="imdbphoto" class="{$colWidthSmall} control-label">
-										{$smarty.const.PHOTO_FROM_IMDB|htmlentities:3:'UTF-8'} 
+										{$smarty.const.PHOTO_FROM_IMDB|htmlentities:3:'UTF-8'}
 									</label>
 									<div class="{$colWidthLarge}">
 										<div class="checkbox">
 											<label>
-												<input type="checkbox" name="imdbphoto">
-												{$smarty.const.DOWNLOAD_FROM_IMDB|htmlentities:3:'UTF-8'} 
+												<input type="checkbox" id="imdbphoto" name="imdbphoto">
+												{$smarty.const.DOWNLOAD_FROM_IMDB|htmlentities:3:'UTF-8'}
 											</label>
 										</div>
 									</div>
@@ -251,7 +321,7 @@
 								{/if}
 								<div class="form-group has-feedback">
 									<label for="photo" class="{$colWidthSmall} control-label">
-										{$smarty.const.PHOTO|htmlentities:3:'UTF-8'} 
+										{$smarty.const.PHOTO|htmlentities:3:'UTF-8'}
 										{if isset($movie->name)}<a href="https://www.themoviedb.org/search?query={$movie->name|urlencode}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - The Movie Database (TMDb)" aria-hidden="true"></i></a>{/if}
 										{if isset($movie->name)}<a href="https://www.cinematerial.com/search?q={$movie->name|urlencode}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - CineMaterial" aria-hidden="true"></i></a>{/if}
 									</label>

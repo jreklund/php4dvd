@@ -83,7 +83,7 @@ class Movies extends Database {
 
 		// Columns to return
 		if(!$searchColumns)
-			$searchColumns = array('`id`','`imdbid`','`name`','`format`','`own`','`seen`');
+			$searchColumns = array('`id`','`imdbid`','`tmdbid`','`name`','`format`','`own`','`seen`');
 
 		// Query
 		$query  = "SELECT SQL_CALC_FOUND_ROWS ".implode(',',$searchColumns)." FROM `movies` WHERE 1 = 1";
@@ -172,7 +172,14 @@ class Movies extends Database {
 	function getByImdb($imdbid) {
 		return R::getRow('SELECT `id` FROM `movies` WHERE `imdbid` = ?', array($imdbid));
 	}
-
+    /**
+     * Get a movie by its Tmdb id.
+     * @param string $tmdbid
+     * @return the movie ID with this TMDb number
+     */
+    function getByTmdb($tmdbid) {
+        return R::getRow('SELECT `id` FROM `movies` WHERE `tmdbid` = ?', array($tmdbid));
+    }
 	/**
 	 * Get all distinct categories.
 	 * @return the list of category names
