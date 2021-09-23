@@ -1,7 +1,12 @@
 php4dvd 3.X
 =======
 
-php4dvd is a small yet powerful, php/mysql powered movie database.
+php4dvd is a small yet powerful, php/mysql powered movie database. I made this fork for a few reasons...
+1. There was a pull request that was denied / put on hold by the original developer that I would like to see in use.
+2. I have been looking to do something similar myself to meet my own needs. I currently use Trakt.tv to keep track of my collection and watched status, and would like to have this outside of that system. It is proprietary and movement of data in and out is not too easy, although paying makes it a bit easier.
+3. There are outdated features in the software that really make using the original version less than ideal.
+
+I have left all of the original developers content below. I welcome others to offer suggestions. While I plan to make some updates and changes to my liking, if this can help others, that is better.
 
 Features
 =======
