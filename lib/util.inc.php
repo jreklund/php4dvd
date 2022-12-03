@@ -20,7 +20,7 @@ function reload($add = array()) {
 	global $webroot;
 	header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 	header("Expires: Mon, 01 Jan 1970 00:00:00 GMT"); 	// Date in the past
-	
+
 	if(isset($_SERVER["REQUEST_URI"])) {
 		$url = setQueryString($_SERVER["REQUEST_URI"], $add);
 		header("Location: " . $url);
@@ -61,14 +61,14 @@ function back($add = array()) {
 function setQueryString($url, $values) {
 	$url = urldecode($url);
 	$querystring = "";
-	
+
 	// Get url and querystring
 	$parts = preg_split("/\?/", $url);
 	if(count($parts) === 2) {
 		$url = $parts[0];
 		$querystring = $parts[1];
 	}
-	
+
 	// Get querystring parts
 	$queryparts = array();
 	$qsparts = preg_split("/&/", $querystring);
@@ -78,14 +78,14 @@ function setQueryString($url, $values) {
 		$value = count($keyvalue) === 2 ? $keyvalue[1] : false;
 		$queryparts[$key] = $value;
 	}
-	
+
 	// Overwrite querystring
 	if(is_array($values)) {
 		foreach($values as $key => $value) {
 			$queryparts[$key] = $value;
 		}
 	}
-	
+
 	// Reconstruct url
 	$valuePairs = array();
 	foreach($queryparts as $qp => $v) {
@@ -140,7 +140,7 @@ function fillObject($obj, $row, $include = array(), $exclude = array()) {
 	foreach($exclude as $e)
 		$exc[$e] = true;
 	$exclude = $exc;
-	
+
 	if(isset($row) && $row) {
 		foreach($row as $key => $value) {
 			$allowed = true;
@@ -152,6 +152,11 @@ function fillObject($obj, $row, $include = array(), $exclude = array()) {
 			if($allowed)
 				$obj->{$key} = stripslashes($value);
 		}
+
+		if(empty($obj->loandate) || !$obj->loaned) {
+			$obj->loandate = null;
+		}
+
 		return $obj;
 	}
 	return false;
