@@ -1,12 +1,12 @@
-<?php 
+<?php
 /**
  * BULLETPROOF.
- * 
+ *
  * A single-class PHP library to upload images securely.
- * 
+ *
  * PHP support 5.3+
- * 
- * @version     4.0.0
+ *
+ * @version     4.0.1
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -107,25 +107,28 @@ class Image implements \ArrayAccess
 
     /**
      * \ArrayAccess unused method
-     * 
+     *
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value) {}
+    public function offsetSet($offset, $value): void {}
 
     /**
      * \ArrayAccess unused method
-     * 
+     *
      * @param mixed $offset
      */
-    public function offsetExists($offset){}
+    public function offsetExists($offset): bool
+    {
+      return false;
+    }
 
     /**
      * \ArrayAccess unused method
-     * 
+     *
      * @param mixed $offset
      */
-    public function offsetUnset($offset){}
+    public function offsetUnset($offset): void {}
 
     /**
      * \ArrayAccess - get array value from object
@@ -134,6 +137,7 @@ class Image implements \ArrayAccess
      *
      * @return string|bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
       // return false if $_FILES['key'] isn't found
