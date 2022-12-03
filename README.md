@@ -24,26 +24,15 @@ Features
 - SEO Friendly URL
 - Automatic YouTube trailers
 
-Requirements
+Requirements (supported versions)
 =======
 
-- Apache 2.2+
-- PHP 5.3.7+
-- MySQL 5.0+
+- PHP 7.4 / PHP 8.0
+- MySQL 5.7 / MySQL 8.0 / MariaDB 10.6
 - GD2 library to be able to upload (and resize) covers
 - PDO library
   - PDO driver for MySQL/MariaDB
 - cURL
-
-Recommendations
-=======
-
-- Apache 2.4+ / Nginx
-- PHP 7+
-- MySQL 5.6+ / MariaDB 10.0+ 
-- YouTube Data API key
-  - Minimum Apache 2.4
-  - Minimum PHP 5.5.0
 
 Installation
 =======
@@ -51,10 +40,10 @@ Installation
 2. Create a database for php4dvd on your web server, as well as a MySQL (or MariaDB) user who has all privileges for accessing and modifying it.
 3. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
-4. Run the php4dvd installation script by accessing the URL in a web browser. 
+4. Run the php4dvd installation script by accessing the URL in a web browser.
 5. Manually remove the install/ directory.
 6. Log into php4dvd using the username: admin, password: admin.
-	
+
 Upgrade
 =======
 Delete all files and folders except:
@@ -71,13 +60,13 @@ $settings["defaultlanguage"] = "nl"; // Nederlands
 $settings["defaultlanguage"] = "sv"; // Swedish
 $settings["defaultlanguage"] = "pl"; // Polish
 ```
-2. [Download](https://github.com/jreklund/php4dvd/releases) and unzip php4dvd package if you haven't already.
-3. Upload the php4dvd files to the desired location on your web server:
+1. [Download](https://github.com/jreklund/php4dvd/releases) and unzip php4dvd package if you haven't already.
+2. Upload the php4dvd files to the desired location on your web server:
    - (e.g. http://www.yoursite.com/php4dvd).
-4. Run the php4dvd installation script by accessing the URL in a web browser.
-5. Manually remove the install/ directory.
-6. Log into php4dvd using your username/password.
-7. Empty your browser's cache or force refresh with CTRL+F5 (Win), Ctrl+Shift+R (Win/Linux) or Command+Shift+R (Mac).
+3. Run the php4dvd installation script by accessing the URL in a web browser.
+4. Manually remove the install/ directory.
+5. Log into php4dvd using your username/password.
+6. Empty your browser's cache or force refresh with CTRL+F5 (Win), Ctrl+Shift+R (Win/Linux) or Command+Shift+R (Mac).
 
 Screenshots
 =======
@@ -91,7 +80,7 @@ Configuration / FAQ
 =======
 
 You will find all configurable options inside `config/config.default.php`,
-all of which can be set in your `config/config.php` file. 
+all of which can be set in your `config/config.php` file.
 By default, guest users can't view your movie collection. If you want guest
 users to view your collection, set the `guestview` variable to `true` in
 `config/config.php` after installation or upgrade.
@@ -137,7 +126,7 @@ $settings["imdbphp"]["ip_address"] = '';
 
 ### Internal Server Error
 
-Try to run the website, but if the site failes opening with a `Internal 
+Try to run the website, but if the site failes opening with a `Internal
 Server Error`, adjust the .htaccess file in the root of the site.
 Try to remove the Options line by placing a # at the beginning of the line.
 Otherwise remove the `<Files>` section. These settings might fail because of
@@ -157,31 +146,35 @@ Visible as ERROR 500 in your browser when adding movie/tv posters from IMDb.
 I recommend that you update your local `ca-bundle.crt` or `ca-certificates.crt` file for your whole system.  
 There are different best practices depending on OS. Google is your best bet, for finding the safest way.  
 
-You can also use a local `cacert.pem` like in Windows.  
+You can also use a local `cacert.pem` like in Windows.
+
 ```
-/etc/ssl/certs/cacert.pem  
+/etc/ssl/certs/cacert.pem
+```
+
+```
 curl.cainfo = "/etc/ssl/certs/cacert.pem"
 ```
-    
+
 Templates
 =======
 
 You can customize your site by adding your own template. Take a look at the
 `tpl/default/` directory and copy this directory to your own tpl directory.
-Now you can adjust the `config/config.php` to your new template. Check all 
+Now you can adjust the `config/config.php` to your new template. Check all
 template files and try to adjust them to your own whishes.
 
 If you just want to change the color, please check `config/config.defaults.php` for available skins.
-    
+
 Thanks to
 =======
 
 Thanks to cyberolf. He originally created [php4dvd](https://sourceforge.net/projects/php4dvd/).
 
-Thanks to morphias0. He wrote the first automatic installer/upgrade script 
+Thanks to morphias0. He wrote the first automatic installer/upgrade script
 and came up with some extra features.
- 
-Thanks to Izzy from [IzzySoft](http://projects.izzysoft.de/trac/imdbphp). He wrote the imdbphp class to be able to 
+
+Thanks to Izzy from [IzzySoft](http://projects.izzysoft.de/trac/imdbphp). He wrote the imdbphp class to be able to
 search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothman/imdbphp) for continuing his work.
 
 ### Libraries
@@ -199,12 +192,10 @@ search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothma
   - [jQuery Validation Plugin](https://jqueryvalidation.org/)
   - [Lazy Load Plugin for jQuery](https://www.appelsiini.net/projects/lazyload)
   - [Magnific Popup](http://dimsemenov.com/plugins/magnific-popup/)
-  
+
 #### PHP
   - [BulletProof](https://github.com/samayo/bulletproof)
   - [imdbphp](https://github.com/tboothman/imdbphp)
-  - [password_compat](https://github.com/ircmaxell/password_compat)
-  - [random_compat](https://github.com/paragonie/random_compat)
   - [RedBeanPHP](http://www.redbeanphp.com/)
   - [Smarty](http://www.smarty.net/)
 
