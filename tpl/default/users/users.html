@@ -96,7 +96,7 @@
 										{if $user->permission == 2}{$smarty.const.ADMIN|htmlentities:3:'UTF-8'}{/if}
 									</td>
 									<td>
-										{if $user->lastlogin != ''}{$user->lastlogin}{/if}
+										{if $user->lastlogin != null}{$user->lastlogin}{/if}
 									</td>
 									<td data-title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" data-id="{$user->id}">
 										{if $User->isAdmin() && $user->username != $defaultAdmin}

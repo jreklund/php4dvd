@@ -12,29 +12,28 @@ class Database {
 	 */
 	public function __construct($settings) {
 		if(!isset(self::$database)) {
-			self::$database = R::setup("mysql:host=" . $settings["host"] . ";port=" . $settings["port"] . ";dbname=" . $settings["name"],
-										$settings["user"],
-										$settings["pass"],
-										true);
-			
-			if(isset($settings["NO_ZERO_IN_DATE"]) && $settings["NO_ZERO_IN_DATE"]) {
-				R::exec('SET SQL_MODE = ""');
-			}
+			self::$database = R::setup(
+				"mysql:host=" . $settings["host"] . ";port=" . $settings["port"] . ";dbname=" . $settings["name"],
+				$settings["user"],
+				$settings["pass"],
+				true
+			);
+
 			// Debug
 			if(isset($settings["debug"]) && $settings["debug"]) {
 				R::fancyDebug($settings["debug"]);
 			}
 		}
 	}
-	
+
 	public function getDatabaseClient() {
 		return self::$database->getDatabaseAdapter()->getDatabase()->getPDO()->getAttribute(\PDO::ATTR_CLIENT_VERSION );
 	}
-	
+
 	public function getDatabaseVersion() {
 		return self::$database->getDatabaseAdapter()->getDatabase()->getPDO()->getAttribute( \PDO::ATTR_SERVER_VERSION );
 	}
-	
+
 	public function getMysqlEncoding() {
 		return self::$database->getDatabaseAdapter()->getDatabase()->getMysqlEncoding( TRUE );
 	}
