@@ -82,7 +82,7 @@
 					<img src="{$movie->photo()}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
 					{/if}
 				</div>
-				
+
 				<div class="{if $hasPhoto}maininfo{/if}">
 					<div class="box box-primary">
 						<div class="box-header with-border">
@@ -214,7 +214,7 @@
 								<div id="loandate-container" class="form-group has-feedback{if !isset($movie) || !$movie->loaned} form-hide{/if}">
 									<label for="loandate" class="{$colWidthSmall} control-label">{$smarty.const.LOANED_OUT_SINCE|htmlentities:3:'UTF-8'}</label>
 									<div class="{$colWidthLarge}">
-										<input type="text" name="loandate" id="loandate" value="{if isset($movie) && $movie->loandate != '0000-00-00'}{$movie->loandate|htmlentities:3:'UTF-8'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" class="form-control date">
+										<input type="text" name="loandate" id="loandate" value="{if isset($movie) && $movie->loandate != null}{$movie->loandate|htmlentities:3:'UTF-8'}{else}{$smarty.now|date_format:'%Y-%m-%d'}{/if}" class="form-control date">
 									</div>
 								</div>
 								<div class="form-group has-feedback">
@@ -237,13 +237,13 @@
 								{if isset($movie)}
 								<div class="form-group has-feedback">
 									<label for="imdbphoto" class="{$colWidthSmall} control-label">
-										{$smarty.const.PHOTO_FROM_IMDB|htmlentities:3:'UTF-8'} 
+										{$smarty.const.PHOTO_FROM_IMDB|htmlentities:3:'UTF-8'}
 									</label>
 									<div class="{$colWidthLarge}">
 										<div class="checkbox">
 											<label>
 												<input type="checkbox" name="imdbphoto">
-												{$smarty.const.DOWNLOAD_FROM_IMDB|htmlentities:3:'UTF-8'} 
+												{$smarty.const.DOWNLOAD_FROM_IMDB|htmlentities:3:'UTF-8'}
 											</label>
 										</div>
 									</div>
@@ -251,7 +251,7 @@
 								{/if}
 								<div class="form-group has-feedback">
 									<label for="photo" class="{$colWidthSmall} control-label">
-										{$smarty.const.PHOTO|htmlentities:3:'UTF-8'} 
+										{$smarty.const.PHOTO|htmlentities:3:'UTF-8'}
 										{if isset($movie->name)}<a href="https://www.themoviedb.org/search?query={$movie->name|urlencode}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - The Movie Database (TMDb)" aria-hidden="true"></i></a>{/if}
 										{if isset($movie->name)}<a href="https://www.cinematerial.com/search?q={$movie->name|urlencode}" target="_blank" rel="noreferrer noopener"><i class="fa fa-search" title="{$smarty.const.SEARCH_FOR_PHOTO|htmlentities:3:'UTF-8'} - CineMaterial" aria-hidden="true"></i></a>{/if}
 									</label>
