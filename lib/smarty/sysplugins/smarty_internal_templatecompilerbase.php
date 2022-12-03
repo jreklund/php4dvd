@@ -204,13 +204,6 @@ abstract class Smarty_Internal_TemplateCompilerBase
     public $blockOrFunctionCode = '';
 
     /**
-     * php_handling setting either from Smarty or security
-     *
-     * @var int
-     */
-    public $php_handling = 0;
-
-    /**
      * flags for used modifier plugins
      *
      * @var array
@@ -429,19 +422,11 @@ abstract class Smarty_Internal_TemplateCompilerBase
         try {
             // save template object in compiler class
             $this->template = $template;
-            if (property_exists($this->template->smarty, 'plugin_search_order')) {
-                $this->plugin_search_order = $this->template->smarty->plugin_search_order;
-            }
             if ($this->smarty->debugging) {
                 if (!isset($this->smarty->_debug)) {
                     $this->smarty->_debug = new Smarty_Internal_Debug();
                 }
                 $this->smarty->_debug->start_compile($this->template);
-            }
-            if (isset($this->template->smarty->security_policy)) {
-                $this->php_handling = $this->template->smarty->security_policy->php_handling;
-            } else {
-                $this->php_handling = $this->template->smarty->php_handling;
             }
             $this->parent_compiler = $parent_compiler ? $parent_compiler : $this;
             $nocache = isset($nocache) ? $nocache : false;
@@ -649,12 +634,8 @@ abstract class Smarty_Internal_TemplateCompilerBase
                         $this->trigger_template_error("Illegal number of parameter in '{$func_name()}'");
                     }
                     if ($func_name === 'empty') {
-                        if (!$this->syntaxMatchesVariable($parameter[0]) && version_compare(PHP_VERSION, '5.5.0', '<')) {
-                            return '(' . $parameter[ 0 ] . ' === false )';
-                        } else {
-                            return $func_name . '(' .
-                                   str_replace("')->value", "',null,true,false)->value", $parameter[ 0 ]) . ')';
-                        }
+                        return $func_name . '(' .
+                               str_replace("')->value", "',null,true,false)->value", $parameter[ 0 ]) . ')';
                     } else {
                         return $func_name . '(' . $parameter[ 0 ] . ')';
                     }
@@ -1151,7 +1132,7 @@ abstract class Smarty_Internal_TemplateCompilerBase
             flush();
         }
         $e = new SmartyCompilerException($error_text);
-        $e->line = $line;
+        $e->setLine($line);
         $e->source = trim(preg_replace('![\t\r\n]+!', ' ', $match[ $line - 1 ]));
         $e->desc = $args;
         $e->template = $this->template->source->filepath;
@@ -1454,6 +1435,10 @@ abstract class Smarty_Internal_TemplateCompilerBase
      * @return bool true if compiling succeeded, false if it failed
      */
     abstract protected function doCompile($_content, $isTemplateSource = false);
+
+    public function cStyleComment($string) {
+        return '/*' . str_replace('*/', '* /' , $string) . '*/';
+    }
 
     /**
      * Compile Tag
