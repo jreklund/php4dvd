@@ -1,9 +1,6 @@
 <?php
 defined('DIRECTACCESS') OR exit('No direct script access allowed');
 
-require_once($loc . 'lib/random_compat/random.php');
-require_once($loc . "lib/password_compat/password.php");
-
 class Login {
 	/**
 	 * Make Users/Auth datamanagers available.
@@ -14,7 +11,7 @@ class Login {
 		$this->userdm = $userdm;
 		$this->authdm = $authdm;
 	}
-	
+
 	/**
 	 * Login this user.
 	 * @param User $User
@@ -25,7 +22,7 @@ class Login {
 		unset($User->password);
 		$_SESSION["User"] = serialize($User);
 	}
-	
+
 	/**
 	 * Logout this user and destroy authentication.
 	 * @param User $User
@@ -52,7 +49,7 @@ class Login {
 		// Go back
 		back();
 	}
-	
+
 	/**
 	 * Return to the ref page or back.
 	 */
@@ -64,7 +61,7 @@ class Login {
 			back();
 		}
 	}
-	
+
 	/**
 	 * Save authentication information in database/cookie for 14 days.
 	 * @param User $User
@@ -75,9 +72,9 @@ class Login {
 		$token		= $this->generateToken(32);
 		$date		= new DateTime();
 		$date->add(new DateInterval('P14D'));
-		
+
 		setcookie('rememberme', $selector . ':' . $token, $date->getTimestamp(), '/', '', false, true);
-		
+
 		if(!$Auth)
 			$Auth = R::dispense('auth');
 		$Auth->selector	= $selector;
@@ -95,7 +92,7 @@ class Login {
 	protected function generateToken($length = 20) {
 		return bin2hex(random_bytes($length));
 	}
-	
+
 	/**
 	 * Verify users password against the one stored in the database.
 	 * @param string $password
@@ -110,7 +107,7 @@ class Login {
 			$userPassword
 		);
 	}
-	
+
 	/**
 	 * Hash users password before storing it in the database.
 	 * @param string $password
