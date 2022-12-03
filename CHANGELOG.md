@@ -1,3 +1,24 @@
+## 3.11.0
+### Changed
+  - Updated requirements to PHP 7.4 and MySQL (5.7 / 8.0) or MariaDB 10.6
+
+### Added
+  - EditorConfig for Markdown
+
+### Updated
+  - RedBeanPHP 5.7.3
+  - bulletproof 4.0.1 with local patches for PHP 8.1 support
+  - Smarty 4.2.1
+
+### Fixed
+  - Change default dates to "null" instead of "0000-00-00"
+  - Support for PHP 8.0
+
+### Removed
+  - password_compat
+  - random_compat
+  - hash_equals
+
 ## 3.10.2 (2022-10-09)
 ### Updated
   - imdbphp 7.3.1
