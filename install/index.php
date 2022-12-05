@@ -256,7 +256,7 @@ switch ($currentstep) {
 
 							// Run first script when this is a new installation
 							if($new_installation) {
-								$php4dvd_sql = readFileContent($loc . "install/sql/php4dvd-3.3.sql");
+								$php4dvd_sql = readFileContent($loc . "install/sql/php4dvd.sql");
 								if($php4dvd_sql) {
 									$php4dvd_sql = str_replace($search,$replace,$php4dvd_sql);
 									try {
@@ -267,8 +267,8 @@ switch ($currentstep) {
 									}
 								}
 
-								// Start upgrade at lowest supported version, which is v3.4
-								$v = 3.4;
+								// Start upgrade at lowest supported version, which is v3.9
+								$v = 3.9;
 							}
 
 							// Run all upgrade scripts
