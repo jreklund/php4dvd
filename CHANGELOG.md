@@ -1,3 +1,7 @@
+## 3.11.1
+### Fixed
+  - The installer used incorrect database structure, so an upgrade where automatically run
+
 ## 3.11.0
 ### Changed
   - Updated requirements to PHP 7.4 and MySQL (5.7 / 8.0) or MariaDB 10.6
