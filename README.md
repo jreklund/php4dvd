@@ -27,7 +27,7 @@ Features
 Requirements (supported versions)
 =======
 
-- PHP 7.4 / PHP 8.0
+- PHP 7.4 / PHP 8.0 / PHP 8.1
 - MySQL 5.7 / MySQL 8.0 / MariaDB 10.6
 - GD2 library to be able to upload (and resize) covers
 - PDO library
@@ -197,7 +197,7 @@ search for movies at IMDb.com. Big shoutout to [Tom](https://github.com/tboothma
   - [BulletProof](https://github.com/samayo/bulletproof)
   - [imdbphp](https://github.com/tboothman/imdbphp)
   - [RedBeanPHP](http://www.redbeanphp.com/)
-  - [Smarty](http://www.smarty.net/)
+  - [Smarty](https://github.com/smarty-php/smarty)
 
 License
 =======
