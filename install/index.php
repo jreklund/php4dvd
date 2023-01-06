@@ -190,9 +190,6 @@ switch ($currentstep) {
 								// Template
 								$config .= '$settings["template"] = "' . addslashes($uConfig['template']) . '";' . $nl;
 
-								// Close
-								$config .= "?>";
-
 								// Write
 								$file = $loc . "config/config.php";
 								$fsuccess = true;

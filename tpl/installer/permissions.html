@@ -1,16 +1,16 @@
-<h4>{$smarty.const.PERMISSIONS|htmlentities:3:'UTF-8'}</h4>
+<h4>{$smarty.const.PERMISSIONS|escape}</h4>
 
-<p>{$smarty.const.PERMISSIONS_TEXT|htmlentities:3:'UTF-8'}</p>
+<p>{$smarty.const.PERMISSIONS_TEXT|escape}</p>
 
 <ul>
 	{foreach from=$directories key=k item=v}
-	<li class="{if $v}ok{else}failed{/if}">{$k|htmlentities:3:'UTF-8'}&nbsp;&nbsp;-&nbsp;&nbsp;{if $v}{$smarty.const.OK|htmlentities:3:'UTF-8'}{else}{$smarty.const.FAILED|htmlentities:3:'UTF-8'}{/if}</li>
+	<li class="{if $v}ok{else}failed{/if}">{$k|escape}&nbsp;&nbsp;-&nbsp;&nbsp;{if $v}{$smarty.const.OK|escape}{else}{$smarty.const.FAILED|escape}{/if}</li>
 	{/foreach}
 </ul>
 
 {if $permissionsOk}
-<p><input type="submit" name="submit" value="{$smarty.const.NEXT|htmlentities:3:'UTF-8'}" onclick="location.href='./?go={$nextstep}';"></p>
+<p><input type="submit" name="submit" value="{$smarty.const.NEXT|escape}" onclick="location.href='./?go={$nextstep}';"></p>
 {else}
-<p>{$smarty.const.FIX_PERMISSIONS|htmlentities:3:'UTF-8'}</p>
-<p><input type="submit" name="submit" value="{$smarty.const.REFRESH|htmlentities:3:'UTF-8'}" onclick="location.href='./?go={$currentstep}';"></p>
+<p>{$smarty.const.FIX_PERMISSIONS|escape}</p>
+<p><input type="submit" name="submit" value="{$smarty.const.REFRESH|escape}" onclick="location.href='./?go={$currentstep}';"></p>
 {/if}

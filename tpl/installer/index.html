@@ -3,12 +3,12 @@
 <div id="container">
 	<div class="box">
 		<div class="box-header with-border">
-			<h1 class="box-title">{$smarty.const.INSTALLATION|htmlentities:3:'UTF-8'}</h1>
+			<h1 class="box-title">{$smarty.const.INSTALLATION|escape}</h1>
 			<div class="box-tools pull-right">
 				{if count($languages) > 1}
 				<select id="languages">
 				{foreach from=$languages key=name item=code}
-					<option{if $language == $code} selected{/if} value="./?lang={$code|rawurlencode}">{$name|htmlentities:3:'UTF-8'}</option>
+					<option{if $language == $code} selected{/if} value="./?lang={$code|escape:'url'}">{$name|escape}</option>
 				{/foreach}
 				</select>
 				{/if}
@@ -17,9 +17,9 @@
 		<div class="box-body">
 			{if isset($main)}{include file="$main"}{/if}
 		</div>
-		
+
 		<footer>
-			<a href="https://github.com/jreklund/php4dvd" target="_blank" rel="noreferrer noopener">php4dvd v{$newversion|htmlentities:3:'UTF-8'}</a>
+			<a href="https://github.com/jreklund/php4dvd" target="_blank" rel="noreferrer noopener">php4dvd v{$newversion|escape}</a>
 		</footer>
 	</div>
 </div>
@@ -27,7 +27,7 @@
 {if isset($message)}
 <div class="message">
 	<div class="text">
-		{$message|htmlentities:3:'UTF-8'}
+		{$message|escape}
 	</div>
 </div>
 {/if}

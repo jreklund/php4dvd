@@ -4,110 +4,110 @@
 	<!-- sidebar: style can be found in sidebar.less -->
 	<section class="sidebar">
 
-	  <!-- search form (Optional) -->
-	  <div class="sidebar-form">
+		<!-- search form (Optional) -->
+		<div class="sidebar-form">
 		<div class="input-group">
-		  <input id="p" type="hidden">
-		  <input id="l" type="hidden">
-		  <input id="movie" type="hidden">
-		  <input id="tv" type="hidden">
-		  <input id="own" type="hidden">
-		  <input id="seen" type="hidden">
-		  <input id="favourite" type="hidden">
-		  <input type="text" id="q" name="q" class="form-control" autocomplete="off" placeholder="{$smarty.const.SEARCH_DEFAULT_TEXT|htmlentities:3:'UTF-8'}">
-		  <span class="input-group-btn">
+			<input id="p" type="hidden">
+			<input id="l" type="hidden">
+			<input id="movie" type="hidden">
+			<input id="tv" type="hidden">
+			<input id="own" type="hidden">
+			<input id="seen" type="hidden">
+			<input id="favourite" type="hidden">
+			<input type="text" id="q" name="q" class="form-control" autocomplete="off" placeholder="{$smarty.const.SEARCH_DEFAULT_TEXT|escape}">
+			<span class="input-group-btn">
 			<button onclick="search();" id="search-btn" class="btn btn-flat"><i class="fa fa-search" aria-hidden="true"></i></button>
-		  </span>
+			</span>
 		</div>
-	  </div>
-	  <!-- /.search form -->
+		</div>
+		<!-- /.search form -->
 
-	  <!-- Sidebar Menu -->
-	  <ul class="sidebar-menu">
-		<li class="header">{$smarty.const.CATEGORIES|htmlentities:3:'UTF-8'}</li>
-		<li>
-			<div class="nav-select-wrapper">
-				<select id="category" onchange="search();">
-					<option value="">{$smarty.const.ALL_CATEGORIES|htmlentities:3:'UTF-8'}</option>
-					{section name=c loop=$categories}
-					<option value="{$categories[c]}">{translate($categories[c])|htmlentities:3:'UTF-8'}</option>
+		<!-- Sidebar Menu -->
+		<ul class="sidebar-menu">
+			<li class="header">{$smarty.const.CATEGORIES|escape}</li>
+			<li>
+				<div class="nav-select-wrapper">
+					<select id="category" onchange="search();">
+						<option value="">{$smarty.const.ALL_CATEGORIES|escape}</option>
+						{section name=c loop=$categories}
+						<option value="{$categories[c]}">{translate($categories[c])|escape}</option>
+						{/section}
+					</select>
+				</div>
+			</li>
+			<li class="header">{$smarty.const.FORMATS|escape}</li>
+			<li>
+				<div class="nav-select-wrapper">
+					<select id="format" onchange="search();">
+						<option value="">{$smarty.const.ALL_FORMATS|escape}</option>
+						{section name=f loop=$movieformats}
+						<option value="{$movieformats[f]}">{translate($movieformats[f])|escape}</option>
+						{/section}
+					</select>
+				</div>
+			</li>
+			<li class="header">{$smarty.const.SORT_BY|escape}</li>
+			<li>
+				<div class="nav-select-wrapper">
+				<select id="sort" onchange="search();">
+					{section name=s loop=$sortoptions}
+					<option value="{$sortoptions[s]}">{translate($sortoptions[s])|escape}</option>
 					{/section}
 				</select>
-			</div>
-		</li>
-		<li class="header">{$smarty.const.FORMATS|htmlentities:3:'UTF-8'}</li>
-		<li>
-			<div class="nav-select-wrapper">
-				<select id="format" onchange="search();">
-					<option value="">{$smarty.const.ALL_FORMATS|htmlentities:3:'UTF-8'}</option>
-					{section name=f loop=$movieformats}
-					<option value="{$movieformats[f]}">{translate($movieformats[f])|htmlentities:3:'UTF-8'}</option>
-					{/section}
-				</select>
-			</div>
-		</li>
-		<li class="header">{$smarty.const.SORT_BY|htmlentities:3:'UTF-8'}</li>
-		<li>
-			<div class="nav-select-wrapper">
-			<select id="sort" onchange="search();">
-				{section name=s loop=$sortoptions}
-				<option value="{$sortoptions[s]}">{translate($sortoptions[s])|htmlentities:3:'UTF-8'}</option>
-				{/section}
-			</select>
-			</div>
-		</li>
-		<li class="header">{$smarty.const.RESULTS_PER_PAGE|htmlentities:3:'UTF-8'}</li>
-		<li>
-			<div class="nav-select-wrapper">
-				<select id="n" onchange="search();">
-					<option value="0">{if $resultsPerPageDefault === -1}{$smarty.const.ALL|htmlentities:3:'UTF-8'}{elseif $resultsPerPageDefault === 0}100{else}{$resultsPerPageDefault|htmlentities:3:'UTF-8'}{/if}</option>
-					{section name=n loop=$resultsperpage}
-					<option value="{$resultsperpage[n]}">{$resultsperpage[n]|htmlentities:3:'UTF-8'}</option>
-					{/section}
-				</select>
-			</div>
-		</li>
-		{if $parental_guidance}
-		<li class="header">{$smarty.const.PARENTAL_GUIDANCE|htmlentities:3:'UTF-8'}</li>
-		<li class="slider-group">
-			<input
-				type="text"
-				name="pg"
-				id="pg"
-				data-provide="slider"
-				data-slider-min="0"
-				data-slider-max="{$parental_guidance_age}"
-				data-slider-step="1"
-				data-slider-value="[{$parental_guidance_value}]"
-				data-slider-tooltip="show"
-				data-slider-id="{if !$template_light}{$template_colour}{/if}"
-			>
-		</li>
-		{/if}
-		<li class="header">{$smarty.const.FILTER_BY|htmlentities:3:'UTF-8'}</li>
-		<li id="filter-by-original" class="hidden">
-			<i class="fa fa-2x fa-fw fa-film" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="movie" data-value="0" data-toggle="0"></i>
-			<i class="fa fa-2x fa-fw fa-tv" title="{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="tv" data-value="0" data-toggle="0"></i>
-			<i class="fa fa-2x fa-fw fa-star-o" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'} / {$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="own" data-value="-1" data-toggle="1" data-remove="fa-star-o" data-add="fa-star"></i>
-			<i class="fa fa-2x fa-fw fa-eye-slash" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'} / {$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="seen" data-value="-1" data-toggle="1" data-remove="fa-eye-slash" data-add="fa-eye"></i>
-			<i class="fa fa-2x fa-fw fa-heart-o" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'} / {$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="favourite" data-value="-1" data-toggle="1" data-remove="fa-heart-o" data-add="fa-heart"></i>
-		</li>
-		<li id="filter-by" class="icons-group">
-			<i class="{if $filterByMovie == '1'}active {/if}fa fa-2x fa-fw fa-film" title="{$smarty.const.MOVIE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="movie" data-value="{$filterByMovie}" data-toggle="0"></i>
-			<i class="{if $filterByTv == '1'}active {/if}fa fa-2x fa-fw fa-tv" title="{$smarty.const.TV_SERIES|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="tv" data-value="{$filterByTv}" data-toggle="0"></i>
-			<i class="{if $filterByOwn != '-1'}active {/if}fa fa-2x fa-fw {if $filterByOwn == '1'}fa-star{else}fa-star-o{/if}" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'} / {$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="own" data-value="{$filterByOwn}" data-toggle="1" data-remove="fa-star-o" data-add="fa-star"></i>
-			<i class="{if $filterBySeen != '-1'}active {/if}fa fa-2x fa-fw {if $filterBySeen == '1'}fa-eye{else}fa-eye-slash{/if}" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'} / {$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="seen" data-value="{$filterBySeen}" data-toggle="1" data-remove="fa-eye-slash" data-add="fa-eye"></i>
-			<i class="{if $filterByFavourite != '-1'}active {/if}fa fa-2x fa-fw {if $filterByFavourite == '1'}fa-heart{else}fa-heart-o{/if}" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'} / {$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true" data-id="favourite" data-value="{$filterByFavourite}" data-toggle="1" data-remove="fa-heart-o" data-add="fa-heart"></i>
-		</li>
-		<li class="header">{$smarty.const.LAYOUT|htmlentities:3:'UTF-8'}</li>
-		<li id="layout" class="icons-group">
-			<i class="{if $templateName == 'poster'}active {/if}fa fa-2x fa-fw fa-th-large" aria-hidden="true" data-value="poster"></i>
-			<i class="{if $templateName == 'postertitle'}active {/if}fa fa-2x fa-fw fa-th" aria-hidden="true" data-value="postertitle"></i>
-			<i class="{if $templateName == 'posterlist'}active {/if}fa fa-2x fa-fw fa-th-list" aria-hidden="true" data-value="posterlist"></i>
-			<i class="{if $templateName == 'list'}active {/if}fa fa-2x fa-fw fa-align-justify" aria-hidden="true" data-value="list"></i>
-			<i class="{if $templateName == 'listplot'}active {/if}fa fa-2x fa-fw fa-bars" aria-hidden="true" data-value="listplot"></i>
-		</li>
-	  </ul><!-- /.sidebar-menu -->
+				</div>
+			</li>
+			<li class="header">{$smarty.const.RESULTS_PER_PAGE|escape}</li>
+			<li>
+				<div class="nav-select-wrapper">
+					<select id="n" onchange="search();">
+						<option value="0">{if $resultsPerPageDefault === -1}{$smarty.const.ALL|escape}{elseif $resultsPerPageDefault === 0}100{else}{$resultsPerPageDefault|escape}{/if}</option>
+						{section name=n loop=$resultsperpage}
+						<option value="{$resultsperpage[n]}">{$resultsperpage[n]|escape}</option>
+						{/section}
+					</select>
+				</div>
+			</li>
+			{if $parental_guidance}
+			<li class="header">{$smarty.const.PARENTAL_GUIDANCE|escape}</li>
+			<li class="slider-group">
+				<input
+					type="text"
+					name="pg"
+					id="pg"
+					data-provide="slider"
+					data-slider-min="0"
+					data-slider-max="{$parental_guidance_age}"
+					data-slider-step="1"
+					data-slider-value="[{$parental_guidance_value}]"
+					data-slider-tooltip="show"
+					data-slider-id="{if !$template_light}{$template_colour}{/if}"
+				>
+			</li>
+			{/if}
+			<li class="header">{$smarty.const.FILTER_BY|escape}</li>
+			<li id="filter-by-original" class="hidden">
+				<i class="fa fa-2x fa-fw fa-film" title="{$smarty.const.MOVIE|escape}" aria-hidden="true" data-id="movie" data-value="0" data-toggle="0"></i>
+				<i class="fa fa-2x fa-fw fa-tv" title="{$smarty.const.TV_SERIES|escape}" aria-hidden="true" data-id="tv" data-value="0" data-toggle="0"></i>
+				<i class="fa fa-2x fa-fw fa-star-o" title="{$smarty.const.OWN|escape} / {$smarty.const.NOT_OWN|escape}" aria-hidden="true" data-id="own" data-value="-1" data-toggle="1" data-remove="fa-star-o" data-add="fa-star"></i>
+				<i class="fa fa-2x fa-fw fa-eye-slash" title="{$smarty.const.SEEN|escape} / {$smarty.const.UNSEEN|escape}" aria-hidden="true" data-id="seen" data-value="-1" data-toggle="1" data-remove="fa-eye-slash" data-add="fa-eye"></i>
+				<i class="fa fa-2x fa-fw fa-heart-o" title="{$smarty.const.FAVOURITE|escape} / {$smarty.const.NOT_FAVOURITE|escape}" aria-hidden="true" data-id="favourite" data-value="-1" data-toggle="1" data-remove="fa-heart-o" data-add="fa-heart"></i>
+			</li>
+			<li id="filter-by" class="icons-group">
+				<i class="{if $filterByMovie == '1'}active {/if}fa fa-2x fa-fw fa-film" title="{$smarty.const.MOVIE|escape}" aria-hidden="true" data-id="movie" data-value="{$filterByMovie}" data-toggle="0"></i>
+				<i class="{if $filterByTv == '1'}active {/if}fa fa-2x fa-fw fa-tv" title="{$smarty.const.TV_SERIES|escape}" aria-hidden="true" data-id="tv" data-value="{$filterByTv}" data-toggle="0"></i>
+				<i class="{if $filterByOwn != '-1'}active {/if}fa fa-2x fa-fw {if $filterByOwn == '1'}fa-star{else}fa-star-o{/if}" title="{$smarty.const.OWN|escape} / {$smarty.const.NOT_OWN|escape}" aria-hidden="true" data-id="own" data-value="{$filterByOwn}" data-toggle="1" data-remove="fa-star-o" data-add="fa-star"></i>
+				<i class="{if $filterBySeen != '-1'}active {/if}fa fa-2x fa-fw {if $filterBySeen == '1'}fa-eye{else}fa-eye-slash{/if}" title="{$smarty.const.SEEN|escape} / {$smarty.const.UNSEEN|escape}" aria-hidden="true" data-id="seen" data-value="{$filterBySeen}" data-toggle="1" data-remove="fa-eye-slash" data-add="fa-eye"></i>
+				<i class="{if $filterByFavourite != '-1'}active {/if}fa fa-2x fa-fw {if $filterByFavourite == '1'}fa-heart{else}fa-heart-o{/if}" title="{$smarty.const.FAVOURITE|escape} / {$smarty.const.NOT_FAVOURITE|escape}" aria-hidden="true" data-id="favourite" data-value="{$filterByFavourite}" data-toggle="1" data-remove="fa-heart-o" data-add="fa-heart"></i>
+			</li>
+			<li class="header">{$smarty.const.LAYOUT|escape}</li>
+			<li id="layout" class="icons-group">
+				<i class="{if $templateName == 'poster'}active {/if}fa fa-2x fa-fw fa-th-large" aria-hidden="true" data-value="poster"></i>
+				<i class="{if $templateName == 'postertitle'}active {/if}fa fa-2x fa-fw fa-th" aria-hidden="true" data-value="postertitle"></i>
+				<i class="{if $templateName == 'posterlist'}active {/if}fa fa-2x fa-fw fa-th-list" aria-hidden="true" data-value="posterlist"></i>
+				<i class="{if $templateName == 'list'}active {/if}fa fa-2x fa-fw fa-align-justify" aria-hidden="true" data-value="list"></i>
+				<i class="{if $templateName == 'listplot'}active {/if}fa fa-2x fa-fw fa-bars" aria-hidden="true" data-value="listplot"></i>
+			</li>
+		</ul><!-- /.sidebar-menu -->
 	</section>
 	<!-- /.sidebar -->
 </aside>

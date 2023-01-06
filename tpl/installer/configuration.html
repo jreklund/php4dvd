@@ -1,12 +1,12 @@
-<h4>{$smarty.const.CONFIGURATION|htmlentities:3:'UTF-8'}</h4>
+<h4>{$smarty.const.CONFIGURATION|escape}</h4>
 
-<p>{$smarty.const.CONFIGURATION_TEXT|htmlentities:3:'UTF-8'}</p>
+<p>{$smarty.const.CONFIGURATION_TEXT|escape}</p>
 
 <script>
 	$(document).ready(function() {
 		// remote, email, url, date, dateISO, digits, creditcard, equalTo, accept, maxlength, minlength, rangelength, range, max, min
-		$.validator.messages["required"] = "{$smarty.const.VALIDATOR_REQUIRED|htmlentities:3:'UTF-8'}";
-		$.validator.messages["digits"] = "{$smarty.const.VALIDATOR_DIGITS|htmlentities:3:'UTF-8'}";
+		$.validator.messages["required"] = "{$smarty.const.VALIDATOR_REQUIRED|escape}";
+		$.validator.messages["digits"] = "{$smarty.const.VALIDATOR_DIGITS|escape}";
 		$("#form").validate({
 			wrapper: 'div',
 			errorPlacement: function(e,r){ e.addClass("col-sm-9"),r.closest("div").before(e),r.parents(".has-feedback").addClass("has-error") },
@@ -18,79 +18,79 @@
 </script>
 
 <form id="form" method="POST" class="form-horizontal">
-	<h4>{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}</h4>
-	
+	<h4>{$smarty.const.DATABASE|escape}</h4>
+
 	<div class="form-group has-feedback">
-		<label for="dbhost" class="col-sm-2 control-label">{$smarty.const.HOST|htmlentities:3:'UTF-8'}</label>
+		<label for="dbhost" class="col-sm-2 control-label">{$smarty.const.HOST|escape}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbhost" id="dbhost" class="form-control required" value="{$dbhost|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.HOST|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbhost" id="dbhost" class="form-control required" value="{$dbhost|escape}" placeholder="{$smarty.const.HOST|escape}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="dbport" class="col-sm-2 control-label">{$smarty.const.PORT|htmlentities:3:'UTF-8'}</label>
+		<label for="dbport" class="col-sm-2 control-label">{$smarty.const.PORT|escape}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbport" id="dbport" class="form-control required digits" value="{$dbport|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.PORT|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbport" id="dbport" class="form-control required digits" value="{$dbport|escape}" placeholder="{$smarty.const.PORT|escape}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="dbname" class="col-sm-2 control-label">{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}</label>
+		<label for="dbname" class="col-sm-2 control-label">{$smarty.const.DATABASE|escape}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbname" id="dbname" class="form-control required" value="{$dbname|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.DATABASE|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbname" id="dbname" class="form-control required" value="{$dbname|escape}" placeholder="{$smarty.const.DATABASE|escape}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="dbuser" class="col-sm-2 control-label">{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}</label>
+		<label for="dbuser" class="col-sm-2 control-label">{$smarty.const.USER_NAME|escape}</label>
 		<div class="col-sm-6">
-			<input type="text" name="dbuser" id="dbuser" class="form-control required" value="{$dbuser|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}">
+			<input type="text" name="dbuser" id="dbuser" class="form-control required" value="{$dbuser|escape}" placeholder="{$smarty.const.USER_NAME|escape}">
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="dbpass" class="col-sm-2 control-label">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}</label>
+		<label for="dbpass" class="col-sm-2 control-label">{$smarty.const.PASSWORD|escape}</label>
 		<div class="col-sm-6">
-			<input type="password" name="dbpass" id="dbpass" class="form-control" value="{$dbpass|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
+			<input type="password" name="dbpass" id="dbpass" class="form-control" value="{$dbpass|escape}" placeholder="{$smarty.const.PASSWORD|escape}">
 		</div>
 	</div>
 
-	<h4>{$smarty.const.WEBSITE|htmlentities:3:'UTF-8'}</h4>
-	
+	<h4>{$smarty.const.WEBSITE|escape}</h4>
+
 	<div class="form-group has-feedback">
-		<label for="url" class="col-sm-2 control-label">{$smarty.const.URL|htmlentities:3:'UTF-8'}</label>
+		<label for="url" class="col-sm-2 control-label">{$smarty.const.URL|escape}</label>
 		<div class="col-sm-10">
-			{$baseurl|htmlentities:3:'UTF-8'}/ <input type="text" name="url" id="url" class="form-control" value="{$url|htmlentities:3:'UTF-8'}" placeholder="{$smarty.const.URL|htmlentities:3:'UTF-8'}"> /
+			{$baseurl|escape}/ <input type="text" name="url" id="url" class="form-control" value="{$url|escape}" placeholder="{$smarty.const.URL|escape}"> /
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="template" class="col-sm-2 control-label">{$smarty.const.TEMPLATE|htmlentities:3:'UTF-8'}</label>
+		<label for="template" class="col-sm-2 control-label">{$smarty.const.TEMPLATE|escape}</label>
 		<div class="col-sm-6">
 			<select name="template" id="template" class="form-control required">
 				{section loop=$templates name=t}
-				<option value="{$templates[t]|htmlentities:3:'UTF-8'}"{if $template == $templates[t]} selected{/if}>{$templates[t]|htmlentities:3:'UTF-8'}</option>
+				<option value="{$templates[t]|escape}"{if $template == $templates[t]} selected{/if}>{$templates[t]|escape}</option>
 				{/section}
 			</select>
 		</div>
 	</div>
 	<div class="form-group has-feedback">
-		<label for="defaultlanguage" class="col-sm-2 control-label">{$smarty.const.LANGUAGE|htmlentities:3:'UTF-8'}</label>
+		<label for="defaultlanguage" class="col-sm-2 control-label">{$smarty.const.LANGUAGE|escape}</label>
 		<div class="col-sm-6">
 			<select name="defaultlanguage" id="defaultlanguage" class="form-control required">
 				{foreach from=$languages key=name item=code}
-				<option value="{$code|htmlentities:3:'UTF-8'}"{if $language == $code} selected{/if}>{$name|htmlentities:3:'UTF-8'}</option>
+				<option value="{$code|escape}"{if $language == $code} selected{/if}>{$name|escape}</option>
 				{/foreach}
 			</select>
 		</div>
 	</div>
-	<div class="form-group has-feedback">		
+	<div class="form-group has-feedback">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-6">
-			<label for="guestview" class="control-label"><input type="checkbox" name="guestview" id="guestview" value="1"{if $guestview} checked{/if}> {$smarty.const.GUEST_USERS_CAN_SEE_COLLECTION|htmlentities:3:'UTF-8'}</label>
+			<label for="guestview" class="control-label"><input type="checkbox" name="guestview" id="guestview" value="1"{if $guestview} checked{/if}> {$smarty.const.GUEST_USERS_CAN_SEE_COLLECTION|escape}</label>
 		</div>
 	</div>
-	
+
 	{if isset($error)}
 	<div class="callout callout-danger">
-		<p>{$error|htmlentities:3:'UTF-8'}</p>
+		<p>{$error|escape}</p>
 	</div>
 	{/if}
-	
-	<input type="submit" name="submit" value="{$smarty.const.NEXT|htmlentities:3:'UTF-8'}"> 
+
+	<input type="submit" name="submit" value="{$smarty.const.NEXT|escape}">
 </form>

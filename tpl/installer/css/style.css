@@ -3,8 +3,9 @@ body {
 }
 
 #container {
-    margin: 140px auto 25px;
-    max-width: 700px;
+	padding-top: 20px;
+	margin: 0 auto;
+	max-width: 700px;
 }
 
 header {

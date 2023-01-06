@@ -1,3 +1,11 @@
+## 3.11.2
+### Updated
+  - Smarty 4.3.0
+
+### Changed
+  - The installer no longer adds a closing php-tag to the configuration file
+  - The installer had an invisible space that generated a longer scrollbar
+
 ## 3.11.1
 ### Fixed
   - The installer used incorrect database structure, so an upgrade where automatically run

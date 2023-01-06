@@ -1,8 +1,8 @@
 <div class="boxed">
 	<section class="content-header">
 		<h1>
-			{$smarty.const.MY_PROFILE|htmlentities:3:'UTF-8'}
-			<small>{$user->username|htmlentities:3:'UTF-8'}</small>
+			{$smarty.const.MY_PROFILE|escape}
+			<small>{$user->username|escape}</small>
 		</h1>
 	</section>
 	<section class="content">
@@ -11,51 +11,51 @@
 				<div class="box box-primary">
 					<form id="form" method="POST">
 						<div class="box-header with-border">
-							<h3 class="box-title">{$smarty.const.EDIT|htmlentities:3:'UTF-8'}</h3>
-						</div>	
+							<h3 class="box-title">{$smarty.const.EDIT|escape}</h3>
+						</div>
 						<div class="box-body">
-							<label for="username">{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}:</label>
+							<label for="username">{$smarty.const.USER_NAME|escape}:</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon">@</span>
-									<input type="text" id="username" name="username" class="form-control required" placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}" value="{if isset($user)}{$user->username|htmlentities:3:'UTF-8'}{/if}" disabled>
+									<input type="text" id="username" name="username" class="form-control required" placeholder="{$smarty.const.USER_NAME|escape}" value="{if isset($user)}{$user->username|escape}{/if}" disabled>
 								</div>
 							</div>
-							<label for="email">{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}:</label>
+							<label for="email">{$smarty.const.EMAIL|escape}:</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-									<input type="email" id="email" name="email" class="form-control required email" autofocus placeholder="{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}" value="{if isset($user)}{$user->email|htmlentities:3:'UTF-8'}{/if}">
+									<input type="email" id="email" name="email" class="form-control required email" autofocus placeholder="{$smarty.const.EMAIL|escape}" value="{if isset($user)}{$user->email|escape}{/if}">
 								</div>
 							</div>
-							<label for="password">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}:</label>
+							<label for="password">{$smarty.const.PASSWORD|escape}:</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-									<input type="password" id="password" name="password" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
+									<input type="password" id="password" name="password" class="form-control" placeholder="{$smarty.const.PASSWORD|escape}">
 								</div>
 							</div>
-							<label for="password2">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'}):</label>
+							<label for="password2">{$smarty.const.PASSWORD|escape} ({$smarty.const.AGAIN|escape}):</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-									<input type="password" id="password2" name="password2" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'})">
+									<input type="password" id="password2" name="password2" class="form-control" placeholder="{$smarty.const.PASSWORD|escape} ({$smarty.const.AGAIN|escape})">
 								</div>
 							</div>
-							<label for="permission">{$smarty.const.ROLE|htmlentities:3:'UTF-8'}:</label>
+							<label for="permission">{$smarty.const.ROLE|escape}:</label>
 							<div class="form-group">
 								<select name="permission" id="permission" class="form-control"{if !$User->isAdmin() || $User->id == $user->id} disabled{/if}>
-									<option value="0"{if isset($user) && $user->permission == 0} selected{/if}>{$smarty.const.GUEST|htmlentities:3:'UTF-8'}</option>
-									<option value="1"{if isset($user) && $user->permission == 1} selected{/if}>{$smarty.const.EDITOR|htmlentities:3:'UTF-8'}</option>
-									<option value="2"{if isset($user) && $user->permission == 2} selected{/if}>{$smarty.const.ADMIN|htmlentities:3:'UTF-8'}</option>
+									<option value="0"{if isset($user) && $user->permission == 0} selected{/if}>{$smarty.const.GUEST|escape}</option>
+									<option value="1"{if isset($user) && $user->permission == 1} selected{/if}>{$smarty.const.EDITOR|escape}</option>
+									<option value="2"{if isset($user) && $user->permission == 2} selected{/if}>{$smarty.const.ADMIN|escape}</option>
 								</select>
 							</div>
 							{if isset($username_error)}
-							<div class="callout callout-danger">{$username_error|htmlentities:3:'UTF-8'}</div>
+							<div class="callout callout-danger">{$username_error|escape}</div>
 							{/if}
 						</div><!-- /.box-body -->
 						<div class="box-footer">
-							<button type="submit" name="submit" class="btn btn-primary">{$smarty.const.SAVE|htmlentities:3:'UTF-8'}</button>
+							<button type="submit" name="submit" class="btn btn-primary">{$smarty.const.SAVE|escape}</button>
 						</div>
 					</form>
 				</div><!-- /.box -->
