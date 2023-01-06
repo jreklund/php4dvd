@@ -1,7 +1,7 @@
 <div class="boxed">
 	<section class="content-header">
 		<h1>
-			{$smarty.const.USER_MANAGEMENT|htmlentities:3:'UTF-8'}
+			{$smarty.const.USER_MANAGEMENT|escape}
 		</h1>
 	</section>
 	<section class="content">
@@ -10,51 +10,51 @@
 				<div class="box box-primary">
 					<form id="form" method="POST">
 						<div class="box-header with-border">
-							<h3 class="box-title">{$smarty.const.NEW_USER|htmlentities:3:'UTF-8'}</h3>
+							<h3 class="box-title">{$smarty.const.NEW_USER|escape}</h3>
 						</div>
 						<div class="box-body">
-							<label for="username">{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}:</label>
+							<label for="username">{$smarty.const.USER_NAME|escape}:</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon">@</span>
-									<input type="text" id="username" name="username" class="form-control required" autofocus placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}" value="{if isset($newuser)}{$newuser->username|htmlentities:3:'UTF-8'}{/if}">
+									<input type="text" id="username" name="username" class="form-control required" autofocus placeholder="{$smarty.const.USER_NAME|escape}" value="{if isset($newuser)}{$newuser->username|escape}{/if}">
 								</div>
 							</div>
-							<label for="email">{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}:</label>
+							<label for="email">{$smarty.const.EMAIL|escape}:</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-									<input type="email" id="email" name="email" class="form-control required email" placeholder="{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}" value="{if isset($newuser)}{$newuser->email|htmlentities:3:'UTF-8'}{/if}">
+									<input type="email" id="email" name="email" class="form-control required email" placeholder="{$smarty.const.EMAIL|escape}" value="{if isset($newuser)}{$newuser->email|escape}{/if}">
 								</div>
 							</div>
-							<label for="password">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}:</label>
+							<label for="password">{$smarty.const.PASSWORD|escape}:</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-									<input type="password" id="password" name="password" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
+									<input type="password" id="password" name="password" class="form-control" placeholder="{$smarty.const.PASSWORD|escape}">
 								</div>
 							</div>
-							<label for="password2">{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'}):</label>
+							<label for="password2">{$smarty.const.PASSWORD|escape} ({$smarty.const.AGAIN|escape}):</label>
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-									<input type="password" id="password2" name="password2" class="form-control" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'} ({$smarty.const.AGAIN|htmlentities:3:'UTF-8'})">
+									<input type="password" id="password2" name="password2" class="form-control" placeholder="{$smarty.const.PASSWORD|escape} ({$smarty.const.AGAIN|escape})">
 								</div>
 							</div>
-							<label for="permission">{$smarty.const.ROLE|htmlentities:3:'UTF-8'}:</label>
+							<label for="permission">{$smarty.const.ROLE|escape}:</label>
 							<div class="form-group">
 								<select name="permission" id="permission" class="form-control required">
-									<option value="0"{if isset($newuser) && $newuser->permission == 0} selected{/if}>{$smarty.const.GUEST|htmlentities:3:'UTF-8'}</option>
-									<option value="1"{if isset($newuser) && $newuser->permission == 1} selected{/if}>{$smarty.const.EDITOR|htmlentities:3:'UTF-8'}</option>
-									<option value="2"{if isset($newuser) && $newuser->permission == 2} selected{/if}>{$smarty.const.ADMIN|htmlentities:3:'UTF-8'}</option>
+									<option value="0"{if isset($newuser) && $newuser->permission == 0} selected{/if}>{$smarty.const.GUEST|escape}</option>
+									<option value="1"{if isset($newuser) && $newuser->permission == 1} selected{/if}>{$smarty.const.EDITOR|escape}</option>
+									<option value="2"{if isset($newuser) && $newuser->permission == 2} selected{/if}>{$smarty.const.ADMIN|escape}</option>
 								</select>
 							</div>
 							{if isset($username_error)}
-							<div class="callout callout-danger">{$username_error|htmlentities:3:'UTF-8'}</div>
+							<div class="callout callout-danger">{$username_error|escape}</div>
 							{/if}
 						</div><!-- /.box-body -->
 						<div class="box-footer">
-							<button type="submit" name="submit" class="btn btn-primary">{$smarty.const.SAVE|htmlentities:3:'UTF-8'}</button>
+							<button type="submit" name="submit" class="btn btn-primary">{$smarty.const.SAVE|escape}</button>
 						</div>
 					</form>
 				</div><!-- /.box -->
@@ -62,46 +62,46 @@
 			<div class="col-md-8">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h3 class="box-title">{$smarty.const.USERS|htmlentities:3:'UTF-8'}</h3>
+						<h3 class="box-title">{$smarty.const.USERS|escape}</h3>
 					</div>
 					<div class="box-body table-responsive no-padding">
 						<table class="table table-striped">
 							<tbody>
 								<tr>
 									<td style="width: 20px;">&nbsp;</td>
-									<th>{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}</th>
-									<th>{$smarty.const.EMAIL|htmlentities:3:'UTF-8'}</th>
-									<th>{$smarty.const.ROLE|htmlentities:3:'UTF-8'}</th>
-									<th style="width: 200px;">{$smarty.const.LAST_LOGGED_IN|htmlentities:3:'UTF-8'}</th>
+									<th>{$smarty.const.USER_NAME|escape}</th>
+									<th>{$smarty.const.EMAIL|escape}</th>
+									<th>{$smarty.const.ROLE|escape}</th>
+									<th style="width: 200px;">{$smarty.const.LAST_LOGGED_IN|escape}</th>
 									<th style="width: 20px;">&nbsp;</th>
 								</tr>
 								{foreach item=user from=$users}
 								<tr>
 									<td>
-										<a href="{prettyUrl(['go' => 'user','id' => $user->id])}"><i class="fa fa-pencil" title="{$smarty.const.EDIT|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a>
+										<a href="{prettyUrl(['go' => 'user','id' => $user->id])}"><i class="fa fa-pencil" title="{$smarty.const.EDIT|escape}" aria-hidden="true"></i></a>
 									</td>
 									<td>
 										<a href="{prettyUrl(['go' => 'user','id' => $user->id])}">
-										{$user->username|htmlentities:3:'UTF-8'}
+										{$user->username|escape}
 										</a>
 									</td>
 									<td>
-										<a href="mailto:{$user->email|htmlentities:3:'UTF-8'}">
-										{$user->email|htmlentities:3:'UTF-8'}
+										<a href="mailto:{$user->email|escape}">
+										{$user->email|escape}
 										</a>
 									</td>
 									<td>
-										{if $user->permission == 0}{$smarty.const.GUEST|htmlentities:3:'UTF-8'}{/if}
-										{if $user->permission == 1}{$smarty.const.EDITOR|htmlentities:3:'UTF-8'}{/if}
-										{if $user->permission == 2}{$smarty.const.ADMIN|htmlentities:3:'UTF-8'}{/if}
+										{if $user->permission == 0}{$smarty.const.GUEST|escape}{/if}
+										{if $user->permission == 1}{$smarty.const.EDITOR|escape}{/if}
+										{if $user->permission == 2}{$smarty.const.ADMIN|escape}{/if}
 									</td>
 									<td>
 										{if $user->lastlogin != null}{$user->lastlogin}{/if}
 									</td>
-									<td data-title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" data-id="{$user->id}">
+									<td data-title="{$smarty.const.REMOVE|escape}" data-id="{$user->id}">
 										{if $User->isAdmin() && $user->username != $defaultAdmin}
 										<a href="#" data-toggle="modal" data-target="#confirmation" data-type="deleteuser">
-											<i class="fa fa-user-times" title="{$smarty.const.REMOVE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+											<i class="fa fa-user-times" title="{$smarty.const.REMOVE|escape}" aria-hidden="true"></i>
 										</a>
 										{/if}
 									</td>

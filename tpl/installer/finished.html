@@ -1,7 +1,7 @@
-<h4>{$smarty.const.FINISHED|htmlentities:3:'UTF-8'}</h4>
+<h4>{$smarty.const.FINISHED|escape}</h4>
 
-<p>{$smarty.const.FINISHED_TEXT|htmlentities:3:'UTF-8'}</p>
+<p>{$smarty.const.FINISHED_TEXT|escape}</p>
 
 <form id="form" method="POST">
-	<p><input type="submit" name="finish" value="{$smarty.const.FINISH|htmlentities:3:'UTF-8'}"></p>
+	<p><input type="submit" name="finish" value="{$smarty.const.FINISH|escape}"></p>
 </form>

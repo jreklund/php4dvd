@@ -1,8 +1,8 @@
 <div class="boxed movie">
 	<section class="content-header">
 		<h1>
-			{$movie->name|htmlentities:3:'UTF-8'}
-			<small>({$movie->year|htmlentities:3:'UTF-8'})</small>
+			{$movie->name|escape}
+			<small>({$movie->year|escape})</small>
 		</h1>
 	</section>
 	<section class="content">
@@ -18,7 +18,7 @@
 					<div class="movie-box">
 						<div class="movie-cover">
 							{if $photo}
-							<img src="{$photo}" alt="{$movie->name|htmlentities:3:'UTF-8'}" title="{$movie->name|htmlentities:3:'UTF-8'}">
+							<img src="{$photo}" alt="{$movie->name|escape}" title="{$movie->name|escape}">
 							{else}
 							<div class="movie-nocover"></div>
 							{/if}
@@ -30,9 +30,9 @@
 							<a class="btn btn-default" href="#">
 							{/if}
 							{if $movie->favourite}
-								<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|escape}" aria-hidden="true"></i>
 							{else}
-								<i class="fa fa-heart-o fa-fw" title="{$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								<i class="fa fa-heart-o fa-fw" title="{$smarty.const.NOT_FAVOURITE|escape}" aria-hidden="true"></i>
 							{/if}
 							</a>
 
@@ -42,9 +42,9 @@
 							<a class="btn btn-default" href="#">
 							{/if}
 							{if $movie->own}
-								<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|escape}" aria-hidden="true"></i>
 							{else}
-								<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|escape}" aria-hidden="true"></i>
 							{/if}
 							</a>
 
@@ -54,15 +54,15 @@
 							<a class="btn btn-default" href="#">
 							{/if}
 							{if $movie->seen}
-								<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|escape}" aria-hidden="true"></i>
 							{else}
-								<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+								<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|escape}" aria-hidden="true"></i>
 							{/if}
 							</a>
 						</div>
 						<div class="movie-icons download-cover">
 							{if isset($movie) && $movie->hasCover()}
-							<a class="btn btn-default" href="{prettyUrl(['go' => 'downloadcover','id' => $movie->id])}" title="{$smarty.const.DOWNLOAD_COVER|htmlentities:3:'UTF-8'}"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i></a>
+							<a class="btn btn-default" href="{prettyUrl(['go' => 'downloadcover','id' => $movie->id])}" title="{$smarty.const.DOWNLOAD_COVER|escape}"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i></a>
 							{/if}
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 						{if $movie->taglines && strlen($movie->taglines) > 0}
 						{assign var=taglines value=$movie->getList('taglines')}
 						{section name=t loop=$taglines max=1}
-							<p>{$taglines[t]|htmlentities:3:'UTF-8'}</p>
+							<p>{$taglines[t]|escape}</p>
 						{/section}
 						{/if}
 					</div>
@@ -86,9 +86,9 @@
 								<a class="btn btn-default" href="#">
 								{/if}
 								{if $movie->favourite}
-									<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+									<i class="fa fa-heart fa-fw" title="{$smarty.const.FAVOURITE|escape}" aria-hidden="true"></i>
 								{else}
-									<i class="fa fa-heart-o fa-fw" title="{$smarty.const.NOT_FAVOURITE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+									<i class="fa fa-heart-o fa-fw" title="{$smarty.const.NOT_FAVOURITE|escape}" aria-hidden="true"></i>
 								{/if}
 								</a>
 
@@ -98,9 +98,9 @@
 								<a class="btn btn-default" href="#">
 								{/if}
 								{if $movie->own}
-									<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+									<i class="fa fa-star fa-fw" title="{$smarty.const.OWN|escape}" aria-hidden="true"></i>
 								{else}
-									<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+									<i class="fa fa-star-o fa-fw" title="{$smarty.const.NOT_OWN|escape}" aria-hidden="true"></i>
 								{/if}
 								</a>
 
@@ -110,128 +110,128 @@
 								<a class="btn btn-default" href="#">
 								{/if}
 								{if $movie->seen}
-									<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+									<i class="fa fa-eye fa-fw" title="{$smarty.const.SEEN|escape}" aria-hidden="true"></i>
 								{else}
-									<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+									<i class="fa fa-eye-slash fa-fw" title="{$smarty.const.UNSEEN|escape}" aria-hidden="true"></i>
 								{/if}
 								</a>
 							</div>
 							<div class="btn-group-custom">
 								{assign var=genres value=$movie->getList('genres')}
 								{section name=g loop=$genres}
-									<a class="btn btn-default" href="{$webroot}#!/category/{$genres[g]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$genres[g]|htmlentities:3:'UTF-8'}</a>
+									<a class="btn btn-default" href="{$webroot}#!/category/{$genres[g]|escape:'url'}/page/0/scroll/top">{$genres[g]|escape}</a>
 								{/section}
 							</div>
 						</div>
 						{/if}
 						<div class="box-body">
 							<div class="duration">
-								{$movie->format|htmlentities:3:'UTF-8'}{if $movie->duration && $movie->duration != 0}, {durationConvertion($movie->duration|htmlentities:3:'UTF-8')}{/if}
+								{$movie->format|escape}{if $movie->duration && $movie->duration != 0}, {durationConvertion($movie->duration|escape)}{/if}
 							</div>
 
 							{if $movie->rating && $movie->rating != 0}
 							<div class="rating">
-								<span class="header">{$smarty.const.RATING|htmlentities:3:'UTF-8'}:</span>
-								{$movie->rating|htmlentities:3:'UTF-8'}
+								<span class="header">{$smarty.const.RATING|escape}:</span>
+								{$movie->rating|escape}
 							</div>
 							{/if}
 
 							{if $movie->votes && $movie->votes != 0}
 							<div class="votes">
-								<span class="header">{$smarty.const.VOTES|htmlentities:3:'UTF-8'}:</span>
-								{$movie->votes|htmlentities:3:'UTF-8'}
+								<span class="header">{$smarty.const.VOTES|escape}:</span>
+								{$movie->votes|escape}
 							</div>
 							{/if}
 
 							{if $parental_guidance}
 								<div class="parental_guidance">
-									<span class="header">{$smarty.const.PARENTAL_GUIDANCE|htmlentities:3:'UTF-8'}:</span>
-									PG-{$movie->pg|htmlentities:3:'UTF-8'}
+									<span class="header">{$smarty.const.PARENTAL_GUIDANCE|escape}:</span>
+									PG-{$movie->pg|escape}
 								</div>
 							{/if}
 
 							{if $movie->seasons && $movie->seasons != 0}
 							<div class="seasons">
-								<span class="header">{$smarty.const.SEASONS|htmlentities:3:'UTF-8'}:</span>
-								{$movie->seasons|htmlentities:3:'UTF-8'}
+								<span class="header">{$smarty.const.SEASONS|escape}:</span>
+								{$movie->seasons|escape}
 							</div>
 							{/if}
 
 							{if $movie->languages && strlen($movie->languages) > 0}
 							<div class="languages">
-								<span class="header">{$smarty.const.LANGUAGES|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.LANGUAGES|escape}:</span>
 								{assign var=languages value=$movie->getList('languages')}
-								{section name=l loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|htmlentities:3:'UTF-8'}{/section}
+								{section name=l loop=$languages}{if !$smarty.section.l.first}, {/if}{$languages[l]|escape}{/section}
 							</div>
 							{/if}
 
 							{if $movie->subtitles && strlen($movie->subtitles) > 0}
 							<div class="subtitles">
-								<span class="header">{$smarty.const.SUBTITLES|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.SUBTITLES|escape}:</span>
 								{assign var=subtitles value=$movie->getList('subtitles')}
-								{section name=s loop=$subtitles}{if !$smarty.section.s.first}, {/if}{$subtitles[s]|htmlentities:3:'UTF-8'}{/section}
+								{section name=s loop=$subtitles}{if !$smarty.section.s.first}, {/if}{$subtitles[s]|escape}{/section}
 							</div>
 							{/if}
 
 							{if $movie->country && strlen($movie->country) > 0}
 							<div class="country">
-								<span class="header">{$smarty.const.COUNTRY|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.COUNTRY|escape}:</span>
 								{assign var=country value=$movie->getList('country')}
-								{section name=c loop=$country}{if !$smarty.section.c.first}, {/if}{$country[c]|htmlentities:3:'UTF-8'}{/section}
+								{section name=c loop=$country}{if !$smarty.section.c.first}, {/if}{$country[c]|escape}{/section}
 							</div>
 							{/if}
 
 							{if $movie->director && strlen($movie->director) > 0}
 							<div class="director">
-								<span class="header">{$smarty.const.DIRECTOR|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.DIRECTOR|escape}:</span>
 								{assign var=director value=$movie->getList('director')}
-								{foreach $director as $d}{if !$d@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$d|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$d|htmlentities:3:'UTF-8'}</a>{/foreach}
+								{foreach $director as $d}{if !$d@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$d|escape:'url'}/page/0/scroll/top">{$d|escape}</a>{/foreach}
 							</div>
 							{/if}
 
 							{if $movie->writer && strlen($movie->writer) > 0}
 							<div class="writer">
-								<span class="header">{$smarty.const.WRITER|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.WRITER|escape}:</span>
 								{assign var=writer value=$movie->getList('writer')}
-								{foreach $writer as $w}{if !$w@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$w|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$w|htmlentities:3:'UTF-8'}</a>{/foreach}
+								{foreach $writer as $w}{if !$w@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$w|escape:'url'}/page/0/scroll/top">{$w|escape}</a>{/foreach}
 							</div>
 							{/if}
 
 							{if $movie->producer && strlen($movie->producer) > 0}
 							<div class="producer">
-								<span class="header">{$smarty.const.PRODUCER|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.PRODUCER|escape}:</span>
 								{assign var=producer value=$movie->getList('producer')}
-								{foreach $producer as $p}{if !$p@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$p|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$p|htmlentities:3:'UTF-8'}</a>{/foreach}
+								{foreach $producer as $p}{if !$p@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$p|escape:'url'}/page/0/scroll/top">{$p|escape}</a>{/foreach}
 							</div>
 							{/if}
 
 							{if $movie->music && strlen($movie->music) > 0}
 							<div class="music">
-								<span class="header">{$smarty.const.MUSIC|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.MUSIC|escape}:</span>
 								{assign var=music value=$movie->getList('music')}
-								{foreach $music as $m}{if !$m@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$m|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$m|htmlentities:3:'UTF-8'}</a>{/foreach}
+								{foreach $music as $m}{if !$m@first}, {/if}<a class="people-link" href="{$webroot}#!/search/{$m|escape:'url'}/page/0/scroll/top">{$m|escape}</a>{/foreach}
 							</div>
 							{/if}
 
 							{if $movie->video && strlen($movie->video) > 0}
 							<div class="video">
-								<span class="header">{$smarty.const.VIDEO|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.VIDEO|escape}:</span>
 								{assign var=video value=$movie->getList('video')}
-								{section name=v loop=$video}{if !$smarty.section.v.first}, {/if}{$video[v]|htmlentities:3:'UTF-8'}{/section}
+								{section name=v loop=$video}{if !$smarty.section.v.first}, {/if}{$video[v]|escape}{/section}
 							</div>
 							{/if}
 
 							{if $movie->audio && strlen($movie->audio) > 0}
 							<div class="audio">
-								<span class="header">{$smarty.const.AUDIO|htmlentities:3:'UTF-8'}:</span>
+								<span class="header">{$smarty.const.AUDIO|escape}:</span>
 								{assign var=audio value=$movie->getList('audio')}
-								{section name=a loop=$audio}{if !$smarty.section.a.first}, {/if}{$audio[a]|htmlentities:3:'UTF-8'}{/section}
+								{section name=a loop=$audio}{if !$smarty.section.a.first}, {/if}{$audio[a]|escape}{/section}
 							</div>
 							{/if}
 
 							{if $movie->loaned}
 							<div class="loaned">
-								{$smarty.const.LOANED_OUT|htmlentities:3:'UTF-8'}{if $movie->loanname != ""} {$smarty.const.TO|htmlentities:3:'UTF-8'} {$movie->loanname|htmlentities:3:'UTF-8'}{/if}{if $movie->loandate != null} {$smarty.const.ON|htmlentities:3:'UTF-8'} {$movie->loandate|htmlentities:3:'UTF-8'}{/if}
+								{$smarty.const.LOANED_OUT|escape}{if $movie->loanname != ""} {$smarty.const.TO|escape} {$movie->loanname|escape}{/if}{if $movie->loandate != null} {$smarty.const.ON|escape} {$movie->loandate|escape}{/if}
 							</div>
 							{/if}
 						</div>
@@ -240,12 +240,12 @@
 					{if $movie->plotoutline && strlen($movie->plotoutline) > 0}
 					<div class="box box-primary">
 						<div class="box-header with-border">
-							<h3 class="box-title">{$smarty.const.PLOT_OUTLINE|htmlentities:3:'UTF-8'}</h3>
+							<h3 class="box-title">{$smarty.const.PLOT_OUTLINE|escape}</h3>
 						</div>
 						<div class="box-body plotoutline">
 							{assign var=plotoutline value=$movie->getList('plotoutline')}
 							{section name=p loop=$plotoutline}
-								<div>{$plotoutline[p]|htmlentities:3:'UTF-8'}</div>
+								<div>{$plotoutline[p]|escape}</div>
 							{/section}
 						</div>
 					</div>
@@ -254,10 +254,10 @@
 					{if $movie->notes && strlen($movie->notes) > 0}
 					<div class="box">
 						<div class="box-header with-border">
-							<h3 class="box-title">{$smarty.const.PERSONAL_NOTES|htmlentities:3:'UTF-8'}</h3>
+							<h3 class="box-title">{$smarty.const.PERSONAL_NOTES|escape}</h3>
 						</div>
 						<div class="box-body notes">
-							{$movie->notes|htmlentities:3:'UTF-8'|nl2br}
+							{$movie->notes|escape|nl2br}
 						</div>
 					</div>
 					{/if}
@@ -265,14 +265,14 @@
 					{if $movie->cast && strlen($movie->cast) > 0}
 					<div class="box">
 						<div class="box-header with-border">
-							<h3 class="box-title">{$smarty.const.CAST|htmlentities:3:'UTF-8'}</h3>
+							<h3 class="box-title">{$smarty.const.CAST|escape}</h3>
 						</div>
 						<div class="box-body cast">
 							<div class="castlist">
 								<ul>
 								{assign var=cast value=$movie->getList('cast')}
 								{section name=c loop=$cast max=$numberOfCast}
-									<li><a class="people-link" href="{$webroot}#!/search/{$cast[c]|htmlspecialchars:2:'UTF-8'|rawurlencode}/page/0/scroll/top">{$cast[c]|htmlentities:3:'UTF-8'}</a></li>
+									<li><a class="people-link" href="{$webroot}#!/search/{$cast[c]|escape:'url'}/page/0/scroll/top">{$cast[c]|escape}</a></li>
 								{/section}
 								</ul>
 							</div>
@@ -282,7 +282,7 @@
 					{if $movie->plots && strlen($movie->plots) > 0}
 					<div class="box collapsed-box">
 						<div class="box-header with-border">
-							<h3 class="box-title">{$smarty.const.PLOTS|htmlentities:3:'UTF-8'}</h3>
+							<h3 class="box-title">{$smarty.const.PLOTS|escape}</h3>
 							<div class="box-tools pull-right">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 							</div>
@@ -291,9 +291,9 @@
 							{assign var=plots value=$movie->formatPlots($movie->getList('plots'))}
 							{section name=p loop=$plots}
 								<p class="plot">
-									{$plots[p].plot|htmlentities:3:'UTF-8'}
+									{$plots[p].plot|escape}
 									{if $plots[p].author}
-										<span class="author">- {$plots[p].author|htmlentities:3:'UTF-8'}</span>
+										<span class="author">- {$plots[p].author|escape}</span>
 									{/if}
 								</p>
 							{/section}

@@ -6,32 +6,32 @@
 		<div class="form-group has-feedback">
 			<div class="input-group">
 				<span class="input-group-addon">@</span>
-				<input type="text" id="username" name="username" class="form-control required" autofocus placeholder="{$smarty.const.USER_NAME|htmlentities:3:'UTF-8'}" value="{if isset($username)}{$username|htmlentities:3:'UTF-8'}{/if}">
+				<input type="text" id="username" name="username" class="form-control required" autofocus placeholder="{$smarty.const.USER_NAME|escape}" value="{if isset($username)}{$username|escape}{/if}">
 			</div>
 		</div>
 		<div class="form-group has-feedback">
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
-				<input type="password" id="password" name="password" class="form-control required" placeholder="{$smarty.const.PASSWORD|htmlentities:3:'UTF-8'}">
+				<input type="password" id="password" name="password" class="form-control required" placeholder="{$smarty.const.PASSWORD|escape}">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-8">
 				<div class="checkbox">
 					<label for="rememberme">
-						<input type="checkbox" id="rememberme" name="rememberme"> {$smarty.const.REMEMBER_ME|htmlentities:3:'UTF-8'}
+						<input type="checkbox" id="rememberme" name="rememberme"> {$smarty.const.REMEMBER_ME|escape}
 					</label>
 				</div>
 			</div><!-- /.col -->
 			<div class="col-xs-4">
-				<button type="submit" class="btn btn-primary btn-block btn-flat">{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}</button>
+				<button type="submit" class="btn btn-primary btn-block btn-flat">{$smarty.const.LOG_IN|escape}</button>
 			</div><!-- /.col -->
 		</div>
 	</form>
 	{if isset($login_error)}
 	<br/>
 	<div class="callout callout-danger">
-		<p>{$smarty.const.INCORRECT_USERNAME_OR_PASSWORD|htmlentities:3:'UTF-8'}</p>
+		<p>{$smarty.const.INCORRECT_USERNAME_OR_PASSWORD|escape}</p>
 	</div>
 	{/if}
 	</div><!-- /.login-box-body -->

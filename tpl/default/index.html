@@ -1,117 +1,123 @@
 {include file="header.html"}
 
-    <div class="wrapper">
+	<div class="wrapper">
 
-      <!-- Main Header -->
-      <header class="main-header">
+		<!-- Main Header -->
+		<header class="main-header">
 
-        <!-- Logo -->
-        <a href="{$webroot}" class="logo hidden-xs">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>p</b><u>4</u>D</span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>php</b><u>4</u>DVD</span>
-        </a>
-        <!-- Header Navbar -->
-        <nav class="navbar navbar-static-top" role="navigation">
-			<div class="navbar-header">
-			  {if $main == 'movies/collection.html'}
-			  <!-- Sidebar toggle button-->
-			  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-				<span class="sr-only"></span>
-			  </a>
-			  {/if}
-			  {if ($main == 'movies/collection.html' && $loggedin) OR $main == 'movies/movie.html' OR $main == 'movies/update.html'}
-			  <!-- Main navigation toggle buttom -->
-			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-				<i class="fa fa-bars" aria-hidden="true"></i>
-			  </button>
-			  {/if}
-			</div>
-			<!-- Main navigation -->
-			{if $main == 'movies/collection.html'}
-              {include file="movies/collection/navigation.html"}
-			{elseif $main == 'movies/movie.html'}
-			  {include file="movies/movie/navigation.html"}
-			{elseif $main == 'movies/update.html'}
-			  {include file="movies/update/navigation.html"}
-			{/if}
-          <!-- Navbar Right Menu -->
-          <div class="navbar-custom-menu no-collapse">
-            <ul class="nav navbar-nav">
-				<li{if $currentUrl == $webroot} class="selected"{/if}><a href="{$webroot}"><i class="fa fa-home" title="{$smarty.const.HOME|htmlentities:3:'UTF-8'}" aria-hidden="true"></i></a></li>
-				{if $loggedin}
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-wrench" title="{$smarty.const.SETTINGS|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
+			<!-- Logo -->
+			<a href="{$webroot}" class="logo hidden-xs">
+				<!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"><b>p</b><u>4</u>D</span>
+				<!-- logo for regular state and mobile devices -->
+				<span class="logo-lg"><b>php</b><u>4</u>DVD</span>
+			</a>
+			<!-- Header Navbar -->
+			<nav class="navbar navbar-static-top" role="navigation">
+				<div class="navbar-header">
+					{if $main == 'movies/collection.html'}
+					<!-- Sidebar toggle button-->
+					<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+						<span class="sr-only"></span>
 					</a>
-					<ul class="dropdown-menu">
-						{if $loggedin && $User->isAdmin()}<li{if $currentUrl == $webroot|cat:"?go=users" || $currentUrl == $webroot|cat:"users/"} class="selected"{/if}><a href="{prettyUrl(['go' => 'users'])}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {$smarty.const.USER_MANAGEMENT|htmlentities:3:'UTF-8'}</a></li>{/if}
-						<li{if $currentUrl == $webroot|cat:"?go=profile" || $currentUrl == $webroot|cat:"profile/"} class="selected"{/if}><a href="{prettyUrl(['go' => 'profile'])}"><i class="fa fa-user fa-fw" aria-hidden="true"></i> {$smarty.const.MY_PROFILE|htmlentities:3:'UTF-8'}</a></li>
-						<li data-title="{$smarty.const.LOG_OUT|htmlentities:3:'UTF-8'}">
-							<a href="#" data-toggle="modal" data-target="#confirmation" data-type="logout">
-								<i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {$smarty.const.LOG_OUT|htmlentities:3:'UTF-8'}
+					{/if}
+					{if ($main == 'movies/collection.html' && $loggedin) OR $main == 'movies/movie.html' OR $main == 'movies/update.html'}
+					<!-- Main navigation toggle buttom -->
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+						<i class="fa fa-bars" aria-hidden="true"></i>
+					</button>
+					{/if}
+				</div>
+				<!-- Main navigation -->
+				{if $main == 'movies/collection.html'}
+					{include file="movies/collection/navigation.html"}
+				{elseif $main == 'movies/movie.html'}
+					{include file="movies/movie/navigation.html"}
+				{elseif $main == 'movies/update.html'}
+					{include file="movies/update/navigation.html"}
+				{/if}
+				<!-- Navbar Right Menu -->
+				<div class="navbar-custom-menu no-collapse">
+					<ul class="nav navbar-nav">
+						<li{if $currentUrl == $webroot} class="selected"{/if}><a href="{$webroot}"><i class="fa fa-home" title="{$smarty.const.HOME|escape}" aria-hidden="true"></i></a></li>
+						{if $loggedin}
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-wrench" title="{$smarty.const.SETTINGS|escape}" aria-hidden="true"></i>
+								</a>
+								<ul class="dropdown-menu">
+									{if $loggedin && $User->isAdmin()}<li{if $currentUrl == $webroot|cat:"?go=users" || $currentUrl == $webroot|cat:"users/"} class="selected"{/if}><a href="{prettyUrl(['go' => 'users'])}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {$smarty.const.USER_MANAGEMENT|escape}</a></li>{/if}
+									<li{if $currentUrl == $webroot|cat:"?go=profile" || $currentUrl == $webroot|cat:"profile/"} class="selected"{/if}><a href="{prettyUrl(['go' => 'profile'])}"><i class="fa fa-user fa-fw" aria-hidden="true"></i> {$smarty.const.MY_PROFILE|escape}</a></li>
+									<li data-title="{$smarty.const.LOG_OUT|escape}">
+										<a href="#" data-toggle="modal" data-target="#confirmation" data-type="logout">
+											<i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {$smarty.const.LOG_OUT|escape}
+										</a>
+									</li>
+								</ul>
+							</li>
+						{elseif $guestview}
+							{$loginNonSeoUrl="`$webroot`?go=login"}
+							{$loginSeoUrl="`$webroot`login"}
+
+							{assign var=loginSelected value=""}
+							{if strpos($currentUrl, $loginNonSeoUrl) === 0 || strpos($currentUrl, $loginSeoUrl) === 0}
+								{assign var=loginSelected value="selected"}
+							{/if}
+							<li class="{$loginSelected}"><a href="{prettyUrl(['go' => 'login'],['ref' => $currentUrl|escape:'url'])}" title="{$smarty.const.LOG_IN|escape}"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
+						{/if}
+						{if count($languages) > 1}
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-globe" title="{$smarty.const.LANGUAGE|escape}" aria-hidden="true"></i>
 							</a>
+							<ul class="dropdown-menu no-collapse">
+							{foreach from=$languages key=name item=code}
+								<li{if $language == $code} class="selected"{/if}><a href="{prettyUrl(['lang' => $code|escape:'url'])}">{$name|escape}</a></li>
+							{/foreach}
+							</ul>
 						</li>
+						{/if}
 					</ul>
-				</li>
-				{elseif $guestview}
-				{$loginNonSeoUrl="`$webroot`?go=login"}{$loginSeoUrl="`$webroot`login"}
-				<li{if $currentUrl|strpos:$loginNonSeoUrl===0 || $currentUrl|strpos:$loginSeoUrl===0} class="selected"{/if}><a href="{prettyUrl(['go' => 'login'],['ref' => $currentUrl|rawurlencode])}" title="{$smarty.const.LOG_IN|htmlentities:3:'UTF-8'}"><i class="fa fa-wrench" aria-hidden="true"></i></a></li>
-				{/if}
-				{if count($languages) > 1}
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-globe" title="{$smarty.const.LANGUAGE|htmlentities:3:'UTF-8'}" aria-hidden="true"></i>
-					</a>
-					<ul class="dropdown-menu no-collapse">
-					{foreach from=$languages key=name item=code}
-						<li{if $language == $code} class="selected"{/if}><a href="{prettyUrl(['lang' => $code|rawurlencode])}">{$name|htmlentities:3:'UTF-8'}</a></li>
-					{/foreach}
-					</ul>
-				</li>
-				{/if}
-            </ul>
-          </div>
-        </nav>
-      </header>
-	  {if $main == 'movies/collection.html'}
-        {include file="movies/collection/sidebar.html"}
-	  {/if}
+				</div>
+			</nav>
+		</header>
+		{if $main == 'movies/collection.html'}
+			{include file="movies/collection/sidebar.html"}
+		{/if}
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			{if !$loggedin && !$guestview}
 				{include file="users/login.html"}
 			{/if}
-	
+
 			{if $loggedin || $guestview}
 				{if isset($main)}{include file="$main"}{/if}
 			{/if}
 		</div><!-- /.content-wrapper -->
 
-      <!-- Main Footer -->
-      <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right">
-			<a href="https://github.com/jreklund/php4dvd" target="_blank" rel="noreferrer noopener">php4dvd{if $loggedin && $User->isAdmin()} v{$version|htmlentities:3:'UTF-8'}{/if}</a>
-        </div>
-        <!-- Default to the left -->
-		{if $main == 'movies/collection.html'}
-		{$smarty.const.NUMBER_OF_TITLES|htmlentities:3:'UTF-8'} <strong>{$numberowned}</strong> |
-		{$smarty.const.UNSEEN|htmlentities:3:'UTF-8'} <strong>{$numberowned-$numberseen}</strong>
-		{/if}&nbsp;
-      </footer>
-    </div><!-- ./wrapper -->
-	
+		<!-- Main Footer -->
+		<footer class="main-footer">
+			<!-- To the right -->
+			<div class="pull-right">
+				<a href="https://github.com/jreklund/php4dvd" target="_blank" rel="noreferrer noopener">php4dvd{if $loggedin && $User->isAdmin()} v{$version|escape}{/if}</a>
+			</div>
+			<!-- Default to the left -->
+			{if $main == 'movies/collection.html'}
+			{$smarty.const.NUMBER_OF_TITLES|escape} <strong>{$numberowned}</strong> |
+			{$smarty.const.UNSEEN|escape} <strong>{$numberowned-$numberseen}</strong>
+			{/if}&nbsp;
+		</footer>
+	</div><!-- ./wrapper -->
+
 	{if isset($message)}
 	<div class="message">
 		<div class="text">
 			<div class="callout callout-danger">
-				<p>{translate($message)|htmlentities:3:'UTF-8'}</p>
+				<p>{translate($message)|escape}</p>
 			</div>
 		</div>
 	</div>
 	{/if}
-	
+
 {include file="footer.html"}
