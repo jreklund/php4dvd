@@ -793,7 +793,7 @@ class RPDO implements Driver
 	 * @return mixed
 	 * @throws SQL
 	 */
-	protected function runQuery( $sql, $bindings, $options = array() )
+	public function runQuery( $sql, $bindings, $options = array() )
 	{
 		$this->connect();
 		if ( $this->loggingEnabled && $this->logger ) {
@@ -813,12 +813,12 @@ class RPDO implements Driver
 			$statement->execute();
 			$this->queryCounter ++;
 			$this->affectedRows = $statement->rowCount();
+			if ( isset( $options['noFetch'] ) && $options['noFetch'] ) {
+				$this->resultArray = array();
+				return $statement;
+			}
 			if ( $statement->columnCount() ) {
 				$fetchStyle = ( isset( $options['fetchStyle'] ) ) ? $options['fetchStyle'] : NULL;
-				if ( isset( $options['noFetch'] ) && $options['noFetch'] ) {
-					$this->resultArray = array();
-					return $statement;
-				}
 				if ( is_null( $fetchStyle) ) {
 					$this->resultArray = $statement->fetchAll();
 				} else {
@@ -2845,7 +2845,7 @@ class OODBBean implements \IteratorAggregate,\ArrayAccess,\Countable,Jsonable
 		} elseif ( $value === TRUE ) {
 			$value = '1';
 			/* for some reason there is some kind of bug in xdebug so that it doesn't count this line otherwise... */
-		} elseif ( $value instanceof \DateTime ) { $value = $value->format( 'Y-m-d H:i:s' ); }
+		} elseif ( ( ( $value instanceof \DateTime ) or ( $value instanceof \DateTimeInterface ) ) ) { $value = $value->format( 'Y-m-d H:i:s' ); }
 		$this->properties[$property] = $value;
 	}
 
@@ -5491,6 +5491,16 @@ abstract class AQueryWriter
 	public $typeno_sqltype = array();
 
 	/**
+	 * @var array
+	 */
+	public $sqltype_typeno = array();
+
+	/**
+	 * @var array
+	 */
+	public $encoding = array();
+
+	/**
 	 * @var bool
 	 */
 	protected static $noNuke = false;
@@ -7339,8 +7349,6 @@ class MySQL extends AQueryWriter implements QueryWriter
 	 */
 	public function scanType( $value, $flagSpecial = FALSE )
 	{
-		$this->svalue = $value;
-
 		if ( is_null( $value ) ) return MySQL::C_DATATYPE_BOOL;
 		if ( $value === INF ) return MySQL::C_DATATYPE_TEXT7;
 
@@ -7757,8 +7765,6 @@ class CUBRID extends AQueryWriter implements QueryWriter
 	 */
 	public function scanType( $value, $flagSpecial = FALSE )
 	{
-		$this->svalue = $value;
-
 		if ( is_null( $value ) ) {
 			return self::C_DATATYPE_INTEGER;
 		}
@@ -8055,6 +8061,11 @@ abstract class Repository
 	 * @var boolean|array
 	 */
 	protected $partialBeans = FALSE;
+
+	/**
+	 * @var OODB
+	 */
+	public $oodb = NULL;
 
 	/**
 	 * Toggles 'partial bean mode'. If this mode has been
@@ -8656,10 +8667,6 @@ abstract class Repository
 	public function count( $type, $addSQL = '', $bindings = array() )
 	{
 		$type = AQueryWriter::camelsSnake( $type );
-		if ( count( explode( '_', $type ) ) > 2 ) {
-			throw new RedException( 'Invalid type for count.' );
-		}
-
 		try {
 			$count = (int) $this->writer->queryRecordCount( $type, array(), $addSQL, $bindings );
 		} catch ( SQLException $exception ) {
@@ -8706,8 +8713,6 @@ abstract class Repository
 	/**
 	 * Checks whether the specified table already exists in the database.
 	 * Not part of the Object Database interface!
-	 *
-	 * @deprecated Use AQueryWriter::typeExists() instead.
 	 *
 	 * @param string $table table name
 	 *
@@ -9595,9 +9600,6 @@ class OODB extends Observable
 
 	/**
 	 * Checks whether the specified table already exists in the database.
-	 * Not part of the Object Database interface!
-	 *
-	 * @deprecated Use AQueryWriter::typeExists() instead.
 	 *
 	 * @param string $table table name
 	 *
@@ -10608,6 +10610,11 @@ class AssociationManager extends Observable
 	 * @var QueryWriter
 	 */
 	protected $writer;
+
+	/**
+	 * @var ToolBox
+	 */
+	public $toolbox;
 
 	/**
 	 * Exception handler.
@@ -12312,6 +12319,7 @@ class Facade
 	 */
 	public static function transaction( $callback )
 	{
+		if ( !self::$allowFluidTransactions && !self::$redbean->isFrozen() ) return FALSE;
 		return Transaction::transaction( self::$adapter, $callback );
 	}
 
@@ -13986,11 +13994,11 @@ class Facade
 	 * );
 	 * </code>
 	 *
-	 * @param OODBBean[]  $beans       a list of OODBBeans
+	 * @param OODBBean[]|TypedModel[]  $beans       a list of OODBBeans
 	 * @param string      $type        a type string
 	 * @param string      $sqlTemplate an SQL template string for the SELECT-query
 	 *
-	 * @return OODBBean[]
+	 * @return OODBBean[]|TypedModel[]
 	 */
 	public static function loadJoined( $beans, $type, $sqlTemplate = 'SELECT %s.* FROM %s WHERE id IN (%s)' )
 	{
