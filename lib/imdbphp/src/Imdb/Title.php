@@ -1,4 +1,5 @@
 <?php
+
 #############################################################################
 # IMDBPHP                              (c) Giorgos Giagas & Itzchak Rehberg #
 # written by Giorgos Giagas                                                 #
@@ -22,7 +23,6 @@ use Psr\SimpleCache\CacheInterface;
  */
 class Title extends MdbBase
 {
-
     const MOVIE = 'Movie';
     const TV_SERIES = 'TV Series';
     const TV_EPISODE = 'TV Episode';
@@ -37,7 +37,6 @@ class Title extends MdbBase
     protected $akas = array();
     protected $awards = array();
     protected $countries = array();
-    protected $castlist = array(); // pilot only
     protected $crazy_credits = array();
     protected $credits_cast = array();
     protected $credits_cast_short = array();
@@ -58,9 +57,7 @@ class Title extends MdbBase
     protected $main_language = "";
     protected $main_poster = "";
     protected $main_poster_thumb = "";
-    protected $main_pictures = array();
     protected $main_plotoutline = "";
-    protected $main_runtime = "";
     protected $main_movietype = "";
     protected $main_title = "";
     protected $main_year = -1;
@@ -68,7 +65,6 @@ class Title extends MdbBase
     protected $main_yearspan = array();
     protected $main_tagline = "";
     protected $main_storyline = "";
-    protected $main_prodnotes = array();
     protected $main_movietypes = array();
     protected $main_top250 = -1;
     protected $moviecolors = array();
@@ -116,23 +112,17 @@ class Title extends MdbBase
     protected $pageUrls = array(
         "AlternateVersions" => '/alternateversions',
         "Awards" => "/awards",
-        "CompanyCredits" => "/companycredits",
         "CrazyCredits" => "/crazycredits",
         "Credits" => "/fullcredits",
         "Episodes" => "/episodes",
-        "ExtReviews" => "/externalreviews",
         "Goofs" => "/trivia?tab=gf",
         "Keywords" => "/keywords",
         "Locations" => "/locations",
-        "MovieConnections" => "/movieconnections",
         "OfficialSites" => "/officialsites",
         "ParentalGuide" => "/parentalguide",
-        "Plot" => "/plotsummary",
         "Quotes" => "/quotes",
         "ReleaseInfo" => "/releaseinfo",
         "Soundtrack" => "/soundtrack",
-        "Synopsis" => "/plotsummary",
-        "Taglines" => "/taglines",
         "Technical" => "/technical",
         "Title" => "/",
         "Trailers" => "/videogallery/content_type-trailer",
@@ -228,25 +218,38 @@ class Title extends MdbBase
         $this->getPage("Title");
         if (@preg_match('!<title>(IMDb\s*-\s*)?(?<ititle>.*)(\s*-\s*IMDb)?</title>!', $this->page["Title"], $imatch)) {
             $ititle = $imatch['ititle'];
-            if (preg_match('!(?<title>.*) \((?<movietype>.*)(?<year>\d{4}|\?{4})((&nbsp;|–)(?<endyear>\d{4}|)).*\)(.*)!',
-                $ititle, $match)) { // serial
+            if (preg_match(
+                '!(?<title>.*) \((?<movietype>.*)(?<year>\d{4}|\?{4})((&nbsp;|–)(?<endyear>\d{4}|)).*\)(.*)!',
+                $ititle,
+                $match
+            )) { // serial
                 $this->main_movietype = trim($match['movietype']);
                 $this->main_year = $match['year'];
                 $this->main_endyear = $match['endyear'] ? $match['endyear'] : '0';
                 $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
-            } elseif (preg_match('!(?<title>.*) \((?<movietype>.*)(?<year>\d{4}|\?{4}).*\)(.*)!', $ititle, $match)) {
+            } elseif (preg_match(
+                '!(?<title>.*) \((?<movietype>.*)(?<year>\d{4}|\?{4}).*\)(.*)!',
+                $ititle,
+                $match
+            )) {
                 $this->main_movietype = trim($match['movietype']);
                 $this->main_year = $match['year'];
                 $this->main_endyear = $match['year'];
                 $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
-            } elseif (preg_match('!(?<title>.*) \((?<movietype>.*)\)(.*)!', $ititle,
-                $match)) { // not yet released, but have been given a movietype.
+            } elseif (preg_match(
+                '!(?<title>.*) \((?<movietype>.*)\)(.*)!',
+                $ititle,
+                $match
+            )) { // not yet released, but have been given a movietype.
                 $this->main_movietype = trim($match['movietype']);
                 $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
                 $this->main_year = '0';
                 $this->main_endyear = '0';
-            } elseif (preg_match('!<title>(?<title>.*) - IMDb</title>!', $this->page["Title"],
-                $match)) { // not yet released, so no dates etc.
+            } elseif (preg_match(
+                '!<title>(?<title>.*) - IMDb</title>!',
+                $this->page["Title"],
+                $match
+            )) { // not yet released, so no dates etc.
                 $this->main_title = htmlspecialchars_decode($match['title'], ENT_QUOTES);
                 $this->main_year = '0';
                 $this->main_endyear = '0';
@@ -308,6 +311,7 @@ class Title extends MdbBase
         if ($originalName && $displayName && $originalName != $displayName) {
             return $originalName;
         }
+        return null;
     }
 
     /** Get year
@@ -339,7 +343,7 @@ class Title extends MdbBase
      * @return array yearspan [start,end] (if there was no range, start==end)
      * @see IMDB page / (TitlePage)
      */
-    function yearspan()
+    public function yearspan()
     {
         if (empty($this->main_yearspan)) {
             $this->main_yearspan = array('start' => $this->year(), 'end' => $this->endyear());
@@ -371,27 +375,6 @@ class Title extends MdbBase
     #---------------------------------------------------------------[ Runtime ]---
 
     /**
-     * Get general runtime
-     * @return string runtime complete runtime string, e.g. "150 min / USA:153 min (director's cut)"
-     */
-    protected function runtime_all()
-    {
-        if ($this->main_runtime == "") {
-            $this->getPage("Title");
-            if (@preg_match('!Runtime:</h4>\s*(.+?)\s*</div!ms', $this->page["Title"], $match)) {
-                $this->main_runtime = $match[1];
-            }
-        }
-        if ($this->main_runtime == "") {
-            $this->getPage("Technical");
-            if (@preg_match('!Runtime.*?<td>(.+?)</td!ms', $this->page["Technical"], $match)) {
-                $this->main_runtime = $match[1];
-            }
-        }
-        return $this->main_runtime;
-    }
-
-    /**
      * Get overall runtime (first one mentioned on title page)
      * @return int|null runtime in minutes (if set), NULL otherwise
      * @see IMDB page / (TitlePage)
@@ -415,30 +398,43 @@ class Title extends MdbBase
 
     /**
      * Retrieve all runtimes and their descriptions
-     * @return array runtimes (array[0..n] of array[time,annotations]) where annotations is an array of comments meant to describe this cut
-     * @see IMDB page / (TitlePage)
+     * @return array<array{time: integer, country: string|null, countryCode: string|null, annotations: string[]}>
+     * time is the length in minutes, country and countryCode optionally exists for alternate cuts, annotations is an array of comments meant to describe this cut
      */
     public function runtimes()
     {
         if (empty($this->movieruntimes)) {
-            $this->movieruntimes = array();
-            $rt = $this->runtime_all();
-            foreach (preg_split('!(\||<br>)!', strip_tags($rt, '<br>')) as $runtimestring) {
-                if (preg_match_all('/(\d+\s+hr\s+\d+\s+min)? ?\((\d+)\s+min\)|(\d+)\s+min/', trim($runtimestring),
-                    $matches,
-                    PREG_SET_ORDER, 0)) {
-                    $runtime = (!empty($matches[1][2]) ? $matches[1][2] : (!empty($matches[0][2]) ? $matches[0][2] : (!empty($matches[0][3]) ? $matches[0][3] : 0)));
-                    $annotations = array();
-                    if (preg_match_all("/\((?!\d+\s+min)(.+?)\)/", trim($runtimestring), $matches)) {
-                        $annotations = $matches[1];
-                    }
-                    $this->movieruntimes[] = array(
-                        "time" => $runtime,
-                        "country" => '',
-                        "comment" => '',
-                        "annotations" => $annotations
-                    );
-                }
+            $query = <<<EOF
+query Runtimes(\$id: ID!) {
+  title(id: \$id) {
+    runtimes(first: 9999) {
+      edges {
+        node {
+          attributes {
+            text
+          }
+          country {
+            id
+            text
+          }
+          seconds
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Runtimes", ["id" => "tt$this->imdbID"]);
+
+            foreach ($data->title->runtimes->edges as $edge) {
+                $this->movieruntimes[] = array(
+                    "time" => $edge->node->seconds / 60,
+                    "annotations" => array_map(function ($attribute) {
+                        return $attribute->text;
+                    }, $edge->node->attributes),
+                    "country" => isset($edge->node->country->text) ? $edge->node->country->text : null,
+                    "countryCode" => isset($edge->node->country->id) ? $edge->node->country->id : null,
+                );
             }
         }
         return $this->movieruntimes;
@@ -454,7 +450,6 @@ class Title extends MdbBase
     public function aspect_ratio()
     {
         if (empty($this->aspectratio)) {
-
             $xpath = $this->getXpathPage("Title");
             $extract = $xpath->query("//li[@data-testid='title-techspec_aspectratio']//span[@class='ipc-metadata-list-item__list-content-item']");
             if ($extract && $extract->item(0) != null) {
@@ -537,8 +532,11 @@ class Title extends MdbBase
             if ($this->main_comment == "") {
                 $comm = $this->comment();
             }
-            if (@preg_match('!<strong[^>]*>(.*?)</strong>.*?<div class="comment-meta">\s*(.*?)\s*\|\s*by\s*(.*?</a>).*?<p[^>]*>(.*?)\s*</div!ims',
-                $this->main_comment, $match)) {
+            if (@preg_match(
+                '!<strong[^>]*>(.*?)</strong>.*?<div class="comment-meta">\s*(.*?)\s*\|\s*by\s*(.*?</a>).*?<p[^>]*>(.*?)\s*</div!ims',
+                $this->main_comment,
+                $match
+            )) {
                 @preg_match('!href="(.*?)"[^>]*><span[^>]*>(.*)</span!i', $match[3], $author);
                 $this->split_comment = array(
                     "title" => $match[1],
@@ -546,8 +544,11 @@ class Title extends MdbBase
                     "author" => array("url" => $author[1], "name" => $author[2]),
                     "comment" => trim($match[4])
                 );
-            } elseif (@preg_match('!<div class="comment-meta">\s*<meta itemprop="datePublished" content=".+?">\s*(.{10,20})\s*\|\s*by\s*(.*?)\s*&ndash;.*?<div>\s*(.*?)\s*</div>!ims',
-                $this->main_comment, $match)) {
+            } elseif (@preg_match(
+                '!<div class="comment-meta">\s*<meta itemprop="datePublished" content=".+?">\s*(.{10,20})\s*\|\s*by\s*(.*?)\s*&ndash;.*?<div>\s*(.*?)\s*</div>!ims',
+                $this->main_comment,
+                $match
+            )) {
                 @preg_match('!href="(.*?)">(.*)</a!i', $match[2], $author);
                 $this->split_comment = array(
                     'title' => '',
@@ -564,36 +565,43 @@ class Title extends MdbBase
 
     /**
      * Get recommended movies (People who liked this...also liked)
-     * @return array recommendations (array[title,imdbid,rating,img])
+     * @return array<array{title: string, imdbid: number, rating: string, img: string}>
      * @see IMDB page / (TitlePage)
      */
     public function movie_recommendations()
     {
         if (empty($this->movierecommendations)) {
-            $xp = $this->getXpathPage("Title");
-            $cells = $xp->query("//div[contains(@class, 'ipc-poster-card ipc-poster-card--base')]");
-            /** @var \DOMElement $cell */
-            foreach ($cells as $key => $cell) {
-                $movie = array();
-                $get_link_and_name = $xp->query(".//a[contains(@class, 'ipc-poster-card__title')]", $cell);
-                if (!empty($get_link_and_name) && preg_match('!tt(\d+)!',
-                        $get_link_and_name->item(0)->getAttribute('href'), $ref)) {
-                    $movie['title'] = trim($get_link_and_name->item(0)->nodeValue);
-                    $movie['imdbid'] = $ref[1];
-                    $get_rating = $xp->query(".//span[contains(@class, 'ipc-rating-star--imdb')]", $cell);
-                    if (!empty($get_rating->item(0))) {
-                        $movie['rating'] = trim($get_rating->item(0)->nodeValue);
-                    } else {
-                        $movie['rating'] = -1;
-                    }
-                    $getImage = $xp->query(".//div[contains(@class, 'ipc-media ipc-media--poster')]//img", $cell);
-                    if (!empty($getImage->item(0)) && !empty($getImage->item(0)->getAttribute('src'))) {
-                        $movie['img'] = $getImage->item(0)->getAttribute('src');
-                    } else {
-                        $movie['img'] = "";
-                    }
-                    $this->movierecommendations[] = $movie;
-                }
+            $query = <<<EOF
+query Recommendations(\$id: ID!) {
+  title(id: \$id) {
+    moreLikeThisTitles(first: 12) {
+      edges {
+        node {
+          id
+          titleText {
+            text
+          }
+          ratingsSummary {
+            aggregateRating
+          }
+          primaryImage {
+            url
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Recommendations", ["id" => "tt$this->imdbID"]);
+
+            foreach ($data->title->moreLikeThisTitles->edges as $edge) {
+                $this->movierecommendations[] = array(
+                    "title" => $edge->node->titleText->text,
+                    "imdbid" => str_replace('tt', '', $edge->node->id),
+                    "rating" => $edge->node->ratingsSummary->aggregateRating,
+                    "img" => $edge->node->primaryImage->url,
+                );
             }
         }
         return $this->movierecommendations;
@@ -644,8 +652,11 @@ class Title extends MdbBase
     public function languages()
     {
         if (empty($this->langs)) {
-            if (preg_match_all('!href="/search/title\?.+?primary_language=([^&]*)[^>]*>\s*(.*?)\s*</a>(\s+\((.*?)\)|)!m',
-                $this->getPage("Title"), $matches)) {
+            if (preg_match_all(
+                '!href="/search/title\?.+?primary_language=([^&]*)[^>]*>\s*(.*?)\s*</a>(\s+\((.*?)\)|)!m',
+                $this->getPage("Title"),
+                $matches
+            )) {
                 $this->langs = $matches[2];
                 $mc = count($matches[2]);
                 for ($i = 0; $i < $mc; $i++) {
@@ -785,7 +796,7 @@ class Title extends MdbBase
         if ($this->main_tagline == "") {
             $taglines = $this->taglines();
 
-            $this->main_tagline = $taglines[0] ?? '';
+            $this->main_tagline = isset($taglines[0]) ? $taglines[0] : '';
         }
 
         return $this->main_tagline;
@@ -977,12 +988,17 @@ class Title extends MdbBase
                     $this->main_plotoutline = $this->storyline();
                 }
             }
-
         }
-        $this->main_plotoutline = preg_replace('!\s*<a href="/title/tt\d{7,8}/(plotsummary|synopsis)[^>]*>See full (summary|synopsis).*$!i',
-            '', $this->main_plotoutline);
-        $this->main_plotoutline = preg_replace('#<a href="[^"]+"\s+>Add a Plot</a>&nbsp;&raquo;#', '',
-            $this->main_plotoutline);
+        $this->main_plotoutline = preg_replace(
+            '!\s*<a href="/title/tt\d{7,8}/(plotsummary|synopsis)[^>]*>See full (summary|synopsis).*$!i',
+            '',
+            $this->main_plotoutline
+        );
+        $this->main_plotoutline = preg_replace(
+            '#<a href="[^"]+"\s+>Add a Plot</a>&nbsp;&raquo;#',
+            '',
+            $this->main_plotoutline
+        );
         return $this->main_plotoutline;
     }
 
@@ -1022,7 +1038,8 @@ class Title extends MdbBase
         if (isset($this->jsonLD()->image)) {
             $this->main_poster = $this->jsonLD()->image;
         }
-        if (preg_match('!<img [^>]+title="[^"]+Poster"[^>]+src="([^"]+)"[^>]+/>!ims', $this->getPage("Title"), $match)
+        $hasPosterElement = preg_match('!<img [^>]+title="[^"]+Poster"[^>]+src="([^"]+)"[^>]+/>!ims', $this->getPage("Title"), $match);
+        if ($hasPosterElement
             && !empty($match[1])) {
             $this->main_poster_thumb = $match[1];
         } else {
@@ -1114,16 +1131,16 @@ class Title extends MdbBase
             $this->debug_scalar("<BR>***ERROR*** The configured image directory does not exist!<BR>");
             return false;
         }
-        $path = $this->photodir . $this->imdbid() . "${ext}.jpg";
+        $path = $this->photodir . $this->imdbid() . "{$ext}.jpg";
         if (file_exists($path)) {
-            return $this->photoroot . $this->imdbid() . "${ext}.jpg";
+            return $this->photoroot . $this->imdbid() . "{$ext}.jpg";
         }
         if (!is_writable($this->photodir)) {
             $this->debug_scalar("<BR>***ERROR*** The configured image directory lacks write permission!<BR>");
             return false;
         }
         if ($this->savephoto($path, $thumb)) {
-            return $this->photoroot . $this->imdbid() . "${ext}.jpg";
+            return $this->photoroot . $this->imdbid() . "{$ext}.jpg";
         }
         return false;
     }
@@ -1137,8 +1154,11 @@ class Title extends MdbBase
     public function country()
     {
         if (empty($this->countries)) {
-            if (preg_match_all('!/search/title\/?\?country_of_origin=[^>]+?>(.*?)<!m', $this->getPage("Title"),
-                $matches)) {
+            if (preg_match_all(
+                '!/search/title\/?\?country_of_origin=[^>]+?>(.*?)<!m',
+                $this->getPage("Title"),
+                $matches
+            )) {
                 $this->countries = $matches[1];
             }
         }
@@ -1150,46 +1170,74 @@ class Title extends MdbBase
 
     /**
      * Get movie's alternative names
-     * Note: This may return an empty country or comments. The original title will have a country of '' and a comment of 'original title'
-     * comment, year and lang are there for backwards compatibility and should not be used
-     * @return array array[0..n] of array[title,country,comments[]]
+     * Note: The language and country may be an empty string
+     * The first item in the list will be the original title if it is different from your language's title, it has a comment of 'original title'
+     * countryCode is likely an ISO 3166 code, but could be an internal one like XWW (worldwide)
+     * languageCode - either an ISO 639 code or an internally defined code if no ISO code exists for the language.
+     * comment is usually empty but can be things like 'DVD title' or 'working title' if there is more than one title for a country+language
+     * comments should probably not be used. It's empty if comment is an empty string, or contains the comment
+     * @return array<array{title: string, country: string, countryCode: string|null, language: string, languageCode: string|null, comment: string, comments: string[]}>
      * @see IMDB page ReleaseInfo
      */
     public function alsoknow()
     {
         if (empty($this->akas)) {
-            $page = $this->getPage("ReleaseInfo");
-            if (empty($page)) {
-                return array();
-            } // no such page
+            $query = <<<EOF
+query AlsoKnow(\$id: ID!) {
+  title(id: \$id) {
+    akas(first: 9999) {
+      edges {
+        node {
+          country {
+            id
+            text
+          }
+          language {
+            text
+          }
+          displayableProperty {
+            qualifiersInMarkdownList {
+              plainText
+            }
+            value {
+              plainText
+            }
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "AlsoKnow", ["id" => "tt$this->imdbID"]);
 
-            $table = Parsing::table($page, "//*[@id=\"akas\"]/following-sibling::table");
-
-            if (empty($table)) {
-                return array();
+            $originalTitle = $this->orig_title();
+            if (!empty($originalTitle)) {
+                $this->akas[] = array(
+                    "title" => $originalTitle,
+                    "country" => "",
+                    "countryCode" => null,
+                    "comments" => ["original title"],
+                    "comment" => "original title",
+                    "language" => "",
+                    "languageCode" => null,
+                );
             }
 
-            foreach ($table as $row) {
-                $description = $row[0];
-                $title = $row[1];
-
-                $firstbracket = strpos($description, '(');
-                if ($firstbracket === false) {
-                    $country = $description;
-                    $comments = array();
-                } else {
-                    $country = trim(substr($description, 0, $firstbracket));
-                    preg_match_all("@\((.+?)\)@", $description, $matches);
-                    $comments = $matches[1];
-                }
-
+            foreach ($data->title->akas->edges as $edge) {
+                $comments = is_array($edge->node->displayableProperty->qualifiersInMarkdownList)
+                    ? array_map(function ($qualifier) {
+                        return $qualifier->plainText;
+                    }, $edge->node->displayableProperty->qualifiersInMarkdownList)
+                    : [];
                 $this->akas[] = array(
-                    "title" => $title,
-                    "country" => $country,
+                    "title" => $edge->node->displayableProperty->value->plainText,
+                    "country" => isset($edge->node->country->text) ? $edge->node->country->text : '',
+                    "countryCode" => isset($edge->node->country->id) ? $edge->node->country->id : null,
                     "comments" => $comments,
                     "comment" => implode(', ', $comments),
-                    "year" => '',
-                    "lang" => ''
+                    "language" => isset($edge->node->language->text) ? $edge->node->language->text : '',
+                    "languageCode" => isset($edge->node->language->id) ? $edge->node->language->id : null,
                 );
             }
         }
@@ -1227,9 +1275,6 @@ class Title extends MdbBase
     {
         if (empty($this->mpaas)) {
             $xpath = $this->getXpathPage("ParentalGuide");
-            if (empty($xpath)) {
-                return array();
-            }
             $cells = $xpath->query("//section[@id=\"certificates\"]//li[@class=\"ipl-inline-list__item\"]");
             foreach ($cells as $cell) {
                 if ($a = $cell->getElementsByTagName('a')->item(0)) {
@@ -1260,8 +1305,11 @@ class Title extends MdbBase
     {
         if (empty($this->mpaas_hist)) {
             $this->getPage("ParentalGuide");
-            if (preg_match_all("|/search/title\?certificates=.*?>\s*(.*?):(.*?)<|", $this->page["ParentalGuide"],
-                $matches)) {
+            if (preg_match_all(
+                "|/search/title\?certificates=.*?>\s*(.*?):(.*?)<|",
+                $this->page["ParentalGuide"],
+                $matches
+            )) {
                 $cc = count($matches[0]);
                 for ($i = 0; $i < $cc; ++$i) {
                     $this->mpaas_hist[$matches[1][$i]][] = $matches[2][$i];
@@ -1281,8 +1329,11 @@ class Title extends MdbBase
     {
         if (empty($this->mpaa_justification)) {
             $this->getPage("ParentalGuide");
-            if (preg_match('!id="mpaa-rating"\s*>\s*<td[^>]*>.*</td>\s*<td[^>]*>(.*)</td>!im',
-                $this->page["ParentalGuide"], $match)) {
+            if (preg_match(
+                '!id="mpaa-rating"\s*>\s*<td[^>]*>.*</td>\s*<td[^>]*>(.*)</td>!im',
+                $this->page["ParentalGuide"],
+                $match
+            )) {
                 $this->mpaa_justification = trim($match[1]);
             }
         }
@@ -1313,6 +1364,32 @@ class Title extends MdbBase
 
 
     #=====================================================[ /plotsummary page ]===
+
+    /**
+     * Fetch all the plots from the graphQL endpoint
+     * @return \stdClass
+     */
+    private function plot_data()
+    {
+        $query = <<<EOF
+query Plots(\$id: ID!) {
+  title(id: \$id) {
+    plots(first: 9999) {
+      edges {
+        node {
+          author
+          plotType
+          plotText {
+            plainText
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+        return $this->graphql->query($query, "Plots", ["id" => "tt$this->imdbID"]);
+    }
     #--------------------------------------------------[ Full Plot (combined) ]---
     /** Get the movies plot(s)
      * @return array plot (array[0..n] of strings)
@@ -1321,25 +1398,11 @@ class Title extends MdbBase
     public function plot()
     {
         if (empty($this->plot_plot)) {
-            $xpath = $this->getXpathPage("Plot");
-            if (empty($xpath)) {
-                return array();
-            } // no such page
-            $cells = $xpath->query("//ul[@id=\"plot-summaries-content\"]/li[@id!=\"no-summary-content\"]");
-            foreach ($cells as $cell) {
-                $link = '';
-                $anchors = $cell->getElementsByTagName('a');
-                if ($a = $anchors->item($anchors->length - 1)) {
-                    if (preg_match('!/search/title!i', $a->getAttribute('href'))) {
-                        $href = preg_replace(
-                            '!/search/title!i',
-                            'https://' . $this->imdbsite . '/search/title',
-                            $a->getAttribute('href')
-                        );
-                        $link = "\n-\n" . '<a href="' . $href . '">' . trim($a->nodeValue) . '</a>';
-                    }
+            foreach ($this->plot_data()->title->plots->edges as $edge) {
+                if ($edge->node->plotType == 'SYNOPSIS') {
+                    continue;
                 }
-                $this->plot_plot[] = $cell->getElementsByTagName('p')->item(0)->nodeValue . $link;
+                $this->plot_plot[] = $edge->node->plotText->plainText;
             }
         }
         return $this->plot_plot;
@@ -1347,66 +1410,72 @@ class Title extends MdbBase
 
     #-----------------------------------------------------[ Full Plot (split) ]---
 
-    /** Get the movie plot(s) - split-up variant
+    /**
+     * Get the movie plot(s) with author information
      * @return array array[0..n] of array[string plot,array author] - where author consists of string name and string url
      * @see IMDB page /plotsummary
      */
     public function plot_split()
     {
         if (empty($this->split_plot)) {
-            if (empty($this->plot_plot)) {
-                $this->plot_plot = $this->plot();
-            }
-            foreach ($this->plot_plot as $plot) {
-                if (preg_match('!(?<plot>.*?)\n-\n<a href="(?<author_url>.*?)">(?<author_name>.*?)<\/a>!ims', $plot,
-                    $match)) {
-                    $this->split_plot[] = array(
-                        "plot" => $match['plot'],
-                        "author" => array("name" => $match['author_name'], "url" => $match['author_url'])
-                    );
-                } else {
-                    $this->split_plot[] = array("plot" => $plot, "author" => array("name" => '', "url" => ''));
+            foreach ($this->plot_data()->title->plots->edges as $edge) {
+                if ($edge->node->plotType == 'SYNOPSIS') {
+                    continue;
                 }
+                $this->split_plot[] = array(
+                    'plot' => $edge->node->plotText->plainText,
+                    'author' => array(
+                        'name' => $edge->node->author ? $edge->node->author : '',
+                        'url' => $edge->node->author ? "https://www.imdb.com/search/title?plot_author={$edge->node->author}&view=simple&sort=alpha&ref_=ttpl_pl_1" : '',
+                    )
+                );
             }
         }
         return $this->split_plot;
     }
 
-    #========================================================[ /synopsis page ]===
-    #---------------------------------------------------------[ Full Synopsis ]---
-    /** Get the movies synopsis
+    /**
+     * Get the movies synopsis
      * @return string synopsis
-     * @see IMDB page /synopsis
      */
     public function synopsis()
     {
         if (empty($this->synopsis_wiki)) {
-            $page = $this->getPage("Synopsis");
-            if (empty($page)) {
-                return $this->synopsis_wiki;
-            } // no such page
-            if (preg_match('|<h4[^>]*>Synopsis</h4>\s*<ul[^>]*>\s*<li[^>]*>(.*?)</li>\s*</ul>|ims', $page, $match)) {
-                $this->synopsis_wiki = trim($match[1]);
+            foreach ($this->plot_data()->title->plots->edges as $edge) {
+                if ($edge->node->plotType == 'SYNOPSIS') {
+                    $this->synopsis_wiki = $edge->node->plotText->plainText;
+                }
             }
         }
         return $this->synopsis_wiki;
     }
 
     #========================================================[ /taglines page ]===
-    #--------------------------------------------------------[ Taglines Array ]---
-    /** Get all available taglines for the movie
-     * @return array taglines (array[0..n] of strings)
+    /**
+     * Get all available taglines for the movie
+     * @return string[] taglines
      * @see IMDB page /taglines
      */
     public function taglines()
     {
         if (empty($this->taglines)) {
-            $this->getPage("Taglines");
-            if ($this->page["Taglines"] == "cannot open page") {
-                return array();
-            } // no such page
-            if (preg_match_all('!<div class="soda[^>]+>\s*(.*)\s*</div!U', $this->page["Taglines"], $matches)) {
-                $this->taglines = array_map('trim', $matches[1]);
+            $query = <<<EOF
+query Taglines(\$id: ID!) {
+  title(id: \$id) {
+    taglines(first: 9999) {
+      edges {
+        node {
+          text
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "Taglines", ["id" => "tt$this->imdbID"]);
+
+            foreach ($data->title->taglines->edges as $edge) {
+                $this->taglines[] = $edge->node->text;
             }
         }
         return $this->taglines;
@@ -1416,10 +1485,10 @@ class Title extends MdbBase
     #-----------------------------------------------------[ Helper: TableRows ]---
     /**
      * Get rows for a given table on the page
-     * @param string html
-     * @param string table_start
+     * @param string $html
+     * @param string $table_start
      * @return string[] Contents of each row of the table
-     * @see used by the methods director, cast, writing, producer, composer
+     * @see used by the method's director, cast, writing, producer, composer
      */
     protected function get_table_rows($html, $table_start)
     {
@@ -1433,6 +1502,7 @@ class Title extends MdbBase
         }
         $endtable = strpos($html, "</table>", $row_s);
         $block = substr($html, $row_s, $endtable - $row_s);
+        $rows = array();
         if (preg_match_all('!<tr>(.+?)</tr>!ims', $block, $matches)) {
             $rows = $matches[1];
         }
@@ -1442,8 +1512,8 @@ class Title extends MdbBase
     #------------------------------------------------[ Helper: Cast TableRows ]---
 
     /** Get rows for the cast table on the page
-     * @param string html
-     * @param string table_start
+     * @param string $html
+     * @param string $table_start
      * @return array array[0..n] of strings
      * @see used by the method cast
      */
@@ -1464,7 +1534,7 @@ class Title extends MdbBase
     #------------------------------------------------------[ Helper: RowCells ]---
 
     /** Get content of table row cells
-     * @param string row (as returned by imdb::get_table_rows)
+     * @param string $row (as returned by imdb::get_table_rows)
      * @return array cells (array[0..n] of strings)
      * @see used by the methods director, cast, writing, producer, composer
      */
@@ -1479,9 +1549,9 @@ class Title extends MdbBase
     #-------------------------------------------[ Helper: Get IMDBID from URL ]---
 
     /** Get the IMDB ID from a names URL
-     * @param string href url to the staff members IMDB page
+     * @param string $href url to the staff members IMDB page
      * @return string IMDBID of the staff member
-     * @see used by the methods director, cast, writing, producer, composer
+     * @see used by the method's director, cast, writing, producer, composer
      */
     protected function get_imdbname($href)
     {
@@ -1642,7 +1712,7 @@ class Title extends MdbBase
                 }
 
                 // Trim off the funny / ... role added on tv shows where an actor has multiple characters
-                $dir['role'] = str_replace(' / ...', '', $dir['role']);
+                $dir['role'] = str_replace(' / ...', '', (string) $dir['role']);
 
                 $cleaned_role_cell = implode("\n", $role_lines);
 
@@ -1660,8 +1730,11 @@ class Title extends MdbBase
                         // If no end year, make the same as start year
                         $dir['role_end_year'] = (int)$matches[2];
                     }
-                    $cleaned_role_cell = preg_replace("#\((\d+) episodes?, (\d+)(?:-(\d+))?\)#", '',
-                        $cleaned_role_cell);
+                    $cleaned_role_cell = preg_replace(
+                        "#\((\d+) episodes?, (\d+)(?:-(\d+))?\)#",
+                        '',
+                        $cleaned_role_cell
+                    );
                 }
 
                 // Extract uncredited and other bits from their brackets after the role
@@ -1715,8 +1788,11 @@ class Title extends MdbBase
                 'photo' => ""
             );
             $get_name_and_id = $xpath->query(".//a[@data-testid='title-cast-item__actor']", $node)->item(0);
-            $dir['imdb'] = preg_replace('/\/?name\/nm(\d+)[\/\?]+.*?$/is', '$1',
-                $get_name_and_id->getAttribute("href"));
+            $dir['imdb'] = preg_replace(
+                '/\/?name\/nm(\d+)[\/\?]+.*?$/is',
+                '$1',
+                $get_name_and_id->getAttribute("href")
+            );
             $dir["name"] = trim($get_name_and_id->nodeValue);
             if (empty($dir['name'])) {
                 continue;
@@ -1734,13 +1810,20 @@ class Title extends MdbBase
                     $dir["photo"] = preg_replace('#\._V1_.+?(\.\w+)$#is', '$1', $dir["thumb"]);
                 }
             }
-            $get_role_episodes = $xpath->query(".//a[@data-testid='title-cast-item__eps-toggle']/span[1]/span[@data-testid='title-cast-item__episodes']",
-                $node);
-            $get_role_start_year = $xpath->query(".//a[@data-testid='title-cast-item__eps-toggle']/span[1]/span[@data-testid='title-cast-item__tenure']",
-                $node);
+            $get_role_episodes = $xpath->query(
+                ".//a[@data-testid='title-cast-item__eps-toggle']/span[1]/span[@data-testid='title-cast-item__episodes']",
+                $node
+            );
+            $get_role_start_year = $xpath->query(
+                ".//a[@data-testid='title-cast-item__eps-toggle']/span[1]/span[@data-testid='title-cast-item__tenure']",
+                $node
+            );
             if ($get_role_episodes->item(0) != null) {
-                $dir["role_episodes"] = intval(trim(str_ireplace('episodes', '',
-                    $get_role_episodes->item(0)->nodeValue)));
+                $dir["role_episodes"] = intval(trim(str_ireplace(
+                    'episodes',
+                    '',
+                    $get_role_episodes->item(0)->nodeValue
+                )));
             }
             if ($get_role_start_year->item(0) != null) {
                 $year = explode('–', trim($get_role_start_year->item(0)->nodeValue));
@@ -1918,8 +2001,11 @@ class Title extends MdbBase
     public function crazy_credits()
     {
         if (empty($this->crazy_credits)) {
-            if (preg_match_all('!<div class="sodatext">\s*(.*?)\s*</div>!ims', $this->getPage("CrazyCredits"),
-                $matches)) {
+            if (preg_match_all(
+                '!<div class="sodatext">\s*(.*?)\s*</div>!ims',
+                $this->getPage("CrazyCredits"),
+                $matches
+            )) {
                 foreach ($matches[1] as $credit) {
                     $this->crazy_credits[] = trim(strip_tags($credit));
                 }
@@ -1999,8 +2085,11 @@ class Title extends MdbBase
                             $image_url = "";
                         }
                         $plot = preg_replace('#<a href="[^"]+"\s+>Add a Plot</a>#', '', trim($ep['plot']));
-                        $plot = preg_replace('#Know what this is about\?<br>\s*<a href="[^"]+"\s*> Be the first one to add a plot.\s*</a>#ims',
-                            '', $plot);
+                        $plot = preg_replace(
+                            '#Know what this is about\?<br>\s*<a href="[^"]+"\s*> Be the first one to add a plot.\s*</a>#ims',
+                            '',
+                            $plot
+                        );
 
                         $episode = array(
                             'imdbid' => $ep['imdbid'],
@@ -2039,21 +2128,30 @@ class Title extends MdbBase
             if (empty($page)) {
                 return array();
             } // no such page
-            if (@preg_match_all('@<h4 class="li_group">(.+?)(!?&nbsp;)</h4>\s*(.+?)\s*(?=<h4 class="li_group">|<div id="top_rhs_wrapper")@ims',
-                $this->page["Goofs"], $matches)) {
+            if (@preg_match_all(
+                '@<h4 class="li_group">(.+?)(!?&nbsp;)</h4>\s*(.+?)\s*(?=<h4 class="li_group">|<div id="top_rhs_wrapper")@ims',
+                $this->page["Goofs"],
+                $matches
+            )) {
                 $gc = count($matches[1]);
                 for ($i = 0; $i < $gc; ++$i) {
                     if ($matches[1][$i] == 'Spoilers') {
                         continue;
                     } // no spoilers, moreover they are differently formatted
-                    preg_match_all('!<div id="gf.+?>(\s*<div class="sodatext">)?(.+?)\s*</div>\s*<div!ims',
-                        $matches[3][$i], $goofy);
+                    preg_match_all(
+                        '!<div id="gf.+?>(\s*<div class="sodatext">)?(.+?)\s*</div>\s*<div!ims',
+                        $matches[3][$i],
+                        $goofy
+                    );
                     $ic = count($goofy[0]);
                     for ($k = 0; $k < $ic; ++$k) {
                         $this->goofs[] = array(
                             "type" => $matches[1][$i],
-                            "content" => str_replace('href="/', 'href="https://' . $this->imdbsite . '/',
-                                trim($goofy[2][$k]))
+                            "content" => str_replace(
+                                'href="/',
+                                'href="https://' . $this->imdbsite . '/',
+                                trim($goofy[2][$k])
+                            )
                         );
                     }
                 }
@@ -2077,11 +2175,17 @@ class Title extends MdbBase
                 return array();
             }
 
-            if (preg_match_all('!<div class="sodatext">\s*(.*?)\s*</div>!ims', str_replace("\n", " ", $page),
-                $matches)) {
+            if (preg_match_all(
+                '!<div class="sodatext">\s*(.*?)\s*</div>!ims',
+                str_replace("\n", " ", $page),
+                $matches
+            )) {
                 foreach ($matches[1] as $match) {
-                    $this->moviequotes[] = str_replace('href="/name/', 'href="https://' . $this->imdbsite . '/name/',
-                        preg_replace('!<span class="linksoda".+?</span>!ims', '', $match));
+                    $this->moviequotes[] = str_replace(
+                        'href="/name/',
+                        'href="https://' . $this->imdbsite . '/name/',
+                        preg_replace('!<span class="linksoda".+?</span>!ims', '', $match)
+                    );
                 }
             }
         }
@@ -2104,8 +2208,11 @@ class Title extends MdbBase
                     if (@preg_match_all('!<p>\s*(.*?)\s*</p>!', $moviequotes, $matches)) {
                         if (!empty($matches[1])) {
                             foreach ($matches[1] as $quote) {
-                                if (@preg_match('!href="([^"]*)"\s*>.+?character">(.*?)</span.+?:(.*)!', $quote,
-                                    $match)) {
+                                if (@preg_match(
+                                    '!href="([^"]*)"\s*>.+?character">(.*?)</span.+?:(.*)!',
+                                    $quote,
+                                    $match
+                                )) {
                                     $this->split_moviequotes[$i][] = array(
                                         'quote' => trim(strip_tags($match[3])),
                                         'character' => array('url' => $match[1], 'name' => $match[2])
@@ -2145,8 +2252,11 @@ class Title extends MdbBase
 
             $has_trailers = strpos($page, '<div class="search-results"><ol>');
             if ($has_trailers !== false) {
-                $html_trailer = substr($page, $has_trailers,
-                    strpos($page, '</ol>', $has_trailers) - ($has_trailers + 1));
+                $html_trailer = substr(
+                    $page,
+                    $has_trailers,
+                    strpos($page, '</ol>', $has_trailers) - ($has_trailers + 1)
+                );
                 $doc = new \DOMDocument();
                 @$doc->loadHTML('<?xml encoding="UTF-8">' . $html_trailer);
                 foreach ($doc->getElementsByTagName('li') as $trailerNode) {
@@ -2177,8 +2287,8 @@ class Title extends MdbBase
     #===========================================================[ /videosites ]===
     #--------------------------------------------------------[ content helper ]---
     /** Convert IMDB redirect-URLs of external sites to real URLs
-     * @param string url redirect-url
-     * @return string url real-url
+     * @param string $url redirect-url
+     * @return string|false url real-url
      */
     protected function convertIMDBtoRealURL($url)
     {
@@ -2201,8 +2311,8 @@ class Title extends MdbBase
     }
 
     /** Parse segments of external information on "VideoSites"
-     * @param string title segment title
-     * @param array res resultset (passed by reference)
+     * @param string $title segment title
+     * @param array $res resultset (passed by reference)
      */
     protected function parse_extcontent($title, &$res)
     {
@@ -2210,13 +2320,19 @@ class Title extends MdbBase
         if (empty($page)) {
             return array();
         } // no such page
-        if (preg_match("!<h4 class=\"li_group\">$title\s*</h4>\s*(.+?)<(h4|div)!ims", $this->page["VideoSites"],
-            $match)) {
+        if (preg_match(
+            "!<h4 class=\"li_group\">$title\s*</h4>\s*(.+?)<(h4|div)!ims",
+            $this->page["VideoSites"],
+            $match
+        )) {
             if (preg_match_all('!<li>(.+?)</li>!ims', $match[1], $matches)) {
                 $mc = count($matches[0]);
                 for ($i = 0; $i < $mc; ++$i) {
-                    if (preg_match('!<a .*href="(?<url>.+?)".*?>(?<site>.*?) - (?<desc>.*) \((?<type>.*?)\)</a>!s',
-                        $matches[1][$i], $entry)) {
+                    if (preg_match(
+                        '!<a .*href="(?<url>.+?)".*?>(?<site>.*?) - (?<desc>.*) \((?<type>.*?)\)</a>!s',
+                        $matches[1][$i],
+                        $entry
+                    )) {
                         $entry['url'] = $this->convertIMDBtoRealURL($entry['url']);
                         $res[] = array(
                             'site' => $entry['site'],
@@ -2224,8 +2340,11 @@ class Title extends MdbBase
                             'type' => $entry['type'],
                             'desc' => trim($entry['desc'])
                         );
-                    } elseif (preg_match('!<a .*href="(?<url>.+?)".*?>(?<site>.*?) - (?<desc>.+)</a>!s',
-                        $matches[1][$i], $entry)) {
+                    } elseif (preg_match(
+                        '!<a .*href="(?<url>.+?)".*?>(?<site>.*?) - (?<desc>.+)</a>!s',
+                        $matches[1][$i],
+                        $entry
+                    )) {
                         $entry['url'] = $this->convertIMDBtoRealURL($entry['url']);
                         $res[] = array(
                             'site' => $entry['site'],
@@ -2291,14 +2410,35 @@ class Title extends MdbBase
 
     #------------------------------------------[ Off-site trailers and videos ]---
 
-    /** Get the off-site videos and trailer URLs
-     * @return array videosites array[0..n] of array(site,url,type,desc)
-     * @see IMDB page /videosites
+    /**
+     * Get the off-site videos and trailer URLs
+     * @return array<array{url: string, site: string|null, desc: string, language: string|null, languageCode: string|null}>
+     * @see IMDB page /externalsites
      */
     public function videosites()
     {
         if (empty($this->video_sites)) {
-            $this->parse_extcontent('Video Clips and Trailers', $this->video_sites);
+            $edges = $this->getExternalLinks();
+
+            foreach ($edges as $edge) {
+                if ($edge->node->externalLinkCategory->id != "video") {
+                    continue;
+                }
+
+                preg_match(
+                    '/^(?<site>.*?)( - (?<desc>.+))?$/',
+                    $edge->node->label,
+                    $labelParts
+                );
+
+                $this->video_sites[] = array(
+                    "url" => $edge->node->url,
+                    "site" => isset($labelParts["desc"]) ? $labelParts["site"] : null,
+                    "desc" => isset($labelParts["desc"]) ? $labelParts["desc"] : $edge->node->label,
+                    "language" => isset($edge->node->externalLinkLanguages[0]->text) ? $edge->node->externalLinkLanguages[0]->text : null,
+                    "languageCode" => isset($edge->node->externalLinkLanguages[0]->id) ? $edge->node->externalLinkLanguages[0]->id : null,
+                );
+            }
         }
         return $this->video_sites;
     }
@@ -2352,21 +2492,24 @@ class Title extends MdbBase
      *   [
      *     'soundtrack' => 'Rock is Dead',
      *     'credits' => 'Written by Marilyn Manson, Jeordie White, and Madonna Wayne Gacy
-    Performed by Marilyn Manson
-    Courtesy of Nothing/Interscope Records
-    Under License from Universal Music Special Markets',
+     *                   Performed by Marilyn Manson
+     *                   Courtesy of Nothing/Interscope Records
+     *                   Under License from Universal Music Special Markets',
      *     'credits_raw' => 'Written by <a href="/name/nm0001504">Marilyn Manson</a>, <a href="/name/nm0708390">Jeordie White</a>, and <a href="/name/nm0300476">Madonna Wayne Gacy</a> <br />
-    Performed by <a href="/name/nm0001504">Marilyn Manson</a> <br />
-    Courtesy of Nothing/Interscope Records <br />
-    Under License from Universal Music Special Markets <br />',
+     *                       Performed by <a href="/name/nm0001504">Marilyn Manson</a> <br />
+     *                       Courtesy of Nothing/Interscope Records <br />
+     *                       Under License from Universal Music Special Markets <br />',
      *   ]
      * ]</pre>
      * @see IMDB page /soundtrack
      */
-    public function soundtrack() {
+    public function soundtrack()
+    {
         if (empty($this->soundtracks)) {
             $page = $this->getPage("Soundtrack");
-            if (empty($page)) return array(); // no such page
+            if (empty($page)) {
+                return array();
+            } // no such page
             if (preg_match_all('!class="soundTrack soda (odd|even)"\s*>\s*(?<title>.+?)<br\s*/>(?<desc>.+?)</div>!ims', $page, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
                     $this->soundtracks[] = array(
@@ -2381,103 +2524,108 @@ class Title extends MdbBase
     }
 
     #=================================================[ /movieconnection page ]===
-    #----------------------------------------[ Helper: ConnectionBlock Parser ]---
-    /** Parse connection block (used by method movieconnection only)
-     * @param string conn connection type
-     * @return array [0..n] of array mid,name,year,comment - or empty array if not found
-     */
-    protected function parseConnection($conn)
-    {
-        $arr = array();
-        $tag_s = strpos($this->page["MovieConnections"], "<h4 class=\"li_group\">$conn");
-        if (empty($tag_s)) {
-            return array();
-        } // no such feature
-        $tag_e = strpos($this->page["MovieConnections"], "<h4 class=\"li", $tag_s + 4);
-        if (empty($tag_e)) {
-            $tag_e = strpos($this->page["MovieConnections"], "<h2", $tag_s);
-        }
-        $block = substr($this->page["MovieConnections"], $tag_s, $tag_e - $tag_s);
-        if (preg_match_all('!<a href="(.*?)">(.*?)</a>(?:&nbsp;\((\d{4})\))?(.*?<br\s*/>(.*?)\s*</div>)?!ims', $block,
-            $matches)) {
-            $this->debug_object($matches);
-            $mc = count($matches[0]);
-            for ($i = 0; $i < $mc; ++$i) {
-                $mid = substr($matches[1][$i], 9, strlen($matches[1][$i]) - 8); // isolate imdb id from url
-                $arr[] = array(
-                    "mid" => $mid,
-                    "name" => $matches[2][$i],
-                    "year" => $matches[3][$i],
-                    "comment" => trim($matches[5][$i])
-                );
-            }
-        }
-        return $arr;
-    }
 
-    #-------------------------------------------------[ MovieConnection Array ]---
-
-    /** Get connected movie information
-     * @return array connections (versionOf, editedInto, followedBy, spinOff,
-     *         spinOffFrom, references, referenced, features, featured, spoofs,
-     *         spoofed - each an array of mid, name, year, comment or an empty
-     *         array if no connections of that type)
+    /**
+     * Get connected movie information
+     * @return array<string,array<array{mid: string, name: string, year: integer|null, comment: string}>> connections (versionOf, editedInto, followedBy, spinOff,
+     *         spinOffFrom, references, referenced, features, featured, spoofs,spoofed
+     *         )
      * @see IMDB page /movieconnection
      */
     public function movieconnection()
     {
+        // map from imdb connection category ids to the ones we've used
+        $map = array(
+            "alternate_language_version_of" => 'alternate_language_version_of',
+            "edited_from" => 'editedFrom',
+            "edited_into" => 'editedInto',
+            "featured_in" => 'featured',
+            "features" => 'features',
+            "followed_by" => 'followedBy',
+            "follows" => 'follows',
+            "referenced_in" => 'referenced',
+            "references" => 'references',
+            "remade_as" => 'remadeAs',
+            "remake_of" => 'remakeOf',
+            "spin_off" => 'spinOff',
+            "spin_off_from" => 'spinOffFrom',
+            "spoofed_in" => 'spoofed',
+            "spoofs" => 'spoofs',
+            "version_of" => 'versionOf'
+        );
         if (empty($this->movieconnections)) {
-            $page = $this->getPage("MovieConnections");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            $this->movieconnections["editedFrom"] = $this->parseConnection("Edited from");
-            $this->movieconnections["editedInto"] = $this->parseConnection("Edited into");
-            $this->movieconnections["featured"] = $this->parseConnection("Featured in");
-            $this->movieconnections["features"] = $this->parseConnection("Features");
-            $this->movieconnections["followedBy"] = $this->parseConnection("Followed by");
-            $this->movieconnections["follows"] = $this->parseConnection("Follows");
-            $this->movieconnections["references"] = $this->parseConnection("References");
-            $this->movieconnections["referenced"] = $this->parseConnection("Referenced in");
-            $this->movieconnections["remadeAs"] = $this->parseConnection("Remade as");
-            $this->movieconnections["remakeOf"] = $this->parseConnection("Remake of");
-            $this->movieconnections["spinOff"] = $this->parseConnection("Spin off");
-            $this->movieconnections["spinOffFrom"] = $this->parseConnection("Spin off from");
-            $this->movieconnections["spoofed"] = $this->parseConnection("Spoofed in");
-            $this->movieconnections["spoofs"] = $this->parseConnection("Spoofs");
-            $this->movieconnections["versionOf"] = $this->parseConnection("Version of");
+            foreach ($map as $k => $v) {
+                $this->movieconnections[$v] = array();
+            }
+
+            $query = <<<EOF
+          associatedTitle {
+            id,
+            releaseYear {
+              year
+            }
+            titleText {
+              text
+            }
+          }
+          category {
+            id
+          }
+          text
+EOF;
+            $edges = $this->graphQlGetAll("Connections", "connections", $query);
+
+            foreach ($edges as $edge) {
+                $this->movieconnections[$map[$edge->node->category->id]][] = array(
+                    "mid" => str_replace('tt', '', $edge->node->associatedTitle->id),
+                    "name" => $edge->node->associatedTitle->titleText->text,
+                    "year" => isset($edge->node->associatedTitle->releaseYear->year) ? $edge->node->associatedTitle->releaseYear->year : null,
+                    "comment" => $edge->node->text,
+                );
+            }
         }
         return $this->movieconnections;
     }
 
     #=================================================[ /externalreviews page ]===
-    #-------------------------------------------------[ ExternalReviews Array ]---
-    /** Get list of external reviews (if any)
-     * @return array [0..n] of array [url, desc] (or empty array if no data)
+
+    /**
+     * Get all external links
+     * @return \stdClass[]
+     */
+    protected function getExternalLinks()
+    {
+        $query = <<<EOF
+          label
+          url
+          externalLinkCategory {
+            id
+          }
+          externalLinkLanguages {
+            id
+            text
+          }
+EOF;
+        return $this->graphQlGetAll("ExternalLinks", "externalLinks", $query);
+    }
+    /**
+     * Get list of external reviews
+     * @return array<array{url: string, desc: string}>
      * @see IMDB page /externalreviews
      */
     public function extReviews()
     {
         if (empty($this->extreviews)) {
-            $page = $this->getPage("ExtReviews");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            $tag_s = strpos($page, "<ul class=\"simpleList\"");
-            if ($tag_s == 0) {
-                return array();
-            }
-            $tag_e = strpos($page, '</ul', $tag_s);
-            $block = substr($page, $tag_s, $tag_e - $tag_s);
+            $edges = $this->getExternalLinks();
 
-            if (preg_match_all('@href="(.*?)"[^>]*>([^<]*)</a>@', $block, $matches)) {
-                $mc = count($matches[0]);
-                for ($i = 0; $i < $mc; ++$i) {
-                    $this->extreviews[$i] = array(
-                        "url" => $matches[1][$i],
-                        "desc" => trim($matches[2][$i])
-                    );
+            foreach ($edges as $edge) {
+                if ($edge->node->externalLinkCategory->id != "review") {
+                    continue;
                 }
+                $this->extreviews[] = array(
+                    "url" => $edge->node->url,
+                    "desc" => $edge->node->label,
+                );
             }
         }
         return $this->extreviews;
@@ -2486,42 +2634,52 @@ class Title extends MdbBase
     #=====================================================[ /releaseinfo page ]===
     #-----------------------------------------------------[ ReleaseInfo Array ]---
     /** Obtain Release Info (if any)
-     * @return array release_info array[0..n] of strings (country,day,month,mon,
-     * year,comment) - "month" is the month name, "mon" the number
+     * @return array release_info array[0..n] of strings (country,day,mon,
+     * year,comment)
      * @see IMDB page /releaseinfo
      */
     public function releaseInfo()
     {
         if (empty($this->release_info)) {
-            $page = $this->getPage("ReleaseInfo");
-            if (empty($page)) {
-                return array();
-            } // no such page
+            $query = <<<EOF
+query ReleaseDates(\$id: ID!) {
+  title(id: \$id) {
+    releaseDates(first: 9999) {
+      edges {
+        node {
+          country {
+            id
+            text
+          }
+          day
+          month
+          year
+          attributes {
+            text
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "ReleaseDates", ["id" => "tt$this->imdbID"]);
 
-            $table = Parsing::table($page, "//*[@id=\"releases\"]/following-sibling::table");
-
-            if (empty($table)) {
-                return array();
-            }
-
-            foreach ($table as $row) {
-                $country = trim(strip_tags($row[0]));
-                $date = $row[1];
-                $comment = preg_replace('/\s+/', ' ', $row[2]);
-
-                if (!preg_match("/(\d{1,2})?\s*(\w+)?\s*(\d{4})/", $date, $matches)) {
-                    continue;
-                }
-
-                list(, $day, $month, $year) = $matches;
-
+            foreach ($data->title->releaseDates->edges as $edge) {
                 $this->release_info[] = array(
-                    'country' => $country,
-                    'day' => $day,
-                    'month' => $month,
-                    'mon' => $month ? $this->monthNo($month) : '',
-                    'year' => $year,
-                    'comment' => $comment
+                    'country' => $edge->node->country->text,
+                    'day' => $edge->node->day,
+                    'mon' => $edge->node->month,
+                    'year' => $edge->node->year,
+                    'comment' => implode(' ', array_map(function ($attr) {
+                        return "($attr->text)";
+                    }, $edge->node->attributes)),
+                    'attributes' => array_map(
+                        function ($attr) {
+                            return $attr->text;
+                        },
+                        $edge->node->attributes
+                    ),
                 );
             }
         }
@@ -2539,9 +2697,6 @@ class Title extends MdbBase
     {
         if (empty($this->locations)) {
             $xpath = $this->getXpathPage("Locations");
-            if (empty($xpath)) {
-                return array();
-            } // no such page
             $cells = $xpath->query("//section[@id=\"filming_locations\"]//dt");
             foreach ($cells as $cell) {
                 $this->locations[] = trim($cell->nodeValue);
@@ -2551,41 +2706,89 @@ class Title extends MdbBase
     }
 
     #==================================================[ /companycredits page ]===
-    #---------------------------------------------[ Helper: Parse CompanyInfo ]---
-    /** Parse company info
-     * @param string text to parse
-     * @param ref array parse target
+    /**
+     * Fetch all company credits
+     * @param string $category e.g. distribution, production
+     * @return array<array{name: string, url: string, notes: string}>
      */
-    protected function companyParse($text, &$target)
+    protected function companyCredits($category)
     {
-        preg_match_all('|<li>\s*<a href="(.*)"\s*>(.*)</a>(.*)</li>|iUms', $text, $matches);
-        $mc = count($matches[0]);
-        for ($i = 0; $i < $mc; ++$i) {
-            $target[] = array(
-                "name" => $matches[2][$i],
-                "url" => 'https://' . $this->imdbsite . $matches[1][$i],
-                "notes" => trim($matches[3][$i])
+        $query = <<<EOF
+query CompanyCredits(\$id: ID!) {
+  title(id: \$id) {
+    companyCredits(first: 9999) {
+      edges {
+        node {
+          attributes {
+            text
+          }
+          displayableProperty {
+            value {
+              plainText
+            }
+          }
+          countries {
+            text
+          }
+          yearsInvolved {
+            year
+          }
+          category {
+            id
+          }
+          company {
+            id
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+        $data = $this->graphql->query($query, "CompanyCredits", ["id" => "tt$this->imdbID"]);
+
+        $results = array();
+        foreach ($data->title->companyCredits->edges as $edge) {
+            $credit = $edge->node;
+            if ($credit->category->id != $category) {
+                continue;
+            }
+
+            $notes = [];
+            if (isset($credit->yearsInvolved->year)) {
+                $notes[] = $credit->yearsInvolved->year;
+            }
+
+            if (isset($credit->countries[0]->text)) {
+                $notes[] = $credit->countries[0]->text;
+            }
+
+            foreach ($credit->attributes as $attribute) {
+                $notes[] = $attribute->text;
+            }
+
+            $results[] = array(
+                "name" => $credit->displayableProperty->value->plainText,
+                "url" => 'https://' . $this->imdbsite . "/company/" . $credit->company->id,
+                "notes" => implode(' ', array_map(function ($note) {
+                    return "($note)";
+                }, $notes)),
             );
         }
+
+        return $results;
     }
 
     #---------------------------------------------------[ Producing Companies ]---
 
     /** Info about Production Companies
-     * @return array [0..n] of array (name,url,notes)
+     * @return array<array{name: string, url: string, notes: string}>
      * @see IMDB page /companycredits
      */
     public function prodCompany()
     {
         if (empty($this->compcred_prod)) {
-            $page = $this->getPage("CompanyCredits");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if (preg_match('|<h4[^>]*>Production Companies</h4>\s*<ul[^>]*>(.*?)</ul>|ims',
-                $this->page["CompanyCredits"], $match)) {
-                $this->companyParse($match[1], $this->compcred_prod);
-            }
+            $this->compcred_prod = $this->companyCredits("production");
         }
         return $this->compcred_prod;
     }
@@ -2593,20 +2796,13 @@ class Title extends MdbBase
     #------------------------------------------------[ Distributing Companies ]---
 
     /** Info about distributors
-     * @return array [0..n] of array (name,url,notes)
+     * @return array<array{name: string, url: string, notes: string}>
      * @see IMDB page /companycredits
      */
     public function distCompany()
     {
         if (empty($this->compcred_dist)) {
-            $page = $this->getPage("CompanyCredits");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if (preg_match('|<h4[^>]*>Distributors</h4>\s*<ul[^>]*>(.*?)</ul>|ims', $this->page["CompanyCredits"],
-                $match)) {
-                $this->companyParse($match[1], $this->compcred_dist);
-            }
+            $this->compcred_dist = $this->companyCredits("distribution");
         }
         return $this->compcred_dist;
     }
@@ -2614,20 +2810,13 @@ class Title extends MdbBase
     #---------------------------------------------[ Special Effects Companies ]---
 
     /** Info about Special Effects companies
-     * @return array [0..n] of array (name,url,notes)
+     * @return array<array{name: string, url: string, notes: string}>
      * @see IMDB page /companycredits
      */
     public function specialCompany()
     {
         if (empty($this->compcred_special)) {
-            $page = $this->getPage("CompanyCredits");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if (preg_match('|<h4[^>]*>Special Effects</h4>\s*<ul[^>]*>(.*?)</ul>|ims', $this->page["CompanyCredits"],
-                $match)) {
-                $this->companyParse($match[1], $this->compcred_special);
-            }
+            $this->compcred_special = $this->companyCredits("specialEffects");
         }
         return $this->compcred_special;
     }
@@ -2635,20 +2824,13 @@ class Title extends MdbBase
     #-------------------------------------------------------[ Other Companies ]---
 
     /** Info about other companies
-     * @return array [0..n] of array (name,url,notes)
+     * @return array<array{name: string, url: string, notes: string}>
      * @see IMDB page /companycredits
      */
     public function otherCompany()
     {
         if (empty($this->compcred_other)) {
-            $page = $this->getPage("CompanyCredits");
-            if (empty($page)) {
-                return array();
-            } // no such page
-            if (preg_match('|<h4[^>]*>Other Companies</h4>\s*<ul[^>]*>(.*?)</ul>|ims', $this->page["CompanyCredits"],
-                $match)) {
-                $this->companyParse($match[1], $this->compcred_other);
-            }
+            $this->compcred_other = $this->companyCredits("miscellaneous");
         }
         return $this->compcred_other;
     }
@@ -2656,8 +2838,8 @@ class Title extends MdbBase
     #===================================================[ /parentalguide page ]===
     #------------------------------------------------[ Helper: ParentalGuide Section ]---
     /** Get lists for the Parental Guide section's
-     * @param string html
-     * @param string section_id
+     * @param string $html
+     * @param string $section_id
      * @return array array[0..n] of strings
      * @see used by the method parentalGuide
      */
@@ -2671,7 +2853,12 @@ class Title extends MdbBase
         $block = substr($html, $tag_s, $tag_e - $tag_s);
 
         if (preg_match_all('!<li class="ipl[^"]+">\s*(.*?)\s*<div!sui', $block, $matches)) {
-            return array_map('htmlspecialchars_decode', array_map('trim', $matches[1]));
+            return array_map(
+                function ($string) {
+                    return htmlspecialchars_decode(trim($string), ENT_QUOTES);
+                },
+                $matches[1]
+            );
         }
         return array();
     }
@@ -2691,8 +2878,11 @@ class Title extends MdbBase
             if (empty($page)) {
                 return array();
             } // no such page
-            if (preg_match_all('@<section id="advisory-([^"]*)(?<!spoilers)">.+?<h\d[^>]+>(.*?)</h\d>@sui', $page,
-                $matches)) {
+            if (preg_match_all(
+                '@<section id="advisory-([^"]*)(?<!spoilers)">.+?<h\d[^>]+>(.*?)</h\d>@sui',
+                $page,
+                $matches
+            )) {
                 $section_id = $matches[1];
                 $section_name = array_map('htmlspecialchars_decode', $matches[2]);
                 foreach ($section_id as $key => $id) {
@@ -2702,13 +2892,13 @@ class Title extends MdbBase
                         continue;
                     }
                     switch ($array_key = $section_name[$key]) {
-                        case 'Alcohol, Drugs & Smoking'    :
+                        case 'Alcohol, Drugs & Smoking':
                             $array_key = 'Drugs';
                             break;
-                        case 'Sex & Nudity'                :
+                        case 'Sex & Nudity':
                             $array_key = 'Sex';
                             break;
-                        case 'Violence & Gore'             :
+                        case 'Violence & Gore':
                             $array_key = 'Violence';
                             break;
                         case 'Frightening & Intense Scenes':
@@ -2724,18 +2914,24 @@ class Title extends MdbBase
 
     #===================================================[ /officialsites page ]===
     #---------------------------------------------------[ Official Sites URLs ]---
-    /** URLs of Official Sites
-     * @return array [0..n] of url, name
-     * @see IMDB page /officialsites
-     * @brief now combined with /videosites to /externalsites
+    /**
+     * URLs of Official Sites
+     * @return array<array{url: string, name: string}>
+     * @see IMDB page /externalsites
      */
     public function officialSites()
     {
         if (empty($this->official_sites)) {
-            $sites = array();
-            $this->parse_extcontent('Official Sites', $sites);
-            foreach ($sites as $site) {
-                $this->official_sites[] = array('url' => $site['url'], 'name' => $site['desc']);
+            $edges = $this->getExternalLinks();
+
+            foreach ($edges as $edge) {
+                if ($edge->node->externalLinkCategory->id != "official") {
+                    continue;
+                }
+                $this->official_sites[] = array(
+                    "url" => $edge->node->url,
+                    "name" => $edge->node->label,
+                );
             }
         }
         return $this->official_sites;
@@ -2793,21 +2989,35 @@ class Title extends MdbBase
             $row_s = strpos($this->page["Awards"], '<h1 class="header">Awards</h1>');
             $row_e = strpos($this->page["Awards"], '<div class="article"', $row_s);
             $block = substr($this->page["Awards"], $row_s, $row_e - $row_s);
-            preg_match_all('!<h3>\s*(?<festival>.+?)\s*<a [^>]+>\s*(?<year>\d{4}).*?</h3>\s*<table [^>]+>(?<table>.+?)</table>!ims',
-                $block, $matches);
+            preg_match_all(
+                '!<h3>\s*(?<festival>.+?)\s*<a [^>]+>\s*(?<year>\d{4}).*?</h3>\s*<table [^>]+>(?<table>.+?)</table>!ims',
+                $block,
+                $matches
+            );
             $acount = count($matches[0]);
             for ($i = 0; $i < $acount; $i++) {
                 $festival = $matches['festival'][$i];
-                if (!preg_match_all('!<td class="(?<class>.+?)"[^>]*>\s*(?<data>.*?)\s*</td>!ims',
-                    $matches['table'][$i], $col)) {
+                if (!preg_match_all(
+                    '!<td class="(?<class>.+?)"[^>]*>\s*(?<data>.*?)\s*</td>!ims',
+                    $matches['table'][$i],
+                    $col
+                )) {
                     continue;
                 }
+
+                $won = false;
+                $award = "";
+                $outcome = "";
+
                 $ccount = count($col[0]);
                 for ($k = 0; $k < $ccount; ++$k) {
                     switch ($col['class'][$k]) {
                         case "title_award_outcome":
-                            preg_match('!(?<outcome>.+?)<br\s*/>\s*<span class="award_category">\s*(?<award>.+?)</span>!ims',
-                                $col['data'][$k], $data);
+                            preg_match(
+                                '!(?<outcome>.+?)<br\s*/>\s*<span class="award_category">\s*(?<award>.+?)</span>!ims',
+                                $col['data'][$k],
+                                $data
+                            );
                             $outcome = trim(strip_tags($data['outcome']));
                             if ($outcome === "Winner" || $outcome === "Won") {
                                 $won = true;
@@ -2915,21 +3125,24 @@ class Title extends MdbBase
     public function alternateVersions()
     {
         if (empty($this->moviealternateversions)) {
-            $xpath = $this->getXpathPage("AlternateVersions");
-            if ($xpath->evaluate("//div[contains(@id,'no_content')]")->count()) {
-                return array();
-            }
-            $cells = $xpath->query("//div[@class=\"soda odd\" or @class=\"soda even\"]");
-            foreach ($cells as $cell) {
-                $output = '';
-                $nodes = $xpath->query(".//text()", $cell);
-                foreach ($nodes as $node) {
-                    if ($node->parentNode->nodeName === 'li') {
-                        $output .= '- ';
-                    }
-                    $output .= trim($node->nodeValue) . "\n";
-                }
-                $this->moviealternateversions[] = trim($output);
+            $query = <<<EOF
+query AlternateVersions(\$id: ID!) {
+  title(id: \$id) {
+    alternateVersions(first: 9999) {
+      edges {
+        node {
+          text {
+            plainText
+          }
+        }
+      }
+    }
+  }
+}
+EOF;
+            $data = $this->graphql->query($query, "AlternateVersions", ["id" => "tt$this->imdbID"]);
+            foreach ($data->title->alternateVersions->edges as $edge) {
+                $this->moviealternateversions[] = $edge->node->text->plainText;
             }
         }
         return $this->moviealternateversions;
@@ -3000,8 +3213,52 @@ class Title extends MdbBase
     public function real_id()
     {
         $page = $this->getPage("Title");
-        if (preg_match('#<meta property="imdb:pageConst" content="tt(\d+)"#', $page, $matches) && !empty($matches[1])) {
-            return $matches[1];
+        if (preg_match('#<meta property="imdb:pageConst" content="tt(\d+)"#', $page, $matches)) {
+            if (!empty($matches[1])) {
+                return $matches[1];
+            }
         }
+        return null;
+    }
+
+    /**
+     * Get all edges of a field in the title type
+     * @param string $queryName The cached query name
+     * @param string $fieldName The field on title you want to get
+     * @param string $nodeQuery Graphql query that fits inside node { }
+     * @return \stdClass[]
+     */
+    protected function graphQlGetAll($queryName, $fieldName, $nodeQuery)
+    {
+        $query = <<<EOF
+query $queryName(\$id: ID!, \$after: ID) {
+  title(id: \$id) {
+    $fieldName(first: 9999, after: \$after) {
+      edges {
+        node {
+          $nodeQuery
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}
+EOF;
+
+        // Results are paginated, so loop until we've got all the data
+        $endCursor = null;
+        $hasNextPage = true;
+        $edges = array();
+        while ($hasNextPage) {
+            $data = $this->graphql->query($query, $queryName, ["id" => "tt$this->imdbID", "after" => $endCursor]);
+            $edges = array_merge($edges, $data->title->{$fieldName}->edges);
+            $hasNextPage = $data->title->{$fieldName}->pageInfo->hasNextPage;
+            $endCursor = $data->title->{$fieldName}->pageInfo->endCursor;
+        }
+
+        return $edges;
     }
 }

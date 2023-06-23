@@ -1,4 +1,5 @@
 <?php
+
 #############################################################################
 # PHP MovieAPI                                          (c) Itzchak Rehberg #
 # written by Itzchak Rehberg <izzysoft AT qumran DOT org>                   #
@@ -21,32 +22,32 @@ use Psr\SimpleCache\CacheInterface;
  */
 class MdbBase extends Config
 {
-    public $version = '7.3.1';
+    public $version = '8.1.0';
 
     protected $months = array(
-      "January" => "01",
-      "Jan" => "01",
-      "February" => "02",
-      "Feb" => "02",
-      "March" => "03",
-      "Mar" => "03",
-      "April" => "04",
-      "Apr" => "04",
-      "May" => "05",
-      "June" => "06",
-      "Jun" => "06",
-      "July" => "07",
-      "Jul" => "07",
-      "August" => "08",
-      "Aug" => "08",
-      "September" => "09",
-      "Sep" => "09",
-      "October" => "10",
-      "Oct" => "10",
-      "November" => "11",
-      "Nov" => "11",
-      "December" => "12",
-      "Dec" => "12"
+        "January" => "01",
+        "Jan" => "01",
+        "February" => "02",
+        "Feb" => "02",
+        "March" => "03",
+        "Mar" => "03",
+        "April" => "04",
+        "Apr" => "04",
+        "May" => "05",
+        "June" => "06",
+        "Jun" => "06",
+        "July" => "07",
+        "Jul" => "07",
+        "August" => "08",
+        "Aug" => "08",
+        "September" => "09",
+        "Sep" => "09",
+        "October" => "10",
+        "Oct" => "10",
+        "November" => "11",
+        "Nov" => "11",
+        "December" => "12",
+        "Dec" => "12"
     );
 
     /**
@@ -68,6 +69,11 @@ class MdbBase extends Config
      * @var Pages
      */
     protected $pages;
+
+    /**
+     * @var GraphQL
+     */
+    protected $graphql;
 
     protected $page = array();
 
@@ -119,6 +125,7 @@ class MdbBase extends Config
         $this->logger = empty($logger) ? new Logger($this->debug) : $logger;
         $this->cache = empty($cache) ? new Cache($this->config, $this->logger) : $cache;
         $this->pages = new Pages($this->config, $this->cache, $this->logger);
+        $this->graphql = new GraphQL($this->cache, $this->logger, $this->config);
     }
 
     /**
@@ -132,7 +139,7 @@ class MdbBase extends Config
 
     /**
      * Set and validate the IMDb ID
-     * @param string id IMDb ID
+     * @param string $id IMDb ID
      */
     protected function setid($id)
     {
@@ -163,7 +170,7 @@ class MdbBase extends Config
 
     /**
      * Get numerical value for month name
-     * @param string name name of month
+     * @param string $mon name of month
      * @return integer month number
      */
     protected function monthNo($mon)
@@ -193,7 +200,7 @@ class MdbBase extends Config
         $source = $this->getPage($page);
         libxml_use_internal_errors(true);
         /* Creates a new DomDocument object */
-        $dom = new \DomDocument;
+        $dom = new \DomDocument();
         /* Load the HTML */
         $dom->loadHTML('<?xml encoding="utf-8" ?>' .$source);
         /* Create a new XPath object */
@@ -210,5 +217,4 @@ class MdbBase extends Config
     {
         return '';
     }
-
 }

@@ -10,7 +10,6 @@ namespace Imdb;
 class PersonSearch extends MdbBase
 {
     private $name = null;
-    private $resu = array();
 
     /**
      * Search for people on imdb who match $searchTerms
@@ -20,13 +19,12 @@ class PersonSearch extends MdbBase
     public function search($searchTerms)
     {
         $this->setsearchname($searchTerms);
-        $this->reset();
         return $this->results();
     }
 
     /**
      * Set the name (title) to search for
-     * @param string searchstring what to search for - (part of) the movie name
+     * @param string $name what to search for - (part of) the movie name
      */
     public function setsearchname($name)
     {
@@ -34,18 +32,15 @@ class PersonSearch extends MdbBase
     }
 
     /**
-     * Reset search results
-     * This empties the collected search results. Without calling this, every
-     * new search appends its results to the ones collected by the previous search.
+     * This does nothing
+     * @deprecated
      */
-    function reset()
+    public function reset()
     {
-        $this->resu = array();
     }
 
     /**
      * Setup search results
-     * @param optional string URL Replace search URL by your own
      * @return Person[]
      */
     public function results()
@@ -98,7 +93,7 @@ class PersonSearch extends MdbBase
             $xpath = $this->getXpathPage($this->name);
             $cells = $xpath->query("//section[@data-testid='find-results-section-name']//div[@class='ipc-metadata-list-summary-item__tc']");
 
-            foreach($cells as $cell) {
+            foreach ($cells as $cell) {
                 $linkAndName = $xpath->query('.//a[@class="ipc-metadata-list-summary-item__t"]', $cell);
 
                 if ($linkAndName->length < 1 || !preg_match('!nm(?<pid>\d+)!', $linkAndName->item(0)->getAttribute('href'), $href)) {
@@ -118,7 +113,7 @@ class PersonSearch extends MdbBase
             }
         }
 
-        return $this->resu = $results;
+        return $results;
     }
 
     /**

@@ -27,7 +27,6 @@ namespace Imdb;
  */
 class Calendar extends MdbBase
 {
-
     /**
      * Get upcoming movie releases as seen on IMDb
      * @parameter $country This defines which country's releases are returned
@@ -72,8 +71,12 @@ class Calendar extends MdbBase
             $dates = $page->query("//article[@data-testid='calendar-section']");
 
             foreach ($dates as $date) {
-                $release_date = $page->query('.//div[@data-testid="release-date"]', $date);
-                $release_date = \DateTime::createFromFormat('m/d/Y', trim($release_date->item(0)->nodeValue));
+                $releaseDateNode = $page->query('.//div[@data-testid="release-date"]', $date);
+                $release_date = \DateTime::createFromFormat('M d, Y', trim($releaseDateNode->item(0)->nodeValue));
+                if (!$release_date) {
+                    // Try the old date format, just in case that works
+                    $release_date = \DateTime::createFromFormat('m/d/Y', trim($releaseDateNode->item(0)->nodeValue));
+                }
                 $release_date->setTime(0, 0, 0);
 
                 $items = $page->query('.//a[@class="ipc-metadata-list-summary-item__t"]', $date);
