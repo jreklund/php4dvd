@@ -1,3 +1,9 @@
+## 3.11.3
+### Updated
+  - imdbphp 8.1.0
+  - RedBeanPHP 5.7.4
+  - Smarty 4.3.1
+
 ## 3.11.2
 ### Updated
   - Smarty 4.3.0
